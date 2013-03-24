@@ -8,25 +8,23 @@ describe User do
   
   describe "valid user" do
     
-    before(:each) do
-      @user = FactoryGirl.build(:user, username: "value for username", email: "user@email.co.uk", password: "value for password")
-    end
+    subject {create(:user)}
+    it {should be_valid}
     
-    it "should be a valid user" do
-      @user.should be_valid
-    end
-    
-    it "should have a valid username" do
-      @user.username.should_not be_blank
-    end
-    
-    it "should have a valid password" do
-      @user.password.should_not be_blank
-    end
-    
-    it "should have a valid email address" do
-      @user.email.should_not be_blank
-    end
+    its(:username) {should_not be_blank}
+    its(:password) {should_not be_blank}
+    its(:email) {should_not be_blank}
+    its(:admin) {should_not be_nil}
+    its(:admin) {should be_false}
  
   end
+  
+  describe "valid admin" do
+    
+    subject {create(:user, admin: true)}
+    it {should be_valid}
+    its(:admin) {should be_true}
+    
+  end
+
 end

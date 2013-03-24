@@ -1,11 +1,16 @@
 Courtbooking::Application.routes.draw do
+  
+  #routes for users and sign_in
   devise_for :users
   
   devise_scope :user do
     get "sign_in", :to => "devise/sessions#new"
   end
-  
+
   resources :home
+  resources :courts
+  resources :bookings
+  resources :admin
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -66,6 +71,6 @@ Courtbooking::Application.routes.draw do
   
   root :to => "home#index"
   
-  match '/sign_in' => 'devise/sessions#new', :as => :sign_in
-  
+  match 'admin' => "admin#index", :as => :admin
+   
 end

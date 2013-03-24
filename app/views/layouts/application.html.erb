@@ -10,6 +10,7 @@
 	<div id="nav">
 		<% if user_signed_in? %>
 			<%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+			<div>Signed in as: <%= current_user.username %></div>
 		<% end %>
 	</div>
 	<p class="notice"><%= notice %></p>

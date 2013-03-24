@@ -24,17 +24,27 @@ When /^I fill in "(.*?)" with "(.*?)"$/ do |arg1, arg2|
   fill_in arg1, with: arg2
 end
 
-When /^I click "(.*?)"$/ do |arg1|
+When /^I click the "(.*?)" button$/ do |arg1|
   click_button arg1
 end
 
-Given /^an anonymous user$/ do
+Given /^a guest user$/ do
 end
 
 Then /^I should be on (.+)$/ do |page_name|
-  visit path_to(page_name)
+  current_path.should == path_to(page_name)
 end
 
 Then /^I should be redirected to the (.*) page$/ do |page_name|
   step "I should be on the #{page_name} page"
+end
+
+Given /^I am logged in$/ do
+  step "a user exists with username: 'joebloggs'"
+  step "I go to the sign_in page"
+  step "I login with the correct credentials"
+end
+
+When /^I click the "(.*?)" link$/ do |arg1|
+  click_link arg1
 end

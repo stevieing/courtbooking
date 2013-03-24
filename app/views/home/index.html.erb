@@ -1,2 +1,5 @@
 <h1>Welcome to the Online Court Booking System</h1>
-<h2>This is a holding page</h2>
+<%= link_to "bookings", bookings_path %><br />
+<% if allow? "admin", "index" %>
+	<%= link_to "admin", admin_path %><br />
+<% end %>

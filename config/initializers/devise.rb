@@ -239,5 +239,10 @@ Devise.setup do |config|
   # config.omniauth_path_prefix = "/my_engine/users/auth"
   
   config.authentication_keys = [:login]
+  
+  config.warden do |manager|
+    manager.failure_app = CustomAuthenticationFailure
+  end
+  
 
 end
