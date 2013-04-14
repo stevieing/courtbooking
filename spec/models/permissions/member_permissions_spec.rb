@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Permissions::MemberPermission do
+describe Permissions::MemberPermission, :focus => true do
 
   describe "as a member" do
     subject { Permissions.permission_for(build(:user)) }

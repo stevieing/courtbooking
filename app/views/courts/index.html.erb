@@ -1,1 +1,7 @@
 <h1>Courts</h1>
+<table border="0" cellspacing="5" cellpadding="5">
+	<% @courts.each do |court| %>
+		<tr><th>Court <%= court.number %></th></tr>
+	<% end %>
+	<tr><td>Data</td></tr>
+</table>

@@ -32,10 +32,16 @@ Feature: Users cannot access the system without logging in
     When I go to the sign_in page
     Then I should be on the sign_in page
 
-  Scenario: Redirecting to sign_in page
+  Scenario Outline: Redirecting to sign_in page
     Given a guest user
-    When I go to the home page
+    When I go to the <path> page
     Then I should be redirected to the sign_in page
+    
+    Examples:
+      | path      |
+      | home      |
+      | courts    |
+      | bookings  |
     
   Scenario: Sign-out successfully
     Given I am logged in

@@ -22,7 +22,6 @@ end
 
 gem 'jquery-rails'
 gem 'devise'
-gem 'cancan'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -42,12 +41,23 @@ gem 'cancan'
 gem 'faye'
 gem 'thin'
 gem 'haml-rails'
+#gem 'passenger'
 
-group :development, :test do
+gem 'rspec-rails', :group => [:test, :development]
+
+#group :development do
+#  gem 'guard-passenger'
+#end
+
+group :test do
   gem 'factory_girl_rails'
-  gem 'rspec-rails'
   gem 'pickle'
   gem 'database_cleaner'
+  gem 'spork', '> 1.0rc'
+  gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
+  gem 'guard-rspec'
+  gem 'guard-cucumber'
+  gem 'guard-spork'
 end
 
 group :cucumber do

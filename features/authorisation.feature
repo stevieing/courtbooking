@@ -1,3 +1,4 @@
+@authorisation
 Feature: Users can only access permitted areas
   In order to ensure that Users only access the correct areas
   An authenticated User

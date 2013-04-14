@@ -1,5 +1,5 @@
 Given /^an? (\w+) User exists with username: '(\w+)'$/ do |user_type, username|
-  user = FactoryGirl.create(:user, username: username, admin: (user_type == "admin"))
+  user = create(:user, username: username, admin: (user_type == "admin"))
 end
 
 Given /^I am logged in as (an?) (\w+) User$/ do |arg1, arg2|
