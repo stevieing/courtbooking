@@ -4,6 +4,7 @@ Feature: Users can only access permitted areas
   An authenticated User
   Should have access to areas for which they have permissions
   
+  @create_court_variables
   Scenario Outline: Visiting pages as a defined User type
     Given I am logged in as a <user_type> User
     When I go to the <page> page

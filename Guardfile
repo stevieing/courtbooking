@@ -10,9 +10,6 @@ guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAIL
   watch('Gemfile.lock')
   watch('spec/spec_helper.rb') { :rspec }
   watch('test/test_helper.rb') { :test_unit }
-  watch(%r{features/support/}) { :cucumber }
-  watch(%r{^spec/support/.+\.rb$}) { :rspec }
-  watch(%r{^app/views/(.+)/}) { :cucumber }
 end
 
 guard 'rspec', :cli => "--drb", :all_on_start => false, :all_after_pass => false do
@@ -41,6 +38,10 @@ guard 'cucumber' do
   watch(%r{^features/.+\.feature$})
   watch(%r{^features/support/.+$})          { 'features' }
   watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
+  
+  watch(%r{^app/views/(.+)(\.erb|\.haml)$})
+  watch(%r{^app/helpers/(.+)\.rb$})
+  watch(%r{^app/controllers/(.+)\.rb$})
 end
 
 #guard 'passenger' do

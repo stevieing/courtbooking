@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Permissions::AdminPermission, :focus => true do
+describe Permissions::AdminPermission do
   subject { Permissions.permission_for(build(:user, admin: true)) }
 
   it "allows anything" do

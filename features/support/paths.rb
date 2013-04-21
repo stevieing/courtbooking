@@ -4,6 +4,9 @@ module NavigationHelpers
  
     when /the home\s?page/
       '/'
+    when /the courts\/(.*) page/
+      page_name =~ /the courts\/(.*) page/
+      courts_path($1)
     else
       begin
         page_name =~ /the (.*) page/

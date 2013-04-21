@@ -1,3 +1,8 @@
+Before ('@create_court_variables') do
+  create(:time_slot)
+  step "the courts can be booked up to 3 weeks in advance"
+end
+
 Given /^PENDING/ do
   pending
 end
@@ -8,6 +13,10 @@ end
 
 Then /^I should see "(.*?)"$/ do |arg1|
   page.should have_content arg1
+end
+
+Then /^I should not see "(.*?)"$/ do |arg1|
+  page.should_not have_content arg1
 end
 
 Then /^I should( not)? see a link to "(.*?)"$/ do |negate, arg1|

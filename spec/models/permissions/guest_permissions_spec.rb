@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Permissions::GuestPermission, :focus => true do
+describe Permissions::GuestPermission do
   
   describe "as a guest" do
     subject { Permissions.permission_for(nil) }

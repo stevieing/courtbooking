@@ -1,7 +1,11 @@
 <h1>Courts</h1>
-<table border="0" cellspacing="5" cellpadding="5">
-	<% @courts.each do |court| %>
-		<tr><th>Court <%= court.number %></th></tr>
+<h2><%= @date.strftime("%d %B %G") %></h2>
+<%= calendar @days_that_can_be_booked_in_advance do |date, day| %>
+	<% if date == @date %>
+		<%= day %>
+	<% else %>
+		<%= link_to day, courts_path(date) %>
 	<% end %>
-	<tr><td>Data</td></tr>
-</table>
+<% end %>
+<%= booking_slots @courts, @timeslots do |slot| %>
+<% end %>

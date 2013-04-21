@@ -4,7 +4,7 @@ module Permissions
       allow :home, [:index]
       allow :courts, [:index]
       allow :bookings, [:index]
-      allow "devise/sessions", [:destroy]
+      allow "devise/sessions", [:create, :destroy]
     end
   end
 end

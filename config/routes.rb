@@ -8,7 +8,6 @@ Courtbooking::Application.routes.draw do
   end
 
   resources :home
-  resources :courts
   resources :bookings
   resources :admin
 
@@ -72,5 +71,7 @@ Courtbooking::Application.routes.draw do
   root :to => "home#index"
   
   match 'admin' => "admin#index", :as => :admin
+  
+  match '/courts(/:date)' => "courts#index", :via => :get, :as => :courts
    
 end
