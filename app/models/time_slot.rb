@@ -11,19 +11,8 @@ class TimeSlot < ActiveRecord::Base
   
   private
   
-    def create_slots
-      time = convert_to_time(read_attribute(:start_time))
-      finish = convert_to_time(read_attribute(:finish_time))
-      slots = [time]
-      while ( time < finish) do
-        time += read_attribute(:slot_time)*60
-        slots << time
-      end
-      write_attribute(:slots, slots)
-    end
-  
-    def convert_to_time(time)
-      Time.new(01,01,01,time.split(":").first, time.split(":").last)
-    end
-  
+  def create_slots
+    write_attribute :slots, self.start_time.hhmm_to_t.to(self.finish_time.hhmm_to_t, self.slot_time.minutes)
+  end
+
 end
