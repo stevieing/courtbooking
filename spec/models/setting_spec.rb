@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Setting, :focus => true do
+describe Setting do
   
   subject {create(:setting)}
   

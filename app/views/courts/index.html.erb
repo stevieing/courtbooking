@@ -1,6 +1,5 @@
-<h1>Courts</h1>
-<h2><%= @date.strftime("%d %B %G") %></h2>
-<%= calendar @days_that_can_be_booked_in_advance do |date, day| %>
+<h2><%= @date.strftime('%d %b %Y')%></h2>
+<%= calendar(@days_that_can_be_booked_in_advance, @date) do |date, day| %>
 	<% if date == @date %>
 		<%= day %>
 	<% else %>

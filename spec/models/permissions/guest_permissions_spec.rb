@@ -7,6 +7,7 @@ describe Permissions::GuestPermission do
     it {should allow("devise/sessions",:new)}
     it {should allow("devise/sessions",:create)}
     it {should_not allow("devise/sessions",:destroy)}
+    it {should allow(:courts, :index)}
   end
   
 end

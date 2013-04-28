@@ -1,15 +1,17 @@
 module BookingSlotsHelper
   def booking_slots(courts, timeslots, &block)
-    BookingSlots.new(self, courts, timeslots, block).table
+    BookingSlots.new(self, courts, timeslots, block).section
   end
   
   class BookingSlots < Struct.new(:view, :courts, :timeslots, :callback)
     
     delegate :content_tag, to: :view
     
-    def table
-      content_tag :table, id: "bookingslots" do
-        courts_row + booking_slots_rows + courts_row
+    def section
+      content_tag :section, id: "bookingslots" do
+        content_tag :table do
+          courts_row + booking_slots_rows + courts_row
+        end
       end
     end
     
@@ -40,7 +42,7 @@ module BookingSlotsHelper
     end
     
     def space_tag
-      content_tag :td, "&nbsp;".html_safe
+      content_tag :th, "&nbsp;".html_safe
     end
     
     def courts_header

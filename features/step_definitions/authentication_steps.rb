@@ -17,3 +17,10 @@ Given /^I am logged in$/ do
   step "I login with the correct credentials"
 end
 
+Given /^the courts are setup$/ do
+  step "there are 4 courts"
+  step "the courts are available from \"06:40\" to \"22:00\" with a 40 minute time slot"
+  step "the courts can be booked up to 3 weeks in advance"
+  step "todays date is \"01 September 2013\""
+end
+

@@ -41,18 +41,18 @@ Then /^I should see a time slot for each court$/ do
 end
 
 Then /^I should see a box for date "(.*?)"$/ do |arg1|
-  within(".calendar") do
+  within("#calendar") do
     step "I should see the day of month for date #{arg1}"
     step "I should see the day of week for date #{arg1}"
   end
 end
 
 Then /^I should see a box for each day for the next (\d+) (days|weeks)$/ do |arg1, arg2|
-  within(".calendar") do
+  within("#calendar") do
     (Date.today+1).upto((Date.today+1) + (days_or_weeks(arg1,arg2)-1)) do |date|
       step "I should see the day of month for date #{date}"
       step "I should see the day of week for date #{date}"
-      step "I should see a link to \"#{date.day}\""
+      step "I should see a link to \"#{date.strftime('%d')}\""
     end
   end
 end
@@ -70,18 +70,18 @@ Transform /^date (.*?)$/ do |date|
 end
 
 Then /^I should see a header with "(.*?)"$/ do |header|
-  within(".calendar") do
+  within("#calendar") do
     step "I should see \"#{header}\""
   end
 end
 
 Then /^I should (not)? see a link which is (\d+) days (before|after) today$/ do |negate, days, pre_or_post|
-  within(".calendar") do
+  within("#calendar") do
     date = (pre_or_post == "after" ? Date.today + days.to_i : Date.today - days.to_i)
     if negate
-      step "I should not see a link to \"#{date.day}\""
+      step "I should not see a link to \"#{date.strftime('%d')}\""
     else
-      step "I should see a link to \"#{date.day}\""
+      step "I should see a link to \"#{date.strftime('%d')}\""
     end
   end
 end

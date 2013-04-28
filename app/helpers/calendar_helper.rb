@@ -1,42 +1,57 @@
 module CalendarHelper
-  def calendar(days, date = Date.today, &block)
-    Calendar.new(self, date, days, block).table
+  def calendar(days, current_date, start_date = Date.today, &block)
+    Calendar.new(self, start_date, current_date, days, block).section
   end
   
-  class Calendar < Struct.new(:view, :date, :days, :callback)
+  class Calendar < Struct.new(:view, :start_date, :current_date, :days, :callback)
     
     delegate :content_tag, to: :view
     
-    def table
-      content_tag :table, class: "calendar" do
-        table_header + day_of_week_rows + day_rows
+    def section
+      content_tag :section, id: "calendar" do
+        content_tag :table do
+          header + days_header + week_rows
+        end
+      end
+    end
+
+    def header
+      content_tag :caption do
+        (dates.first.month == dates.last.month ? dates.first.strftime('%B %Y') : "#{dates.first.strftime('%B')} -> #{dates.last.strftime('%B %Y')}").html_safe
       end
     end
     
-    def day_of_week_rows
+    def days_header
       content_tag :tr do
-        days_to_dates.map { |date| content_tag :td, date.strftime('%a')}.join.html_safe
+        days_of_week.map do |day|
+          content_tag :th, day.strftime('%a')
+        end.join.html_safe
       end
     end
     
-    def day_rows
-      content_tag :tr do
-        days_to_dates.map { |date| content_tag :td, view.capture(date, date.strftime('%d'), &callback)}.join.html_safe
-      end
+    def week_rows
+      weeks.map do |week|
+        content_tag :tr do
+          week.map { |day| day_cell(day) }.join.html_safe
+        end
+      end.join.html_safe
     end
     
-    def days_to_dates
-      (date..date+(days-1)).collect.to_a
+    def day_cell(day)
+      content_tag :td, view.capture(day, day.strftime('%d').html_safe, &callback), class: (day == current_date ? "selected" : "")
     end
     
-    def table_header
-      content_tag :caption, month_and_year.html_safe
+    def dates
+      (start_date..start_date+(days-1)).collect.to_a
     end
     
-    def month_and_year
-      last_day = date+(days-1)
-      month = (date.month == last_day.month ? date.strftime("%B") : "#{date.strftime("%B")} -> #{last_day.strftime("%B")}")
-      month + " " + last_day.year.to_s
+    def weeks
+      dates.in_groups_of(7)
     end
+    
+    def days_of_week
+      (start_date..start_date+(6)).collect.to_a
+    end
+ 
   end
 end

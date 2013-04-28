@@ -3,11 +3,14 @@ Feature: Users cannot access the system without logging in
   An anonymous user
   Should not have access to the system
   
+  Background:
+    Given the courts are setup
+  
   Scenario: Sign-in successfully
     Given a user exists with username: 'joebloggs'
     When I go to the sign_in page
     And I login with the correct credentials
-    Then I should see a link to "Sign out"
+    Then I should see a link to "SIGN OUT"
     And I should see "Signed in as: joebloggs"
     
   Scenario Outline: Sign-in unsuccessfully
@@ -17,7 +20,7 @@ Feature: Users cannot access the system without logging in
     And I fill in "Password" with "<password>"
     And I click the "sign in" button
     Then I should see "Incorrect username or password"
-    And I should not see a link to "Sign out"
+    And I should not see a link to "SIGN OUT"
     
     Examples:
       | username  | password    |
@@ -39,15 +42,14 @@ Feature: Users cannot access the system without logging in
     
     Examples:
       | path      |
-      | home      |
-      | courts    |
       | bookings  |
     
   Scenario: Sign-out successfully
     Given I am logged in
-    When I click the "Sign out" link
-    Then I should be redirected to the sign_in page
+    When I click the "SIGN OUT" link
+    Then I should be redirected to the home page
     And I should see "Signed out successfully"
+    And I should see a link to "SIGN IN"
     
   Scenario: Forgotten password
     Given PENDING

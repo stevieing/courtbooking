@@ -1,5 +1,6 @@
 class CourtsController < ApplicationController
   
+  skip_before_filter :authenticate_user!, :only => [:index]
   before_filter :days_that_can_be_booked_in_advance, :only => [:index]
   before_filter :current_date, :only => [:index]
   

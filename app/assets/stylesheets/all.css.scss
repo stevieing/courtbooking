@@ -1,0 +1,290 @@
+$dark_green: 		#003935;
+$dark_green_grad: 	#01544E;
+$light_green:		#A6BAB8;
+$dark_brown: 		#9A7A55;
+$light_brown: 		#DDD1C3;
+$dark_red:			#A5191E;
+$dark_red_grad:		#BD1D22;
+$light_red: 		#DFAFB0;
+
+@mixin gradient($top, $bottom){
+	background-image:-moz-linear-gradient(top, $top, $bottom);
+	background-image: -webkit-gradient(linear,left top, left bottom, color-stop(0, $top), color-stop(1, $bottom));
+	background-image: linear-gradient(top, $top,$bottom);
+}
+
+@mixin rounded_corners($width){
+	border-radius: $width; 
+	-moz-border-radius: $width; 
+	-webkit-border-radius: $width;
+}
+
+*{
+    padding: 0;
+}
+
+ul, ol{
+	list-style-type: none;
+}
+
+html, body{
+	height: 100%;
+	position: relative;
+	text-decoration: none;
+	font: {
+		family: 'Helvetica Neue', helvetica, arial, sans-serif;
+		size: 16px;
+	}
+}
+
+a{
+	text-decoration: none;
+	color: black;
+	
+	&:hover{
+		text-decoration: underline;
+	}
+}
+
+fieldset{
+	
+	legend{
+		display: none;
+	}
+}
+
+legend{
+	font:{
+		size: 1.5em;
+		weight: bold;
+	}
+}
+
+input[type="submit"]{
+	width: 100px;
+	height: 30px;
+	background-color: $dark_red;
+	color: white;
+	border: none;
+	font:{
+		size: 1.2em;
+	}
+	
+	@include rounded_corners(5px);
+	@include gradient($dark_red, $dark_red_grad);
+}
+
+#container{
+}
+
+#header{
+	height: 100px;
+	color: white;
+	
+	#logo {
+		background-color: white;
+		position: absolute;
+		top: 0px;
+		left: 5%;
+		padding: 5px 5px 0 5px;
+	}
+	
+	font:{
+		size: 1.1em;
+	}
+	
+	nav{
+		
+		@include gradient( $dark_red, $dark_red_grad);
+
+		height: 50px;
+
+		ul{
+			margin-left: 20%;
+			padding-top: 15px;
+			padding-bottom: 10px;
+
+			li{
+				float: left;
+				padding-right: 30px;
+			}
+			
+			a{
+				color: white;
+				
+				&:hover{
+					color: $light_brown;
+				}
+			}
+		}
+
+		.username{
+			float: right;
+			position: relative;
+			top: -30px;
+			left: -20px;
+		}
+	}
+} 
+
+#body{
+	clear: both;
+	padding-top: 10px;
+	margin-left: 5%;
+}
+
+table
+{
+	tr{
+		td{
+			padding: 10px;
+		}
+	}
+}
+
+#bookingslots, #calendar{
+	text-align: center;
+}
+
+#calendar{
+	float: right;
+	position: relative;
+	left: -2%;
+	color: black;
+	
+	table{
+		
+		caption{
+			margin-bottom: 10px;
+			color: $dark_green;
+			font:{
+				weight: bold;
+				size: 1.1em;
+			}
+		}
+		
+		tr{
+			td{
+			}
+			
+			.selected{
+			}
+			
+			th{
+				padding: 5px 0 5px 0;
+			}
+			
+			td, th{
+				width: 25px;
+				height: 25px;
+				border: 1px solid black;
+			}
+			
+			a{
+				color: black;
+			}
+		}
+	}
+}
+
+#bookingslots{
+	table{
+		width: 70%;
+		border-collapse: collapse;
+		
+		tr{
+			td, th{
+				background-color: $light_brown;
+				border: 1px dotted $dark_brown;
+				
+				&:first-child, &:last-child{
+					width: 40px;
+					vertical-align: top;
+				}
+			}
+
+			td{
+				height: 75px;
+			}
+
+			th{
+				padding-top: 10px;
+				padding-bottom: 10px;
+			}
+		}
+	}
+	
+}
+
+#signin{
+	width: 45%;
+	margin: 0 auto;
+	
+	#new_user{
+		margin-bottom: 20px;
+		border: 1px solid $dark_green;
+		background-color: $light_green;
+		
+		@include rounded_corners(5px);
+		
+		fieldset{
+			ul{
+				margin: 5% auto 5% auto;
+				width: 80%;
+				
+				
+				li{
+					margin: 0 0 0 10px;
+			        padding: 10px 0 0 0;
+				}
+			}
+			
+			label{
+				float: left;
+			    width: 120px;
+			    margin-right: 10px;
+			    text-align: right;
+			}
+			
+			input[type="submit"]
+			{
+				position: relative;
+				left: 63%;
+			}  
+		}
+	}
+}
+
+#flash{
+	margin: 0 auto;
+	width: 400px;
+	font:{
+		size: 1.3em;
+		weight: bold;
+	}
+	
+	.notice, .alert{
+		
+		/* @include rounded_corners(10px); */
+		height: 40px;
+		
+		p{
+			text-align: center;
+			margin-top: 5px;
+			width: auto;
+		}
+	}
+	
+	.notice{
+		border: 1px solid $dark_green;
+		background-color: $light_green;
+		color: $dark_green;
+	}
+	
+	.alert{
+		border: 1px solid $dark_red;
+		background-color: $light_red;
+		color: $dark_red;
+	}
+	
+}

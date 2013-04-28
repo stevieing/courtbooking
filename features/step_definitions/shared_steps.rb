@@ -1,8 +1,3 @@
-Before ('@create_court_variables') do
-  create(:time_slot)
-  step "the courts can be booked up to 3 weeks in advance"
-end
-
 Given /^PENDING/ do
   pending
 end
@@ -27,8 +22,8 @@ When /^I fill in "(.*?)" with "(.*?)"$/ do |arg1, arg2|
   fill_in arg1, with: arg2
 end
 
-When /^I click the "(.*?)" button$/ do |arg1|
-  click_button arg1
+When /^I click the "(.*?)" button$/ do |button|
+  click_button button
 end
 
 Then /^I should be on (.+)$/ do |page_name|
@@ -39,7 +34,11 @@ Then /^I should be redirected to the (.*) page$/ do |page_name|
   step "I should be on the #{page_name} page"
 end
 
-When /^I click the "(.*?)" link$/ do |arg1|
-  click_link arg1
+When /^I click the "(.*?)" link$/ do |link|
+  click_link link
+end
+
+Then /^I should get a response with status (\d+)$/ do |status|
+  page.status_code.should == status.to_i
 end
 
