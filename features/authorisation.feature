@@ -2,7 +2,7 @@
 Feature: Users can only access permitted areas
   In order to ensure that Users only access the correct areas
   An authenticated User
-  Should have access to areas for which they have permissions
+  Should only have access to areas for which they have permissions
   
   Background:
     Given there are 4 courts
@@ -11,7 +11,7 @@ Feature: Users can only access permitted areas
     And todays date is "01 September 2013"
   
   Scenario Outline: Visiting pages as a defined User type
-    Given I am logged in as a <user_type> User
+    Given I am logged in as a <user_type> user
     When I go to the <page> page
     Then I should see "<response>"
     
@@ -23,14 +23,16 @@ Feature: Users can only access permitted areas
       | admin       | admin       | Admin           |
 
   Scenario: Visiting the home page as a standard User
-    Given I am logged in as a standard User
+    Given a standard user exists with username: "joebloggs" and password: "password"
+    Given I login as "joebloggs" with password "password"
     When I go to the home page
     Then I should see a link to "BOOKINGS"
     And I should see a link to "COURTS"
     And I should not see a link to "ADMIN"
     
   Scenario: Visiting the home page as an admin User
-    Given I am logged in as an admin User
+    Given an admin user exists with username: "joebloggs" and password: "password"
+    Given I login as "joebloggs" with password "password"
     When I go to the home page
     Then I should see a link to "BOOKINGS"
     And I should see a link to "COURTS"

@@ -1,20 +1,21 @@
-Given /^a user exists with username: '(\w+)'$/ do |username|
-  user = create(:user, username: username)
+Given /^an? (\w+) user exists with (.*?)$/ do |user_type, attributes|
+  factory_attributes = create_attributes(attributes)
+  factory_attributes["admin"] = true if user_type == "admin"
+  user = create(:user, factory_attributes)
 end
 
-When /^I login with the correct credentials$/ do
-  fill_in 'Username', with: 'joebloggs'
-  fill_in 'Password', with: 'password'
-  click_button 'sign in'
+Given /^a user exists with (.*?)$/ do |attributes|
+  step "a standard user exists with #{attributes}"
 end
 
 Given /^a guest user$/ do
 end
 
-Given /^I am logged in$/ do
-  step "a user exists with username: 'joebloggs'"
+When /^I login as "(.*?)" with password "(.*?)"$/ do |username, password|
   step "I go to the sign_in page"
-  step "I login with the correct credentials"
+  step "I fill in \"Username\" with \"#{username}\""
+  step "I fill in \"Password\" with \"#{password}\""
+  step "I click the \"sign in\" button"
 end
 
 Given /^the courts are setup$/ do
@@ -23,4 +24,3 @@ Given /^the courts are setup$/ do
   step "the courts can be booked up to 3 weeks in advance"
   step "todays date is \"01 September 2013\""
 end
-

@@ -6,6 +6,12 @@ class ApplicationController < ActionController::Base
   delegate :allow?, to: :current_permission
   helper_method :allow?
   
+  def current_year
+    @current_year ||= Date.today.year
+  end
+  
+  helper_method :current_year
+  
   private
   
   def current_permission

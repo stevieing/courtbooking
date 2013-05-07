@@ -41,7 +41,7 @@ gem 'devise'
 gem 'faye'
 gem 'thin'
 gem 'haml-rails'
-#gem 'passenger'
+gem 'validates_timeliness', '~> 3.0'
 
 gem 'rspec-rails', :group => [:test, :development]
 

@@ -1,23 +1,5 @@
-$dark_green: 		#003935;
-$dark_green_grad: 	#01544E;
-$light_green:		#A6BAB8;
-$dark_brown: 		#9A7A55;
-$light_brown: 		#DDD1C3;
-$dark_red:			#A5191E;
-$dark_red_grad:		#BD1D22;
-$light_red: 		#DFAFB0;
-
-@mixin gradient($top, $bottom){
-	background-image:-moz-linear-gradient(top, $top, $bottom);
-	background-image: -webkit-gradient(linear,left top, left bottom, color-stop(0, $top), color-stop(1, $bottom));
-	background-image: linear-gradient(top, $top,$bottom);
-}
-
-@mixin rounded_corners($width){
-	border-radius: $width; 
-	-moz-border-radius: $width; 
-	-webkit-border-radius: $width;
-}
+@import "constants";
+@import "mixins";
 
 *{
     padding: 0;
@@ -51,6 +33,23 @@ fieldset{
 	legend{
 		display: none;
 	}
+	
+	ul{
+		margin: 5% auto 5% auto;
+		width: 80%;
+			
+		li{
+			margin: 0 0 0 10px;
+		    padding: 10px 0 0 0;
+		}
+	}
+		
+	label{
+		float: left;
+		width: 120px;
+		margin-right: 10px;
+		text-align: right;
+	}
 }
 
 legend{
@@ -60,10 +59,15 @@ legend{
 	}
 }
 
+select{
+	min-width: 200px;
+}
+
 input[type="submit"]{
-	width: 100px;
-	height: 30px;
+	width: auto;
+	height: 35px;
 	background-color: $dark_red;
+	padding: 5px;
 	color: white;
 	border: none;
 	font:{
@@ -219,72 +223,90 @@ table
 #signin{
 	width: 45%;
 	margin: 0 auto;
+
+	fieldset{
+			
+		input[type="submit"]
+		{
+			position: relative;
+			left: 70%;
+		}  
+	}
+}
+
+#newbooking{
+	width: 50%;
+	margin: 0 auto;
 	
-	#new_user{
-		margin-bottom: 20px;
-		border: 1px solid $dark_green;
-		background-color: $light_green;
-		
-		@include rounded_corners(5px);
-		
-		fieldset{
-			ul{
-				margin: 5% auto 5% auto;
-				width: 80%;
-				
-				
-				li{
-					margin: 0 0 0 10px;
-			        padding: 10px 0 0 0;
-				}
-			}
-			
-			label{
-				float: left;
-			    width: 120px;
-			    margin-right: 10px;
-			    text-align: right;
-			}
-			
-			input[type="submit"]
-			{
-				position: relative;
-				left: 63%;
-			}  
+	fieldset{
+		input[type="submit"]
+		{
+			position: relative;
+			left: 45%;
+			top: 20px;
 		}
 	}
 }
 
+#new_user, #new_booking{
+	
+	margin-bottom: 20px;
+	border: 1px solid $dark_green;
+	background-color: $light_green;
+	
+	@include rounded_corners(5px);
+	
+}
+
 #flash{
 	margin: 0 auto;
-	width: 400px;
+	width: 60%;
 	font:{
 		size: 1.3em;
 		weight: bold;
 	}
-	
-	.notice, .alert{
-		
-		/* @include rounded_corners(10px); */
-		height: 40px;
-		
-		p{
-			text-align: center;
-			margin-top: 5px;
-			width: auto;
-		}
-	}
-	
+
 	.notice{
-		border: 1px solid $dark_green;
-		background-color: $light_green;
-		color: $dark_green;
+		@include flash($dark_green,"notice.png");
 	}
 	
 	.alert{
-		border: 1px solid $dark_red;
-		background-color: $light_red;
-		color: $dark_red;
+		@include flash($dark_red,"alert.png");
 	}
 	
+}
+
+#errors{
+	color: $dark_red;
+	border: 1px solid $dark_red;
+	border-top: 3px solid $dark_red;
+	margin-bottom: 20px;
+	padding-left: 20px;
+	
+	h3{
+		font:{
+			size: 1.4em;
+		};
+	}
+	
+	ul{
+		margin-left: 20px;
+		
+		li{
+			list-style-type: disc;
+		}
+	}
+}
+
+footer{
+	width: 100%;
+	margin-top: 50px;
+	height: 40px;
+	border-top: 2px solid $dark_red;
+	
+	div{
+		width: 90%;
+		margin: 0 auto 0 auto;
+		padding-top: 10px;
+	}
 }

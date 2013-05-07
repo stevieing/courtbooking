@@ -5,3 +5,14 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+User.create(username: "Standard User", password: "password", email: "standarduser@example.com")
+User.create(username: "Admin User", password: "password", email: "adminuser@example.com", admin: true)
+Setting.create(name: "days_that_can_be_booked_in_advance", value: "21", description: "Number of days that courts can be booked in advance")
+TimeSlot.create(start_time: "06:40", finish_time: "22:00", slot_time: 40)
+
+(1..4). each do |i|
+  Court.create(number: i)
+end
+
+

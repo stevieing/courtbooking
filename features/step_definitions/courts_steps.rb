@@ -20,10 +20,6 @@ Given /^the courts can be booked up to (\d+) (days|weeks) in advance$/ do |arg1,
   create(:setting, name: "days_that_can_be_booked_in_advance", value: days_or_weeks(arg1, arg2).to_s, description: "Number of days that courts can be booked in advance")
 end
 
-Given /^todays date is "(.*?)"$/ do |date|
-  Date.stub(:today).and_return(Date.parse(date))
-end
-
 Then /^I should see a row for each time slot$/ do
   @timeslots.slots.each do |slot|
     step "I should see \"#{slot.strftime("%H:%M")}\""
@@ -65,9 +61,7 @@ Then /^I should see the day of week for (date .*?)$/ do |date|
   step "I should see \"#{date.strftime('%a')}\""
 end
 
-Transform /^date (.*?)$/ do |date|
-  Date.parse(date)
-end
+
 
 Then /^I should see a header with "(.*?)"$/ do |header|
   within("#calendar") do

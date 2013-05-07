@@ -8,6 +8,7 @@ module CalendarHelper
     delegate :content_tag, to: :view
     
     def section
+      @dates = dates
       content_tag :section, id: "calendar" do
         content_tag :table do
           header + days_header + week_rows
@@ -17,7 +18,7 @@ module CalendarHelper
 
     def header
       content_tag :caption do
-        (dates.first.month == dates.last.month ? dates.first.strftime('%B %Y') : "#{dates.first.strftime('%B')} -> #{dates.last.strftime('%B %Y')}").html_safe
+        (@dates.first.month == @dates.last.month ? @dates.first.strftime('%B %Y') : "#{@dates.first.strftime('%B')} -> #{@dates.last.strftime('%B %Y')}").html_safe
       end
     end
     
@@ -46,7 +47,7 @@ module CalendarHelper
     end
     
     def weeks
-      dates.in_groups_of(7)
+      @dates.in_groups_of(7)
     end
     
     def days_of_week

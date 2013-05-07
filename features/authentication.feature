@@ -1,4 +1,4 @@
-Feature: Users cannot access the system without logging in
+Feature: Users cannot access certain areas of the system without logging in
   In order to protect the system from unauthorized access
   An anonymous user
   Should not have access to the system
@@ -7,14 +7,14 @@ Feature: Users cannot access the system without logging in
     Given the courts are setup
   
   Scenario: Sign-in successfully
-    Given a user exists with username: 'joebloggs'
+    Given a user exists with username: "joebloggs" and password: "password"
     When I go to the sign_in page
-    And I login with the correct credentials
+    And I login as "joebloggs" with password "password"
     Then I should see a link to "SIGN OUT"
     And I should see "Signed in as: joebloggs"
     
   Scenario Outline: Sign-in unsuccessfully
-    Given a user exists with username: 'joebloggs'
+    Given a user exists with username: "joebloggs" and password: "password"
     When I go to the sign_in page
     And I fill in "Username" with "<username>"
     And I fill in "Password" with "<password>"
@@ -45,7 +45,8 @@ Feature: Users cannot access the system without logging in
       | bookings  |
     
   Scenario: Sign-out successfully
-    Given I am logged in
+    Given a user exists with username: "joebloggs" and password: "password"
+    And I login as "joebloggs" with password "password"
     When I click the "SIGN OUT" link
     Then I should be redirected to the home page
     And I should see "Signed out successfully"
