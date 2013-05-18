@@ -40,35 +40,44 @@ describe Setting do
   describe "name" do
 
     before(:each) do
-      Setting.create(name: "my_name", value: "my value", description: "my description")
+      create(:setting, name: "my_name", value: "my value", description: "my description")
     end
  
     it "should be unique" do
-      Setting.create(name: "my_name", value: "my value", description: "my description")
-      Setting.create(name: "another_name", value: "my value", description: "my description")
+      build(:setting, name: "my_name", value: "my value", description: "my description").should_not be_valid
+      build(:setting, name: "another_name", value: "my value", description: "my description").should be_valid
     end
 
   end
   
-  #TODO: Factories don't seem to behave correctly with the dynamic class methods. Why?
-  describe "class methods" do
+  describe "constants" do
     
     before(:each) do
-      @setting = Setting.create(name: "my_name", value: "my value", description: "my description")
+      @setting = create(:setting, name: "my_name", value: "my value", description: "my description")
     end
     
-    it "should have valid class getter" do
-      Setting.respond_to?(@setting.name).should be_true
+    it "should exist" do
+      Rails.configuration.my_name.should == @setting.value
     end
     
-    it "should have class setter" do
-      Setting.respond_to?("#{@setting.name}=").should be_true
+    it "should be modified when value changes" do
+      @setting.update_attributes(value: "new value")
+      Rails.configuration.my_name.should == "new value"
     end
     
-    it "getter method should return correct value" do
-      Setting.my_name.should eql(@setting.value)
+    describe "should have the correct format" do
+      
+      it "numeric" do
+        @setting.update_attributes(value: "21")
+        Rails.configuration.my_name.should be_instance_of(Fixnum)
+      end
+      
+      it "time" do
+        @setting.update_attributes(value: "23:59")
+        Rails.configuration.my_name.should be_instance_of(Time)
+      end
     end
-    
+      
   end
   
 end

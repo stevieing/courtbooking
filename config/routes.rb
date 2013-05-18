@@ -7,7 +7,6 @@ Courtbooking::Application.routes.draw do
     get "sign_in", :to => "devise/sessions#new"
   end
 
-  resources :home
   resources :bookings
   resources :admin
 

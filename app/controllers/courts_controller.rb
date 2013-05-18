@@ -12,7 +12,7 @@ class CourtsController < ApplicationController
   protected
   
   def days_that_can_be_booked_in_advance
-    @days_that_can_be_booked_in_advance ||= Setting.days_that_can_be_booked_in_advance.to_i
+    @days_that_can_be_booked_in_advance ||= Rails.configuration.days_that_can_be_booked_in_advance
   end
   
   def current_date

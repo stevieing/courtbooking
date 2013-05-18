@@ -17,7 +17,7 @@ Given /^the courts are available from "(.*?)" to "(.*?)" with a (\d+) minute tim
 end
 
 Given /^the courts can be booked up to (\d+) (days|weeks) in advance$/ do |arg1,arg2|
-  create(:setting, name: "days_that_can_be_booked_in_advance", value: days_or_weeks(arg1, arg2).to_s, description: "Number of days that courts can be booked in advance")
+  create_setting "days_that_can_be_booked_in_advance", days_or_weeks(arg1, arg2).to_s, description: "Number of days that courts can be booked in advance"
 end
 
 Then /^I should see a row for each time slot$/ do

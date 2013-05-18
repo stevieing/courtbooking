@@ -51,6 +51,7 @@ Spork.prefork do
     config.order = "random"
 
     config.include FactoryGirl::Syntax::Methods
+    config.include ManageSettings
   end
   
 

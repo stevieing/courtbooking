@@ -16,7 +16,7 @@ module Courtbooking
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %W(#{config.root}/extras)
+    config.autoload_paths += %W(#{config.root}/extras #{config.root}/app/models/concerns #{config.root}/lib/validators)
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -52,6 +52,11 @@ module Courtbooking
     # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
     # parameters by using an attr_accessible or attr_protected declaration.
     config.active_record.whitelist_attributes = true
+    
+    #convert dates and times to correct time zone
+    config.time_zone = 'London'
+    config.active_record.default_timezone = :local
+    config.active_record.time_zone_aware_attributes = false
 
     # Enable the asset pipeline
     config.assets.enabled = true
