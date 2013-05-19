@@ -1,15 +1,9 @@
 require 'spec_helper'
 
 describe Court do
-  
-  describe "valid court" do
 
-    subject {create(:court)}
-    it {should be_valid}
+  it { should validate_presence_of(:number)}
 
-    its(:number) {should_not be_blank}
-  end
-  
 end
 
 

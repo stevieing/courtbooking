@@ -80,6 +80,16 @@ Feature: Registered users should be able to book a court
     When I view the booking with user id: 111 and court number: 1 and booking date and time: "02 September 2013 19:00"
     Then I should not see "Delete booking"
     
+  Scenario: deleting a booking after the start time
+    Given I login as "joebloggs" with password "password"
+    Then I view the booking with user id: 999 and court number: 1 and booking date and time: "02 September 2013 19:00"
+    And todays date and time is "02 September 2013 19:40"
+    And I click the "Delete booking" link
+    Then I should see "Unable to delete booking"
+    
+    
+    
+    
     
     
     

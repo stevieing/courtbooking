@@ -6,44 +6,22 @@ describe User do
     User.devise_modules.should_not include(:registerable)
   end
   
-  describe "valid user" do
-    
-    subject {create(:user)}
-    it {should be_valid}
-    
-    its(:username) {should_not be_blank}
-    its(:password) {should_not be_blank}
-    its(:email) {should_not be_blank}
-    its(:admin) {should_not be_nil}
-    its(:admin) {should be_false}
- 
-  end
+  it { should validate_presence_of(:username) }
+  it { should validate_presence_of(:password) }
+  it { should validate_presence_of(:email) }
   
-  describe "valid admin" do
-    
-    subject {create(:user, admin: true)}
-    it {should be_valid}
-    its(:admin) {should be_true}
-    
-  end
+  it {should have_db_column(:admin).of_type(:boolean).with_options(default: false)}
   
-  describe "without_user" do
+  context "without_user" do
     
-    before(:each) do
-      @user1 = create(:user, username: "user1", password: "username1", email: "user1@example.com")
-      @user2 = create(:user, username: "user2", password: "username2", email: "user2@example.com")
-      @user3 = create(:user, username: "user3", password: "username3", email: "user3@example.com")
-      @users = User.without_user(@user1)
-    end
-    
-    it "should not contain the specified user" do
-      @users.each {|user| user.id.should_not eql(@user1.id)}
-    end
-    
-    it "should have the correct number of users" do
-      @users.length.should == 2
-    end
-    
+    let!(:user1) { create(:user) }
+    let!(:user2) { create(:user, email: "user2@example.com") }
+    let!(:user3) { create(:user, email: "user3@example.com") }
+    subject { User.without_user(user1) }
+
+    it {should_not include(user1)}
+    it {should have(2).items}
+
   end
 
 end

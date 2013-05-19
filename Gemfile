@@ -45,10 +45,6 @@ gem 'validates_timeliness', '~> 3.0'
 
 gem 'rspec-rails', :group => [:test, :development]
 
-#group :development do
-#  gem 'guard-passenger'
-#end
-
 group :test do
   gem 'factory_girl_rails'
   gem 'pickle'
@@ -58,6 +54,7 @@ group :test do
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'guard-spork'
+  gem 'shoulda-matchers'
 end
 
 group :cucumber do

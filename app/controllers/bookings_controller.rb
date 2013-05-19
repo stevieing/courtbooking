@@ -19,8 +19,7 @@ class BookingsController < ApplicationController
   
   def destroy
     @booking = current_resource
-    @booking.destroy
-    redirect_to bookings_path, notice: "Booking successfully deleted"
+    redirect_to root_path, notice: ( @booking.destroy ? "Booking successfully deleted" : "Unable to delete booking" )
   end
 
 private

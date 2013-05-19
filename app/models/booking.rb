@@ -5,8 +5,12 @@ class Booking < ActiveRecord::Base
   
   validates_datetime :booking_date_and_time,  :after => lambda {DateTime.now},
                                               :before => lambda {DateTime.now + Rails.configuration.days_that_can_be_booked_in_advance}
+  
+  before_destroy :date_in_the_future?
                                               
   validate :instance_validations
+  
+  private
                                                                                  
   def instance_validations
     unless self.booking_date_and_time.nil? || self.booking_date_and_time.blank?
@@ -19,5 +23,12 @@ class Booking < ActiveRecord::Base
       end
     end
   end
-                                      
+  
+  def date_in_the_future?
+    if self.booking_date_and_time <= DateTime.now
+      self.errors[:base] << "Unable to delete a booking that is in the past"
+      return false
+    end
+  end
+                          
 end

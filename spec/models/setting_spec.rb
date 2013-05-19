@@ -2,82 +2,35 @@ require 'spec_helper'
 
 describe Setting do
   
-  subject {create(:setting)}
+  it { should validate_presence_of(:name) }
+  it { should validate_presence_of(:value) }
+  it { should validate_presence_of(:description) }
   
-  context "with valid attributes" do
-    
-    it {should be_valid}
-
-    its(:name)          {should_not be_blank}
-    its(:value)         {should_not be_blank}
-    its(:description)   {should_not be_blank}
-  end
+  it { should_not allow_value("my name").for(:name) }
+  it { should_not allow_value("$my_name").for(:name) }
+  it { should_not allow_value("#my_name").for(:name) }
   
-  describe "with invalid attributes" do
-    
-    let(:setting) {create(:setting)}
-    
-    it "no name" do
-      setting.update_attributes(name: nil).should be_false
-    end
-    
-    it "no value" do
-      setting.update_attributes(value: nil).should be_false
-    end
-    
-    it "no description" do
-      setting.update_attributes(description: nil).should be_false
-    end
-    
-    it "invalid name" do
-      setting.update_attributes(name: "my name").should be_false
-      setting.update_attributes(name: "$my_name").should be_false
-      setting.update_attributes(name: "#my_name").should be_false
-    end
-    
-  end
+  it { should validate_uniqueness_of(:name) }
   
-  describe "name" do
-
-    before(:each) do
-      create(:setting, name: "my_name", value: "my value", description: "my description")
-    end
- 
-    it "should be unique" do
-      build(:setting, name: "my_name", value: "my value", description: "my description").should_not be_valid
-      build(:setting, name: "another_name", value: "my value", description: "my description").should be_valid
-    end
-
-  end
-  
-  describe "constants" do
+  describe "configuration constants" do
     
-    before(:each) do
-      @setting = create(:setting, name: "my_name", value: "my value", description: "my description")
-    end
+    let!(:setting) {create(:setting, name: "my_setting", value: "my value")}
+    it {setting.value.should eq(Rails.configuration.my_setting)}
     
-    it "should exist" do
-      Rails.configuration.my_name.should == @setting.value
-    end
-    
-    it "should be modified when value changes" do
-      @setting.update_attributes(value: "new value")
-      Rails.configuration.my_name.should == "new value"
-    end
-    
-    describe "should have the correct format" do
+    describe "should be the correct format" do
       
-      it "numeric" do
-        @setting.update_attributes(value: "21")
-        Rails.configuration.my_name.should be_instance_of(Fixnum)
+      context "numeric" do
+        let!(:setting) {create(:setting, name: "my_setting", value: "21")}
+        it {Rails.configuration.my_setting.should be_instance_of(Fixnum)}
       end
       
-      it "time" do
-        @setting.update_attributes(value: "23:59")
-        Rails.configuration.my_name.should be_instance_of(Time)
+      context "time" do
+        let!(:setting) {create(:setting, name: "my_setting", value: "23:59")}
+        it {Rails.configuration.my_setting.should be_instance_of(Time)}
       end
-    end
       
+    end
+    
   end
-  
+
 end

@@ -13,6 +13,5 @@ end
 
 When /^I view the booking with user id: (\d+) and court number: (\d+) and booking date and time: "(.*?)"$/ do |user_id, court_number, booking_date_and_time|
   booking = create(:booking, user_id: user_id, court_number: court_number, booking_date_and_time: booking_date_and_time)
-  #visit "/bookings/#{booking.id}"
   step "I go to the bookings/#{booking.id} page"
 end

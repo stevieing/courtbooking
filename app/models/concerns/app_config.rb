@@ -1,7 +1,7 @@
 module AppConfig
   
   def add_config
-    create_config_method self.name, self.value.to_type
+    create_config_method self.name, self.value.to_type unless self.value.nil?
   end
   
   private
