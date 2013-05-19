@@ -17,7 +17,7 @@ Feature: Users should be able to browse the status of courts
   Scenario: Browsing the courts for a time slot
     When I go to the courts page
     Then I should see a row for each time slot
-    And I should see a time slot for each court
+    And I should see a link to book each time slot for each court for "01 September 2013"
     
   Scenario: Browsing the courts for the days I can book a court
     When I go to the courts page

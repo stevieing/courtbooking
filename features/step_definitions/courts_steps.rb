@@ -36,6 +36,16 @@ Then /^I should see a time slot for each court$/ do
   end
 end
 
+Then /^I should see a link to book each time slot for each court for "(.*?)"$/ do |date| 
+  within("#bookingslots") do
+    Court.all.each do |court|
+      @timeslots.slots.each do |slot|
+        step "I should see a link to \"#{court.number.to_s} - #{date} #{slot.strftime("%H:%M")}\""
+      end
+    end
+  end
+end
+
 Then /^I should see a box for date "(.*?)"$/ do |arg1|
   within("#calendar") do
     step "I should see the day of month for date #{arg1}"
@@ -60,8 +70,6 @@ end
 Then /^I should see the day of week for (date .*?)$/ do |date|
   step "I should see \"#{date.strftime('%a')}\""
 end
-
-
 
 Then /^I should see a header with "(.*?)"$/ do |header|
   within("#calendar") do
