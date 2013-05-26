@@ -31,7 +31,7 @@ Then /^I should be on (.+)$/ do |page_name|
 end
 
 Then /^I should be redirected to the (.*) page$/ do |page_name|
-  step "I should be on the #{page_name} page"
+  step %{I should be on the #{page_name} page}
 end
 
 When /^I click the "(.*?)" link$/ do |link|

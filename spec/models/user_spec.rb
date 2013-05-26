@@ -23,5 +23,13 @@ describe User do
     it {should have(2).items}
 
   end
+  
+  context "class username" do
+    
+    let!(:user) {create(:user, username: "joebloggs")}
+    
+    it { User.username(user.id).should == "joebloggs"}
+  end
+  
 
 end

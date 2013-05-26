@@ -1,0 +1,25 @@
+<%= form_for @booking do |f| %>
+	<fieldset>
+		<legend><%= header %></legend>
+		<ul>
+			<li>
+				<%= f.label :username, "Member" %>
+				<span><%= current_user.username %></span>
+			</li>
+			<%= f.hidden_field :user_id, :value => current_user.id %>
+			<li>
+				<%= f.label :court_number, "Court Number" %>
+				<%= f.text_field :court_number %>
+			</li>
+			<li>
+				<%= f.label :booking_date_and_time, "Date and Time" %>
+				<%= f.text_field :booking_date_and_time %>
+			</li>
+			<li>
+				<%= f.label :opponent_user_id, "Opponent" %>
+				<%= f.collection_select :opponent_user_id, User.without_user(current_user), :id, :username, {:include_blank => ""} %>
+			</li>
+		<%= f.submit "Submit Booking" %>
+		</ul>
+	</fieldset>
+<% end %>

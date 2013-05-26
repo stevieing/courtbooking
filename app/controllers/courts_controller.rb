@@ -1,24 +1,33 @@
 class CourtsController < ApplicationController
   
   skip_before_filter :authenticate_user!, :only => [:index]
-  before_filter :days_that_can_be_booked_in_advance, :only => [:index]
-  before_filter :current_date, :only => [:index]
+  before_filter :days_that_can_be_booked_in_advance, :current_date, :bookings, :courts, :timeslots, :only => [:index]
   
   def index
-    @courts ||= Court.all
-    @timeslots ||= TimeSlot.first
   end
-  
-  protected
   
   def days_that_can_be_booked_in_advance
     @days_that_can_be_booked_in_advance ||= Rails.configuration.days_that_can_be_booked_in_advance
   end
   
+  protected
+  
   def current_date
-    if @date.nil?
-      @date = params[:date] ? Date.parse(params[:date]) : Date.today
-    end
+    @date ||= (params[:date] ? Date.parse(params[:date]) : Date.today)
   end
-
+  
+  def bookings
+    @bookings ||= Booking.by_day(current_date)
+  end
+  
+  def courts
+    @courts ||= Court.all
+  end
+  
+  def timeslots
+    @timeslots ||= TimeSlot.first
+  end
+  
+  helper_method :days_that_can_be_booked_in_advance, :courts, :timeslots, :current_date, :bookings
+  
 end

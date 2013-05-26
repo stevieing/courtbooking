@@ -1,5 +1,4 @@
-@import "constants";
-@import "mixins";
+@import "shared";
 
 *{
     padding: 0;
@@ -144,84 +143,6 @@ table
 			padding: 10px;
 		}
 	}
-}
-
-#bookingslots, #calendar{
-	text-align: center;
-}
-
-#calendar{
-	float: right;
-	position: relative;
-	left: -2%;
-	color: black;
-	
-	table{
-		
-		background-color: $light_brown;
-		
-		caption{
-			margin-bottom: 10px;
-			color: $dark_green;
-			font:{
-				weight: bold;
-				size: 1.1em;
-			}
-		}
-		
-		tr{
-			td{
-			}
-			
-			.selected{
-				
-				background-color: $light_green;
-			}
-			
-			th{
-				padding: 5px 0 5px 0;
-			}
-			
-			td, th{
-				width: 25px;
-				height: 25px;
-				border: 1px solid black;
-			}
-			
-			a{
-				color: black;
-			}
-		}
-	}
-}
-
-#bookingslots{
-	table{
-		width: 70%;
-		border-collapse: collapse;
-		
-		tr{
-			td, th{
-				background-color: $mid_brown;
-				border: 1px dotted $dark_brown;
-				
-				&:first-child, &:last-child{
-					width: 40px;
-					vertical-align: top;
-				}
-			}
-
-			td{
-				height: 75px;
-			}
-
-			th{
-				padding-top: 10px;
-				padding-bottom: 10px;
-			}
-		}
-	}
-	
 }
 
 #signin{

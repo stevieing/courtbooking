@@ -2,6 +2,7 @@ class BookingsController < ApplicationController
   
   def new
     @booking = Booking.new
+    @header = "New Booking"
   end
   
   def create

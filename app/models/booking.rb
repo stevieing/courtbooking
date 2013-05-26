@@ -6,12 +6,29 @@ class Booking < ActiveRecord::Base
   validates_datetime :booking_date_and_time,  :after => lambda {DateTime.now},
                                               :before => lambda {DateTime.now + Rails.configuration.days_that_can_be_booked_in_advance}
   
-  before_destroy :date_in_the_future?
+  before_destroy :in_the_future?
                                               
   validate :instance_validations
   
+  scope :by_day,    lambda{|day| where(:booking_date_and_time => day.beginning_of_day..day.end_of_day) }
+  scope :by_court,  lambda{|court| where(:court_number => court)}
+  scope :by_time,   lambda{|time| where(:booking_date_and_time => time)}
+  
+  def players
+    if self.opponent_user_id.nil?
+      User.username(self.user_id)
+    else
+      User.username(self.user_id) + " V " + User.username(self.opponent_user_id)
+    end
+  end
+  
+  def in_the_past?
+    self.booking_date_and_time.in_the_past?
+  end
+  
   private
-                                                                                 
+  
+  #TODO: refactor to remove settings                                                                              
   def instance_validations
     unless self.booking_date_and_time.nil? || self.booking_date_and_time.blank?
       validates_with PeakHoursValidator,  :max_peak_hours_bookings => lambda { Rails.configuration.max_peak_hours_bookings },
@@ -24,8 +41,8 @@ class Booking < ActiveRecord::Base
     end
   end
   
-  def date_in_the_future?
-    if self.booking_date_and_time <= DateTime.now
+  def in_the_future?
+    if self.booking_date_and_time.in_the_past?
       self.errors[:base] << "Unable to delete a booking that is in the past"
       return false
     end

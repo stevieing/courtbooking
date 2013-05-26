@@ -80,5 +80,65 @@ describe Booking do
       end
       
     end
+    
+    describe "scope" do
+      
+      let!(:booking1) {create(:booking, court_number: 1, booking_date_and_time: "17 Sep 2013 19:00") }
+      let!(:booking2) {create(:booking, court_number: 2, booking_date_and_time: "17 Sep 2013 12:00") }
+      let!(:booking3) {create(:booking, court_number: 2, booking_date_and_time: "18 Sep 2013 20:40") }
+      let!(:booking4) {create(:booking, court_number: 3, booking_date_and_time: "17 Sep 2013 10:00") }
+      
+      it "by day" do
+        Booking.by_day(DateTime.parse("17 Sep 2013")).count.should == 3
+      end
+      
+      it "by court" do
+        Booking.by_day(DateTime.parse("17 Sep 2013")).by_court(2).count.should == 1
+      end
+      
+      it "by time" do
+        Booking.by_day(DateTime.parse("17 Sep 2013")).by_time(Time.parse("17 Sep 2013 12:00")).count.should == 1
+      end
+      
+    end
+    
+    describe "players" do
+      
+      let!(:player1) {create(:user, username: "player 1")}
+      let!(:player2) {create(:user, username: "player 2", email: "player2@example.com")}
+      let!(:player3) {create(:user, username: "player 3", email: "player3@example.com")}
+      let(:booking1) {build(:booking, user_id: player1.id)}
+      let(:booking2) {build(:booking, user_id: player1.id, opponent_user_id: player2.id, court_number: 2)}
+      let(:booking3) {build(:booking, user_id: player1.id, opponent_user_id: player3.id, court_number: 3)}
+      
+      
+      it "one player" do
+        booking1.players.should == "player 1"
+      end
+      
+      it "two players" do
+        booking2.players.should == "player 1 V player 2"
+        booking3.players.should == "player 1 V player 3"
+      end
+      
+      
+    end
+    
+    describe "when" do
+      let!(:booking1) { create(:booking, booking_date_and_time: "17 Sep 2013 17:40") }
+      let!(:booking2) { create(:booking, booking_date_and_time: "17 Sep 2013 19:40") }
+      
+      before(:each) do
+        DateTime.stub(:now).and_return(DateTime.parse("17 Sep 2013 19:00"))
+      end
+      
+      it "in the past" do
+        booking1.in_the_past?.should be_true
+      end
+      
+      it "in the future" do
+        booking2.in_the_past?.should be_false
+      end
+    end
 
 end

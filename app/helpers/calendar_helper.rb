@@ -18,7 +18,11 @@ module CalendarHelper
 
     def header
       content_tag :caption do
-        (@dates.first.month == @dates.last.month ? @dates.first.strftime('%B %Y') : "#{@dates.first.strftime('%B')} -> #{@dates.last.strftime('%B %Y')}").html_safe
+        if @dates.first.month == @dates.last.month
+           @dates.first.strftime('%B %Y')
+         else
+           "#{@dates.first.strftime('%B')} -> #{@dates.last.strftime('%B %Y')}".html_safe
+         end
       end
     end
     

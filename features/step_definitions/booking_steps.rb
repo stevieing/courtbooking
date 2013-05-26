@@ -7,11 +7,11 @@ Given /^no more than (\d+) courts can be booked during peak times$/ do |number|
   create_setting "max_peak_hours_bookings", "#{number}", "maximum number of courts that can be booked during peak hours"
 end
 
-Given /^there is a booking with user id: (\d+) and court number: (\d+) and booking date and time: "(.*?)"$/ do |user_id, court_number, booking_date_and_time|
-  create(:booking, user_id: user_id, court_number: court_number, booking_date_and_time: booking_date_and_time)
+Given /^there is a booking with (.*?)$/ do |attributes|
+  @booking = create(:booking, create_attributes(attributes))
 end
 
-When /^I view the booking with user id: (\d+) and court number: (\d+) and booking date and time: "(.*?)"$/ do |user_id, court_number, booking_date_and_time|
-  booking = create(:booking, user_id: user_id, court_number: court_number, booking_date_and_time: booking_date_and_time)
-  step "I go to the bookings/#{booking.id} page"
+When /^I view the booking with (.*?)$/ do |attributes|
+  step %Q{there is a booking with #{attributes}}
+  step %Q{I go to the bookings/#{@booking.id} page}
 end

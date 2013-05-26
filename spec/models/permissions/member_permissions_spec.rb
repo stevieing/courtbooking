@@ -17,7 +17,11 @@ describe Permissions::MemberPermission do
     should allow(:bookings, :create)
     should allow(:bookings, :show)
     should allow(:bookings, :destroy, user_booking)
+    should allow(:bookings, :edit, user_booking)
+    should allow(:bookings, :update, user_booking)
     should_not allow(:bookings, :destroy, other_booking)
+    should_not allow(:booking, :edit, other_booking)
+    should_not allow(:booking, :update, other_booking)
   end
   
   it "allows sessions" do

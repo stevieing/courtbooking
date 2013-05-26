@@ -15,6 +15,13 @@ class User < ActiveRecord::Base
   
   scope :without_user, lambda{|user| user ? {:conditions => ["id != ?", user.id]} : {} }
   
+  class << self
+    def username(id)
+      find(id).username
+    end
+  end
+     
+  
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
       if login = conditions.delete(:login)

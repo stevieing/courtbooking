@@ -6,6 +6,8 @@ Courtbooking::Application.routes.draw do
   devise_scope :user do
     get "sign_in", :to => "devise/sessions#new"
   end
+  
+  
 
   resources :bookings
   resources :admin
@@ -72,5 +74,9 @@ Courtbooking::Application.routes.draw do
   match 'admin' => "admin#index", :as => :admin
   
   match '/courts(/:date)' => "courts#index", :via => :get, :as => :courts
+  
+  match 'bookings/new/:date_and_time/:court_number' => "bookings#new", :as => :court_booking
+  
+  
    
 end

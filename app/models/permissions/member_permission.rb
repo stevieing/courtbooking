@@ -3,7 +3,7 @@ module Permissions
     def initialize(user)
       allow :courts, [:index]
       allow :bookings, [:index, :new, :create, :show] 
-      allow :bookings, [:destroy] do |booking|
+      allow :bookings, [:edit, :update, :destroy] do |booking|
         booking.user_id == user.id
       end
       allow "devise/sessions", [:create, :destroy]
