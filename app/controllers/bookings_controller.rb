@@ -18,6 +18,20 @@ class BookingsController < ApplicationController
     @booking = current_resource
   end
   
+  def edit
+    @header = "Edit booking"
+    @booking = current_resource
+  end
+  
+  def update
+    @booking = current_resource
+    if @booking.update_attributes(params[:booking])
+      redirect_to root_path, notice: "Booking successfully updated."
+    else
+      render :edit
+    end
+  end
+  
   def destroy
     @booking = current_resource
     redirect_to root_path, notice: ( @booking.destroy ? "Booking successfully deleted" : "Unable to delete booking" )

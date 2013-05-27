@@ -17,12 +17,12 @@ Given /^the courts are available from "(.*?)" to "(.*?)" with a (\d+) minute tim
 end
 
 Given /^the courts can be booked up to (\d+) (days|weeks) in advance$/ do |arg1,arg2|
-  create_setting "days_that_can_be_booked_in_advance", days_or_weeks(arg1, arg2).to_s, description: "Number of days that courts can be booked in advance"
+  create_setting "days_bookings_can_be_made_in_advance", days_or_weeks(arg1, arg2).to_s, description: "Number of days that courts can be booked in advance"
 end
 
 Then /^I should see a row for each time slot$/ do
   @timeslots.slots.each do |slot|
-    step %Q{I should see "#{slot.strftime("%H:%M")}"}
+    step %Q{I should see "#{slot.to_s(:hrs_and_mins)}"}
   end
 end
 
@@ -30,7 +30,7 @@ Then /^I should see a time slot for each court$/ do
   within_the_bookingslots_container do
     Court.all.each do |court|
       @timeslots.slots.each do |slot|
-        step %Q{I should see "#{court.number.to_s} - #{slot.strftime("%H:%M")}"}
+        step %Q{I should see "#{court.number.to_s} - #{slot.to_s(:hrs_and_mins)}"}
       end
     end
   end
@@ -40,7 +40,7 @@ Then /^I should see a link to book each time slot for each court for "(.*?)"$/ d
   within_the_bookingslots_container do
     Court.all.each do |court|
       @timeslots.slots.each do |slot|
-        step %Q{I should see a link to "#{court.number.to_s} - #{date} #{slot.strftime("%H:%M")}"}
+        step %Q{I should see a link to "#{court.number.to_s} - #{date} #{slot.to_s(:hrs_and_mins)}"}
       end
     end
   end

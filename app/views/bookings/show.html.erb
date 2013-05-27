@@ -2,7 +2,7 @@
 	<ul>
 		<li>User id: <%= @booking.user_id %></li>
 		<li>Court Number: <%= @booking.court_number %></li>
-		<li>Booking date and time: <%= @booking.booking_date_and_time %></li>
+		<li>Playing at: <%= @booking.playing_at_text %></li>
 	</ul>
 	<% if allow? :bookings, :destroy, @booking %>
     	<div><%= link_to "Delete booking", booking_path(@booking), method: :delete %></div>

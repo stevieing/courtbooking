@@ -15,3 +15,12 @@ When /^I view the booking with (.*?)$/ do |attributes|
   step %Q{there is a booking with #{attributes}}
   step %Q{I go to the bookings/#{@booking.id} page}
 end
+
+When /^I edit the booking with (.*)$/ do |attributes|
+  step %Q{there is a booking with #{attributes}}
+  step %Q{I go to the bookings/#{@booking.id}/edit page}
+end
+
+Then /^I should see value "(.*?)" in "(.*?)"$/ do |content, field|
+  find_field("#{field}").value.should == content
+end

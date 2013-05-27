@@ -159,7 +159,7 @@ table
 	}
 }
 
-#newbooking{
+#newbooking, #editbooking{
 	width: 50%;
 	margin: 0 auto;
 	
@@ -173,7 +173,7 @@ table
 	}
 }
 
-#new_user, #new_booking{
+#new_user, #new_booking, .edit_booking{
 	
 	margin-bottom: 20px;
 	border: 1px solid $dark_green;

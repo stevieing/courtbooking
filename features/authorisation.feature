@@ -16,11 +16,11 @@ Feature: Users can only access permitted areas
     Then I should see "<response>"
     
     Examples:
-      | user_type   | page        | response        |
-      | standard    | admin       | Not authorised  |
-      | standard    | courts      | 01 Sep 2013     |
-      | standard    | bookings    | Bookings        |
-      | admin       | admin       | Admin           |
+      | user_type   | page        | response              |
+      | standard    | admin       | Not authorised        |
+      | standard    | courts      | 01 September 2013     |
+      | standard    | bookings    | Bookings              |
+      | admin       | admin       | Admin                 |
 
   Scenario: Visiting the home page as a standard User
     Given a standard user exists with username: "joebloggs" and password: "password"

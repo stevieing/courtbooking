@@ -1,18 +1,23 @@
 class Booking < ActiveRecord::Base
 
-  attr_accessible :booking_date_and_time, :court_number, :opponent_user_id, :user_id
-  validates_presence_of :booking_date_and_time, :court_number, :user_id
+  attr_accessible :playing_at, :playing_at_text, :court_number, :opponent_user_id, :user_id
+  attr_writer :playing_at_text
+
+  before_validation :save_playing_at_text
   
-  validates_datetime :booking_date_and_time,  :after => lambda {DateTime.now},
-                                              :before => lambda {DateTime.now + Rails.configuration.days_that_can_be_booked_in_advance}
+  validates_presence_of :playing_at, :court_number, :user_id
   
-  before_destroy :in_the_future?
-                                              
-  validate :instance_validations
+  validates_datetime :playing_at,  :after => lambda {DateTime.now},
+                                              :before => lambda {DateTime.now + Rails.configuration.days_bookings_can_be_made_in_advance}
   
-  scope :by_day,    lambda{|day| where(:booking_date_and_time => day.beginning_of_day..day.end_of_day) }
+  before_destroy :in_the_future?                                            
+  validate :create_validations, :on => :create
+  validates :court_number, :changed => true, :on => :update
+  validates :playing_at, :changed => true, :on => :update
+
+  scope :by_day,    lambda{|day| where(:playing_at => day.beginning_of_day..day.end_of_day) }
   scope :by_court,  lambda{|court| where(:court_number => court)}
-  scope :by_time,   lambda{|time| where(:booking_date_and_time => time)}
+  scope :by_time,   lambda{|time| where(:playing_at => time)}
   
   def players
     if self.opponent_user_id.nil?
@@ -23,14 +28,22 @@ class Booking < ActiveRecord::Base
   end
   
   def in_the_past?
-    self.booking_date_and_time.in_the_past?
+    self.playing_at.in_the_past?
   end
   
+  def playing_at_text
+    @playing_at_text || playing_at.try(:to_s, :booking)
+  end
+  
+  def save_playing_at_text
+    self.playing_at = @playing_at_text if @playing_at_text.present?
+  end
+
   private
   
   #TODO: refactor to remove settings                                                                              
-  def instance_validations
-    unless self.booking_date_and_time.nil? || self.booking_date_and_time.blank?
+  def create_validations
+    unless self.playing_at.nil? || self.playing_at.blank?
       validates_with PeakHoursValidator,  :max_peak_hours_bookings => lambda { Rails.configuration.max_peak_hours_bookings },
                                           :peak_hours_start_time => lambda { Rails.configuration.peak_hours_start_time },
                                           :peak_hours_finish_time => lambda { Rails.configuration.peak_hours_finish_time }
@@ -42,7 +55,7 @@ class Booking < ActiveRecord::Base
   end
   
   def in_the_future?
-    if self.booking_date_and_time.in_the_past?
+    if self.playing_at.in_the_past?
       self.errors[:base] << "Unable to delete a booking that is in the past"
       return false
     end

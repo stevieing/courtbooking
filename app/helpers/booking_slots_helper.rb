@@ -31,24 +31,12 @@ module BookingSlotsHelper
     end
     
     def time_slot_cell(slot)
-      content_tag :td, slot_to_s(slot).html_safe
-    end
-    
-    def slot_to_s(slot)
-      slot.strftime("%H:%M")
-    end
-    
-    def date_to_s(date)
-      date.strftime('%d %B %Y')
-    end
-    
-    def date_time_to_s(slot)
-      date_to_s(current_date) + " " + slot_to_s(slot)
+      content_tag :td, slot.to_s(:hrs_and_mins).html_safe
     end
 
     def courts_cells(slot)
       courts.map do |court| 
-        content_tag :td, view.capture(court.number, date_time_to_s(slot), &callback)
+        content_tag :td, view.capture(court.number, current_date.to_s(:uk) + " " + slot.to_s(:hrs_and_mins), &callback)
       end.join.html_safe
     end
     

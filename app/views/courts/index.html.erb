@@ -1,16 +1,16 @@
-<h2><%= current_date.strftime('%d %b %Y')%></h2>
-<%= calendar(days_that_can_be_booked_in_advance, current_date) do |date, day| %>
+<h2><%= current_date.to_s(:uk) %></h2>
+<%= calendar(days_bookings_can_be_made_in_advance, current_date) do |date, day| %>
 	<% if date == current_date %>
 		<%= day %>
 	<% else %>
 		<%= link_to day, courts_path(date) %>
 	<% end %>
 <% end %>
-<%= booking_slots(current_date, courts, timeslots) do |court_number, date_and_time| %>
-	<%= with_booking(bookings, court_number, date_and_time) do |booking| %>
+<%= booking_slots(current_date, courts, timeslots) do |court_number, playing_at| %>
+	<%= with_booking(bookings, court_number, playing_at) do |booking| %>
 		<% if booking.nil? %>
-			<%unless in_the_past? date_and_time %>
-				<%= link_to court_number.to_s + " - " + date_and_time, court_booking_path(date_and_time, court_number), 
+			<%unless in_the_past? playing_at %>
+				<%= link_to court_number.to_s + " - " + playing_at, court_booking_path(playing_at, court_number), 
 					{:class => "popupwindow", :rel => "window1200"} %>
 			<% else %>
 				<div class="past">&nbsp;</div>

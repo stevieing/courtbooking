@@ -16,10 +16,10 @@ ActiveRecord::Schema.define(:version => 20130504162513) do
   create_table "bookings", :force => true do |t|
     t.integer  "user_id"
     t.integer  "court_number"
-    t.datetime "booking_date_and_time"
+    t.datetime "playing_at"
     t.integer  "opponent_user_id"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "courts", :force => true do |t|

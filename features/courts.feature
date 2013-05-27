@@ -15,7 +15,7 @@ Feature: Users should be able to browse the status of courts
   Scenario: Browsing the courts for today
     When I go to the courts page
     Then I should see a column for each court
-    And I should see "01 Sep 2013"
+    And I should see "01 September 2013"
     
   Scenario: Browsing the courts for a time slot
     When I go to the courts page
@@ -37,7 +37,7 @@ Feature: Users should be able to browse the status of courts
     Then I should see a box for date "06"
     And I click the "06" link on the calendar
     And I should be redirected to the courts page with date "06 September 2013"
-    And I should see "06 Sep 2013"
+    And I should see "06 September 2013"
     And I should see "06"
     And I should not see a link to "06" on the calendar
     
@@ -50,10 +50,10 @@ Feature: Users should be able to browse the status of courts
     Given a standard user exists with id: 999 and username: "joebloggs" and password: "password"
     And a standard user exists with id: 111 and username: "worthy opponent" and email: "worthyopponent@example.com"
     And a standard user exists with id: 222 and username: "Nicol David" and email: "nicodavid@example.com"
-    And there is a booking with user_id: 999 and court_number: 1 and booking_date_and_time: "01 September 2013 12:00"
-    And there is a booking with user_id: 999 and opponent_user_id: 111 and court_number: 2 and booking_date_and_time: "01 September 2013 19:00"
-    And there is a booking with user_id: 222 and court_number: 4 and booking_date_and_time: "01 September 2013 19:40"
-    And there is a booking with user_id: 222 and opponent_user_id: 111 and court_number: 3 and booking_date_and_time: "01 September 2013 19:00"
+    And there is a booking with user_id: 999 and court_number: 1 and playing_at: "01 September 2013 12:00"
+    And there is a booking with user_id: 999 and opponent_user_id: 111 and court_number: 2 and playing_at: "01 September 2013 19:00"
+    And there is a booking with user_id: 222 and court_number: 4 and playing_at: "01 September 2013 19:40"
+    And there is a booking with user_id: 222 and opponent_user_id: 111 and court_number: 3 and playing_at: "01 September 2013 19:00"
     Given I login as "joebloggs" with password "password"
     When I go to the courts page
     Then I should see a link to "joebloggs" within the bookings
@@ -67,8 +67,8 @@ Feature: Users should be able to browse the status of courts
     Given a standard user exists with id: 999 and username: "joebloggs" and password: "password"
     And a standard user exists with id: 111 and username: "worthy opponent" and email: "worthyopponent@example.com"
     And a standard user exists with id: 222 and username: "Nicol David" and email: "nicodavid@example.com"
-    And there is a booking with user_id: 999 and opponent_user_id: 111 and court_number: 1 and booking_date_and_time: "02 September 2013 19:00"
-    And there is a booking with user_id: 999 and opponent_user_id: 222 and court_number: 2 and booking_date_and_time: "02 September 2013 20:20"
+    And there is a booking with user_id: 999 and opponent_user_id: 111 and court_number: 1 and playing_at: "02 September 2013 19:00"
+    And there is a booking with user_id: 999 and opponent_user_id: 222 and court_number: 2 and playing_at: "02 September 2013 20:20"
     And todays date and time is "02 September 2013 19:40"
     Given I login as "joebloggs" with password "password"
     When I go to the courts page

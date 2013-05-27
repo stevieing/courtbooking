@@ -6,8 +6,8 @@ FactoryGirl.define do
     value "my value"
     description "my description"
     
-    factory :days_that_can_be_booked_in_advance do
-      name "days_that_can_be_booked_in_advance"
+    factory :days_bookings_can_be_made_in_advance do
+      name "days_bookings_can_be_made_in_advance"
       value "21"
       description "Number of days that courts can be booked in advance"
     end

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Booking do
   
   before(:all) do
-    create_settings :days_that_can_be_booked_in_advance, :max_peak_hours_bookings, :peak_hours_start_time, :peak_hours_finish_time 
+    create_settings :days_bookings_can_be_made_in_advance, :max_peak_hours_bookings, :peak_hours_start_time, :peak_hours_finish_time 
   end
   
   before(:each) do
@@ -12,37 +12,37 @@ describe Booking do
   
   it { should validate_presence_of(:user_id) }
   it { should validate_presence_of(:court_number) }
-  it { should validate_presence_of(:booking_date_and_time) }
+  it { should validate_presence_of(:playing_at) }
   it { should have_db_column(:opponent_user_id).of_type(:integer).with_options(null: true) }
   
   context "date before today" do
-    it { should_not allow_value("16 Sep 2013 16:59").for(:booking_date_and_time) }
-    it { should_not allow_value("13 Sep 2013 17:00").for(:booking_date_and_time) }
+    it { should_not allow_value("16 Sep 2013 16:59").for(:playing_at) }
+    it { should_not allow_value("13 Sep 2013 17:00").for(:playing_at) }
   end
   
   context "date after number of days courts can be booked in advance" do
-    it { should_not allow_value("09 Oct 2013 17:01").for(:booking_date_and_time) }
-    it { should_not allow_value("10 Oct 2013 17:00").for(:booking_date_and_time) }
+    it { should_not allow_value("09 Oct 2013 17:01").for(:playing_at) }
+    it { should_not allow_value("10 Oct 2013 17:00").for(:playing_at) }
   end
   
   describe "during peak hours" do
     
     before(:each) do
-      create(:booking, court_number: 1, booking_date_and_time: "17 Sep 2013 19:00")
-      create(:booking, court_number: 2, booking_date_and_time: "18 Sep 2013 17:40")
-      create(:booking, court_number: 3, booking_date_and_time: "19 Sep 2013 19:00")
+      create(:booking, court_number: 1, playing_at: "17 Sep 2013 19:00")
+      create(:booking, court_number: 2, playing_at: "18 Sep 2013 17:40")
+      create(:booking, court_number: 3, playing_at: "19 Sep 2013 19:00")
     end
 
     it "exceeds maximum number of bookings for a week" do
-      build(:booking, court_number: 4, booking_date_and_time: "17 Sep 2013 19:00").should_not be_valid
+      build(:booking, court_number: 4, playing_at: "17 Sep 2013 19:00").should_not be_valid
     end
      
      it "extra booking created in a new week" do
-       build(:booking, court_number: 3, booking_date_and_time: "24 Sep 2013 19:00").should be_valid
+       build(:booking, court_number: 3, playing_at: "24 Sep 2013 19:00").should be_valid
      end
      
      it "extra booking created outside peak hours" do
-       build(:booking, court_number: 3, booking_date_and_time: "18 Sep 2013 12:00").should be_valid
+       build(:booking, court_number: 3, playing_at: "18 Sep 2013 12:00").should be_valid
      end
      
    end
@@ -50,25 +50,25 @@ describe Booking do
    describe "duplicate bookings" do
      
       before(:each) do
-        create(:booking, court_number: 1, booking_date_and_time: "17 Sep 2013 19:00")
+        create(:booking, court_number: 1, playing_at: "17 Sep 2013 19:00")
       end
 
       it "for the same court with identical date and time" do
-        build(:booking, court_number: 1, booking_date_and_time: "17 Sep 2013 19:00").should_not be_valid
+        build(:booking, court_number: 1, playing_at: "17 Sep 2013 19:00").should_not be_valid
       end
 
       it "for the same court with a different date and time" do
-        build(:booking, court_number: 1, booking_date_and_time: "18 Sep 2013 19:00").should be_valid
+        build(:booking, court_number: 1, playing_at: "18 Sep 2013 19:00").should be_valid
       end
 
       it "for a different court with identical date and time" do
-        build(:booking, court_number: 2, booking_date_and_time: "17 Sep 2013 19:00").should be_valid
+        build(:booking, court_number: 2, playing_at: "17 Sep 2013 19:00").should be_valid
       end
     end
     
     describe "destroy booking" do
       
-      let!(:booking) {create(:booking, court_number: 1, booking_date_and_time: "17 Sep 2013 19:00") }
+      let!(:booking) {create(:booking, court_number: 1, playing_at: "17 Sep 2013 19:00") }
       
       it "before the booking starts" do
         booking.destroy.should be_true
@@ -83,10 +83,10 @@ describe Booking do
     
     describe "scope" do
       
-      let!(:booking1) {create(:booking, court_number: 1, booking_date_and_time: "17 Sep 2013 19:00") }
-      let!(:booking2) {create(:booking, court_number: 2, booking_date_and_time: "17 Sep 2013 12:00") }
-      let!(:booking3) {create(:booking, court_number: 2, booking_date_and_time: "18 Sep 2013 20:40") }
-      let!(:booking4) {create(:booking, court_number: 3, booking_date_and_time: "17 Sep 2013 10:00") }
+      let!(:booking1) {create(:booking, court_number: 1, playing_at: "17 Sep 2013 19:00") }
+      let!(:booking2) {create(:booking, court_number: 2, playing_at: "17 Sep 2013 12:00") }
+      let!(:booking3) {create(:booking, court_number: 2, playing_at: "18 Sep 2013 20:40") }
+      let!(:booking4) {create(:booking, court_number: 3, playing_at: "17 Sep 2013 10:00") }
       
       it "by day" do
         Booking.by_day(DateTime.parse("17 Sep 2013")).count.should == 3
@@ -125,8 +125,8 @@ describe Booking do
     end
     
     describe "when" do
-      let!(:booking1) { create(:booking, booking_date_and_time: "17 Sep 2013 17:40") }
-      let!(:booking2) { create(:booking, booking_date_and_time: "17 Sep 2013 19:40") }
+      let!(:booking1) { create(:booking, playing_at: "17 Sep 2013 17:40") }
+      let!(:booking2) { create(:booking, playing_at: "17 Sep 2013 19:40") }
       
       before(:each) do
         DateTime.stub(:now).and_return(DateTime.parse("17 Sep 2013 19:00"))
@@ -139,6 +139,42 @@ describe Booking do
       it "in the future" do
         booking2.in_the_past?.should be_false
       end
+    end
+    
+    describe "playing_at_text" do
+      let!(:booking) {create(:booking, playing_at_text: "17 September 2013 19:00")}
+      let!(:booking_invalid) {build(:booking, playing_at_text: "32 September 2013 19:00")}
+ 
+      it "populate playing_at" do
+        booking.playing_at.to_s(:booking).should eq("17 September 2013 19:00")
+      end
+      
+      it "read correctly" do
+        booking.playing_at_text.should eq("17 September 2013 19:00")
+      end
+      
+      it "validate" do
+        booking_invalid.should_not be_valid
+      end
+
+    end
+    
+    #TODO: update playing_at_text followed by playing_at. This doesn't seem to work
+    describe "update" do
+      let!(:booking) {create(:booking, playing_at_text: "17 September 2013 19:00")}
+      
+      it "court_number" do
+        booking.update_attributes(:court_number => 2).should be_false
+      end
+      
+      it "playing_at_text" do
+        booking.update_attributes(:playing_at_text => "18 September 2013 19:00").should be_false
+      end
+
+      it "opponent_user_id" do
+        booking.update_attributes(:opponent_user_id => 1).should be_true
+      end
+      
     end
 
 end
