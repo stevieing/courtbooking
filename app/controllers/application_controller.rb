@@ -6,10 +6,12 @@ class ApplicationController < ActionController::Base
   delegate :allow?, to: :current_permission
   helper_method :allow?
   
+  delegate :allow_param?, to: :current_permission
+  helper_method :allow_param?
+  
   def current_year
     @current_year ||= Date.today.year
   end
-  
   helper_method :current_year
   
   private
@@ -23,8 +25,10 @@ class ApplicationController < ActionController::Base
   end
  
   def authorise
-    if !current_permission.allow?(params[:controller], params[:action], current_resource)
-        redirect_to root_url, alert: "Not authorised."
+    if current_permission.allow?(params[:controller], params[:action], current_resource)
+      current_permission.permit_params! params
+    else
+      redirect_to root_url, alert: "Not authorised."
     end
   end
   

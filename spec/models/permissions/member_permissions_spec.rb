@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Permissions::MemberPermission do
+describe Permissions::MemberPermission, :focus => true do
   
   let(:user) { create(:user, admin: false) }
   let(:user_booking) { build(:booking, user_id: user.id) }
@@ -22,6 +22,11 @@ describe Permissions::MemberPermission do
     should_not allow(:bookings, :destroy, other_booking)
     should_not allow(:booking, :edit, other_booking)
     should_not allow(:booking, :update, other_booking)
+    should allow_param(:booking, :playing_at_text)
+    should allow_param(:booking, :court_number)
+    should allow_param(:booking, :opponent_user_id)
+    should allow_param(:booking, :user_id)
+    should_not allow_param(:booking, :playing_at)
   end
   
   it "allows sessions" do

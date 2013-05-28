@@ -42,4 +42,5 @@ private
   def current_resource
     @current_resource ||= Booking.find(params[:id]) if params[:id]
   end
+
 end

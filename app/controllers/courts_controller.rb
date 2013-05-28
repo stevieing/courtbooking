@@ -30,4 +30,6 @@ class CourtsController < ApplicationController
   
   helper_method :days_bookings_can_be_made_in_advance, :courts, :timeslots, :current_date, :bookings
   
+  
+  
 end

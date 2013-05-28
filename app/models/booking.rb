@@ -1,6 +1,5 @@
 class Booking < ActiveRecord::Base
 
-  attr_accessible :playing_at, :playing_at_text, :court_number, :opponent_user_id, :user_id
   attr_writer :playing_at_text
 
   before_validation :save_playing_at_text
@@ -12,8 +11,7 @@ class Booking < ActiveRecord::Base
   
   before_destroy :in_the_future?                                            
   validate :create_validations, :on => :create
-  validates :court_number, :changed => true, :on => :update
-  validates :playing_at, :changed => true, :on => :update
+  validates :court_number, :playing_at, :changed => true, :on => :update
 
   scope :by_day,    lambda{|day| where(:playing_at => day.beginning_of_day..day.end_of_day) }
   scope :by_court,  lambda{|court| where(:court_number => court)}
