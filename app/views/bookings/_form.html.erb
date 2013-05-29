@@ -6,15 +6,31 @@
 				<%= f.label :username, "Member" %>
 				<span><%= current_user.username %></span>
 			</li>
-			<%= f.hidden_field :user_id, :value => current_user.id %>
-			<li>
-				<%= f.label :court_number, "Court Number" %>
-				<%= f.text_field :court_number %>
-			</li>
-			<li>
-				<%= f.label :playing_at_text, "Playing at" %>
-				<%= f.text_field :playing_at_text %>
-			</li>
+			<% if allow_param? :booking, :user_id %>
+				<%= f.label :user_id, "Player" %>
+				<%= f.collection_select :user_id, User.all, :id, :username, {:selected => current_user.id} %>
+			<% end %>
+			<% if allow_param? :booking, :time_and_place %>
+				<li>
+					<%= f.label :time_and_place, "Court: #{@booking.court_number}" %>
+					<% unless @booking.playing_at.nil? %>
+						<span><%= @booking.playing_at.to_s(:booking_meridian) %></span>
+					<% end %>
+				</li>
+				<%= f.hidden_field :time_and_place, :value => @booking.time_and_place %>
+			<% end %>
+			<% if allow_param? :booking, :court_number %>
+				<li>
+					<%= f.label :court_number, "Court Number" %>
+					<%= f.text_field :court_number %>
+				</li>
+			<% end %>
+			<% if allow_param? :booking, :playing_at_text %>
+				<li>
+					<%= f.label :playing_at_text, "Playing at" %>
+					<%= f.text_field :playing_at_text %>
+				</li>
+			<% end %>
 			<li>
 				<%= f.label :opponent_user_id, "Opponent" %>
 				<%= f.collection_select :opponent_user_id, User.without_user(current_user), :id, :username, {:include_blank => ""} %>

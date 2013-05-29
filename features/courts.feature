@@ -77,6 +77,17 @@ Feature: Users should be able to browse the status of courts
     And I should see a link to "joebloggs V Nicol David" within the bookings
     And I should not see a link to "1 - 02 September 2013 12:20"
     
+  Scenario: Making a new booking
+    Given a standard user exists with id: 999 and username: "joebloggs" and password: "password"
+    Given I login as "joebloggs" with password "password"
+    When I go to the courts page
+    And I click the "1 - 01 September 2013 19:00" link
+    Then I should see "New Booking"
+    And I should see "Court: 1 01 September 2013 7.00pm"
+    And there should be a hidden field within booking called "time_and_place" with value "01 September 2013 19:00,1"
+    When I click the "Submit Booking" button
+    Then I should see "Booking successfully created"
+    
    
     
     

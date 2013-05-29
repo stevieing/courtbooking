@@ -7,7 +7,7 @@ module Permissions
         booking.user_id == user.id
       end
       allow "devise/sessions", [:create, :destroy]
-      allow_param :booking, [:playing_at_text, :court_number, :opponent_user_id, :user_id]
+      allow_param :booking, [:time_and_place, :opponent_user_id]
     end
   end
 end

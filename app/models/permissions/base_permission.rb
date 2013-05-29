@@ -9,6 +9,10 @@ module Permissions
     def allow_all
       @allow_all = true
     end
+    
+    def allow_all_params
+       @allow_all_params = true
+    end
   
     def allow(controllers, actions, &block)
       @allowed_actions ||={}
@@ -28,7 +32,7 @@ module Permissions
     end
 
     def allow_param?(resource, attribute)
-      if @allow_all
+      if @allow_all_params
         true
       elsif @allowed_params && @allowed_params[resource]
         @allowed_params[resource].include? attribute
@@ -36,7 +40,7 @@ module Permissions
     end
 
     def permit_params!(params)
-      if @allow_all
+      if @allow_all_params
         params.permit!
       elsif @allowed_params
         @allowed_params.each do |resource, attributes|

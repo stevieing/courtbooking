@@ -2,13 +2,15 @@ class BookingsController < ApplicationController
   
   def new
     @booking = Booking.new
+    set_params :playing_at,:court_number
     @header = "New Booking"
   end
   
   def create
     @booking = Booking.new(params[:booking])
+    @booking.user_id = current_user.id if params[:booking][:user_id].nil?
     if @booking.save
-      redirect_to new_booking_path, notice: "Booking successfully created."
+      redirect_to root_path, notice: "Booking successfully created."
     else
       render :new
     end
@@ -41,6 +43,12 @@ private
   
   def current_resource
     @current_resource ||= Booking.find(params[:id]) if params[:id]
+  end
+  
+  def set_params(*attributes)
+    attributes.each do |attribute|
+      @booking.send("#{attribute}=", params[attribute]) unless params[attribute].nil?
+    end
   end
 
 end

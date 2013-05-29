@@ -176,5 +176,14 @@ describe Booking do
       end
       
     end
+    
+    describe "time_and_place" do
+      
+      subject {create(:booking, time_and_place: "17 September 2013 19:00, 2")}
+      
+      it {should be_valid}
+      its(:court_number) {should eq(2)}
+      its(:playing_at_text) {should eq("17 September 2013 19:00")}
+    end
 
 end

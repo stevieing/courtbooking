@@ -1,8 +1,8 @@
 class Booking < ActiveRecord::Base
 
-  attr_writer :playing_at_text
+  attr_writer :playing_at_text, :time_and_place
 
-  before_validation :save_playing_at_text
+  before_validation :save_playing_at_text, :save_time_and_place
   
   validates_presence_of :playing_at, :court_number, :user_id
   
@@ -35,6 +35,16 @@ class Booking < ActiveRecord::Base
   
   def save_playing_at_text
     self.playing_at = @playing_at_text if @playing_at_text.present?
+  end
+  
+  def time_and_place
+    @time_and_place || [playing_at.try(:to_s, :booking),court_number].join(',')
+  end
+  
+  def save_time_and_place
+    if @time_and_place.present? && @time_and_place.split(',').length == 2
+      self.playing_at,self.court_number = @time_and_place.split(',')
+    end
   end
 
   private

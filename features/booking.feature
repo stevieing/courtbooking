@@ -5,7 +5,7 @@ Feature: Registered users should be able to book a court
   
   Background:
     Given there are 4 courts
-    Given a standard user exists with id: 999 and username: "joebloggs" and password: "password"
+    Given an admin user exists with id: 999 and username: "joebloggs" and password: "password"
     And the courts are available from "06:20" to "22:00" with a 40 minute time slot
     And the courts can be booked up to 3 weeks in advance
     And the peak hours are "17:40" and "19:40"
@@ -16,7 +16,6 @@ Feature: Registered users should be able to book a court
     Given I login as "joebloggs" with password "password"
     When I go to the new booking page
     Then I should see "joebloggs"
-    And there should be a hidden field within booking called "user_id" with value "999"
     And I fill in "Court Number" with "1"
     And I fill in "Playing at" with "03 September 2013 19:00"
     And I should not be able to select "joebloggs" from "booking_opponent_user_id"
@@ -75,8 +74,9 @@ Feature: Registered users should be able to book a court
     And I click the "Delete booking" link
     Then I should see "Booking successfully deleted"
     
-  Scenario: viewing a booking for another user
-    Given I login as "joebloggs" with password "password"
+  Scenario: viewing a booking for another user as a standard user
+    Given a standard user exists with id: 222 and username: "standard user" and password: "password" and email: "standarduser@example.com"
+    When I login as "standard user" with password "password"
     When I view the booking with user_id: 111 and court_number: 1 and playing_at: "02 September 2013 19:00"
     Then I should not see "Delete booking"
     
