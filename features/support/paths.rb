@@ -7,12 +7,6 @@ module NavigationHelpers
     when /the courts\/(.*) page/
       page_name =~ /the courts\/(.*) page/
       courts_path($1)
-    when /the bookings\/(.*)\/edit page/
-      page_name =~ /the bookings\/(.*)\/edit page/
-      edit_booking_path($1)
-    when /the bookings\/(.*) page/
-      page_name =~ /the bookings\/(.*) page/
-      booking_path($1)
     else
       begin
         page_name =~ /the (.*) page/

@@ -52,6 +52,7 @@ Spork.prefork do
 
     config.include FactoryGirl::Syntax::Methods
     config.include ManageSettings
+    config.include BookingsHelpers
   end
   
 

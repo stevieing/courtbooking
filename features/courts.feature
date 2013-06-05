@@ -1,93 +1,67 @@
+@courts
 Feature: Users should be able to browse the status of courts
   In order to book courts
   Any user
-  Should be able to browse the current status of each court
+  Should be able to browse the courts and view bookings
   
   Background:
     Given there are 4 courts
     And the courts are available from "06:20" to "22:00" with a 40 minute time slot
     And the courts can be booked up to 3 weeks in advance
-    And the peak hours are "17:40" and "20:20"
-    And no more than 3 courts can be booked during peak times
-    And todays date is "01 September 2013"
-    And todays date and time is "01 September 2013 09:00"
+    And 3 bookings can be made during peak hours between "17:40" and "20:20"
+    And todays date is "01 September 2013" and the time is "09:00"
   
   Scenario: Browsing the courts for today
     When I go to the courts page
     Then I should see a column for each court
-    And I should see "01 September 2013"
+    And I should see todays date
     
   Scenario: Browsing the courts for a time slot
     When I go to the courts page
-    And I click the "02" link on the calendar
+    And I view the courts for tomorrow
     Then I should see a row for each time slot
-    And I should see a link to book each time slot for each court for "02 September 2013"
+    And I should be able to book each time slot for each court for today
     
-  Scenario: Browsing the courts for the days I can book a court
+  Scenario: Browsing the calendar
     When I go to the courts page
-    Then I should see a box for date "01"
-    And I should not see a link to "01" on the calendar
-    And I should see a box for each day for the next 20 days
-    And I should not see a link which is 22 days after today
-    And I should not see a link which is 2 days before today
-    And I should see a header with "September 2013"
+    Then I should see a box for each day until a set day in the future
+    And I should be able to select each day apart from today
+    But I should not be able to view the courts beyond that date
+    And I should not be able to view the courts before today
     
   Scenario: Browsing the courts for a time slot 5 days from today
     When I go to the courts page
-    Then I should see a box for date "06"
-    And I click the "06" link on the calendar
-    And I should be redirected to the courts page with date "06 September 2013"
-    And I should see "06 September 2013"
-    And I should see "06"
-    And I should not see a link to "06" on the calendar
+    And I view the courts for 5 days from today
+    Then I should be redirected to the courts page for that day
+    And I should see the correct date
     
   Scenario: Browsing the courts when the dates are spread over 2 months
-    Given todays date is "20 September 2013"
-    When I go to the courts page with date "31 September 2013"
-    Then I should see a header with "September -> October 2013"
-    
-  Scenario: Browsing the courts for existing bookings
-    Given a standard user exists with id: 999 and username: "joebloggs" and password: "password"
-    And a standard user exists with id: 111 and username: "worthy opponent" and email: "worthyopponent@example.com"
-    And a standard user exists with id: 222 and username: "Nicol David" and email: "nicodavid@example.com"
-    And there is a booking with user_id: 999 and court_number: 1 and playing_at: "01 September 2013 12:00"
-    And there is a booking with user_id: 999 and opponent_user_id: 111 and court_number: 2 and playing_at: "01 September 2013 19:00"
-    And there is a booking with user_id: 222 and court_number: 4 and playing_at: "01 September 2013 19:40"
-    And there is a booking with user_id: 222 and opponent_user_id: 111 and court_number: 3 and playing_at: "01 September 2013 19:00"
-    Given I login as "joebloggs" with password "password"
     When I go to the courts page
-    Then I should see a link to "joebloggs" within the bookings
-    And I should see a link to "joebloggs V worthy opponent" within the bookings
-    And I should see "Nicol David" within the bookings
-    And I should not see a link to "Nicol David" within the bookings
-    And I should see "Nicol David V worthy opponent" within the bookings
-    And I should not see a link to "Nicol David V worthy opponent" within the bookings
+    And todays date is near the end of the month
+    And I go to the courts page for that date
+    Then the calendar should have an appropriate heading
+    
+  @opponent, @other_member  
+  Scenario: Browsing the courts for existing bookings
+    Given I am signed in
+    When there are a number of valid bookings for myself and another member for the next day
+    And I go to the courts page
+    And I view the courts for tomorrow
+    Then I should be able to edit my bookings
+    But I should not be able to edit the bookings for another member
     
   Scenario: Bookings in the past
-    Given a standard user exists with id: 999 and username: "joebloggs" and password: "password"
-    And a standard user exists with id: 111 and username: "worthy opponent" and email: "worthyopponent@example.com"
-    And a standard user exists with id: 222 and username: "Nicol David" and email: "nicodavid@example.com"
-    And there is a booking with user_id: 999 and opponent_user_id: 111 and court_number: 1 and playing_at: "02 September 2013 19:00"
-    And there is a booking with user_id: 999 and opponent_user_id: 222 and court_number: 2 and playing_at: "02 September 2013 20:20"
-    And todays date and time is "02 September 2013 19:40"
-    Given I login as "joebloggs" with password "password"
-    When I go to the courts page
-    And I click the "02" link on the calendar
-    Then I should not see a link to "joebloggs V worthy opponent" within the bookings
-    And I should see a link to "joebloggs V Nicol David" within the bookings
-    And I should not see a link to "1 - 02 September 2013 12:20"
+    Given I am signed in
+    When there are two bookings one after the other for tomorrow
+    And it is tomorrow after the first booking has started
+    And I go to the courts page
+    Then I should not be able to edit the first booking
+    But I should be able to edit the second booking
     
   Scenario: Making a new booking
-    Given a standard user exists with id: 999 and username: "joebloggs" and password: "password"
-    Given I login as "joebloggs" with password "password"
+    Given I am signed in
     When I go to the courts page
-    And I click the "1 - 01 September 2013 19:00" link
-    Then I should see "New Booking"
-    And I should see "Court: 1 01 September 2013 7.00pm"
-    And there should be a hidden field within booking called "time_and_place" with value "01 September 2013 19:00,1"
-    When I click the "Submit Booking" button
-    Then I should see "Booking successfully created"
-    
-   
-    
-    
+    And I follow a link to create a new booking
+    Then I should see valid booking details
+    And I submit the booking
+    Then I should see a message that the booking has been made

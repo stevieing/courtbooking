@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :court do
-    number 1
+    sequence(:number, 1) {|n| n}
   end
 end

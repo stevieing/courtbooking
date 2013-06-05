@@ -13,13 +13,10 @@ describe User do
   it {should have_db_column(:admin).of_type(:boolean).with_options(default: false)}
   
   context "without_user" do
-    
-    let!(:user1) { create(:user) }
-    let!(:user2) { create(:user, email: "user2@example.com") }
-    let!(:user3) { create(:user, email: "user3@example.com") }
-    subject { User.without_user(user1) }
+    let!(:users) {create_list(:user, 3)}
+    subject { User.without_user(users.first) }
 
-    it {should_not include(user1)}
+    it {should_not include(users.first)}
     it {should have(2).items}
 
   end

@@ -8,33 +8,29 @@ module CalendarHelper
     delegate :content_tag, to: :view
     
     def section
-      @dates = dates
+      dates = start_date.to(21)
       content_tag :section, id: "calendar" do
         content_tag :table do
-          header + days_header + week_rows
+          header(dates.first.calendar_header(dates.last)) + days_header + week_rows(dates.in_groups_of(7))
         end
       end
     end
 
-    def header
+    def header(text)
       content_tag :caption do
-        if @dates.first.month == @dates.last.month
-           @dates.first.strftime('%B %Y')
-         else
-           "#{@dates.first.strftime('%B')} -> #{@dates.last.strftime('%B %Y')}".html_safe
-         end
+        text.html_safe
       end
     end
     
     def days_header
       content_tag :tr do
-        days_of_week.map do |day|
-          content_tag :th, day.strftime('%a')
+        start_date.days_of_week(6).map do |day|
+          content_tag :th, day
         end.join.html_safe
       end
     end
     
-    def week_rows
+    def week_rows(weeks)
       weeks.map do |week|
         content_tag :tr do
           week.map { |day| day_cell(day) }.join.html_safe
@@ -45,18 +41,6 @@ module CalendarHelper
     def day_cell(day)
       content_tag :td, view.capture(day, day.strftime('%d').html_safe, &callback), class: (day == current_date ? "selected" : "")
     end
-    
-    def dates
-      (start_date..start_date+(days-1)).collect.to_a
-    end
-    
-    def weeks
-      @dates.in_groups_of(7)
-    end
-    
-    def days_of_week
-      (start_date..start_date+(6)).collect.to_a
-    end
- 
+
   end
 end

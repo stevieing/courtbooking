@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Permissions::MemberPermission, :focus => true do
+describe Permissions::MemberPermission do
   
   let(:user) { create(:user, admin: false) }
   let(:user_booking) { build(:booking, user_id: user.id) }

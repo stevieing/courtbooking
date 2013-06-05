@@ -1,26 +1,26 @@
-Feature: Users cannot access certain areas of the system without logging in
-  In order to protect the system from unauthorized access
+@authentication
+Feature: authentication
+  In order to protect the system from unauthorised access
   An anonymous user
-  Should not have access to the system
+  Should not have access to restricted areas of the system
   
   Background:
     Given the courts are setup
   
-  Scenario: Sign-in successfully
-    Given a user exists with username: "joebloggs" and password: "password"
-    When I go to the sign_in page
-    And I login as "joebloggs" with password "password"
-    Then I should see a link to "SIGN OUT"
-    And I should see "Signed in as: joebloggs"
+  Scenario: sign in successfully
+    Given I go to the sign in page
+    When I sign in with the correct credentials
+    Then I should be able to sign out
+    And I should see my username
     
-  Scenario Outline: Sign-in unsuccessfully
-    Given a user exists with username: "joebloggs" and password: "password"
-    When I go to the sign_in page
+  Scenario Outline: sign in unsuccessfully
+    Given a user exists with username: "joebloggs", password: "password"
+    When I go to the sign in page
     And I fill in "Username" with "<username>"
     And I fill in "Password" with "<password>"
-    And I click the "sign in" button
-    Then I should see "Incorrect username or password"
-    And I should not see a link to "SIGN OUT"
+    And I press the sign in button
+    Then I should see an error message explaining that my username or password are wrong
+    And I should not be able to sign out
     
     Examples:
       | username  | password    |
@@ -30,27 +30,26 @@ Feature: Users cannot access certain areas of the system without logging in
       |bad user   |password     |
       |joebloggs  |bad password |
       
-  Scenario: Visiting the sign_in page
-    Given a guest user
-    When I go to the sign_in page
-    Then I should be on the sign_in page
+  Scenario: Visiting the sign in page
+    Given I am not signed in
+    When I go to the sign in page
+    Then I should be on the sign in page
 
-  Scenario Outline: Redirecting to sign_in page
-    Given a guest user
+  Scenario Outline: Redirecting to sign in page
+    Given I am not signed in
     When I go to the <path> page
-    Then I should be redirected to the sign_in page
+    Then I should be redirected to the sign in page
     
     Examples:
       | path      |
       | bookings  |
     
-  Scenario: Sign-out successfully
-    Given a user exists with username: "joebloggs" and password: "password"
-    And I login as "joebloggs" with password "password"
-    When I click the "SIGN OUT" link
+  Scenario: Sign out successfully
+    Given I am signed in
+    When I sign out
     Then I should be redirected to the home page
-    And I should see "Signed out successfully"
-    And I should see a link to "SIGN IN"
+    And I should see a signed out message
+    And I should be able to sign in
     
   Scenario: Forgotten password
     Given PENDING

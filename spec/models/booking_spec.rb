@@ -6,6 +6,10 @@ describe Booking do
     create_settings :days_bookings_can_be_made_in_advance, :max_peak_hours_bookings, :peak_hours_start_time, :peak_hours_finish_time 
   end
   
+  after(:all) do
+    Setting.delete_all
+  end
+  
   before(:each) do
     DateTime.stub(:now).and_return(DateTime.parse("16 Sep 2013 17:00"))
   end
@@ -27,23 +31,11 @@ describe Booking do
   
   describe "during peak hours" do
     
-    before(:each) do
-      create(:booking, court_number: 1, playing_at: "17 Sep 2013 19:00")
-      create(:booking, court_number: 2, playing_at: "18 Sep 2013 17:40")
-      create(:booking, court_number: 3, playing_at: "19 Sep 2013 19:00")
-    end
-
-    it "exceeds maximum number of bookings for a week" do
-      build(:booking, court_number: 4, playing_at: "17 Sep 2013 19:00").should_not be_valid
-    end
-     
-     it "extra booking created in a new week" do
-       build(:booking, court_number: 3, playing_at: "24 Sep 2013 19:00").should be_valid
-     end
-     
-     it "extra booking created outside peak hours" do
-       build(:booking, court_number: 3, playing_at: "18 Sep 2013 12:00").should be_valid
-     end
+    let!(:booking) { create_peak_hours_bookings(create_list(:court, 4), create(:user), DateTime.now.to_date+7, Rails.configuration.peak_hours_start_time, create(:time_slot).slot_time, Rails.configuration.max_peak_hours_bookings) }
+    
+    it { booking.should_not be_valid }
+    it { build(:booking, court_number: 3, playing_at: "24 Sep 2013 19:00").should be_valid }
+    it { build(:booking, court_number: 3, playing_at: "18 Sep 2013 12:00").should be_valid }
      
    end
    
@@ -104,21 +96,19 @@ describe Booking do
     
     describe "players" do
       
-      let!(:player1) {create(:user, username: "player 1")}
-      let!(:player2) {create(:user, username: "player 2", email: "player2@example.com")}
-      let!(:player3) {create(:user, username: "player 3", email: "player3@example.com")}
-      let(:booking1) {build(:booking, user_id: player1.id)}
-      let(:booking2) {build(:booking, user_id: player1.id, opponent_user_id: player2.id, court_number: 2)}
-      let(:booking3) {build(:booking, user_id: player1.id, opponent_user_id: player3.id, court_number: 3)}
+      let!(:players) {create_list(:user, 3)}
+      let(:booking1) {build(:booking, user_id: players[0].id)}
+      let(:booking2) {build(:booking, user_id: players[0].id, opponent_user_id: players[1].id, court_number: 2)}
+      let(:booking3) {build(:booking, user_id: players[0].id, opponent_user_id: players[2].id, court_number: 3)}
       
       
       it "one player" do
-        booking1.players.should == "player 1"
+        booking1.players.should == players[0].username
       end
       
       it "two players" do
-        booking2.players.should == "player 1 V player 2"
-        booking3.players.should == "player 1 V player 3"
+        booking2.players.should == "#{players[0].username} V #{players[1].username}"
+        booking3.players.should == "#{players[0].username} V #{players[2].username}"
       end
       
       

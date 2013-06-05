@@ -5,6 +5,6 @@
 		<li>Playing at: <%= @booking.playing_at_text %></li>
 	</ul>
 	<% if allow? :bookings, :destroy, @booking %>
-    	<div><%= link_to "Delete booking", booking_path(@booking), method: :delete %></div>
+    	<div><%= link_to "Delete Booking", booking_path(@booking), method: :delete %></div>
   	<% end %>
 </section>

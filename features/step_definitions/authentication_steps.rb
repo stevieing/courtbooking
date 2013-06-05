@@ -1,26 +1,41 @@
-Given /^an? (\w+) user exists with (.*?)$/ do |user_type, attributes|
-  factory_attributes = create_attributes(attributes)
-  factory_attributes["admin"] = true if user_type == "admin"
-  user = create(:user, factory_attributes)
+Given /^I am not signed in$/ do
 end
 
-Given /^a user exists with (.*?)$/ do |attributes|
-  step "a standard user exists with #{attributes}"
+When /^I sign in with the correct credentials$/ do
+  fill_in "Username", with: current_user.username
+  fill_in "Password", with: current_user.password
+  click_button "sign in"
 end
 
-Given /^a guest user$/ do
+Given /^I am signed in$/ do
+  sign_in current_user
 end
 
-When /^I login as "(.*?)" with password "(.*?)"$/ do |username, password|
-  step %Q{I go to the sign_in page}
-  step %Q{I fill in "Username" with "#{username}"}
-  step %Q{I fill in "Password" with "#{password}"}
-  step %Q{I click the "sign in" button}
+Then /^I should( not)? be able to sign (in|out|up)$/ do |negate, in_or_out|
+  text = "SIGN #{in_or_out.upcase}"
+  negate ? page.should_not(have_link(text)) : page.should(have_link(text))
+end
+
+Then /^I should see my username$/ do
+  page.should have_content "Signed in as: #{current_user.username}"
+end
+
+When /^I press the sign in button$/ do
+  click_button "sign in"
+end
+
+Then /^I should see an error message explaining that my username or password are wrong$/ do
+  page.should have_content "Incorrect username or password"
 end
 
 Given /^the courts are setup$/ do
-  step %Q{there are 4 courts}
-  step %Q{the courts are available from "06:40" to "22:00" with a 40 minute time slot}
-  step %Q{the courts can be booked up to 3 weeks in advance}
-  step %Q{todays date is "01 September 2013"}
+  setup_courts
+end
+
+When /^I sign out$/ do
+  click_link "SIGN OUT"
+end
+
+Then /^I should see a signed out message$/ do
+  page.should have_content "Signed out successfully"
 end

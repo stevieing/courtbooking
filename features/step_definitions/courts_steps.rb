@@ -1,131 +1,139 @@
-Given /^there are (\d+) courts$/ do |n|
-  1.upto(n.to_i) do |i|
-    create(:court, number: i)
-  end
+Before('@other_member') do
+  other_member
+end
+
+Given /^there are (\d+) courts$/ do |number|
+  create_courts number.to_i
 end
 
 Then /^I should see a column for each court$/ do
   within_the_bookingslots_container do
-    Court.all.each do |court|
-      step %Q{I should see "Court #{court.number.to_s}"}
-    end
+    courts.each { |court| page.should have_content("Court #{court.number}") }
   end
+end
+
+Then /^I should see todays date$/ do
+  page.should have_content(current_date.to_s(:uk))
 end
 
 Given /^the courts are available from "(.*?)" to "(.*?)" with a (\d+) minute time slot$/ do |start_time, finish_time, slot_time|
-  @timeslots = create(:time_slot, start_time: start_time, finish_time: finish_time, slot_time: slot_time)
+  create_time_slots({start_time: start_time, finish_time: finish_time, slot_time: slot_time})
 end
 
 Given /^the courts can be booked up to (\d+) (days|weeks) in advance$/ do |arg1,arg2|
-  create_setting "days_bookings_can_be_made_in_advance", days_or_weeks(arg1, arg2).to_s, description: "Number of days that courts can be booked in advance"
+  create_setting "days_bookings_can_be_made_in_advance", {value: days_or_weeks(arg1, arg2).to_s}
 end
 
 Then /^I should see a row for each time slot$/ do
-  @timeslots.slots.each do |slot|
-    step %Q{I should see "#{slot.to_s(:hrs_and_mins)}"}
+  within_the_bookingslots_container do
+    time_slots.slots.each do |slot|
+      page.should have_content("#{slot.to_s(:hrs_and_mins)}")
+    end
   end
 end
 
-Then /^I should see a time slot for each court$/ do
+When /^I view the courts for tomorrow$/ do
+  click_link day_of_month(create_current_date(current_date + 1))
+end
+
+When /^I view the courts for (\d+) days from today$/ do |arg1|
+  click_link day_of_month(create_current_date(current_date + arg1.to_i))
+end
+
+Then /^I should be able to book each time slot for each court for today$/ do
   within_the_bookingslots_container do
-    Court.all.each do |court|
-      @timeslots.slots.each do |slot|
-        step %Q{I should see "#{court.number.to_s} - #{slot.to_s(:hrs_and_mins)}"}
+    courts.each do |court|
+      time_slots.slots.each do |slot|
+        page.should have_link("#{court.number.to_s} - #{current_date.to_s(:uk)} #{slot.to_s(:hrs_and_mins)}")
       end
     end
   end
 end
 
-Then /^I should see a link to book each time slot for each court for "(.*?)"$/ do |date| 
-  within_the_bookingslots_container do
-    Court.all.each do |court|
-      @timeslots.slots.each do |slot|
-        step %Q{I should see a link to "#{court.number.to_s} - #{date} #{slot.to_s(:hrs_and_mins)}"}
-      end
+Then /^I should see a box for each day until a set day in the future$/ do
+  within_the_calendar_container do
+    days_in_calendar(current_date, days_bookings_can_be_made_in_advance).each do |date|
+      page.should have_content(day_of_month(date))
     end
   end
 end
 
-Then /^I should see a box for date "(.*?)"$/ do |arg1|
+Then /^I should be able to select each day apart from today$/ do
   within_the_calendar_container do
-    step %Q{I should see the day of month for date #{arg1}}
-    step %Q{I should see the day of week for date #{arg1}}
-  end
-end
-
-Then /^I should see a box for each day for the next (\d+) (days|weeks)$/ do |arg1, arg2|
-  within_the_calendar_container do
-    (Date.today+1).upto((Date.today+1) + (days_or_weeks(arg1,arg2)-1)) do |date|
-      step %Q{I should see the day of month for date #{date}}
-      step %Q{I should see the day of week for date #{date}}
-      step %Q{I should see a link to "#{date.strftime('%d')}"}
+    days_in_calendar(current_date, days_bookings_can_be_made_in_advance).each do |date|
+      date == current_date ? (page.should_not have_link(day_of_month(date))) : (page.should have_link(day_of_month(date)))
     end
   end
 end
 
-Then /^I should see the day of month for (date .*?)$/ do |date|
-  step %Q{I should see "#{date.strftime('%d')}"}
-end
-
-Then /^I should see the day of week for (date .*?)$/ do |date|
-  step %Q{I should see "#{date.strftime('%a')}"}
-end
-
-Then /^I should see a header with "(.*?)"$/ do |header|
+Then /^I should not be able to view the courts beyond that date$/ do
   within_the_calendar_container do
-    step %Q{I should see "#{header}"}
+    page.should_not have_link(day_of_month(current_date + days_bookings_can_be_made_in_advance + 2))
   end
 end
 
-Then /^I should (not)? see a link which is (\d+) days (before|after) today$/ do |negate, days, pre_or_post|
+Then /^I should not be able to view the courts before today$/ do
   within_the_calendar_container do
-    date = (pre_or_post == "after" ? Date.today + days.to_i : Date.today - days.to_i)
-    if negate
-      step %Q{I should not see a link to "#{date.strftime('%d')}"}
-    else
-      step %Q{I should see a link to "#{date.strftime('%d')}"}
-    end
+    page.should_not have_link(day_of_month(current_date - 1))
   end
 end
 
-Then /^I should be redirected to the courts page with (date ".*?")$/ do |date|
-  step %Q{I should be redirected to the courts/#{date.strftime('%F')} page}
-end
-
-Then /^I should not see a link to "(.*?)" on the calendar$/ do |arg1|
+Then /^the calendar should have an appropriate heading$/ do
   within_the_calendar_container do
-    step %Q{I should not see a link to "#{arg1}"}
+    page.should have_content(current_date.calendar_header(current_date + days_bookings_can_be_made_in_advance))
   end
 end
 
-Then /^I click the "(.*?)" link on the calendar$/ do |arg1|
-  within_the_calendar_container do
-    step %Q{I click the "#{arg1}" link}
-  end
+Then /^I should see the correct date$/ do
+  page.should have_content(current_date.to_s(:uk))
 end
 
-Then /^I should see "(.*?)" within the bookings$/ do |arg1|
+
+Then /^I should be redirected to the courts page for that day$/ do
+  current_path.should == courts_path(current_date)
+end
+
+Given /^todays date is near the end of the month$/ do
+  date = Date.today.end_of_month
+  Date.stub(:today).and_return(date)
+end
+
+Given /^there are a number of valid bookings for myself and another member for the next day$/ do
+  create_valid_bookings([current_user, other_member], opponent, courts, current_date+1, time_slots.slots)
+end
+
+Then /^I should be able to edit my bookings$/ do
   within_the_bookingslots_container do
-    step %Q{I should see "#{arg1}"}
+    edit_my_bookings? current_user
   end
 end
 
-Then /^I should see a link to "(.*?)" within the bookings$/ do |link|
+Then /^I should not be able to edit the bookings for another member$/ do
   within_the_bookingslots_container do
-    step %Q{I should see a link to "#{link}"}
+    edit_others_bookings? other_member
   end
 end
 
-Then /^I should not see a link to "(.*?)" within the bookings$/ do |link|
-  within_the_bookingslots_container do
-    step %Q{I should not see a link to "#{link}"}
-  end
+When /^there are two bookings one after the other for tomorrow$/ do
+  create_current_bookings(create_subsequent_bookings(current_user, current_date, time_slots.slots))
 end
 
-def within_the_bookingslots_container(&block)
-  within('#bookingslots', &block)
+When /^it is tomorrow after the first booking has started$/ do
+  set_system_date_and_datetime(current_bookings.first.playing_at.to_date, current_bookings.first.playing_at_text)
 end
 
-def within_the_calendar_container(&block)
-  within('#calendar', &block)
+Then /^I should not be able to edit the first booking$/ do
+  page.should have_content(current_bookings.first.players)
+end
+
+Then /^I should be able to edit the second booking$/ do
+  page.should have_link(current_bookings.last.players)
+end
+
+When /^I follow a link to create a new booking$/ do
+  click_link valid_booking_link
+end
+
+Then /^I should see valid booking details$/ do
+  page.should have_content valid_time_and_place_text
 end
