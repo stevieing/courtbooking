@@ -5,11 +5,8 @@ Feature: Users should be able to browse the status of courts
   Should be able to browse the courts and view bookings
   
   Background:
-    Given there are 4 courts
-    And the courts are available from "06:20" to "22:00" with a 40 minute time slot
-    And the courts can be booked up to 3 weeks in advance
-    And 3 bookings can be made during peak hours between "17:40" and "20:20"
-    And todays date is "01 September 2013" and the time is "09:00"
+    Given the courts are setup and the peak hours settings are in place
+    And todays date is "01 September 2013" and the time is "17:00"
   
   Scenario: Browsing the courts for today
     When I go to the courts page

@@ -16,14 +16,6 @@ Then /^I should see todays date$/ do
   page.should have_content(current_date.to_s(:uk))
 end
 
-Given /^the courts are available from "(.*?)" to "(.*?)" with a (\d+) minute time slot$/ do |start_time, finish_time, slot_time|
-  create_time_slots({start_time: start_time, finish_time: finish_time, slot_time: slot_time})
-end
-
-Given /^the courts can be booked up to (\d+) (days|weeks) in advance$/ do |arg1,arg2|
-  create_setting "days_bookings_can_be_made_in_advance", {value: days_or_weeks(arg1, arg2).to_s}
-end
-
 Then /^I should see a row for each time slot$/ do
   within_the_bookingslots_container do
     time_slots.slots.each do |slot|

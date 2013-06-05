@@ -54,11 +54,11 @@ module CourtHelpers
   
   #TODO: these methods prove that the code needs to be refactored.
   def valid_booking_link
-    courts.first.number.to_s + " - " + current_date.to_s(:uk) + " " + peak_hours_start_time.to_s(:hrs_and_mins)
+    courts.first.number.to_s + " - " + current_date.to_s(:uk) + " " + peak_hours_finish_time.to_s(:hrs_and_mins)
   end
   
   def valid_time_and_place_text
-    "Court: " + courts.first.number.to_s + " " + DateTime.parse(current_date.to_s(:uk) + " " + peak_hours_start_time.to_s(:hrs_and_mins)).to_s(:booking_meridian)
+    "Court: " + courts.first.number.to_s + " " + DateTime.parse(current_date.to_s(:uk) + " " + peak_hours_finish_time.to_s(:hrs_and_mins)).to_s(:booking_meridian)
   end
 end
 
