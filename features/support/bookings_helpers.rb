@@ -6,11 +6,11 @@ module BookingsHelpers
     end
   end
   
-  def set_date(mod, time="19:00")
-    "#{(Date.today+mod).to_s(:uk)} #{time}"
+  def set_date(mod)
+    "#{(Date.today+mod).to_s(:uk)}"
   end
   
-  def valid_playing_at
+  def valid_playing_on
     set_date(1)
   end
   
@@ -20,6 +20,18 @@ module BookingsHelpers
   
   def date_in_the_future(days)
     set_date(days)
+  end
+  
+  def valid_playing_from
+    set_playing_from(20)
+  end
+  
+  def set_playing_from(i)
+    time_slots.slots[i]
+  end
+  
+  def valid_playing_to
+    time_slots.slots[21]
   end
   
   def days_bookings_can_be_made_in_advance
@@ -58,13 +70,13 @@ module BookingsHelpers
     create(:booking, attributes)
   end
   
-  def create_valid_booking(current_user, court_number = courts.first.number, playing_at = valid_playing_at)
-    create_booking({user_id: current_user.id, court_number: court_number, playing_at: playing_at})
+  def create_valid_booking(current_user, court_number = courts.first.number, playing_on = valid_playing_on, playing_from = valid_playing_from)
+    create_booking({user_id: current_user.id, court_number: court_number, playing_on: playing_on, playing_from: playing_from})
   end
   
   def create_subsequent_bookings(current_user, date, slots, no_of_bookings = 2, court_number = courts.first.number)
     1.upto(no_of_bookings).each do |i|
-      create_booking({user_id: current_user.id, court_number: court_number, playing_at: "#{(date+1).to_s(:uk)} #{slots[i-1]}"})
+      create_booking({user_id: current_user.id, court_number: court_number, playing_on: (date+1).to_s(:uk), playing_from: slots[i-1]})
     end
     Booking.all
   end

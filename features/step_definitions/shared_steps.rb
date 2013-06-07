@@ -18,10 +18,6 @@ When /^I fill in "(.*?)" with "(.*?)"$/ do |arg1, arg2|
   fill_in arg1, with: arg2
 end
 
-When /^I click the "(.*?)" button$/ do |button|
-  click_button button
-end
-
 Then /^I should be on (.+)$/ do |page_name|
   current_path.should == path_to(page_name)
 end
@@ -30,18 +26,6 @@ Then /^I should be redirected to the (.*) page$/ do |page_name|
   step %{I should be on the #{page_name} page}
 end
 
-When /^I click the "(.*?)" link$/ do |link|
-  click_link link
-end
-
-Then /^there should be a hidden field within (\w+) called "(.*?)" with value "(.*?)"$/ do |model, field, value|
-  find(:xpath, "//input[@id='" + model + "_" + field + "']").value.should eql(value)
-end
-
 Given /^todays date is "(.*?)" and the time is "(.*?)"$/ do |date, time|
   set_system_date_and_datetime(date, date + " " + time)
-  #Date.stub(:today).and_return(Date.parse(date))
-  #DateTime.stub(:now).and_return(DateTime.parse(date + " " + time))
 end
-
-

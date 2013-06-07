@@ -19,7 +19,7 @@ end
 Then /^I should see a row for each time slot$/ do
   within_the_bookingslots_container do
     time_slots.slots.each do |slot|
-      page.should have_content("#{slot.to_s(:hrs_and_mins)}")
+      page.should have_content(slot)
     end
   end
 end
@@ -36,7 +36,7 @@ Then /^I should be able to book each time slot for each court for today$/ do
   within_the_bookingslots_container do
     courts.each do |court|
       time_slots.slots.each do |slot|
-        page.should have_link("#{court.number.to_s} - #{current_date.to_s(:uk)} #{slot.to_s(:hrs_and_mins)}")
+        page.should have_link("#{court.number.to_s} - #{current_date.to_s(:uk)} #{slot}")
       end
     end
   end
@@ -111,7 +111,7 @@ When /^there are two bookings one after the other for tomorrow$/ do
 end
 
 When /^it is tomorrow after the first booking has started$/ do
-  set_system_date_and_datetime(current_bookings.first.playing_at.to_date, current_bookings.first.playing_at_text)
+  set_system_date_and_datetime(current_bookings.first.playing_on, current_bookings.first.playing_on_text + " " + current_bookings.first.playing_from)
 end
 
 Then /^I should not be able to edit the first booking$/ do

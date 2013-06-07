@@ -31,12 +31,13 @@ module BookingSlotsHelper
     end
     
     def time_slot_cell(slot)
-      content_tag :td, slot.to_s(:hrs_and_mins).html_safe
+      content_tag :td, slot.html_safe
     end
 
     def courts_cells(slot)
       courts.map do |court| 
-        content_tag :td, view.capture(court.number, current_date.to_s(:uk) + " " + slot.to_s(:hrs_and_mins), &callback)
+        #content_tag :td, view.capture(court.number, current_date.to_s(:uk), slot, next_slot(slot), &callback)
+        content_tag :td, view.capture(new_booking(court.number,slot), &callback)
       end.join.html_safe
     end
     
@@ -46,6 +47,14 @@ module BookingSlotsHelper
     
     def courts_header
       courts.map { |court| content_tag :th, "Court " + court.number.to_s }.join.html_safe
+    end
+    
+    def next_slot(slot)
+      (DateTime.parse(slot)+timeslots.slot_time.minutes).to_s(:hrs_and_mins)
+    end
+    
+    def new_booking(court_number, slot)
+      Booking.new(court_number: court_number, playing_on: current_date.to_s(:uk), playing_from: slot, playing_to: next_slot(slot))
     end
     
   end

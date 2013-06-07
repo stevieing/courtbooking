@@ -95,7 +95,7 @@ describe "BookingsHelpers" do
   describe "PeakHours" do
     
     before(:each) do
-       DateTime.stub(:now).and_return(DateTime.parse("16 Sep 2013 17:00"))
+       Date.stub(:today).and_return(Date.parse("16 September 2013"))
      end
 
     let!(:courts) {create_list(:court, 4)}
@@ -114,7 +114,8 @@ describe "BookingsHelpers" do
   describe "CreateValidBookings" do
     
     before(:each) do
-      DateTime.stub(:now).and_return(DateTime.parse("16 Sep 2013 17:00"))
+      Date.stub(:today).and_return(Date.parse("16 September 2013"))
+      DateTime.stub(:now).and_return(DateTime.parse("16 September 2013 19:00"))
     end
     
     let!(:users) {create_list(:user, 3)}

@@ -58,7 +58,7 @@ module CourtHelpers
   end
   
   def valid_time_and_place_text
-    "Court: " + courts.first.number.to_s + " " + DateTime.parse(current_date.to_s(:uk) + " " + peak_hours_finish_time.to_s(:hrs_and_mins)).to_s(:booking_meridian)
+    "Court: " + courts.first.number.to_s + " " + current_date.to_s(:uk) + " at " + peak_hours_finish_time.to_s(:meridian) + " to " + (peak_hours_finish_time+40.minutes).to_s(:meridian)
   end
 end
 

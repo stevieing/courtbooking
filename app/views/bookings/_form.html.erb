@@ -13,22 +13,32 @@
 			<% if allow_param? :booking, :time_and_place %>
 				<li>
 					<%= f.label :time_and_place, "Court: #{@booking.court_number}" %>
-					<% unless @booking.playing_at.nil? %>
-						<span><%= @booking.playing_at.to_s(:booking_meridian) %></span>
-					<% end %>
+					<span><%= @booking.time_and_place_text %></span>
 				</li>
 				<%= f.hidden_field :time_and_place, :value => @booking.time_and_place %>
 			<% end %>
 			<% if allow_param? :booking, :court_number %>
 				<li>
-					<%= f.label :court_number, "Court Number" %>
+					<%= f.label :court_number, "Court number" %>
 					<%= f.text_field :court_number %>
 				</li>
 			<% end %>
-			<% if allow_param? :booking, :playing_at_text %>
+			<% if allow_param? :booking, :playing_on_text %>
 				<li>
-					<%= f.label :playing_at_text, "Playing at" %>
-					<%= f.text_field :playing_at_text %>
+					<%= f.label :playing_on_text, "Playing on" %>
+					<%= f.text_field :playing_on_text %>
+				</li>
+			<% end %>
+			<% if allow_param? :booking, :playing_from %>
+				<li>
+					<%= f.label :playing_from, "Playing from" %>
+					<%= f.text_field :playing_from %>
+				</li>
+			<% end %>
+				<% if allow_param? :booking, :playing_to %>
+				<li>
+					<%= f.label :playing_to, "Playing to" %>
+					<%= f.text_field :playing_to %>
 				</li>
 			<% end %>
 			<li>

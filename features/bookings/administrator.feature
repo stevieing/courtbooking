@@ -25,12 +25,20 @@ Feature: Administrative users should be able to book a court
     And I submit the booking
     Then I should see a message that the booking has been made
     
-  Scenario: Making a new booking in the past
+  Scenario: Making a new booking on a day in the past
     Given I go to the new booking page
     When I fill in valid booking details
     But I try to book a date in the past
     And I submit the booking
     Then I should see a message telling me the booking must be in the future
+    
+  Scenario: Making a booking at a time in the past
+    Given I go to the new booking page
+    When I fill in valid booking details
+    And I fill in playing on with todays date
+    But I fill in playing from with a time in the past
+    And I submit the booking
+    Then I should see a message telling me that playing from is in the past
     
   Scenario: making a new booking too far into the future
     When I go to the new booking page
@@ -78,16 +86,37 @@ Feature: Administrative users should be able to book a court
     And I submit the booking
     Then I should see a message telling me the booking has been updated
   
-  Scenario: editing playing at of existing booking
+  Scenario Outline: editing fields of an existing booking which cannot be changed
     Given I have created a booking
     When I edit the booking I have created
-    But I change playing at
+    But I change <field_name>
     And I submit the booking
-    Then I should see a message telling me Playing at cannot be changed
+    Then I should see a message telling me <field_name> cannot be changed
     
-  Scenario: editing court number of existing booking
-    Given I have created a booking
-    When I edit the booking I have created
-    But I change the court number
-    And I submit the booking
-    Then I should see a message telling me Court number cannot be changed
+    Examples:
+      | field_name    |
+      | Playing on    |
+      | Court number  |
+      | Playing from  |
+      | Playing to    |
+    
+  # Scenario: editing court number of existing booking
+  #     Given I have created a booking
+  #     When I edit the booking I have created
+  #     But I change the court number
+  #     And I submit the booking
+  #     Then I should see a message telling me Court number cannot be changed
+  #     
+  #   Scenario: editing playing from of existing booking
+  #     Given I have created a booking
+  #     When I edit the booking I have created
+  #     But I change the playing from
+  #     And I submit the booking
+  #     Then I should see a message telling me Playing from cannot be changed
+  #     
+  #   Scenario: editing playing from of existing booking
+  #     Given I have created a booking
+  #     When I edit the booking I have created
+  #     But I change the playing from
+  #     And I submit the booking
+  #     Then I should see a message telling me Playing from cannot be changed

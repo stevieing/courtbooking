@@ -75,8 +75,6 @@ Courtbooking::Application.routes.draw do
   
   match '/courts(/:date)' => "courts#index", :via => :get, :as => :courts
   
-  match 'bookings/new/:playing_at/:court_number' => "bookings#new", :as => :court_booking
+  match 'bookings/new/:playing_on/:playing_from/:playing_to/:court_number' => "bookings#new", :as => :court_booking
   
-  
-   
 end

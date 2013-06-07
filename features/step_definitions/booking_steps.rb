@@ -3,8 +3,10 @@ Before('@opponent') do
 end
 
 When /^I fill in valid booking details$/ do
-  fill_in "Court Number", with: courts.first.number.to_s
-  fill_in "Playing at", with: valid_playing_at
+  fill_in "Court number", with: courts.first.number.to_s
+  fill_in "Playing on", with: valid_playing_on
+  fill_in "Playing from", with: valid_playing_from
+  fill_in "Playing to", with: valid_playing_to
 end
 
 When /^I submit the booking$/ do
@@ -26,19 +28,40 @@ When /^I should not be able to select myself$/ do
 end
 
 When /^I try to book a date in the past$/ do
-  fill_in "Playing at", with: date_in_the_past(2)
+  fill_in "Playing on", with: date_in_the_past(2)
+end
+
+When /^I change Playing from$/ do
+  fill_in "Playing from", with: set_playing_from(21)
+end
+
+When /^I change Playing to$/ do
+  fill_in "Playing to", with: valid_playing_to
 end
 
 Then /^I should see a message telling me the booking must be in the future$/ do
-  page.should have_content "Playing at must be after #{DateTime.now.to_s(:booking)}"
+  page.should have_content "Playing on must be on or after #{Date.today.to_s(:uk)}"
 end
 
 When /^I try to book a date too far into the future$/ do
-  fill_in "Playing at", with: date_in_the_future(days_bookings_can_be_made_in_advance+2)
+  fill_in "Playing on", with: date_in_the_future(days_bookings_can_be_made_in_advance+2)
 end
 
+When /^I fill in playing on with todays date$/ do
+  fill_in "Playing on", with: Date.today.to_s(:uk)
+end
+
+When /^I fill in playing from with a time in the past$/ do
+  fill_in "Playing from", with: (DateTime.now-40.minutes).to_time.to_s(:hrs_and_mins)
+end
+
+Then /^I should see a message telling me that playing from is in the past$/ do
+  page.should have_content "Playing from is in the past"
+end
+
+
 Then /^I should see a message telling me the booking is too far into the future$/ do
-  page.should have_content "Playing at must be before #{(DateTime.now+days_bookings_can_be_made_in_advance).to_s(:booking)}"
+  page.should have_content "Playing on must be before #{(Date.today+days_bookings_can_be_made_in_advance).to_s(:uk)}"
 end
 
 Given /^I have already created the maximum number of bookings during peak hours$/ do
@@ -46,8 +69,9 @@ Given /^I have already created the maximum number of bookings during peak hours$
 end
 
 When /^I fill in the booking details$/ do
-  fill_in "Court Number", with: current_booking.court_number
-  fill_in "Playing at", with: current_booking.playing_at_text
+  fill_in "Court number", with: current_booking.court_number
+  fill_in "Playing on", with: current_booking.playing_on_text
+  fill_in "Playing from", with: current_booking.playing_from
 end
 
 When /^I try to book a date during peak hours$/ do
@@ -65,7 +89,7 @@ Given /^I have created a booking$/ do
 end
 
 Then /^I should see a message telling me I cannot create a duplicate booking$/ do
-  page.should have_content "A booking already exists for #{current_booking.playing_at_text} on court #{current_booking.court_number}"
+  page.should have_content "A booking already exists for #{current_booking.playing_on_text} #{current_booking.playing_from} on court #{current_booking.court_number}"
 end
 
 When /^I view the booking (I|they) have created$/ do |arg1|
@@ -92,16 +116,16 @@ Then /^I should see a message telling me the booking has been updated$/ do
   page.should have_content "Booking successfully updated"
 end
 
-When /^I change playing at$/ do
-  fill_in "Playing at", with: date_in_the_future(5)
+When /^I change Playing on$/ do
+  fill_in "Playing on", with: date_in_the_future(5)
 end
 
 Then /^I should see a message telling me (.*) cannot be changed$/ do |field|
   page.should have_content "#{field} cannot be changed"
 end
 
-When /^I change the court number$/ do
-  fill_in "Court Number", with: courts.last.number
+When /^I change Court number$/ do
+  fill_in "Court number", with: courts.last.number
 end
 
 When /^the booking is in the past$/ do
@@ -114,10 +138,6 @@ end
 
 Then /^I should not be able to delete the booking$/ do
   page.should_not have_link("Delete Booking")
-end
-
-Given /^(\d+) bookings can be made during peak hours between "(.*?)" and "(.*?)"$/ do |number, start_time, finish_time|
-  peak_hours_settings({max_peak_hours_bookings: number, peak_hours_start_time: start_time, peak_hours_finish_time: finish_time})
 end
 
 Given /^the peak hours setting are in place$/ do

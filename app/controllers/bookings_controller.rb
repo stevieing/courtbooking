@@ -2,7 +2,7 @@ class BookingsController < ApplicationController
   
   def new
     @booking = Booking.new
-    set_params :playing_at,:court_number
+    set_params :playing_on,:court_number,:playing_from,:playing_to
     @header = "New Booking"
   end
   
