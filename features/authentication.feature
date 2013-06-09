@@ -8,8 +8,7 @@ Feature: authentication
     Given the courts are setup
   
   Scenario: sign in successfully
-    Given I go to the sign in page
-    When I sign in with the correct credentials
+    Given I sign in with the correct credentials
     Then I should be able to sign out
     And I should see my username
     

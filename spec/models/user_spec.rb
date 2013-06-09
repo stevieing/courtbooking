@@ -10,6 +10,8 @@ describe User do
   it { should validate_presence_of(:password) }
   it { should validate_presence_of(:email) }
   
+  it { should have_many(:bookings)}
+  
   it {should have_db_column(:admin).of_type(:boolean).with_options(default: false)}
   
   context "without_user" do
@@ -21,11 +23,13 @@ describe User do
 
   end
   
-  context "class username" do
+  context "booking association" do
+    let!(:user)     {create(:user)}
+    let(:booking)   {user.bookings.build}
     
-    let!(:user) {create(:user, username: "joebloggs")}
+    it { user.bookings.should_not be_nil }
+    it { booking.user_id.should == user.id}
     
-    it { User.username(user.id).should == "joebloggs"}
   end
   
 

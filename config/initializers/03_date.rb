@@ -9,6 +9,10 @@ class Date
     (self..self + n).collect{ |d| d.strftime('%a') }.to_a
   end
   
+  def day_of_month
+    self.strftime('%d')
+  end
+  
   def calendar_header(last)
     if self.month == last.month
       self.strftime('%B %Y')

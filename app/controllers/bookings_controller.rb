@@ -7,8 +7,7 @@ class BookingsController < ApplicationController
   end
   
   def create
-    @booking = Booking.new(params[:booking])
-    @booking.user_id = current_user.id if params[:booking][:user_id].nil?
+    @booking = current_user.bookings.build(params[:booking])
     if @booking.save
       redirect_to root_path, notice: "Booking successfully created."
     else

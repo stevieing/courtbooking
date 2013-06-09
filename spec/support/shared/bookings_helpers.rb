@@ -9,9 +9,9 @@ module BookingsHelpers
      booking = nil
 
      1.upto(max_bookings + 1) do |n|
-       attributes = {user_id: user.id, court_number: court_number, playing_on: time.to_date.to_s(:uk), 
+       attributes = {court_number: court_number, playing_on: time.to_date.to_s(:uk), 
                       playing_from: time.to_s(:hrs_and_mins), playing_to: (time + slot_time.minutes).to_s(:hrs_and_mins) }
-       booking = (n == max_bookings + 1) ? build(:booking, attributes) : create(:booking, attributes)
+       booking = (n == max_bookings + 1) ? user.bookings.build(attributes) : user.bookings.create(attributes)
        time = time + 1.day + slot_time.minutes
        court_number = (court_number == courts.last.number ? courts.first.number : court_number + 1)
      end
@@ -25,13 +25,14 @@ module BookingsHelpers
    def create_valid_bookings(users, opponent, courts, date, slots)
      court_number, incr = courts.first.number, 0
      1.upto(users.length*2) do |i|
-       attributes = {user_id: users[incr].id, court_number: court_number, playing_on: date.to_s(:uk), playing_from: slots[i], playing_to: slots[i+1]}
+       user = users[incr]
+       attributes = {court_number: court_number, playing_on: date.to_s(:uk), playing_from: slots[i], playing_to: slots[i+1]}
        if i % 2 == 0
-         attributes[:opponent_user_id] = opponent.id
+         attributes[:opponent_id] = opponent.id
          incr += 1
        end
        court_number = (court_number == courts.last.number ? courts.first.number : court_number + 1)
-       create(:booking, attributes)
+       user.bookings.create(attributes)
      end
    end
 end

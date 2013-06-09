@@ -9,6 +9,7 @@ module TimeUtils
     (self.to_date == DateTime.now.to_date &&
     self.to_sec <= DateTime.now.to_sec)
   end
+  
 end
 
 class DateTime

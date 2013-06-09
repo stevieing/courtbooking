@@ -9,7 +9,7 @@ module BookingsHelper
   end
   
   def new_booking_link(booking)
-    link_to new_booking_link_text(booking), 
+    link_to booking.link_text, 
     court_booking_path(booking.playing_on, booking.playing_from, booking.playing_to, booking.court_number.to_s), 
     {:class => "popupwindow", :rel => "window1200"}
 	end
@@ -19,8 +19,5 @@ module BookingsHelper
   def booking_for_slot(bookings, booking)
     bookings.by_time(booking.playing_from).by_court(booking.court_number).first
   end
-  
-  def new_booking_link_text(booking)
-    booking.court_number.to_s + " - " + booking.playing_on.to_s(:uk) + " " + booking.playing_from
-  end
+
 end

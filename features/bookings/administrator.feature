@@ -4,9 +4,10 @@ Feature: Administrative users should be able to book a court
   An authenticated user
   Should be able to book an available court with valid constraints
   
+  
   Background:
-    Given the courts are setup and the peak hours settings are in place
-    And todays date is "01 September 2013" and the time is "17:00"
+    Given todays date is "01 September 2013" and the time is "17:00"
+    And the courts are setup and the peak hours settings are in place
     And I am signed in as an administrator
   
   Scenario: Making a new booking
@@ -92,31 +93,10 @@ Feature: Administrative users should be able to book a court
     But I change <field_name>
     And I submit the booking
     Then I should see a message telling me <field_name> cannot be changed
-    
+  
     Examples:
       | field_name    |
       | Playing on    |
       | Court number  |
       | Playing from  |
       | Playing to    |
-    
-  # Scenario: editing court number of existing booking
-  #     Given I have created a booking
-  #     When I edit the booking I have created
-  #     But I change the court number
-  #     And I submit the booking
-  #     Then I should see a message telling me Court number cannot be changed
-  #     
-  #   Scenario: editing playing from of existing booking
-  #     Given I have created a booking
-  #     When I edit the booking I have created
-  #     But I change the playing from
-  #     And I submit the booking
-  #     Then I should see a message telling me Playing from cannot be changed
-  #     
-  #   Scenario: editing playing from of existing booking
-  #     Given I have created a booking
-  #     When I edit the booking I have created
-  #     But I change the playing from
-  #     And I submit the booking
-  #     Then I should see a message telling me Playing from cannot be changed

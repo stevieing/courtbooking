@@ -1,3 +1,7 @@
+Before do
+  setup_instance_variables
+end
+
 Given /^PENDING/ do
   pending
 end
@@ -14,8 +18,8 @@ Then /^I should( not)? see a link to "(.*?)"$/ do |negate, arg1|
   negate ? page.should_not(have_link(arg1)) : page.should(have_link(arg1))
 end
 
-When /^I fill in "(.*?)" with "(.*?)"$/ do |arg1, arg2|
-  fill_in arg1, with: arg2
+When /^I fill in "(.*?)" with "(.*?)"$/ do |field, value|
+  fill_in field, with: value
 end
 
 Then /^I should be on (.+)$/ do |page_name|
@@ -27,5 +31,5 @@ Then /^I should be redirected to the (.*) page$/ do |page_name|
 end
 
 Given /^todays date is "(.*?)" and the time is "(.*?)"$/ do |date, time|
-  set_system_date_and_datetime(date, date + " " + time)
+  set_dates(date, time)
 end

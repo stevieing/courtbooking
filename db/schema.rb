@@ -11,15 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130605195540) do
+ActiveRecord::Schema.define(:version => 20130607203758) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "user_id"
     t.integer  "court_number"
-    t.datetime "playing_at"
-    t.integer  "opponent_user_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.integer  "opponent_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.date     "playing_on"
     t.string   "playing_from"
     t.string   "playing_to"

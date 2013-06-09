@@ -4,9 +4,9 @@ end
 
 When /^I fill in valid booking details$/ do
   fill_in "Court number", with: courts.first.number.to_s
-  fill_in "Playing on", with: valid_playing_on
-  fill_in "Playing from", with: valid_playing_from
-  fill_in "Playing to", with: valid_playing_to
+  fill_in "Playing on", with: dates.valid_playing_on
+  fill_in "Playing from", with: slots.playing_from
+  fill_in "Playing to", with: slots.playing_to
 end
 
 When /^I submit the booking$/ do
@@ -22,37 +22,40 @@ When /^I select an opponent$/ do
 end
 
 When /^I should not be able to select myself$/ do
-  within("#booking_opponent_user_id") do
+  within("#booking_opponent_id") do
     page.should_not have_content current_user.username
   end
 end
 
 When /^I try to book a date in the past$/ do
-  fill_in "Playing on", with: date_in_the_past(2)
+  fill_in "Playing on", with: dates.in_the_past(2)
 end
 
 When /^I change Playing from$/ do
-  fill_in "Playing from", with: set_playing_from(21)
+  slots.next
+  fill_in "Playing from", with: slots.playing_from
 end
 
 When /^I change Playing to$/ do
-  fill_in "Playing to", with: valid_playing_to
+  slots.next
+  fill_in "Playing to", with: slots.playing_to
 end
 
 Then /^I should see a message telling me the booking must be in the future$/ do
-  page.should have_content "Playing on must be on or after #{Date.today.to_s(:uk)}"
+  page.should have_content "Playing on must be on or after #{dates.current_date_to_s}"
 end
 
 When /^I try to book a date too far into the future$/ do
-  fill_in "Playing on", with: date_in_the_future(days_bookings_can_be_made_in_advance+2)
+  fill_in "Playing on", with: dates.in_the_future(days_bookings_can_be_made_in_advance + 2)
 end
 
 When /^I fill in playing on with todays date$/ do
-  fill_in "Playing on", with: Date.today.to_s(:uk)
+  fill_in "Playing on", with: dates.current_date_to_s
 end
 
 When /^I fill in playing from with a time in the past$/ do
-  fill_in "Playing from", with: (DateTime.now-40.minutes).to_time.to_s(:hrs_and_mins)
+  slots.previous
+  fill_in "Playing from", with: slots.playing_from
 end
 
 Then /^I should see a message telling me that playing from is in the past$/ do
@@ -61,11 +64,11 @@ end
 
 
 Then /^I should see a message telling me the booking is too far into the future$/ do
-  page.should have_content "Playing on must be before #{(Date.today+days_bookings_can_be_made_in_advance).to_s(:uk)}"
+  page.should have_content "Playing on must be before #{(dates.current_date + days_bookings_can_be_made_in_advance).to_s(:uk)}"
 end
 
 Given /^I have already created the maximum number of bookings during peak hours$/ do
-  create_current_booking(peak_hours_bookings(courts, current_user, time_slots.slot_time))
+  create_current_booking(peak_hours_bookings(courts, current_user, slots.slot_time))
 end
 
 When /^I fill in the booking details$/ do
@@ -117,7 +120,7 @@ Then /^I should see a message telling me the booking has been updated$/ do
 end
 
 When /^I change Playing on$/ do
-  fill_in "Playing on", with: date_in_the_future(5)
+  fill_in "Playing on", with: dates.in_the_future(5)
 end
 
 Then /^I should see a message telling me (.*) cannot be changed$/ do |field|
@@ -129,7 +132,7 @@ When /^I change Court number$/ do
 end
 
 When /^the booking is in the past$/ do
-  DateTime.stub(:now).and_return(DateTime.parse(date_in_the_future(7)))
+  dates.bookings_in_the_past(dates.in_the_future(7))
 end
 
 Given /^a booking has been created by another user$/ do

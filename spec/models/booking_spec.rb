@@ -20,7 +20,7 @@ describe Booking do
   it { should validate_presence_of(:playing_from)}
   it { should validate_presence_of(:playing_to)}
   
-  it { should have_db_column(:opponent_user_id).of_type(:integer).with_options(null: true) }
+  it { should have_db_column(:opponent_id).of_type(:integer).with_options(null: true) }
   it { should_not allow_value(Date.today-1).for(:playing_on)}
   
   it { should_not allow_value("1045").for(:playing_from) }
@@ -32,6 +32,9 @@ describe Booking do
   it { should_not allow_value("invalid playing to").for(:playing_to) }
   it { should_not allow_value("25:45").for(:playing_to) }
   it { should_not allow_value("10:63").for(:playing_to) }
+  
+  it { should belong_to(:user)}
+  it { should belong_to(:opponent)}
   
   context "date after number of days courts can be booked in advance" do
     it { should_not allow_value(Date.today + Rails.configuration.days_bookings_can_be_made_in_advance + 1).for(:playing_on) }
@@ -117,9 +120,9 @@ describe Booking do
    describe "players" do
 
      let!(:players) {create_list(:user, 3)}
-     let(:booking1) {build(:booking, user_id: players[0].id)}
-     let(:booking2) {build(:booking, user_id: players[0].id, opponent_user_id: players[1].id, court_number: 2)}
-     let(:booking3) {build(:booking, user_id: players[0].id, opponent_user_id: players[2].id, court_number: 3)}
+     let(:booking1) {build(:booking, user_id: players[0].id, opponent_id: nil)}
+     let(:booking2) {build(:booking, user_id: players[0].id, opponent_id: players[1].id, court_number: 2)}
+     let(:booking3) {build(:booking, user_id: players[0].id, opponent_id: players[2].id, court_number: 3)}
      
      it "one player" do
        booking1.players.should == players[0].username
@@ -167,7 +170,6 @@ describe Booking do
 
    end
 
-   #TODO: update playing_at_text followed by playing_at. This doesn't seem to work
    describe "update" do
      let!(:booking) {create(:booking, playing_on_text: "17 September 2013", playing_from: "19:00", playing_to: "19:40" )}
 
@@ -187,8 +189,8 @@ describe Booking do
        booking.update_attributes(:playing_to => "20:20").should be_false
      end
      
-     it "opponent_user_id" do
-       booking.update_attributes(:opponent_user_id => 1).should be_true
+     it "opponent_id" do
+       booking.update_attributes(:opponent_id => 1).should be_true
      end
    end
 
@@ -203,6 +205,30 @@ describe Booking do
      its(:playing_to) {should eq("19:40")}
      its(:time_and_place_text) {should eq("17 September 2013 at 5.40pm to 7.40pm")}
      
+   end
+   
+   describe "user association" do
+     
+     let!(:user)    {create(:user)}
+     let(:booking)  {user.bookings.build}
+     
+     it { booking.user.should_not be_nil}
+
+   end
+   
+   describe "opponent association" do
+     
+     let!(:booking)  {create(:booking, playing_on: "17 September 2013")}
+     let(:opponent)  {booking.opponent.build}
+     
+     it { booking.opponent.should_not be_nil}
+
+   end
+   
+   describe "link text" do
+     subject { build(:booking, court_number: 1, playing_on: "17 September 2013", playing_from: "19:00")}
+     
+     its(:link_text) { should == "1 - 17 September 2013 19:00" }
    end
 
 end

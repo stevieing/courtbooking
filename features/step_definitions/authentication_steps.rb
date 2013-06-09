@@ -2,9 +2,7 @@ Given /^I am not signed in$/ do
 end
 
 When /^I sign in with the correct credentials$/ do
-  fill_in "Username", with: current_user.username
-  fill_in "Password", with: current_user.password
-  click_button "sign in"
+  sign_in current_user
 end
 
 Given /^I am signed in$/ do

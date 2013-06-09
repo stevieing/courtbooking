@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  
+  has_many :bookings, :dependent => :destroy
+  
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -14,14 +17,7 @@ class User < ActiveRecord::Base
   validates_presence_of :username
   
   scope :without_user, lambda{|user| user ? {:conditions => ["id != ?", user.id]} : {} }
-  
-  class << self
-    def username(id)
-      find(id).username
-    end
-  end
-     
-  
+
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
       if login = conditions.delete(:login)

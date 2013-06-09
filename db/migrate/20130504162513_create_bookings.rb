@@ -4,7 +4,7 @@ class CreateBookings < ActiveRecord::Migration
       t.integer :user_id
       t.integer :court_number
       t.datetime :playing_at
-      t.integer :opponent_user_id
+      t.integer :opponent_id
 
       t.timestamps
     end

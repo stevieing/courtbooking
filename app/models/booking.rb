@@ -1,4 +1,7 @@
 class Booking < ActiveRecord::Base
+  
+  belongs_to :user
+  belongs_to :opponent, :class_name => "User"
 
   attr_writer :playing_on_text, :time_and_place
 
@@ -21,11 +24,7 @@ class Booking < ActiveRecord::Base
   scope :by_time,   lambda{|time| where(:playing_from => time)}
   
   def players
-    if self.opponent_user_id.nil?
-      User.username(self.user_id)
-    else
-      User.username(self.user_id) + " V " + User.username(self.opponent_user_id)
-    end
+    user.username + (opponent.nil? ? "" : " V " + self.opponent.username)
   end
   
   def in_the_past?
@@ -52,8 +51,12 @@ class Booking < ActiveRecord::Base
   
   def save_time_and_place
     if @time_and_place.present? && @time_and_place.split(',').length == 4
-      self.playing_on,self.playing_from,self.playing_to,self.court_number = @time_and_place.split(',')
+      self.playing_on, self.playing_from, self.playing_to, self.court_number = @time_and_place.split(',')
     end
+  end
+  
+  def link_text
+    court_number.to_s + " - " + playing_on_text + " " + playing_from
   end
 
   private

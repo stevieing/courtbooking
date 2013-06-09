@@ -4,9 +4,10 @@ Feature: Users should be able to browse the status of courts
   Any user
   Should be able to browse the courts and view bookings
   
+  # The date and time must be set up before the courts.
   Background:
-    Given the courts are setup and the peak hours settings are in place
-    And todays date is "01 September 2013" and the time is "17:00"
+    Given todays date is "01 September 2013" and the time is "17:00"
+    And the courts are setup and the peak hours settings are in place
   
   Scenario: Browsing the courts for today
     When I go to the courts page

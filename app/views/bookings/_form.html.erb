@@ -6,10 +6,6 @@
 				<%= f.label :username, "Member" %>
 				<span><%= current_user.username %></span>
 			</li>
-			<% if allow_param? :booking, :user_id %>
-				<%= f.label :user_id, "Player" %>
-				<%= f.collection_select :user_id, User.all, :id, :username, {:selected => current_user.id} %>
-			<% end %>
 			<% if allow_param? :booking, :time_and_place %>
 				<li>
 					<%= f.label :time_and_place, "Court: #{@booking.court_number}" %>
@@ -42,8 +38,8 @@
 				</li>
 			<% end %>
 			<li>
-				<%= f.label :opponent_user_id, "Opponent" %>
-				<%= f.collection_select :opponent_user_id, User.without_user(current_user), :id, :username, {:include_blank => ""} %>
+				<%= f.label :opponent_id, "Opponent" %>
+				<%= f.collection_select :opponent_id, User.without_user(current_user), :id, :username, {:include_blank => ""} %>
 			</li>
 		<%= f.submit "Submit Booking" %>
 		</ul>

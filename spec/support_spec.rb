@@ -130,14 +130,13 @@ describe "BookingsHelpers" do
     
     it { @bookings.count.should == 4}
     it { @bookings[0].user_id.should eq(users[0].id)}
-    it { @bookings[0].opponent_user_id.should be_nil}
+    it { @bookings[0].opponent_id.should be_nil}
     it { @bookings[1].user_id.should eq(users[0].id)}
-    it { @bookings[1].opponent_user_id.should eq(users[2].id)}
+    it { @bookings[1].opponent_id.should eq(users[2].id)}
     it { @bookings[2].user_id.should eq(users[1].id)}
-    it { @bookings[2].opponent_user_id.should be_nil}
+    it { @bookings[2].opponent_id.should be_nil}
     it { @bookings[3].user_id.should eq(users[1].id)}
-    it { @bookings[3].opponent_user_id.should eq(users[2].id)}
-    
+    it { @bookings[3].opponent_id.should eq(users[2].id)}
     
   end
   

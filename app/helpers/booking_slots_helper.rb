@@ -36,7 +36,6 @@ module BookingSlotsHelper
 
     def courts_cells(slot)
       courts.map do |court| 
-        #content_tag :td, view.capture(court.number, current_date.to_s(:uk), slot, next_slot(slot), &callback)
         content_tag :td, view.capture(new_booking(court.number,slot), &callback)
       end.join.html_safe
     end
