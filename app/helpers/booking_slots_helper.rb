@@ -49,7 +49,7 @@ module BookingSlotsHelper
     end
     
     def next_slot(slot)
-      (DateTime.parse(slot)+timeslots.slot_time.minutes).to_s(:hrs_and_mins)
+      (DateTime.parse(slot) + timeslots.slot_time.minutes).to_s(:hrs_and_mins)
     end
     
     def new_booking(court_number, slot)

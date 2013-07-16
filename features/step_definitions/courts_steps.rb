@@ -97,13 +97,13 @@ end
 
 Then /^I should be able to edit my bookings$/ do
   within_the_bookingslots_container do
-    edit_my_bookings? current_user
+    edit_bookings? current_user
   end
 end
 
 Then /^I should not be able to edit the bookings for another member$/ do
   within_the_bookingslots_container do
-    edit_others_bookings? other_member
+    edit_bookings? other_member, false
   end
 end
 

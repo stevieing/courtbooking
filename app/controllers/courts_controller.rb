@@ -6,11 +6,11 @@ class CourtsController < ApplicationController
   def index
   end
   
+  protected
+  
   def days_bookings_can_be_made_in_advance
     @days_bookings_can_be_made_in_advance ||= Rails.configuration.days_bookings_can_be_made_in_advance
   end
-  
-  protected
   
   def current_date
     @date ||= (params[:date] ? Date.parse(params[:date]) : Date.today)

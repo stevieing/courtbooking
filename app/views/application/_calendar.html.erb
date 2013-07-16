@@ -1,0 +1,7 @@
+<%= calendar(days_bookings_can_be_made_in_advance, current_date) do |date, day| %>
+	<% if date == current_date %>
+		<%= day %>
+	<% else %>
+		<%= link_to day, courts_path(date) %>
+	<% end %>
+<% end %>

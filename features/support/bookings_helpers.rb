@@ -30,24 +30,24 @@ module BookingsHelpers
     Booking.all
   end
   
-  def edit_my_bookings?(user)
+  def edit_bookings?(user, mine = true)
     Booking.all.each do |booking|
       if booking.user_id == user.id
-        page.should have_link(booking.players) 
+        if mine
+          page.should have_link(booking.players)
+        else
+          page.should_not have_link(booking.players)
+        end
       else
         page.should have_content(booking.players)
       end
     end
   end
   
-  def edit_others_bookings?(user)
-    Booking.all.each do |booking|
-       if booking.user_id == user.id
-         page.should_not have_link(booking.players)
-       else
-         page.should have_content(booking.players)
-       end
-     end
+  def fill_in_booking_details(fields)
+    fields.each do |field, value|
+      fill_in field.to_s.capitalize.gsub('_',' '), with: value
+    end
   end
 
   #returns a booking which is a factory build

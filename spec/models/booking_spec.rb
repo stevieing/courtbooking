@@ -63,22 +63,21 @@ describe Booking do
   end
 
   describe "duplicate bookings" do
-     
-     before(:each) do
-       create(:booking, court_number: 1, playing_on: "17 Sep 2013", playing_from: "19:00")
-     end
     
-     it "for the same court with identical date and time" do
-       build(:booking, court_number: 1, playing_on: "17 Sep 2013", playing_from: "19:00").should_not be_valid
-     end
-     
-     it "for the same court with a different date and time" do
-       build(:booking, court_number: 1, playing_on: "18 Sep 2013", playing_from: "19:00").should be_valid
-     end
+    let!(:booking) { create(:booking, court_number: 1, playing_on: "17 Sep 2013", playing_from: "19:00") }
+         
+    it "for the same court with identical date and time" do
+      build(:booking, court_number: 1, playing_on: "17 Sep 2013", playing_from: "19:00").should_not be_valid
+    end
+          
+    it "for the same court with a different date and time" do
+      build(:booking, court_number: 1, playing_on: "18 Sep 2013", playing_from: "19:00").should be_valid
+    end
+         
+    it "for a different court with identical date and time" do
+      build(:booking, court_number: 2, playing_on: "17 Sep 2013", playing_from: "19:00").should be_valid
+    end
     
-     it "for a different court with identical date and time" do
-       build(:booking, court_number: 2, playing_on: "17 Sep 2013", playing_from: "19:00").should be_valid
-     end
    end
   
    describe "destroy booking" do
@@ -170,7 +169,7 @@ describe Booking do
 
    end
 
-   describe "update" do
+   describe "non-editable attributes" do
      let!(:booking) {create(:booking, playing_on_text: "17 September 2013", playing_from: "19:00", playing_to: "19:40" )}
 
      it "court_number" do

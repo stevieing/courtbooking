@@ -1,0 +1,21 @@
+<%= booking_slots(current_date, courts, timeslots) do |new_booking| %>
+	<%= with_booking(bookings, new_booking) do |booking| %>
+		<% if booking.nil? %>
+			<%unless in_the_past? new_booking %>
+				<%= new_booking_link new_booking %>
+			<% else %>
+				<div class="past">&nbsp;</div>
+			<% end %>
+		<% else %>
+			<% if booking.in_the_past? %>
+				<div class="past"><%= booking.players %></div>
+			<% else %>
+				<% if allow? :bookings, :edit, booking %>
+					<%= link_to booking.players, edit_booking_path(booking), { :class => "booked" }  %>
+				<% else %>
+					<div class="booked"><%= booking.players %></div>
+				<% end %>
+			<% end%>
+		<% end %>
+	<% end %>
+<% end %>

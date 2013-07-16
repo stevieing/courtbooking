@@ -59,7 +59,7 @@ Feature: Administrative users should be able to book a court
   Scenario: making a duplicate booking
     Given I have created a booking 
     When I go to the new booking page
-    When I fill in the booking details
+    And I fill in the booking details
     But I use the details for a booking that has already been created
     And I submit the booking
     Then I should see a message telling me I cannot create a duplicate booking

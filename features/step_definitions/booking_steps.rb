@@ -3,10 +3,10 @@ Before('@opponent') do
 end
 
 When /^I fill in valid booking details$/ do
-  fill_in "Court number", with: courts.first.number.to_s
-  fill_in "Playing on", with: dates.valid_playing_on
-  fill_in "Playing from", with: slots.playing_from
-  fill_in "Playing to", with: slots.playing_to
+  fill_in_booking_details(
+    {court_number: courts.first.number.to_s, playing_on: dates.valid_playing_on, 
+    playing_from: slots.playing_from, playing_to: slots.playing_to}
+  )
 end
 
 When /^I submit the booking$/ do
@@ -72,9 +72,9 @@ Given /^I have already created the maximum number of bookings during peak hours$
 end
 
 When /^I fill in the booking details$/ do
-  fill_in "Court number", with: current_booking.court_number
-  fill_in "Playing on", with: current_booking.playing_on_text
-  fill_in "Playing from", with: current_booking.playing_from
+  fill_in_booking_details(
+    { court_number: current_booking.court_number, playing_on: current_booking.playing_on_text, playing_from: current_booking.playing_from }
+  )
 end
 
 When /^I try to book a date during peak hours$/ do
