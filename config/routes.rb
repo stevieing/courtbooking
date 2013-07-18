@@ -10,7 +10,7 @@ Courtbooking::Application.routes.draw do
   
 
   resources :bookings
-  resources :admin
+  #resources :admin
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -71,10 +71,10 @@ Courtbooking::Application.routes.draw do
   
   root :to => "courts#index"
   
-  match 'admin' => "admin#index", :as => :admin
+  get 'admin' => "admin#index", :as => :admin
   
-  match '/courts(/:date)' => "courts#index", :via => :get, :as => :courts
+  get '/courts(/:date)' => "courts#index", :as => :courts
   
-  match 'bookings/new/:playing_on/:playing_from/:playing_to/:court_number' => "bookings#new", :as => :court_booking
+  get 'bookings/new/:playing_on/:playing_from/:playing_to/:court_number' => "bookings#new", :as => :court_booking
   
 end

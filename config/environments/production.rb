@@ -1,5 +1,8 @@
 Courtbooking::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
+  
+  config.eager_load = true
+  config.assets.js_compressor = :uglifier
 
   # Code is not reloaded between requests
   config.cache_classes = true
@@ -12,7 +15,7 @@ Courtbooking::Application.configure do
   config.serve_static_assets = false
 
   # Compress JavaScripts and CSS
-  config.assets.compress = true
+  #config.assets.compress = true
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = false
