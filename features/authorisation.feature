@@ -7,7 +7,7 @@ Feature: Users can only access permitted areas
   Background:
     Given the courts are setup
   
-  Scenario Outline: Visiting admin pages as a member
+  Scenario: Visiting admin pages as a member
     Given I am signed in as a member
     When I go to the admin page
     Then I should see "Not authorised"

@@ -1,6 +1,5 @@
 class TimeSlot < ActiveRecord::Base
   
-  attr_accessible :start_time, :finish_time, :slot_time, :slots
   serialize :slots, Array
   
   validates_presence_of :start_time, :finish_time, :slot_time

@@ -40,9 +40,7 @@ gem 'devise'
 
 gem 'faye'
 gem 'thin'
-gem 'haml-rails'
 gem 'validates_timeliness', '~> 3.0'
-gem 'strong_parameters'
 
 gem 'rspec-rails', :group => [:test, :development]
 
