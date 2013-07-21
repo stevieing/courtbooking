@@ -16,3 +16,6 @@
 
 .rvmrc
 .DS_Store
+
+#ignore the database.yml file for security reasons
+/config/database.yml
