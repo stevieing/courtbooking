@@ -1,6 +1,6 @@
-require 'bundler/deployment'
+require 'bundler/capistrano'
+require 'rvm/capistrano'
 require 'capistrano/ext/multistage'
-#require 'capistrano/configuration/loading'
 
 set :application, "courtbooking"
 
