@@ -50,11 +50,14 @@ group :test do
   gem 'pickle'
   gem 'database_cleaner'
   gem 'spork', '> 1.0rc'
-  gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'guard-spork'
   gem 'shoulda-matchers'
+end
+
+group :test, :darwin do
+  gem 'rb-fsevent'
 end
 
 group :cucumber do
