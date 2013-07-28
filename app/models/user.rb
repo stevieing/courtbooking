@@ -12,10 +12,8 @@ class User < ActiveRecord::Base
   
   validates_presence_of :username
   
-  #scope :without_user, ->(user) { user ? {:conditions => ["id != ?", user.id]} : {} }
   scope :without_user, ->(user) { where.not(:id => user.id) }
   
-
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
       if login = conditions.delete(:login)
