@@ -11,6 +11,7 @@ describe User do
   it { should validate_presence_of(:email) }
   
   it { should have_many(:bookings)}
+  it { should have_many(:permissions)}
   
   it {should have_db_column(:admin).of_type(:boolean).with_options(default: false)}
   

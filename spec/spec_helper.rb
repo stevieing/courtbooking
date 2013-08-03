@@ -51,8 +51,10 @@ Spork.prefork do
     config.order = "random"
 
     config.include FactoryGirl::Syntax::Methods
-    config.include ManageSettings
-    config.include BookingsHelpers
+    
+    Dir[Rails.root.join('spec/support/shared/**/*.rb')].each do |f|
+      config.include f.split("/").last.gsub(".rb","").camelize.constantize
+    end
   end
   
 

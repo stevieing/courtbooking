@@ -63,3 +63,11 @@ Feature: Users should be able to browse the status of courts
     Then I should see valid booking details
     And I submit the booking
     Then I should see a message that the booking has been made
+    
+  Scenario: Deleting a booking
+    Given I am signed in
+    And I have created a booking
+    When I go to the courts page
+    And I follow a link to edit the booking
+    And I delete the booking
+    Then I should see a message telling me the booking has been deleted

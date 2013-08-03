@@ -5,12 +5,13 @@ Feature: Users can only access permitted areas
   Should only have access to areas for which they have permissions
   
   Background:
-    Given the courts are setup
+    Given todays date is "01 September 2013" and the time is "17:00"
+    And the courts are setup and the peak hours settings are in place
   
   Scenario: Visiting admin pages as a member
     Given I am signed in as a member
     When I go to the admin page
-    Then I should see "Not authorised"
+    Then I should not be authorised
 
   Scenario: Visiting the home page as a member
     Given I am signed in as a member
@@ -24,3 +25,28 @@ Feature: Users can only access permitted areas
     Given I am signed in as an administrator
     When I go to the home page
     Then I should see a link to "ADMIN"
+    
+  @member
+  Scenario: Creating a booking without permissions
+    Given I am signed in as a member
+    When I go to the courts page
+    And I follow a link to create a new booking
+    Then I should not be authorised
+    
+  @member
+  Scenario: Editing a booking without permissions
+    Given I am signed in as a member
+    And I have permission to Create a new booking
+    And I have created a booking
+    When I edit the booking I have created
+    Then I should not be authorised
+    
+  @member
+  Scenario: Deleting a booking without permissions
+    Given I am signed in as a member
+    And I have permission to Create a new booking
+    And I have created a booking
+    And I have permission to Edit a booking
+    When I edit the booking I have created
+    Then I should not be able to delete the booking
+  

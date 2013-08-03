@@ -2,10 +2,15 @@ require "spec_helper"
 
 describe Permissions::MemberPermission do
   
+  
   let(:user) { create(:user, admin: false) }
   let(:user_booking) { build(:booking, user_id: user.id) }
   let(:other_booking) { build(:booking, user_id: 999) }
   subject { Permissions.permission_for(user) }
+  
+  before(:each) do
+    add_standard_permissions user
+  end
   
   it "allows courts" do
     should allow_action(:courts, :index)

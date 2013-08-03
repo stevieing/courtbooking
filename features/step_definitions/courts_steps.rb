@@ -131,3 +131,7 @@ end
 Then /^I should see valid booking details$/ do
   page.should have_content valid_time_and_place_text(current_booking)
 end
+
+When(/^I follow a link to edit the booking$/) do
+  click_link current_booking.players
+end
