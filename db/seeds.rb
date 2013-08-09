@@ -24,4 +24,15 @@ TimeSlot.create(start_time: "06:20", finish_time: "22:00", slot_time: 40)
   Court.create(number: i)
 end
 
+AllowedAction.create(name: "View all bookings",controller: :bookings,action: [:index])
+AllowedAction.create(name: "Create a new booking",controller: :bookings,action: [:new, :create])
+AllowedAction.create(name: "View a booking",controller: :bookings,action: [:show])
+AllowedAction.create(name: "Delete a booking",controller: :bookings,action: [:destroy], user_specific: true)
+AllowedAction.create(name: "Edit a booking",controller: :bookings,action: [:edit, :update],user_specific: true)
+
+user = User.find_by(username: "Standard User")
+
+AllowedAction.all.each do |permission|
+  user.permissions.create(allowed_action_id: permission.id)
+end
 

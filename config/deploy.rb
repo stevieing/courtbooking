@@ -39,11 +39,13 @@ namespace :deploy do
   desc "Symlink shared configs and folders on each release."
   task :symlink_shared do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "ln -nfs #{shared_path}/config/mailer.yml #{release_path}/config/mailer.yml"
   end
   
   desc "Create config folder and add database.yml"
   task :create_config do
     run "mkdir #{shared_path}/config"
     put (File.read("config/database.yml")), "#{shared_path}/config/database.yml"
+    put (File.read("config/mailer.yml")), "#{shared_path}/config/mailer.yml"
   end
 end

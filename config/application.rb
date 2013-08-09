@@ -17,6 +17,8 @@ module Courtbooking
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/extras #{config.root}/app/models/concerns #{config.root}/lib/validators)
+    
+    config.mailer = YAML.load_file("#{Rails.root}/config/mailer.yml")[Rails.env]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -64,5 +66,11 @@ module Courtbooking
       g.test_framework :rspec, :fixture => true, :views => false
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
+    
+    
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = Rails.configuration.mailer['smtp'].try(:to_options)
+    config.action_mailer.default_url_options = {host: Rails.configuration.mailer['smtp']['domain']}
+    
   end
 end

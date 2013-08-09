@@ -9,6 +9,7 @@ class BookingsController < ApplicationController
   def create
     @booking = current_user.bookings.build(params[:booking])
     if @booking.save
+      BookingMailer.booking_confirmation(@booking).deliver
       redirect_to root_path, notice: "Booking successfully created."
     else
       render :new
@@ -27,6 +28,7 @@ class BookingsController < ApplicationController
   def update
     @booking = current_resource
     if @booking.update_attributes(params[:booking])
+      BookingMailer.booking_confirmation(@booking).deliver
       redirect_to root_path, notice: "Booking successfully updated."
     else
       render :edit
@@ -35,7 +37,13 @@ class BookingsController < ApplicationController
   
   def destroy
     @booking = current_resource
-    redirect_to root_path, notice: ( @booking.destroy ? "Booking successfully deleted" : "Unable to delete booking" )
+    if @booking.destroy
+      BookingMailer.booking_cancellation(@booking).deliver
+      notice = "Booking successfully deleted"
+    else
+      notice = "Unable to delete booking"
+    end
+    redirect_to root_path, notice: notice
   end
 
 private

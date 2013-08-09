@@ -54,6 +54,7 @@ group :test do
   gem 'guard-cucumber'
   gem 'guard-spork'
   gem 'shoulda-matchers'
+  gem 'email_spec'
 end
 
 group :test, :darwin do

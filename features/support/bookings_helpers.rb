@@ -10,8 +10,8 @@ module BookingsHelpers
     FactoryGirl.attributes_for(:booking).merge(playing_on: dates.current_date_to_s, playing_from: slots.playing_from, playing_to: slots.playing_to)
   end
 
-  def build_valid_booking
-    current_user.bookings.build(valid_booking_attributes)
+  def build_valid_booking(opponent_id = nil)
+    current_user.bookings.build(valid_booking_attributes.merge(opponent_id: opponent_id))
   end
   
   def create_valid_booking(user)
