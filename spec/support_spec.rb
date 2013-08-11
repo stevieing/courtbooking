@@ -83,7 +83,7 @@ end
 describe "BookingsHelpers" do
   
   before(:all) do
-    create_settings :days_bookings_can_be_made_in_advance, :max_peak_hours_bookings, :peak_hours_start_time, :peak_hours_finish_time 
+    create_standard_settings
   end
   
   after(:all) do
@@ -99,12 +99,13 @@ describe "BookingsHelpers" do
      end
 
     let!(:courts) {create_list(:court, 4)}
-    let!(:time_slots) {create(:time_slot)}
+    let!(:slot_time) {Rails.configuration.slot_time}
+    let!(:slots) {Rails.configuration.slots}
     let(:date) {Date.parse("16 September 2013")}
     let(:peak_hours_start_time) {Rails.configuration.peak_hours_start_time}
     let(:max_bookings) {Rails.configuration.max_peak_hours_bookings}
     let!(:user) {create(:user)}
-    let!(:booking) { create_peak_hours_bookings courts, user, date, peak_hours_start_time, time_slots.slot_time, max_bookings }
+    let!(:booking) { create_peak_hours_bookings courts, user, date, peak_hours_start_time, slot_time, max_bookings }
 
     it { Booking.all.count.should == max_bookings}
     it { booking.should_not be_valid}
@@ -121,10 +122,10 @@ describe "BookingsHelpers" do
     let!(:users) {create_list(:user, 3)}
     let!(:courts) {build_list(:court, 4)}
     let(:date) {Date.parse("16 September 2013")}
-    let!(:time_slots) {create(:time_slot)}
+    let!(:slots) {Rails.configuration.slots}
     
     before(:each) do
-      create_valid_bookings([users[0], users[1]], users[2], courts, date+1, time_slots.slots)
+      create_valid_bookings([users[0], users[1]], users[2], courts, date+1, slots)
       @bookings = Booking.all
     end
     

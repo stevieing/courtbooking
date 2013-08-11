@@ -54,7 +54,7 @@ describe Booking do
    
   describe "during peak hours" do
      
-     let!(:booking) { create_peak_hours_bookings(create_list(:court, 4), create(:user), Date.today, Rails.configuration.peak_hours_start_time, create(:time_slot).slot_time, Rails.configuration.max_peak_hours_bookings) }
+     let!(:booking) { create_peak_hours_bookings(create_list(:court, 4), create(:user), Date.today, Rails.configuration.peak_hours_start_time, Rails.configuration.slot_time, Rails.configuration.max_peak_hours_bookings) }
        
       it { booking.should_not be_valid }
       it { build(:booking, court_number: 3, playing_on: "01 Oct 2013", playing_from: "19:00").should be_valid }

@@ -10,7 +10,11 @@ Courtbooking::Application.routes.draw do
   
 
   resources :bookings
-  #resources :admin
+  
+  namespace :admin do
+    resources :settings, only: [:index, :edit, :update]
+    resources :users
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,18 +1,23 @@
+require Rails.root.join("spec/support/shared/manage_settings.rb")
+
 module TimeSlotsHelpers
-  
+
   #This must be setup after DateTime is stubbed
   class Slots
+    
+    include ManageSettings
     
     attr_accessor :current_slot, :slot_time, :all
     
     def initialize(attributes = nil)
-      @time_slots = create(:time_slot, attributes)
+      create_settings(:slot_time, :start_time, :finish_time)
+      @time_slots = Rails.configuration.slots
       @current_slot = set_valid_slot
-      @slot_time = @time_slots.slot_time
+      @slot_time = Rails.configuration.slot_time
     end
     
     def all
-      @time_slots.slots
+      @time_slots
     end
     
     def next
@@ -24,27 +29,27 @@ module TimeSlotsHelpers
     end
     
     def playing_from
-      @time_slots.slots[current_slot]
+      @time_slots[current_slot]
     end
     
     def playing_to
-      unless current_slot > @time_slots.slots.length - 2
-        @time_slots.slots[current_slot + 1]
+      unless current_slot > @time_slots.length - 2
+        @time_slots[current_slot + 1]
       else
-        @time_slots.slots[@time_slots.slots.length-1]
+        @time_slots[@time_slots.length-1]
       end
     end
     
     private
     
     def in_the_past
-      slot = @time_slots.slots.find_index { |slot| Time.parse(slot).to_sec < DateTime.now.to_sec }
-      slot.nil? ? @time_slots.slots.first : slot
+      slot = @time_slots.find_index { |slot| Time.parse(slot).to_sec < DateTime.now.to_sec }
+      slot.nil? ? @time_slots.first : slot
     end
     
     def set_valid_slot
-      slot = @time_slots.slots.find_index { |slot| Time.parse(slot).to_sec > DateTime.now.to_sec }
-      slot.nil? ? @time_slots.slots.length-1 : slot
+      slot = @time_slots.find_index { |slot| Time.parse(slot).to_sec > DateTime.now.to_sec }
+      slot.nil? ? @time_slots.length-1 : slot
     end
   end
   

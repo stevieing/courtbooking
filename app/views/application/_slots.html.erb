@@ -1,4 +1,4 @@
-<%= booking_slots(current_date, courts, timeslots) do |new_booking| %>
+<%= booking_slots(current_date, courts, slots, slot_time) do |new_booking| %>
 	<%= with_booking(bookings, new_booking) do |booking| %>
 		<% if booking.nil? %>
 			<%unless in_the_past? new_booking %>

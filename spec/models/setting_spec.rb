@@ -32,5 +32,42 @@ describe Setting do
     end
     
   end
+  
+  describe NumberSetting do
+    
+    it {should validate_numericality_of(:value)}
+    it { should_not allow_value(-1).for(:value) }
+    
+    subject { create(:number_setting) }
+    its(:type) {should eq("NumberSetting")}
+  end
+  
+  describe TimeSetting do
+    
+    it { should_not allow_value("1045").for(:value) }
+    it { should_not allow_value("invalid value").for(:value) }
+    it { should_not allow_value("25:45").for(:value) }
+    it { should_not allow_value("10:63").for(:value) }
+    
+    subject { create(:time_setting)}
+    its(:type) {should eq("TimeSetting")}
+  end
+  
+  describe "by name" do
+    
+    let!(:setting) {create(:setting, name: "my_setting", value: "my value")}
+    it {Setting.by_name("my_setting").should eq("my value")}
+  end
+  
+  describe "Slots" do
+    
+    before(:each) do
+      create(:slot_time)
+      create(:start_time)
+      create(:finish_time)
+    end
+    
+    it {Rails.configuration.slots.should_not be_nil}
+  end
 
 end

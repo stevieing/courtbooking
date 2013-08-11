@@ -1,7 +1,7 @@
 class CourtsController < ApplicationController
   
   skip_before_filter :authenticate_user!, :only => [:index]
-  before_filter :days_bookings_can_be_made_in_advance, :current_date, :bookings, :courts, :timeslots, :only => [:index]
+  before_filter :days_bookings_can_be_made_in_advance, :current_date, :bookings, :courts, :slots, :only => [:index]
   
   def index
   end
@@ -24,10 +24,14 @@ class CourtsController < ApplicationController
     @courts ||= Court.all
   end
   
-  def timeslots
-    @timeslots ||= TimeSlot.first
+  def slots
+    @slots ||= Rails.configuration.slots
   end
   
-  helper_method :days_bookings_can_be_made_in_advance, :courts, :timeslots, :current_date, :bookings
+  def slot_time
+    @slot_time ||= Rails.configuration.slot_time
+  end
+  
+  helper_method :days_bookings_can_be_made_in_advance, :courts, :slots, :current_date, :bookings, :slot_time
   
 end

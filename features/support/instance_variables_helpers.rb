@@ -27,7 +27,9 @@ module InstanceVariablesHelpers
       current_bookings: lambda { create_list(:booking, 4) },
       courts: lambda { Court.all },
       slots: lambda { TimeSlotsHelpers::Slots.new },
-      dates: lambda { DateTimeHelpers::Utils.new(Date.today.to_s(:uk), "19:00")}
+      dates: lambda { DateTimeHelpers::Utils.new(Date.today.to_s(:uk), "19:00")},
+      settings: lambda {Setting.all},
+      setting: lambda {Setting.first}
     }
   end
   

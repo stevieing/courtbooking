@@ -13,6 +13,7 @@ describe Permissions::AdminPermission do
     should allow_param(:booking, :opponent_id)
     should allow_param(:booking, :user_id)
     should_not allow_param(:booking, :playing_on)
+    should allow_param(:setting, :value)
   end
 
 end

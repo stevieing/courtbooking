@@ -1,10 +1,10 @@
 #TODO: REFACTOR - separation of responsibilities.
 module BookingSlotsHelper
-  def booking_slots(current_date, courts, timeslots, &block)
-    BookingSlots.new(self, current_date, courts, timeslots, block).section
+  def booking_slots(current_date, courts, slots, slot_time, &block)
+    BookingSlots.new(self, current_date, courts, slots, slot_time, block).section
   end
   
-  class BookingSlots < Struct.new(:view, :current_date, :courts, :timeslots, :callback)
+  class BookingSlots < Struct.new(:view, :current_date, :courts, :slots, :slot_time, :callback)
     
     delegate :content_tag, to: :view
     
@@ -23,14 +23,14 @@ module BookingSlotsHelper
     end
     
     def booking_slots_rows
-      timeslots.slots.map do |slot|
+      slots.map do |slot|
         content_tag :tr do
-          time_slot_cell(slot) + courts_cells(slot) +  time_slot_cell(slot)
+          slot_cell(slot) + courts_cells(slot) +  slot_cell(slot)
         end
       end.join.html_safe
     end
     
-    def time_slot_cell(slot)
+    def slot_cell(slot)
       content_tag :td, slot.html_safe
     end
 
@@ -49,7 +49,7 @@ module BookingSlotsHelper
     end
     
     def next_slot(slot)
-      (DateTime.parse(slot) + timeslots.slot_time.minutes).to_s(:hrs_and_mins)
+      (DateTime.parse(slot) + slot_time.minutes).to_s(:hrs_and_mins)
     end
     
     def new_booking(court_number, slot)
