@@ -1,6 +1,7 @@
 require 'bundler/capistrano'
 require 'rvm/capistrano'
 require 'capistrano/ext/multistage'
+require 'sidekiq/capistrano'
 
 set :application, "courtbooking"
 
