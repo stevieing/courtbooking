@@ -31,6 +31,16 @@ module AdministrationHelpers
       setting.value
     end
   end
+  
+  def page_contains_all_users?
+    User.all.each do |user|
+      page_contains_user? (user.username)
+    end
+  end
+  
+  def page_contains_user? (username)
+    page.should have_content(username)
+  end
 end
 
 World(AdministrationHelpers)

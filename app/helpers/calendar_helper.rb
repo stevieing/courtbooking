@@ -39,7 +39,7 @@ module CalendarHelper
     end
     
     def day_cell(day)
-      content_tag :td, view.capture(day, day.day_of_month.html_safe, &callback), class: (day == current_date ? "selected" : "")
+      content_tag :td, view.capture(day, day.day_of_month.html_safe, &callback), class: (day == current_date ? "selected" : "") unless day.nil?
     end
 
   end

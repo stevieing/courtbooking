@@ -9,6 +9,7 @@ class Admin::SettingsController < ApplicationController
     @setting = current_resource
     if @setting.update_attributes(params[:setting])
       redirect_to admin_settings_path, notice: "#{@setting.description} successfully updated."
+      PassengerWorker.perform_async
     else
       redirect_to admin_settings_path, alert: "#{@setting.description} has an invalid value."
     end

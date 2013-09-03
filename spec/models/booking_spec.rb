@@ -1,3 +1,4 @@
+#booking spec
 require 'spec_helper'
 
 describe Booking do

@@ -1,4 +1,3 @@
-#TODO: REFACTOR - separation of responsibilities.
 module BookingSlotsHelper
   def booking_slots(current_date, courts, slots, slot_time, &block)
     BookingSlots.new(self, current_date, courts, slots, slot_time, block).section
