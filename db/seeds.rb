@@ -14,14 +14,26 @@ User.create(username: "Admin User", password: "password", email: "adminuser@exam
 NumberSetting.create(name: "days_bookings_can_be_made_in_advance", value: "21", description: "Number of days that courts can be booked in advance")
 NumberSetting.create(name: "max_peak_hours_bookings", value: "3", description: "Maximum number of bookings that can be made during peak hours")
 NumberSetting.create(name: "slot_time", value: "40", description: "Slot time")
-TimeSetting.create(name: "peak_hours_start_time", value: "17:40", description: "Start of peak hours")
-TimeSetting.create(name: "peak_hours_finish_time", value: "19:40", description: "End of peak hours")
 TimeSetting.create(name: "start_time", value: "06:20", description: "Court opening time")
 TimeSetting.create(name: "finish_time", value: "22:00", description: "Court closing time")
 
 #courts
 (1..4). each do |i|
   Court.create(number: i)
+end
+
+Setting.all.each do |instance|
+  instance.add_config
+end
+
+Slots.create
+
+Court.all.each do |c|
+  (0..6).each do |day|
+    c.opening_times.build(day: day, from: "06:20", to: "08:20").save
+    c.opening_times.build(day: day, from: "17:40", to: "22:00").save
+    c.peak_times.build(day: day, from: "17:40", to: "20:20").save if day < 5
+  end
 end
 
 AllowedAction.create(name: "View all bookings",controller: :bookings,action: [:index])

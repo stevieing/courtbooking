@@ -64,9 +64,7 @@ class Booking < ActiveRecord::Base
   #TODO: refactor to remove settings                                                                              
   def create_validations
     unless self.playing_on.blank? || self.playing_from.blank?
-      validates_with PeakHoursValidator,  :max_peak_hours_bookings => lambda { Rails.configuration.max_peak_hours_bookings },
-                                          :peak_hours_start_time => lambda { Rails.configuration.peak_hours_start_time },
-                                          :peak_hours_finish_time => lambda { Rails.configuration.peak_hours_finish_time }
+      validates_with PeakHoursValidator
       
       unless self.court_number.nil?
         validates_with DuplicateBookingsValidator

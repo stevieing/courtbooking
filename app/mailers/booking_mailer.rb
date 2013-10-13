@@ -1,6 +1,8 @@
 class BookingMailer < ActionMailer::Base
   default from: Rails.configuration.mailer['smtp']['user_name']
   
+  after_action :mail_me
+  
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -22,6 +24,10 @@ class BookingMailer < ActionMailer::Base
     [@booking.user.email].tap do |emails|
       emails.push(@booking.opponent.email) unless @booking.opponent.nil?
     end
+  end
+  
+  def mail_me
+    mail.perform_deliveries = false unless @booking.user.mail_me?
   end
   
 end

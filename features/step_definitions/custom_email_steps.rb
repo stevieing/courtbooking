@@ -1,9 +1,13 @@
+Before('@user_no_mail') do
+  current_user.update_attributes(mail_me: false)
+end
+
 When(/^I have successfully created a new booking( against an opponent)?$/) do |enemy|
   visit courts_path
   create_current_booking(build_valid_booking)
   click_link current_booking.link_text
   select(opponent.username, :from => "Opponent") unless enemy.nil?
-  click_button "Submit Booking"
+  click_button "Submit booking"
   page.should have_content "Booking successfully created"
 end
 

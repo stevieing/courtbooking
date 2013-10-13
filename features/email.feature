@@ -39,4 +39,27 @@ Feature: email
     And I follow a link to edit the booking
     And I delete the booking
     Then I should receive an email
+  
+  @user_no_mail
+  Scenario: Create a new booking with email alerts turned off
+    Given I am signed in as a member
+    When I have successfully created a new booking
+    Then I should receive no email
     
+  @user_no_mail
+  Scenario: Updating an existing booking with email alerts turned off
+    Given I am signed in as a member
+    And I have created a booking
+    When I go to the courts page
+    And I follow a link to edit the booking
+    And I submit the booking
+    Then I should receive no email
+  
+  @user_no_mail
+  Scenario: Deleting an existing booking with email alerts turned off
+    Given I am signed in as a member
+    And I have created a booking
+    When I go to the courts page
+    And I follow a link to edit the booking
+    And I delete the booking
+    Then I should receive no email

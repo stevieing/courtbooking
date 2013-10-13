@@ -20,8 +20,6 @@ module InstanceVariablesHelpers
   def current_variables
     {
       days_bookings_can_be_made_in_advance: lambda { Rails.configuration.days_bookings_can_be_made_in_advance },
-      peak_hours_start_time: lambda { Rails.configuration.peak_hours_start_time },
-      peak_hours_finish_time: lambda { Rails.configuration.peak_hours_finish_time },
       max_peak_hours_bookings: lambda { Rails.configuration.max_peak_hours_bookings },
       current_booking: lambda { create(:booking) },
       current_bookings: lambda { create_list(:booking, 4) },
@@ -29,7 +27,10 @@ module InstanceVariablesHelpers
       slots: lambda { TimeSlotsHelpers::Slots.new },
       dates: lambda { DateTimeHelpers::Utils.new(Date.today.to_s(:uk), "19:00")},
       settings: lambda {Setting.all},
-      setting: lambda {Setting.first}
+      setting: lambda {Setting.first},
+      users: lambda {User.all},
+      user: lambda {User.first},
+      court_opening_type: lambda{ :court_with_opening_and_peak_times }
     }
   end
   

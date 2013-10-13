@@ -14,6 +14,11 @@ describe Permissions::AdminPermission do
     should allow_param(:booking, :user_id)
     should_not allow_param(:booking, :playing_on)
     should allow_param(:setting, :value)
+    should allow_param(:user, :username)
+    should allow_param(:user, :email)
+    should allow_param(:user, :password)
+    should allow_param(:user, :password_confirmation)
+    should allow_param(:user, :mail_me)
   end
 
 end

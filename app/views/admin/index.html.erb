@@ -1,6 +1,19 @@
-<h1>Admin</h1>
-
-<ul>
-	<li><%= link_to "Manage Settings", admin_settings_path %></li>
-	<li><%= link_to "Manage Users", admin_users_path %></li>
-</ul>
+<article id="admin">
+	<h1>System Administration</h1>
+	<ul>
+		<%= link_to(admin_settings_path) do %>
+			<li>
+				<h1>
+					Manage Settings
+				</h1>
+			</li>
+			<% end %>
+			<%= link_to(admin_users_path) do %>
+			<li>
+				<h1>
+					Manage Users
+				</h1>
+			</li>
+		<% end %>
+	</ul>
+</article>

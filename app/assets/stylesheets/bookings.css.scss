@@ -1,3 +1,26 @@
 // Place all the styles related to the bookings controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "shared";
+
+#newbooking, #editbooking{
+	width: 50%;
+	margin: 0 auto;
+}
+
+#ajaxbooking{
+	font-size: 14px;
+	
+}
+
+#newbooking, #editbooking, #ajaxbooking{
+	fieldset{
+		input[type="submit"]
+		{
+			position: relative;
+			left: 45%;
+			top: 20px;
+		}
+	}
+}

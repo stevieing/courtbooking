@@ -12,7 +12,7 @@
 				<div class="past"><%= booking.players %></div>
 			<% else %>
 				<% if allow? :bookings, :edit, booking %>
-					<%= link_to booking.players, edit_booking_path(booking), { :class => "booked" }  %>
+					<%= link_to booking.players, edit_booking_path(booking), remote: true, class: "booked"  %>
 				<% else %>
 					<div class="booked"><%= booking.players %></div>
 				<% end %>
@@ -20,3 +20,5 @@
 		<% end %>
 	<% end %>
 <% end %>
+<section id="ajaxbooking" title="Booking" style="display:hidden">
+</section>

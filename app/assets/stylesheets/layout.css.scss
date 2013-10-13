@@ -20,7 +20,7 @@ html, body{
 
 a{
 	text-decoration: none;
-	color: black;
+	color: $dark_green;
 	
 	&:hover{
 		text-decoration: underline;
@@ -159,21 +159,7 @@ table
 	}
 }
 
-#newbooking, #editbooking{
-	width: 50%;
-	margin: 0 auto;
-	
-	fieldset{
-		input[type="submit"]
-		{
-			position: relative;
-			left: 45%;
-			top: 20px;
-		}
-	}
-}
-
-#new_user, #new_booking, .edit_booking{
+#new_user, #new_booking, .edit_booking, .edit_user{
 	
 	margin-bottom: 20px;
 	border: 1px solid $dark_green;
@@ -185,7 +171,7 @@ table
 
 #flash{
 	margin: 0 auto;
-	width: 60%;
+	width: 80%;
 	font:{
 		size: 1.3em;
 		weight: bold;

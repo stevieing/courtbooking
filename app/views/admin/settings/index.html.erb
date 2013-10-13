@@ -1,16 +1,17 @@
-<h1>Manage Settings</h1>
-
-<ul>
-	<% settings.each do |setting| %>
-		<li id="setting_<%= setting.id %>">
-			<%= form_for setting, as: :setting, url: admin_setting_path(setting) do |f| %>
-				<fieldset>
-					<legend>setting_<%= setting.id %></legend>
-					<%= f.label :value, setting.description %>
-					<%= f.text_field :value %>
-					<%= f.submit "Update" %>
-				<fieldset>
-			<% end %>
-		</li>
-	<% end%>
-</ul>
+<article id="managesettings">
+	<h1>Manage Settings</h1>
+	<ul>
+		<% settings.each do |setting| %>
+			<li id="setting_<%= setting.id %>">
+				<%= form_for setting, as: :setting, url: admin_setting_path(setting) do |f| %>
+					<fieldset>
+						<legend>setting_<%= setting.id %></legend>
+						<%= f.label :value, setting.description %>
+						<%= f.text_field :value %>
+						<%= f.submit "Update" %>
+					</fieldset>
+				<% end %>
+			</li>
+		<% end%>
+	</ul>
+</article>

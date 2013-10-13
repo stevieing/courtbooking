@@ -10,8 +10,7 @@ module BookingsHelper
   
   def new_booking_link(booking)
     link_to booking.link_text, 
-    court_booking_path(booking.playing_on, booking.playing_from, booking.playing_to, booking.court_number.to_s), 
-    {:class => "popupwindow", :rel => "window1200"}
+    court_booking_path(booking.playing_on, booking.playing_from, booking.playing_to, booking.court_number.to_s), remote: true
 	end
 
   private

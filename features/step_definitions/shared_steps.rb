@@ -33,3 +33,11 @@ end
 Given /^todays date is "(.*?)" and the time is "(.*?)"$/ do |date, time|
   set_dates(date, time)
 end
+
+When /^I submit the (.*)$/ do |model|
+  click_button "Submit #{model}"
+end
+
+Then(/^I should see a message with the text (.*)$/) do |message|
+  page.should have_content message
+end

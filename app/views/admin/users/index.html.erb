@@ -1,10 +1,21 @@
-<h1>Manage Users</h1>
-
-<ul>
-	<% users.each do |user| %>
-		<li id="user_<%= user.id %>">
-			<div><%= user.id %></div>
-			<div><%= user.username %></div>
-		</li>
-	<% end%>
-</ul>
+<article id="manage_users">
+	<h1>Manage Users</h1>
+	<div id="add_new_user">
+		<%= link_to "Add new user", new_admin_user_path %>
+	</div>
+	<ul>
+		<% users.each do |user| %>
+			<section id="user_<%= user.id %>">
+				<li>
+					<div><%= user.id %></div>
+					<div class="text"><%= user.username %></div>
+					<div class="text"><%= user.email %></div>
+					<div class="link">
+						<%= link_to "Edit", edit_admin_user_path(user) %>
+						<%= link_to "Delete", admin_user_path(user), method: :delete %>
+					</div>
+				</li>
+			</section>
+		<% end%>
+	</ul>
+</article>

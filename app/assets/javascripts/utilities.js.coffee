@@ -2,37 +2,16 @@ $.fn.fade = (time) -> this.fadeOut time
 
 $.fn.parentColor = () -> this.parent().css 'background-color', this.css 'background-color'
 
-profiles =
-	window1200:
-		height: 600
-		width: 1200
-		status:1
-		center:1
-	window800:
-		height:800
-		width:800
-		status:1
-	window200:
-		height:200
-		width:200
-		status:1
-		resizable:0
-	windowCenter:
-		height:300
-		width:400
-		center:1
-	windowNotNew:
-		height:300
-		width:400
-		center:1
-		createnew:0
-	windowCallUnload:
-		height:300
-		width:400
-		center:1
-		onUnload:unloadcallback
+$(document).ajaxError (e, XHR, options) ->
+	if(XHR.status == 401)
+		$("#flash").show()
+		$("#flash").append("<div class='alert'><p>"+ XHR.responseText + "</p></div>")
+		$(".alert").fade(15000)
 		
-unloadcallback = () -> alert "unloaded"
-
-$(document).ready -> $(".popupwindow").popupwindow profiles
-
+$.fn.addDialog = (partial, title) ->
+	this.dialog
+		autoOpen: true
+		height: 500
+		width: 600
+		title: title
+		open: -> $(this).html(partial)

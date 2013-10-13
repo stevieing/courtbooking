@@ -13,6 +13,7 @@ describe Booking do
   
   before(:each) do
     Date.stub(:today).and_return(Date.parse("16 September 2013"))
+    DateTime.stub(:now).and_return(DateTime.parse("16 September 2013 19:00"))
   end
   
   it { should validate_presence_of(:user_id) }
@@ -54,12 +55,12 @@ describe Booking do
   end
    
   describe "during peak hours" do
-     
-     let!(:booking) { create_peak_hours_bookings(create_list(:court, 4), create(:user), Date.today, Rails.configuration.peak_hours_start_time, Rails.configuration.slot_time, Rails.configuration.max_peak_hours_bookings) }
-       
-      it { booking.should_not be_valid }
-      it { build(:booking, court_number: 3, playing_on: "01 Oct 2013", playing_from: "19:00").should be_valid }
-      it { build(:booking, court_number: 3, playing_on: "18 Sep 2013", playing_from: "12:00").should be_valid }
+    
+    let!(:court) {create(:court_with_opening_and_peak_times)}
+    let!(:booking) { create_peak_hours_bookings court, create(:user), Date.today+1, Rails.configuration.max_peak_hours_bookings}
+    
+    it { booking.should_not be_valid}
+    it {Booking.all.count.should == 3}
       
   end
 

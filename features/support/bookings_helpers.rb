@@ -7,7 +7,7 @@ module BookingsHelpers
   end
 
   def valid_booking_attributes
-    FactoryGirl.attributes_for(:booking).merge(playing_on: dates.current_date_to_s, playing_from: slots.playing_from, playing_to: slots.playing_to)
+    FactoryGirl.attributes_for(:booking).merge(court_number: courts.first.number, playing_on: dates.current_date_to_s, playing_from: slots.playing_from, playing_to: slots.playing_to)
   end
 
   def build_valid_booking(opponent_id = nil)
@@ -24,7 +24,7 @@ module BookingsHelpers
   
   def create_subsequent_bookings(user, date, slots, no_of_bookings = 2)
     1.upto(no_of_bookings).each do |i|
-      attrs = {playing_on: (date+1).to_s(:uk), playing_from: slots[i-1], playing_to: slots[i]}
+      attrs = {court_number: courts.first.number, playing_on: (date+1).to_s(:uk), playing_from: slots[i-1], playing_to: slots[i]}
       create_booking(user, FactoryGirl.attributes_for(:booking).merge(attrs))
     end
     Booking.all
@@ -43,16 +43,10 @@ module BookingsHelpers
       end
     end
   end
-  
-  def fill_in_booking_details(fields)
-    fields.each do |field, value|
-      fill_in field.to_s.capitalize.gsub('_',' '), with: value
-    end
-  end
 
   #returns a booking which is a factory build
   def peak_hours_bookings(courts, current_user, slot_time)
-    create_peak_hours_bookings(courts, current_user, dates.current_date+7, peak_hours_start_time, slot_time, max_peak_hours_bookings)
+    create_peak_hours_bookings(courts.first, current_user, (dates.current_date+7).beginning_of_week, max_peak_hours_bookings)
   end
 end
 

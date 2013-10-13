@@ -2,6 +2,10 @@ Before('@other_member') do
   other_member
 end
 
+Before('@split_opening_times') do
+  create_court_opening_type(:court_with_split_opening_times)
+end
+
 Given /^there are (\d+) courts$/ do |number|
   create_courts number.to_i
 end
@@ -134,4 +138,15 @@ end
 
 When(/^I follow a link to edit the booking$/) do
   click_link current_booking.players
+end
+
+Then(/^I should not see a row for time slots where all the courts are closed$/) do
+  Court.all.count.should == 4
+  within_the_bookingslots_container do
+    courts.each do |court|
+      slots.all.each do |slot|
+         page.should_not have_content(slot) if Court.closed?(dates.current_date.wday, slot)
+      end
+    end
+  end
 end

@@ -5,11 +5,5 @@ FactoryGirl.define do
     sequence(:username) {|n| "username#{n}" }
     password 'password'
     email { "#{username}@example.com" }
-    
-    factory :user_with_booking do
-      after(:build) do |booking|
-        build(:booking)
-      end
-    end
   end
 end

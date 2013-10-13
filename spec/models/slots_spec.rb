@@ -28,10 +28,6 @@ describe Slots do
       end
     end
   
-    it "should create configuration" do
-      slots.value.should eq(Rails.configuration.slots)
-    end
-  
   end
   
   describe "create slots" do

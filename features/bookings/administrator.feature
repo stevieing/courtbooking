@@ -15,7 +15,7 @@ Feature: Administrative users should be able to book a court
     Then I should see my username
     When I fill in valid booking details
     And I submit the booking
-    Then I should see a message that the booking has been made
+    Then I should see a message with the text Booking successfully created
   
   @opponent
   Scenario: Making a new booking against an opponent
@@ -24,7 +24,7 @@ Feature: Administrative users should be able to book a court
     And I select an opponent
     But I should not be able to select myself
     And I submit the booking
-    Then I should see a message that the booking has been made
+    Then I should see a message with the text Booking successfully created
     
   Scenario: Making a new booking on a day in the past
     Given I go to the new booking page
@@ -39,7 +39,7 @@ Feature: Administrative users should be able to book a court
     And I fill in playing on with todays date
     But I fill in playing from with a time in the past
     And I submit the booking
-    Then I should see a message telling me that playing from is in the past
+    Then I should see a message with the text Playing from is in the past
     
   Scenario: making a new booking too far into the future
     When I go to the new booking page
@@ -68,14 +68,14 @@ Feature: Administrative users should be able to book a court
     Given I have created a booking
     When I view the booking I have created
     And I delete the booking
-    Then I should see a message telling me the booking has been deleted
+    Then I should see a message with the text Booking successfully deleted
     
   Scenario: deleting a booking after the start time
     Given I have created a booking
     When I view the booking I have created
     But the booking is in the past
     And I delete the booking
-    Then I should see a message telling me the booking cannot be deleted
+    Then I should see a message with the text Unable to delete booking
   
   @opponent
   Scenario: editing an existing booking
@@ -85,7 +85,7 @@ Feature: Administrative users should be able to book a court
     And I should see my username
     And I select an opponent
     And I submit the booking
-    Then I should see a message telling me the booking has been updated
+    Then I should see a message with the text Booking successfully updated
   
   Scenario Outline: editing fields of an existing booking which cannot be changed
     Given I have created a booking

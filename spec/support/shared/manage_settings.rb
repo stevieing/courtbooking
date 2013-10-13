@@ -20,8 +20,7 @@ module ManageSettings
   end
   
   def create_standard_settings
-    create_settings :days_bookings_can_be_made_in_advance, :max_peak_hours_bookings, 
-    :peak_hours_start_time, :peak_hours_finish_time, :slot_time, :start_time, :finish_time
+    create_settings :days_bookings_can_be_made_in_advance, :max_peak_hours_bookings, :slot_time, :start_time, :finish_time
   end
   
   def format_attributes(text)

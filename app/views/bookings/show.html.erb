@@ -6,7 +6,5 @@
 		<li>Playing from: <%= @booking.playing_from %></li>
 		<li>Playing to: <%= @booking.playing_to %></li>
 	</ul>
-	<% if allow? :bookings, :destroy, @booking %>
-    	<div><%= link_to "Delete Booking", booking_path(@booking), method: :delete %></div>
-  	<% end %>
+	<%= render 'delete' %>
 </section>

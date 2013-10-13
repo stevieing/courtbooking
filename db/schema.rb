@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130811214226) do
+ActiveRecord::Schema.define(version: 20130924144443) do
 
   create_table "allowed_actions", force: true do |t|
     t.string   "name"
@@ -31,6 +31,16 @@ ActiveRecord::Schema.define(version: 20130811214226) do
     t.date     "playing_on"
     t.string   "playing_from"
     t.string   "playing_to"
+  end
+
+  create_table "court_times", force: true do |t|
+    t.integer  "court_id"
+    t.integer  "day"
+    t.string   "from"
+    t.string   "to"
+    t.string   "type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "courts", force: true do |t|
@@ -70,6 +80,7 @@ ActiveRecord::Schema.define(version: 20130811214226) do
     t.datetime "updated_at"
     t.string   "username"
     t.boolean  "admin",                  default: false
+    t.boolean  "mail_me",                default: true
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

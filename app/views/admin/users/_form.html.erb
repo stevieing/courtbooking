@@ -1,0 +1,28 @@
+<%= form_for @user, url: admin_user_path(@user) do |f| %>
+	<fieldset>
+		<legend><%= header %></legend>
+		<ul>
+			<li>
+				<%= f.label :username, "Username" %>
+				<%= f.text_field :username %>
+			</li>
+			<li>
+				<%= f.label :email, "Email" %>
+				<%= f.email_field :email %>
+			</li>
+			<li>
+				<%= f.label :password, "Password" %>
+				<%= f.password_field :password %>
+			</li>
+			<li>
+				<%= f.label :password_confirmation, "Password confirmation" %>
+				<%= f.password_field :password_confirmation %>
+			</li>
+			<li>
+				<%= f.label :mail_me, "Mail me" %>
+				<%= f.check_box :mail_me %>
+			</li>
+			<%= f.submit "Submit user" %>
+		</ul>
+	</fieldset>
+<% end %>

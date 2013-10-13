@@ -23,8 +23,10 @@ module BookingSlotsHelper
     
     def booking_slots_rows
       slots.map do |slot|
-        content_tag :tr do
-          slot_cell(slot) + courts_cells(slot) +  slot_cell(slot)
+        unless Court.closed?(current_date.wday, slot)
+          content_tag :tr do
+            slot_cell(slot) + courts_cells(slot) +  slot_cell(slot)
+          end
         end
       end.join.html_safe
     end

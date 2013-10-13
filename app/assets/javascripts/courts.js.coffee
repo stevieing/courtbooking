@@ -5,6 +5,6 @@
 $(document).ready ->
 	$(".notice").fade 10000
 	$(".alert").fade 15000
-	$(".booked").parentColor();
-	$(".past").parentColor();
+	$(".booked").parentColor()
+	$(".past").parentColor()
 	return

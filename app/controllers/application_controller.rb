@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
     @current_year ||= Date.today.year
   end
   helper_method :current_year
-  
+
   private
   
   def current_permission

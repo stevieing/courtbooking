@@ -4,19 +4,12 @@ Before('@opponent') do
 end
 
 When /^I fill in valid booking details$/ do
-  fill_in_booking_details(
+  fill_in_details(
     {court_number: courts.first.number.to_s, playing_on: dates.valid_playing_on, 
     playing_from: slots.playing_from, playing_to: slots.playing_to}
   )
 end
 
-When /^I submit the booking$/ do
-  click_button "Submit Booking"
-end
-
-Then /^I should see a message that the booking has been made$/ do
-  page.should have_content "Booking successfully created"
-end
 
 When /^I select an opponent$/ do
   select(opponent.username, :from => "Opponent")
@@ -59,11 +52,6 @@ When /^I fill in playing from with a time in the past$/ do
   fill_in "Playing from", with: slots.playing_from
 end
 
-Then /^I should see a message telling me that playing from is in the past$/ do
-  page.should have_content "Playing from is in the past"
-end
-
-
 Then /^I should see a message telling me the booking is too far into the future$/ do
   page.should have_content "Playing on must be before #{(dates.current_date + days_bookings_can_be_made_in_advance).to_s(:uk)}"
 end
@@ -73,7 +61,7 @@ Given /^I have already created the maximum number of bookings during peak hours$
 end
 
 When /^I fill in the booking details$/ do
-  fill_in_booking_details(
+  fill_in_details(
     { court_number: current_booking.court_number, playing_on: current_booking.playing_on_text, playing_from: current_booking.playing_from }
   )
 end
@@ -104,20 +92,8 @@ When /^I delete the booking$/ do
   click_link "Delete Booking"
 end
 
-Then /^I should see a message telling me the booking has been deleted$/ do
-  page.should have_content "Booking successfully deleted"
-end
-
-Then /^I should see a message telling me the booking cannot be deleted$/ do
-  page.should have_content "Unable to delete booking"
-end
-
 When /^I edit the booking I have created$/ do
   visit edit_booking_path(current_booking.id)
-end
-
-Then /^I should see a message telling me the booking has been updated$/ do
-  page.should have_content "Booking successfully updated"
 end
 
 When /^I change Playing on$/ do

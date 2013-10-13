@@ -20,6 +20,12 @@ Feature: Users should be able to browse the status of courts
     Then I should see a row for each time slot
     And I should be able to book each time slot for each court for today
     
+  @split_opening_times
+  Scenario: Browsing the courts during split opening times
+    When I go to the courts page
+    Then I should see a column for each court
+    But I should not see a row for time slots where all the courts are closed
+    
   Scenario: Browsing the calendar
     When I go to the courts page
     Then I should see a box for each day until a set day in the future
@@ -62,7 +68,7 @@ Feature: Users should be able to browse the status of courts
     And I follow a link to create a new booking
     Then I should see valid booking details
     And I submit the booking
-    Then I should see a message that the booking has been made
+    Then I should see a message with the text Booking successfully created
     
   Scenario: Deleting a booking
     Given I am signed in
@@ -70,4 +76,4 @@ Feature: Users should be able to browse the status of courts
     When I go to the courts page
     And I follow a link to edit the booking
     And I delete the booking
-    Then I should see a message telling me the booking has been deleted
+    Then I should see a message with the text Booking successfully deleted

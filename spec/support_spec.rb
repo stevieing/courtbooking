@@ -93,52 +93,49 @@ describe "BookingsHelpers" do
 
   
   describe "PeakHours" do
-    
-    before(:each) do
-       Date.stub(:today).and_return(Date.parse("16 September 2013"))
-     end
-
-    let!(:courts) {create_list(:court, 4)}
-    let!(:slot_time) {Rails.configuration.slot_time}
-    let!(:slots) {Rails.configuration.slots}
-    let(:date) {Date.parse("16 September 2013")}
-    let(:peak_hours_start_time) {Rails.configuration.peak_hours_start_time}
-    let(:max_bookings) {Rails.configuration.max_peak_hours_bookings}
-    let!(:user) {create(:user)}
-    let!(:booking) { create_peak_hours_bookings courts, user, date, peak_hours_start_time, slot_time, max_bookings }
-
-    it { Booking.all.count.should == max_bookings}
-    it { booking.should_not be_valid}
-
-  end
-  
-  describe "CreateValidBookings" do
-    
-    before(:each) do
-      Date.stub(:today).and_return(Date.parse("16 September 2013"))
-      DateTime.stub(:now).and_return(DateTime.parse("16 September 2013 19:00"))
+       
+       before(:each) do
+         Date.stub(:today).and_return(Date.parse("16 September 2013"))
+       end
+        
+        let(:date)          {Date.today+1}
+        let!(:court)        {create(:court_with_opening_and_peak_times)}
+        let!(:user)         { create(:user)}
+        let(:max_bookings)  {Rails.configuration.max_peak_hours_bookings}
+        let!(:booking)      {create_peak_hours_bookings court, user, date, max_bookings} 
+   
+        it { booking.should_not be_valid}
+        it { Booking.all.count.should == max_bookings}
+      
     end
     
-    let!(:users) {create_list(:user, 3)}
-    let!(:courts) {build_list(:court, 4)}
-    let(:date) {Date.parse("16 September 2013")}
-    let!(:slots) {Rails.configuration.slots}
-    
-    before(:each) do
-      create_valid_bookings([users[0], users[1]], users[2], courts, date+1, slots)
-      @bookings = Booking.all
+    describe "CreateValidBookings" do
+      
+      before(:each) do
+        Date.stub(:today).and_return(Date.parse("16 September 2013"))
+        DateTime.stub(:now).and_return(DateTime.parse("16 September 2013 19:00"))
+      end
+      
+      let!(:users) {create_list(:user, 3)}
+      let!(:courts) {build_list(:court, 4)}
+      let(:date) {Date.parse("16 September 2013")}
+      let!(:slots) {Rails.configuration.slots}
+      
+      before(:each) do
+        create_valid_bookings([users[0], users[1]], users[2], courts, date+1, slots)
+        @bookings = Booking.all
+      end
+      
+      it { @bookings.count.should == 4}
+      it { @bookings[0].user_id.should eq(users[0].id)}
+      it { @bookings[0].opponent_id.should be_nil}
+      it { @bookings[1].user_id.should eq(users[0].id)}
+      it { @bookings[1].opponent_id.should eq(users[2].id)}
+      it { @bookings[2].user_id.should eq(users[1].id)}
+      it { @bookings[2].opponent_id.should be_nil}
+      it { @bookings[3].user_id.should eq(users[1].id)}
+      it { @bookings[3].opponent_id.should eq(users[2].id)}
+      
     end
-    
-    it { @bookings.count.should == 4}
-    it { @bookings[0].user_id.should eq(users[0].id)}
-    it { @bookings[0].opponent_id.should be_nil}
-    it { @bookings[1].user_id.should eq(users[0].id)}
-    it { @bookings[1].opponent_id.should eq(users[2].id)}
-    it { @bookings[2].user_id.should eq(users[1].id)}
-    it { @bookings[2].opponent_id.should be_nil}
-    it { @bookings[3].user_id.should eq(users[1].id)}
-    it { @bookings[3].opponent_id.should eq(users[2].id)}
-    
-  end
   
 end

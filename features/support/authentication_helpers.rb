@@ -4,16 +4,19 @@ module AuthenticationHelpers
     @current_user = user
   end
   
+  def create_standard_user
+    user = create(:user)
+    add_standard_permissions(user)
+    user
+  end
+  
   def current_user
-    if @current_user.nil?
-      @current_user = create(:user)
-      add_standard_permissions(@current_user)
-    end
+    @current_user = create_standard_user if @current_user.nil?
     @current_user
   end
   
-  def create_user(username, admin = false)
-    create(:user, username: username, admin: admin)
+  def create_user(username, admin = false, mail_me = true)
+    create(:user, username: username, admin: admin, mail_me: mail_me)
   end
   
   def opponent
