@@ -63,8 +63,8 @@ describe Setting do
     
     before(:each) do
       create(:slot_time)
-      create(:start_time)
-      create(:finish_time)
+      create(:courts_opening_time)
+      create(:courts_closing_time)
     end
     
     it {Rails.configuration.slots.should_not be_nil}

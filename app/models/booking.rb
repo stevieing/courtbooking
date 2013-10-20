@@ -23,6 +23,7 @@ class Booking < ActiveRecord::Base
   scope :by_court,  lambda{|court| where(:court_number => court)}
   scope :by_time,   lambda{|time| where(:playing_from => time)}
   
+  
   def players
     user.username + (opponent.nil? ? "" : " V " + self.opponent.username)
   end
@@ -58,10 +59,20 @@ class Booking < ActiveRecord::Base
   def link_text
     court_number.to_s + " - " + playing_on_text + " " + playing_from
   end
+  
+  class << self
+    
+    def ordered
+      order("playing_on desc, playing_from desc, court_number")
+    end
+    
+    def by_slot(playing_from, court_number)
+      find_by(:playing_from => playing_from, :court_number => court_number)
+    end
+  end
 
   private
-  
-  #TODO: refactor to remove settings                                                                              
+                                                            
   def create_validations
     unless self.playing_on.blank? || self.playing_from.blank?
       validates_with PeakHoursValidator
@@ -86,5 +97,7 @@ class Booking < ActiveRecord::Base
   def playing_on_today?
     self.playing_on == Date.today
   end
+  
+  
                           
 end

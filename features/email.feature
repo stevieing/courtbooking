@@ -6,7 +6,7 @@ Feature: email
   
   Background:
     Given todays date is "01 September 2013" and the time is "17:00"
-    And the courts are setup and the peak hours settings are in place
+    And the courts are setup
   
   Scenario: Create a new booking
     Given I am signed in as a member

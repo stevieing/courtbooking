@@ -18,14 +18,8 @@ describe Court do
     
     let!(:courts) { create_list(:court_with_opening_and_peak_times, 4)}
     
-    it { courts.first.closed?(1,"06:00").should be_true}
     it { courts.first.open?(1,"06:00").should be_false}
     it { courts.first.open?(1,"10:20").should be_true}
-    it { courts.first.closed?(1,"10:20").should be_false}
-    it {Court.closed?(1,"06:00").should be_true}
-    it {Court.closed?(1,"07:00").should be_false}
-    it {Court.open?(1,"06:00").should be_false}
-    it {Court.open?(1,"07:00").should be_true}
 
   end
   
@@ -35,7 +29,7 @@ describe Court do
     
     it { courts.first.peak_time?(1,"09:40").should be_false}
     it { courts.first.peak_time?(1,"19:00").should be_true}
-    it { courts.first.peak_time?(1,"19:00").should be_true}
+    it { courts.first.peak_time?(2,"19:00").should be_true}
     it { Court.peak_time?(courts.first.number, 1,"19:00").should be_true}
     it { Court.peak_time?(courts.first.number, 1,"09:40").should be_false}
   end

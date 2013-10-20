@@ -4,6 +4,7 @@ class CourtsController < ApplicationController
   before_filter :days_bookings_can_be_made_in_advance, :current_date, :bookings, :courts, :slots, :only => [:index]
   
   def index
+    fresh_when etag: [bookings, current_user, flash]
   end
   
   protected
@@ -21,7 +22,7 @@ class CourtsController < ApplicationController
   end
   
   def courts
-    @courts ||= Court.all
+    @courts ||= Court.includes(:opening_times, :peak_times)
   end
   
   def slots

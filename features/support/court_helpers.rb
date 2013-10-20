@@ -5,10 +5,9 @@ module CourtHelpers
   end
   
   def setup_courts
-    create_setting :slot_time, {value: "40"}
+    create_standard_settings
     create_courts 4
     @slots = TimeSlotsHelpers::Slots.new
-    create_setting :days_bookings_can_be_made_in_advance, {value: "21"}
   end
 
   def within_the_bookingslots_container(&block)

@@ -13,7 +13,8 @@ describe Booking do
   
   before(:each) do
     Date.stub(:today).and_return(Date.parse("16 September 2013"))
-    DateTime.stub(:now).and_return(DateTime.parse("16 September 2013 19:00"))
+    DateTime.stub(:now).and_return(DateTime.parse("16 September 2013 09:00"))
+    Time.stub(:now).and_return(Time.parse("16 September 2013 09:00"))
   end
   
   it { should validate_presence_of(:user_id) }
@@ -57,10 +58,24 @@ describe Booking do
   describe "during peak hours" do
     
     let!(:court) {create(:court_with_opening_and_peak_times)}
-    let!(:booking) { create_peak_hours_bookings court, create(:user), Date.today+1, Rails.configuration.max_peak_hours_bookings}
+
+    context "for the week" do
+      
+      let!(:max_bookings) { Rails.configuration.max_peak_hours_bookings_weekly}
+      let!(:booking) { create_peak_hours_bookings_for_week court, create(:user), Date.today, max_bookings, Rails.configuration.slots}
+      it { booking.should_not be_valid}
+      it { Booking.all.count.should == 3}
+      
+    end
     
-    it { booking.should_not be_valid}
-    it {Booking.all.count.should == 3}
+    context "for the day" do
+      
+      let!(:max_bookings) { Rails.configuration.max_peak_hours_bookings_daily}
+      let!(:booking) { create_peak_hours_bookings_for_day court, create(:user), Date.today, max_bookings, Rails.configuration.slots}
+      it { booking.should_not be_valid}
+      it { Booking.all.count.should == 1}
+      
+    end
       
   end
 
@@ -92,6 +107,7 @@ describe Booking do
          
      it "after the booking starts" do
        DateTime.stub(:now).and_return(DateTime.parse("17 Sep 2013 19:30"))
+       Time.stub(:now).and_return(Time.parse("17 Sep 2013 19:30"))
        booking.destroy.should be_false
      end
      
@@ -114,6 +130,14 @@ describe Booking do
 
      it "by time" do
        Booking.by_day(Date.parse("17 Sep 2013")).by_time("12:00").count.should == 1
+     end
+     
+     it "ordered" do
+       Booking.all.ordered.to_a.should == [booking3, booking1, booking2, booking4]
+     end
+     
+     it "by_slot" do
+       Booking.by_slot("19:00", 1).should == booking1
      end
 
    end
@@ -142,6 +166,7 @@ describe Booking do
 
      before(:each) do
        DateTime.stub(:now).and_return(DateTime.parse("17 Sep 2013 19:00"))
+       Time.stub(:now).and_return(Time.parse("17 Sep 2013 19:00"))
      end
 
      it "in the past" do

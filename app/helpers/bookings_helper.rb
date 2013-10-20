@@ -16,7 +16,7 @@ module BookingsHelper
   private
     
   def booking_for_slot(bookings, booking)
-    bookings.by_time(booking.playing_from).by_court(booking.court_number).first
+    bookings.by_slot(booking.playing_from, booking.court_number)
   end
 
 end

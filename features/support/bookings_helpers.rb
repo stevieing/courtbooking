@@ -1,10 +1,4 @@
 module BookingsHelpers
-  
-  def peak_hours_settings(settings = {})
-    [:max_peak_hours_bookings, :peak_hours_start_time, :peak_hours_finish_time].each do |setting|
-      settings[setting].nil? ? create_setting(setting) : create_setting(setting, {value: settings[setting]})
-    end
-  end
 
   def valid_booking_attributes
     FactoryGirl.attributes_for(:booking).merge(court_number: courts.first.number, playing_on: dates.current_date_to_s, playing_from: slots.playing_from, playing_to: slots.playing_to)
@@ -45,9 +39,21 @@ module BookingsHelpers
   end
 
   #returns a booking which is a factory build
-  def peak_hours_bookings(courts, current_user, slot_time)
-    create_peak_hours_bookings(courts.first, current_user, (dates.current_date+7).beginning_of_week, max_peak_hours_bookings)
+  def peak_hours_bookings_for_the_week(courts, current_user, slot_time)
+    create_peak_hours_bookings_for_week(courts.first, current_user, dates.current_date+7, max_peak_hours_bookings_weekly, slots.all)
   end
+  
+  def peak_hours_bookings_for_the_day(courts, current_user, slot_time)
+    create_peak_hours_bookings_for_day(courts.first, current_user, dates.current_date+7, max_peak_hours_bookings_daily, slots.all)
+  end
+  
+  def valid_booking_details(booking)
+    page.should have_content booking.court_number
+    page.should have_content booking.playing_on_text
+    page.should have_content booking.playing_from
+    page.should have_content booking.playing_to
+  end
+  
 end
 
 World(BookingsHelpers)

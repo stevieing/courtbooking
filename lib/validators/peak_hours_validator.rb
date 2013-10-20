@@ -1,19 +1,33 @@
 class PeakHoursValidator < ActiveModel::Validator
   
+  include ActionView::Helpers::TextHelper
+  
   def validate(record)
-    max_bookings = Rails.configuration.max_peak_hours_bookings
     if Court.peak_time?(record.court_number, record.playing_on.wday, record.playing_from)
-      if find_peak_hours_records(user_records(record)).length >= max_bookings
-        record.errors[:base] << (options[:message] || "No more than #{max_bookings} bookings are allowed during peak hours in the same week.")
-      end
+      add_error user_records_for_day(record), record, Rails.configuration.max_peak_hours_bookings_daily, "day"
+      add_error user_records_for_week(record), record, Rails.configuration.max_peak_hours_bookings_weekly, "week"
     end
   end
   
   private
   
-  def user_records(record)
-    record.class.where(:user_id => record.user_id, 
-    :playing_on => (record.playing_on.beginning_of_week..record.playing_on.end_of_week))
+  def add_error(records, record, max_bookings, period)
+    if find_peak_hours_records(records).length >= max_bookings
+      record.errors[:base] << (options[:message] || 
+      "No more than #{pluralize(max_bookings, "booking")} allowed during peak hours in the same #{period}.")
+    end
+  end
+  
+  def user_records_for_day(record)
+    user_records(record, record.playing_on)
+  end
+  
+  def user_records_for_week(record)
+    user_records(record, record.playing_on.beginning_of_week..record.playing_on.end_of_week)
+  end
+  
+  def user_records(record, condition)
+    record.class.where(:user_id => record.user_id, :playing_on => condition)
   end
   
   def find_peak_hours_records(records)

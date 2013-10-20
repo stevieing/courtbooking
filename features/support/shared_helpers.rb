@@ -7,3 +7,6 @@ Dir[
   World(f.split("/").last.gsub(".rb","").camelize.constantize) if respond_to?(:World)
 end
 
+Capybara.add_selector(:id) do
+  xpath { |id| XPath.descendant[XPath.attr(:id) == id.to_s] }
+end

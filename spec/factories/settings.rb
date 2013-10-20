@@ -18,10 +18,16 @@ FactoryGirl.define do
       description "Number of days that courts can be booked in advance"
     end
     
-    factory :max_peak_hours_bookings do
-      name "max_peak_hours_bookings"
+    factory :max_peak_hours_bookings_weekly do
+      name "max_peak_hours_bookings_weekly"
       value "3"
-      description "Maximum number of bookings that can be made during peak hours"
+      description "Maximum number of bookings that can be made during peak hours in a single week"
+    end
+    
+    factory :max_peak_hours_bookings_daily do
+      name "max_peak_hours_bookings_daily"
+      value "1"
+      description "Maximum number of bookings that can be made during peak hours in a single day"
     end
     
     factory :slot_time do
@@ -36,26 +42,14 @@ FactoryGirl.define do
     value "10:30"
     description "time setting"
     
-    factory :peak_hours_start_time do
-      name "peak_hours_start_time"
-      value "17:40"
-      description "Start time of peak hours"
-    end
-    
-    factory :peak_hours_finish_time do
-      name "peak_hours_finish_time"
-      value "19:40"
-      description "Finish time of peak hours"
-    end
-    
-    factory :start_time do
-      name "start_time"
+    factory :courts_opening_time do
+      name "courts_opening_time"
       value "06:20"
       description "Court opening time"
     end
     
-    factory :finish_time do
-      name "finish_time"
+    factory :courts_closing_time do
+      name "courts_closing_time"
       value "22:20"
       description "Court closing time"
     end

@@ -6,28 +6,15 @@ class Court < ActiveRecord::Base
   validates_presence_of :number
   
   def open?(day, time)
-    self.opening_times.where(:day => day).collect { |r| r.slots }.flatten.include?(time)
+    opening_times.where("day = :day AND :time BETWEEN 'court_times'.'from' AND 'court_times'.'to'", {day: day, time: time}).count > 0
   end
-  
-  def closed?(day, time)
-    !open?(day, time)
-  end
-  
+
   def peak_time?(day, time)
-    times = self.peak_times.where(:day => day).first
-    return false if times.nil?
-    Time.parse(time).to_sec >= Time.parse(times.from).to_sec && Time.parse(time).to_sec <= Time.parse(times.to).to_sec
+    !peak_times.where("day = :day AND :time BETWEEN 'court_times'.'from' AND 'court_times'.'to'", {day: day, time: time}).empty?
   end
   
   class << self
-    def open?(day, time)
-      Court.all.collect {|c| c.open?(day, time)}.any?
-    end
-    
-    def closed?(day, time)
-      Court.all.collect {|c| c.closed?(day, time)}.all?
-    end
-    
+  
     def peak_time?(court_number, day, time)
       court = Court.find_by(number: court_number)
       return false if court.nil?

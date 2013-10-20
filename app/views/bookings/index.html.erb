@@ -1,1 +1,37 @@
 <h1>Bookings</h1>
+
+<section id="bookings">
+	<table>
+		<tr>
+			<th>Playing on</th>
+			<th>From</th>
+			<th>To</th>
+			<th>Court Number</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+		</tr>
+		<% bookings.each do |booking| %>
+			<tr id="booking_<%= booking.id %>">
+				<td><%= booking.playing_on_text %></td>
+				<td><%= booking.playing_from %></td>
+				<td><%= booking.playing_to %></td>
+				<td><%= booking.court_number %></td>
+				<% unless booking.in_the_past? %>
+					<td>
+						<% if allow? :bookings, :edit, booking %>
+							<%= link_to "Edit Booking", edit_booking_path(booking), remote: true %>
+						<% end %>
+					</td>
+					<td>
+						<%= render 'delete', link_text: "Delete Booking", booking: booking %>
+					</td>
+				<% else%>
+					<td>&nbsp;</td><td>&nbsp;</td>
+				<% end %>
+			<tr>
+		<% end %>
+	</table>
+</section>
+<section id="ajaxbooking" title="Booking" style="display:hidden">
+</section>
+	

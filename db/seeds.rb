@@ -12,10 +12,11 @@ User.create(username: "Admin User", password: "password", email: "adminuser@exam
 
 # app settings
 NumberSetting.create(name: "days_bookings_can_be_made_in_advance", value: "21", description: "Number of days that courts can be booked in advance")
-NumberSetting.create(name: "max_peak_hours_bookings", value: "3", description: "Maximum number of bookings that can be made during peak hours")
+NumberSetting.create(name: "max_peak_hours_bookings_weekly", value: "3", description: "Maximum number of bookings that can be made during peak hours for the week")
+NumberSetting.create(name: "max_peak_hours_bookings_daily", value: "1", description: "Maximum number of bookings that can be made during peak hours for the day")
 NumberSetting.create(name: "slot_time", value: "40", description: "Slot time")
-TimeSetting.create(name: "start_time", value: "06:20", description: "Court opening time")
-TimeSetting.create(name: "finish_time", value: "22:00", description: "Court closing time")
+TimeSetting.create(name: "courts_opening_time", value: "06:20", description: "Court opening time")
+TimeSetting.create(name: "courts_closing_time", value: "22:20", description: "Court closing time")
 
 #courts
 (1..4). each do |i|
@@ -31,7 +32,7 @@ Slots.create
 Court.all.each do |c|
   (0..6).each do |day|
     c.opening_times.build(day: day, from: "06:20", to: "08:20").save
-    c.opening_times.build(day: day, from: "17:40", to: "22:00").save
+    c.opening_times.build(day: day, from: "17:40", to: "22:20").save
     c.peak_times.build(day: day, from: "17:40", to: "20:20").save if day < 5
   end
 end

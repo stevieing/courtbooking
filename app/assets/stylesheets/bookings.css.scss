@@ -24,3 +24,22 @@
 		}
 	}
 }
+
+#bookings{
+	table{
+		margin: 5% auto 5% auto;
+		width: 80%;
+		text-align: center;
+		
+		th{
+			padding: 10px 0 10px 0;
+			background-color: $dark_green;
+			color: white;
+		}
+		
+		tr{
+			background-color: $light_brown;
+			border-bottom: 1px dotted $dark_brown;
+		}
+	}
+}

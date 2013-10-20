@@ -40,6 +40,9 @@ gem 'rvm-capistrano'
 
 # To use debugger
 # gem 'debugger'
+gem 'rails-perftest'
+
+
 
 gem 'faye'
 gem 'thin'
@@ -57,6 +60,7 @@ group :test do
   gem 'guard-spork'
   gem 'shoulda-matchers'
   gem 'email_spec'
+  gem 'ruby-prof'
 end
 
 group :test, :darwin do

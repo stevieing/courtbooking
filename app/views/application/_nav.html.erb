@@ -1,6 +1,8 @@
 <nav id="nav">
 	<ul>
-		<li><%= link_to "BOOKINGS", new_booking_path %></li>
+	<% if allow? "bookings", "index" %>
+		<li><%= link_to "BOOKINGS", bookings_path %></li>
+	<% end %>
 		<li><%= link_to "COURTS", courts_path %></li>
 	<% if allow? "admin", "index" %>
 		<li><%= link_to "ADMIN", admin_path %></li>

@@ -33,7 +33,7 @@ describe Slots do
   describe "create slots" do
     
     it "should have the correct settings" do
-      [:start_time, :finish_time, :slot_time].each do |attribute|
+      [:courts_opening_time, :courts_closing_time, :slot_time].each do |attribute|
         Slots.settings.include?(attribute).should be_true
       end
     end
@@ -41,14 +41,14 @@ describe Slots do
     describe "by initialize" do
 
       it "with complete settings" do
-        create_settings :slot_time, :start_time, :finish_time
+        create_settings :slot_time, :courts_opening_time, :courts_closing_time
         Slots.create
         Rails.configuration.slots.should_not be_nil
       end
       
       it "with incomplete settings" do
-        create_settings :slot_time, :start_time
-        Setting.by_name("finish_time").should be_nil
+        create_settings :slot_time, :courts_opening_time
+        Setting.by_name("courts_closing_time").should be_nil
         Slots.create
         Rails.configuration.slots.should be_nil
       end
@@ -59,11 +59,11 @@ describe Slots do
       
       before(:each) do
         Rails.configuration.slots = nil
-        create_settings :slot_time, :start_time
+        create_settings :slot_time, :courts_opening_time
       end
       
       it "with relevant setting" do
-        Slots.create(create(:finish_time)).should be_kind_of(Slots)
+        Slots.create(create(:courts_closing_time)).should be_kind_of(Slots)
       end
       
       it "with irrelevant setting" do

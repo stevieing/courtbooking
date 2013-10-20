@@ -10,7 +10,7 @@ module TimeSlotsHelpers
     attr_accessor :current_slot, :slot_time, :all
     
     def initialize(attributes = nil)
-      create_settings(:slot_time, :start_time, :finish_time)
+      create_settings(:slot_time, :courts_opening_time, :courts_closing_time)
       @time_slots = Rails.configuration.slots
       @current_slot = set_valid_slot
       @slot_time = Rails.configuration.slot_time

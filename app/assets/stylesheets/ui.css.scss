@@ -1,0 +1,11 @@
+@import "shared";
+
+.ui-dialog-titlebar{
+	@include gradient( $dark_red, $dark_red_grad);
+	color: white;
+}
+
+.ui-button{
+	color: white;
+	background-color: black;
+}

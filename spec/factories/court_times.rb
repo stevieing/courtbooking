@@ -10,7 +10,7 @@ FactoryGirl.define do
     
     factory :opening_time, :parent => :court_time, :class => 'OpeningTime' do
       from "06:20"
-      to "22:00"
+      to "22:20"
     end
     
     factory :peak_time, :parent => :court_time, :class => 'PeakTime' do

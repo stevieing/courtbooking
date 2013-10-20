@@ -5,7 +5,7 @@ Feature: Instance Variables
   Should do some magic
     
   Background:
-    Given the courts are setup and the peak hours settings are in place
+    Given the courts are setup
     
   Scenario: Set up simple instance variables
     Given there is a rails configuration value for days bookings can be made in advance

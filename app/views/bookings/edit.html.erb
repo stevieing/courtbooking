@@ -1,6 +1,6 @@
 <section id="editbooking">
 	<h2><%= @header %></h2>
-	<%= render "error_messages", :target => @booking %>
-	<%= render "form_html", :header => @header %>
-	<%= render 'delete' %>
+	<%= render "error_messages", target: @booking %>
+	<%= render "form_html", header: @header %>
+	<%= render 'delete', link_text: "Delete Booking", booking: @booking %>
 </section>

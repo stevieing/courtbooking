@@ -127,25 +127,12 @@ Then /^I should be able to edit the second booking$/ do
   page.should have_link(current_bookings.last.players)
 end
 
-When /^I follow a link to create a new booking$/ do
-  create_current_booking(build_valid_booking)
-  click_link current_booking.link_text
-end
-
-Then /^I should see valid booking details$/ do
-  page.should have_content valid_time_and_place_text(current_booking)
-end
-
-When(/^I follow a link to edit the booking$/) do
-  click_link current_booking.players
-end
-
 Then(/^I should not see a row for time slots where all the courts are closed$/) do
   Court.all.count.should == 4
   within_the_bookingslots_container do
     courts.each do |court|
       slots.all.each do |slot|
-         page.should_not have_content(slot) if Court.closed?(dates.current_date.wday, slot)
+         page.should_not have_content(slot) unless court.open?(dates.current_date.wday, slot)
       end
     end
   end

@@ -20,7 +20,8 @@ module InstanceVariablesHelpers
   def current_variables
     {
       days_bookings_can_be_made_in_advance: lambda { Rails.configuration.days_bookings_can_be_made_in_advance },
-      max_peak_hours_bookings: lambda { Rails.configuration.max_peak_hours_bookings },
+      max_peak_hours_bookings_weekly: lambda { Rails.configuration.max_peak_hours_bookings_weekly },
+      max_peak_hours_bookings_daily: lambda { Rails.configuration.max_peak_hours_bookings_daily },
       current_booking: lambda { create(:booking) },
       current_bookings: lambda { create_list(:booking, 4) },
       courts: lambda { Court.all },

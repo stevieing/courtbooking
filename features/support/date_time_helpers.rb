@@ -49,7 +49,7 @@ module DateTimeHelpers
       date = Date.parse(date) if date.is_a? (String)
       Date.stub(:today).and_return(date)
     end
-    
+
     def set_system_datetime(date, time = nil)
       if time.nil?
         datetime(date)

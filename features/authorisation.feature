@@ -6,7 +6,7 @@ Feature: Users can only access permitted areas
   
   Background:
     Given todays date is "01 September 2013" and the time is "17:00"
-    And the courts are setup and the peak hours settings are in place
+    And the courts are setup
   
   Scenario: Visiting admin pages as a member
     Given I am signed in as a member
@@ -18,6 +18,14 @@ Feature: Users can only access permitted areas
     When I go to the home page
     Then I should see a link to "BOOKINGS"
     And I should see a link to "COURTS"
+    And I should not see a link to "ADMIN"
+    
+  Scenario: Visiting the home page as a guest
+    Given I am not signed in
+    When I go to the home page
+    Then I should see a link to "SIGN IN"
+    And I should see a link to "COURTS"
+    But I should not see a link to "BOOKNGS"
     And I should not see a link to "ADMIN"
   
   @admin

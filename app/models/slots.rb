@@ -22,7 +22,7 @@ class Slots
   class << self
     
     def settings
-      [:start_time, :finish_time, :slot_time]
+      [:courts_opening_time, :courts_closing_time, :slot_time]
     end
     
     def valid_settings(setting = nil)
@@ -32,7 +32,7 @@ class Slots
     
     def create(setting = nil)
       if valid_settings(setting)
-        Slots.new(Setting.by_name("start_time"), Setting.by_name("finish_time"), Setting.by_name("slot_time"), true)
+        Slots.new(Setting.by_name("courts_opening_time"), Setting.by_name("courts_closing_time"), Setting.by_name("slot_time"), true)
       end
     end
   end

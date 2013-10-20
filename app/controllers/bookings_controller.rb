@@ -1,5 +1,10 @@
 class BookingsController < ApplicationController
   
+  before_filter :bookings, only: [:index]
+  
+  def index
+  end
+  
   def new
     @booking = Booking.new
     set_params :playing_on,:court_number,:playing_from,:playing_to
@@ -63,8 +68,14 @@ class BookingsController < ApplicationController
     end
     redirect_to courts_path(@booking.playing_on), notice: notice
   end
+  
+  protected
+  
+  def bookings
+    @bookings ||= (current_user.admin? ? Booking.ordered.load : current_user.bookings.ordered.load)
+  end
 
-private
+  private
   
   def current_resource
     @current_resource ||= Booking.find(params[:id]) if params[:id]
@@ -84,5 +95,7 @@ private
   def js_redirect(path)
     render js: %(window.location.href='#{path}')
   end
+  
+  helper_method :bookings
 
 end

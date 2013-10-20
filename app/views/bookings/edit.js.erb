@@ -1,2 +1,2 @@
-$("#ajaxbooking").addDialog("<%= escape_javascript(render('form_ajax', :header => @header)) %>", "Edit Booking");
-$("#ajaxbooking").append("<%= escape_javascript(render('delete')) %>");
+$("#ajaxbooking").addDialog("<%= escape_javascript(render('form_ajax', header: @header)) %>", "Edit Booking");
+$("#ajaxbooking").append("<%= escape_javascript(render('delete', link_text: 'Delete Booking', booking: @booking)) %>");

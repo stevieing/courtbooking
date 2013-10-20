@@ -15,3 +15,5 @@ $.fn.addDialog = (partial, title) ->
 		width: 600
 		title: title
 		open: -> $(this).html(partial)
+		buttons:
+			Cancel: -> $(this).dialog("close")

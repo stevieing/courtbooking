@@ -23,7 +23,7 @@ module BookingSlotsHelper
     
     def booking_slots_rows
       slots.map do |slot|
-        unless Court.closed?(current_date.wday, slot)
+        if courts_open?(current_date.wday, slot)
           content_tag :tr do
             slot_cell(slot) + courts_cells(slot) +  slot_cell(slot)
           end
@@ -36,7 +36,7 @@ module BookingSlotsHelper
     end
 
     def courts_cells(slot)
-      courts.map do |court| 
+      courts.map do |court|
         content_tag :td, view.capture(new_booking(court.number,slot), &callback)
       end.join.html_safe
     end
@@ -55,6 +55,10 @@ module BookingSlotsHelper
     
     def new_booking(court_number, slot)
       Booking.new(court_number: court_number, playing_on: current_date.to_s(:uk), playing_from: slot, playing_to: next_slot(slot))
+    end
+    
+    def courts_open?(day, slot)
+      courts.detect { |court| court.open?(day, slot)}
     end
     
   end

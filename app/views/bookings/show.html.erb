@@ -6,5 +6,5 @@
 		<li>Playing from: <%= @booking.playing_from %></li>
 		<li>Playing to: <%= @booking.playing_to %></li>
 	</ul>
-	<%= render 'delete' %>
+	<%= render 'delete', link_text: "Delete Booking", booking: @booking %>
 </section>

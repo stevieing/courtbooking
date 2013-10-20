@@ -7,7 +7,7 @@ Feature: Users should be able to browse the status of courts
   # The date and time must be set up before the courts.
   Background:
     Given todays date is "01 September 2013" and the time is "17:00"
-    And the courts are setup and the peak hours settings are in place
+    And the courts are setup
   
   Scenario: Browsing the courts for today
     When I go to the courts page
@@ -61,19 +61,3 @@ Feature: Users should be able to browse the status of courts
     And I go to the courts page
     Then I should not be able to edit the first booking
     But I should be able to edit the second booking
-    
-  Scenario: Making a new booking
-    Given I am signed in
-    When I go to the courts page
-    And I follow a link to create a new booking
-    Then I should see valid booking details
-    And I submit the booking
-    Then I should see a message with the text Booking successfully created
-    
-  Scenario: Deleting a booking
-    Given I am signed in
-    And I have created a booking
-    When I go to the courts page
-    And I follow a link to edit the booking
-    And I delete the booking
-    Then I should see a message with the text Booking successfully deleted

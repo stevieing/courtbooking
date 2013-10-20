@@ -3,14 +3,6 @@ Before('@opponent') do
   opponent
 end
 
-When /^I fill in valid booking details$/ do
-  fill_in_details(
-    {court_number: courts.first.number.to_s, playing_on: dates.valid_playing_on, 
-    playing_from: slots.playing_from, playing_to: slots.playing_to}
-  )
-end
-
-
 When /^I select an opponent$/ do
   select(opponent.username, :from => "Opponent")
 end
@@ -21,91 +13,36 @@ When /^I should not be able to select myself$/ do
   end
 end
 
-When /^I try to book a date in the past$/ do
-  fill_in "Playing on", with: dates.in_the_past(2)
+Given(/^I have already created the maximum number of bookings during peak hours for the week$/) do
+  create_current_booking(peak_hours_bookings_for_the_week(courts, current_user, slots.slot_time))
 end
 
-When /^I change Playing from$/ do
-  slots.next
-  fill_in "Playing from", with: slots.playing_from
+Given(/^I have already created the maximum number of bookings during peak hours for the day$/) do
+  create_current_booking(peak_hours_bookings_for_the_day(courts, current_user, slots.slot_time))
 end
 
-When /^I change Playing to$/ do
-  slots.next
-  fill_in "Playing to", with: slots.playing_to
+Then /^I should see a message telling me I cannot make another booking during peak hours for the week$/ do
+  page.should have_content "No more than #{max_peak_hours_bookings_weekly} bookings allowed during peak hours in the same week."
 end
 
-Then /^I should see a message telling me the booking must be in the future$/ do
-  page.should have_content "Playing on must be on or after #{dates.current_date_to_s}"
-end
-
-When /^I try to book a date too far into the future$/ do
-  fill_in "Playing on", with: dates.in_the_future(days_bookings_can_be_made_in_advance + 2)
-end
-
-When /^I fill in playing on with todays date$/ do
-  fill_in "Playing on", with: dates.current_date_to_s
-end
-
-When /^I fill in playing from with a time in the past$/ do
-  slots.previous
-  fill_in "Playing from", with: slots.playing_from
-end
-
-Then /^I should see a message telling me the booking is too far into the future$/ do
-  page.should have_content "Playing on must be before #{(dates.current_date + days_bookings_can_be_made_in_advance).to_s(:uk)}"
-end
-
-Given /^I have already created the maximum number of bookings during peak hours$/ do
-  create_current_booking(peak_hours_bookings(courts, current_user, slots.slot_time))
-end
-
-When /^I fill in the booking details$/ do
-  fill_in_details(
-    { court_number: current_booking.court_number, playing_on: current_booking.playing_on_text, playing_from: current_booking.playing_from }
-  )
-end
-
-When /^I try to book a date during peak hours$/ do
-end
-
-When /^I use the details for a booking that has already been created$/ do
-end
-
-Then /^I should see a message telling me I cannot make another booking during peak hours$/ do
-  page.should have_content "No more than #{max_peak_hours_bookings} bookings are allowed during peak hours in the same week."
+Then(/^I should see a message telling me I cannot make another booking during peak hours for the day$/) do
+  page.should have_content "No more than #{max_peak_hours_bookings_daily} booking allowed during peak hours in the same day."
 end
 
 Given /^I have created a booking$/ do
   create_current_booking(create_valid_booking(current_user))
 end
 
-Then /^I should see a message telling me I cannot create a duplicate booking$/ do
-  page.should have_content "A booking already exists for #{current_booking.playing_on_text} #{current_booking.playing_from} on court #{current_booking.court_number}"
-end
-
 When /^I view the booking (I|they) have created$/ do |arg1|
   visit booking_path(current_booking.id)
 end
 
-When /^I delete the booking$/ do
-  click_link "Delete Booking"
-end
-
-When /^I edit the booking I have created$/ do
+When /^I edit the booking (I|they) have created$/ do |arg1|
   visit edit_booking_path(current_booking.id)
 end
 
-When /^I change Playing on$/ do
-  fill_in "Playing on", with: dates.in_the_future(5)
-end
-
-Then /^I should see a message telling me (.*) cannot be changed$/ do |field|
-  page.should have_content "#{field} cannot be changed"
-end
-
-When /^I change Court number$/ do
-  fill_in "Court number", with: courts.last.number
+When /^I delete the booking$/ do
+  click_link "Delete Booking"
 end
 
 When /^the booking is in the past$/ do
@@ -120,11 +57,51 @@ Then /^I should not be able to delete the booking$/ do
   page.should_not have_link("Delete Booking")
 end
 
-Given /^the peak hours setting are in place$/ do
-  peak_hours_settings
+When(/^I try to create another booking during peak hours$/) do
+  visit courts_path(current_booking.playing_on)
+  click_link current_booking.link_text
 end
 
-Given /^the courts are setup and the peak hours settings are in place$/ do
-  setup_courts
-  peak_hours_settings
+When /^I follow a link to create a new booking$/ do
+  create_current_booking(build_valid_booking)
+  click_link current_booking.link_text
 end
+
+Then /^I should see valid booking details$/ do
+  page.should have_content valid_time_and_place_text(current_booking)
+end
+
+When(/^I follow a link to edit the booking$/) do
+  click_link current_booking.players
+end
+
+Given(/^I have created a number of bookings in the future$/) do
+  create_subsequent_bookings(current_user, dates.current_date, slots.all, 4)
+end
+
+Then(/^I should( not)? see a list of the bookings (I|they) have created$/) do |negate, who|
+   (who == "I" ? current_user : other_member).bookings.each do |booking|
+     if negate
+       page.should_not have_selector(:id, "booking_" + booking.id.to_s)
+     else
+       within("#booking_" + booking.id.to_s) { valid_booking_details booking }
+     end
+   end
+ end
+
+Then(/^I should be able to (.*) each booking$/) do |modify|
+  current_user.bookings.each do |booking|
+    within("#booking_" + booking.id.to_s) do
+      page.should have_link modify.capitalize
+    end
+  end
+end
+
+Then(/^I should see my booking$/) do
+  valid_booking_details current_booking
+end
+
+Then(/^I should not be able to edit the booking$/) do
+  page.should_not have_link "Edit Booking"
+end
+
