@@ -2,7 +2,7 @@ class CourtTime < ActiveRecord::Base
   
   belongs_to :court
   
-  validates_presence_of :from, :to, :day
-  validates :from, :to, :time => true
+  validates_presence_of :time_from, :time_to, :day
+  validates :time_from, :time_to, :time => true
   
 end

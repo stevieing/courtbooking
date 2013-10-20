@@ -31,9 +31,9 @@ Slots.create
 
 Court.all.each do |c|
   (0..6).each do |day|
-    c.opening_times.build(day: day, from: "06:20", to: "08:20").save
-    c.opening_times.build(day: day, from: "17:40", to: "22:20").save
-    c.peak_times.build(day: day, from: "17:40", to: "20:20").save if day < 5
+    c.opening_times.build(day: day, time_from: "06:20", time_to: "08:20").save
+    c.opening_times.build(day: day, time_from: "17:40", time_to: "22:20").save
+    c.peak_times.build(day: day, time_from: "17:40", time_to: "20:20").save if day < 5
   end
 end
 

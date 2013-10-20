@@ -5,13 +5,8 @@ class Court < ActiveRecord::Base
   
   validates_presence_of :number
   
-  def open?(day, time)
-    opening_times.where("day = :day AND :time BETWEEN 'court_times'.'from' AND 'court_times'.'to'", {day: day, time: time}).count > 0
-  end
-
-  def peak_time?(day, time)
-    !peak_times.where("day = :day AND :time BETWEEN 'court_times'.'from' AND 'court_times'.'to'", {day: day, time: time}).empty?
-  end
+  delegate :open?, to: :opening_times
+  delegate :peak_time?, to: :peak_times
   
   class << self
   

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130924144443) do
+ActiveRecord::Schema.define(version: 20131020131003) do
 
   create_table "allowed_actions", force: true do |t|
     t.string   "name"
@@ -36,8 +36,8 @@ ActiveRecord::Schema.define(version: 20130924144443) do
   create_table "court_times", force: true do |t|
     t.integer  "court_id"
     t.integer  "day"
-    t.string   "from"
-    t.string   "to"
+    t.string   "time_from"
+    t.string   "time_to"
     t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"

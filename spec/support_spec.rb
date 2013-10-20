@@ -108,7 +108,7 @@ describe "BookingsHelpers" do
       let!(:booking)      {create_peak_hours_bookings_for_week court, user, date, max_bookings, slots}
    
       it { booking.should be_kind_of(Booking)}
-      it {court.peak_times.find_by(:day => date.beginning_of_week.wday).from.should == "17:40"}
+      it {court.peak_times.find_by(:day => date.beginning_of_week.wday).time_from.should == "17:40"}
       it {booking.should_not be_valid}
       it { Booking.all.count.should == max_bookings}
     

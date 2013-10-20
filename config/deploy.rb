@@ -52,6 +52,7 @@ namespace :deploy do
 
   desc "clear and reload the database with seed data"
   task :clear_and_seed do
+    #sudo "kill -9 `ps -u postgres -o pid`"
     run "cd #{current_path}; rake db:reset RAILS_ENV=#{rails_env}; rake db:seed RAILS_ENV=#{rails_env}"
   end
   

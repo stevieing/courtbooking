@@ -25,7 +25,7 @@ module BookingsHelpers
   end
 
   def get_slots(court, date, slots)
-    slots.index(court.peak_times.find_by(:day => date.wday).from)
+    slots.index(court.peak_times.find_by(:day => date.wday).time_from)
   end
   
   def set_attributes(court, date, slots, index)
