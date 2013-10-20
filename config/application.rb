@@ -69,5 +69,7 @@ module Courtbooking
     
     config.action_mailer.default_url_options = {host: Rails.configuration.mailer['smtp']['domain']}
     
+    config.assets.precompile += %w(shared.css,mixins.css,constants.css)
+    
   end
 end
