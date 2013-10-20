@@ -48,7 +48,7 @@
 	@include rounded_corners(2px);
 	
 	background:{
-		image: url($image);
+		image: image-url($image);
 		repeat: no-repeat;
 	};
 }
