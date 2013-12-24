@@ -24,6 +24,7 @@ describe Booking do
   it { should validate_presence_of(:playing_to)}
   
   it { should have_db_column(:opponent_id).of_type(:integer).with_options(null: true) }
+  it { should have_db_column(:opponent_name).of_type(:string).with_options(null: true) }
   it { should_not allow_value(Date.today-1).for(:playing_on)}
   
   it { should_not allow_value("1045").for(:playing_from) }

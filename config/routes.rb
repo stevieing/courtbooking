@@ -7,13 +7,14 @@ Courtbooking::Application.routes.draw do
     get "sign_in", :to => "devise/sessions#new"
   end
   
-  
-
-  resources :bookings
+  resources :bookings do
+    get :autocomplete_user_username, on: :collection
+  end
   
   namespace :admin do
     resources :settings, only: [:index, :edit, :update]
     resources :users
+    resources :courts
   end
 
   # The priority is based upon order of creation:

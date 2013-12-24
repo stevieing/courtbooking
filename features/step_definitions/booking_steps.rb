@@ -4,7 +4,7 @@ Before('@opponent') do
 end
 
 When /^I select an opponent$/ do
-  select(opponent.username, :from => "Opponent")
+  fill_in "Opponent", with: opponent.username
 end
 
 When /^I should not be able to select myself$/ do
@@ -105,3 +105,16 @@ Then(/^I should not be able to edit the booking$/) do
   page.should_not have_link "Edit Booking"
 end
 
+When(/^I follow the link to (.*) the booking$/) do |modify|
+  within("#booking_" + current_booking.id.to_s) do
+    click_link "#{modify.capitalize} Booking"
+  end
+end
+
+Then(/^the "(.*?)" field should contain "(.*?)"$/) do |field, value|
+  field_labeled(field).value.should =~ /#{value}/
+end
+
+When /^I wait for (\d+) seconds?$/ do |secs|
+sleep secs.to_i
+end

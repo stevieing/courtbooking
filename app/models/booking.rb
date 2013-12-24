@@ -23,7 +23,6 @@ class Booking < ActiveRecord::Base
   scope :by_court,  lambda{|court| where(:court_number => court)}
   scope :by_time,   lambda{|time| where(:playing_from => time)}
   
-  
   def players
     user.username + (opponent.nil? ? "" : " V " + self.opponent.username)
   end

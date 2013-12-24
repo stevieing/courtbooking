@@ -3,16 +3,13 @@ class ApplicationController < ActionController::Base
   
   before_filter :authenticate_user!, :authorise
   
-  delegate :allow?, to: :current_permission
-  helper_method :allow?
-  
-  delegate :allow_param?, to: :current_permission
-  helper_method :allow_param?
+  delegate :allow?, :allow_param?, to: :current_permission
   
   def current_year
     @current_year ||= Date.today.year
   end
-  helper_method :current_year
+  
+  helper_method :allow?, :allow_param?, :current_year
 
   private
   
@@ -30,6 +27,22 @@ class ApplicationController < ActionController::Base
     else
       redirect_to root_url, alert: "Not authorised."
     end
+  end
+  
+  def store_location
+    session[:return_to] = request.referer if request.get?
+  end
+  
+  def get_location(default)
+    session.delete(:return_to) || default
+  end
+
+  def redirect_back_or_default(default)
+    redirect_to(get_location(default))
+  end
+  
+  def js_redirect_back_or_default(default)
+    render js: %(window.location.href='#{get_location(default)}')
   end
   
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131020131003) do
+ActiveRecord::Schema.define(version: 20131220195951) do
 
   create_table "allowed_actions", force: true do |t|
     t.string   "name"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20131020131003) do
     t.date     "playing_on"
     t.string   "playing_from"
     t.string   "playing_to"
+    t.string   "opponent_name"
   end
 
   create_table "court_times", force: true do |t|

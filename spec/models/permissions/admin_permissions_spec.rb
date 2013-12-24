@@ -9,6 +9,7 @@ describe Permissions::AdminPermission do
     should_not allow_param(:booking, :playing_on_text)
     should_not allow_param(:booking, :court_number)
     should allow_param(:booking, :opponent_id)
+    should allow_param(:booking, :opponent_name)
     should_not allow_param(:booking, :user_id)
     should_not allow_param(:booking, :playing_on)
     should_not allow_param(:booking, :playing_from)
@@ -19,6 +20,7 @@ describe Permissions::AdminPermission do
     should allow_param(:user, :password)
     should allow_param(:user, :password_confirmation)
     should allow_param(:user, :mail_me)
+    should allow_param(:court, :number)
   end
 
 end

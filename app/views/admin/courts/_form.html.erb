@@ -1,0 +1,12 @@
+<%= form_for @court, url: admin_court_path(@court) do |f| %>
+	<fieldset>
+		<legend><%= header %></legend>
+		<ul>
+			<li>
+				<%= f.label :number, "Court number" %>
+				<%= f.text_field :number, disabled: true %>
+			</li>
+			<%= f.submit "Submit court" %>
+		</ul>
+	</fieldset>
+<% end %>

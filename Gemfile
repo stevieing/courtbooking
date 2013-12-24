@@ -24,6 +24,7 @@ end
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'devise'
+gem 'rails3-jquery-autocomplete'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -61,6 +62,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'email_spec'
   gem 'ruby-prof'
+  gem 'selenium-webdriver'
 end
 
 group :test, :darwin do

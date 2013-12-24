@@ -27,9 +27,7 @@ Feature: Members should be able to book a court
     
   @opponent
   Scenario: Not selecting myself as an opponent
-    When I go to the courts page
-    And I follow a link to create a new booking
-    Then I should not be able to select myself
+    Given PENDING
     
   Scenario: Making a new booking
     When I go to the courts page
@@ -37,6 +35,9 @@ Feature: Members should be able to book a court
     Then I should see valid booking details
     And I submit the booking
     Then I should see a message with the text Booking successfully created
+    
+  Scenario: Making a booking against an opponent
+    Given PENDING
 
   Scenario: Deleting a booking
     Given I have created a booking
@@ -71,6 +72,19 @@ Feature: Members should be able to book a court
     Then I should see my booking
     But I should not be able to edit the booking
     And I should not be able to delete the booking
+    
+  Scenario: Returning to the booking page after editing a booking
+    Given I have created a booking
+    When I go to the bookings page
+    And I follow the link to edit the booking
+    And I submit the booking
+    Then I should be redirected to the bookings page
+  
+  Scenario: Returning to the booking page after deleting a booking
+     Given I have created a booking
+     When I go to the bookings page
+     And I follow the link to delete the booking
+     Then I should be redirected to the bookings page
   
   @opponent, @other_member  
   Scenario: Viewing bookings for another user
@@ -78,5 +92,9 @@ Feature: Members should be able to book a court
     When I go to the bookings page
     Then I should see a list of the bookings I have created
     But I should not see a list of the bookings they have created
+  
+  @javascript @opponent
+  Scenario: Autocomplete
+    Given PENDING
     
     

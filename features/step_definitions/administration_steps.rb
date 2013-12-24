@@ -2,6 +2,18 @@ Before('@users') do
   create_list(:user, 10)
 end
 
+Before('@settings') do
+  setup_record_checker :setting, :description
+end
+
+Before('@users') do
+  setup_record_checker :user, :username
+end
+
+Before('@managecourts') do
+  setup_record_checker :courts, :number
+end
+
 When(/^I click on the "(.*?)" link$/) do |link|
   click_link link
 end
@@ -40,8 +52,8 @@ When(/^I update the email address( .*)?$/) do |invalid|
   click_button "Submit user"
 end
 
-When(/^I follow the link to add a new user$/) do
-  click_link "Add new user"
+When(/^I follow the link to add a new (.*)$/) do |model|
+  click_link "Add new #{model}"
 end
 
 When(/^I fill in valid user details$/) do
@@ -57,4 +69,12 @@ When(/^I follow the link to delete an existing user$/) do
   within("#user_#{user.id}") do
     click_link "Delete"
   end
+end
+
+Then(/^I should see a list of all of the courts$/) do
+  page_contains_all_courts?
+end
+
+Then /^the (.*) field should be disabled$/ do |field|
+  field_labeled(field, disabled: true).should be_disabled
 end

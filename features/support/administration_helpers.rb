@@ -1,15 +1,5 @@
 module AdministrationHelpers
   
-  def page_contains_all_settings?
-    settings.each do |setting|
-      page_contains_setting? (setting.description)
-    end
-  end
-  
-  def page_contains_setting? (setting)
-    page.should have_content(setting)
-  end
-  
   def valid_setting_value(setting)
     case setting.type
     when "NumberSetting"
@@ -30,16 +20,6 @@ module AdministrationHelpers
     else
       setting.value
     end
-  end
-  
-  def page_contains_all_users?
-    users.each do |user|
-      page_contains_user? (user.username)
-    end
-  end
-  
-  def page_contains_user? (username)
-    page.should have_content(username)
   end
   
   def valid_email

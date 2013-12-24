@@ -23,18 +23,19 @@
 	}
 }
 
-#manage_users{
+#manageusers, #managecourts{
 	margin: 5% auto 5% auto;
 	width: 80%;
 	color: $dark_green;
 	
-	#add_new_user{
+	#addnew{
 		font:{
 			size: 1.5em;
 		}
-		margin-left: 85%;
+		position: relative;
+		left: 85%;
 	}
-	
+
 	ul{
 		font:{
 			color: $dark-green;

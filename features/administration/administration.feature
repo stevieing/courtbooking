@@ -16,4 +16,5 @@ Feature: administration
     Examples:
       | heading          |
       | Manage Settings  |
-      | Manage Users     |    
+      | Manage Users     |
+      | Manage Courts    | 

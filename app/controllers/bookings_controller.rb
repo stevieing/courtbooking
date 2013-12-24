@@ -1,6 +1,9 @@
 class BookingsController < ApplicationController
   
+  autocomplete :user, :username
+  
   before_filter :bookings, only: [:index]
+  before_filter :store_location, only: [:index, :edit]
   
   def index
   end
@@ -49,8 +52,8 @@ class BookingsController < ApplicationController
       if @booking.update_attributes(params[:booking])
         BookingMailer.booking_confirmation(@booking).deliver
         flash_keep 'Booking successfully updated.'
-        format.html { redirect_to root_path }
-        format.js { js_redirect(courts_path(@booking.playing_on))}
+        format.html { redirect_back_or_default(courts_path(@booking.playing_on)) }
+        format.js { js_redirect_back_or_default(courts_path(@booking.playing_on))}
       else
         format.html { render :edit }
         format.js
@@ -59,17 +62,27 @@ class BookingsController < ApplicationController
   end
   
   def destroy
-    @booking = current_resource
-    if @booking.destroy
-      BookingMailer.booking_cancellation(@booking).deliver
-      notice = "Booking successfully deleted"
-    else
-      notice = "Unable to delete booking"
-    end
-    redirect_to courts_path(@booking.playing_on), notice: notice
-  end
+      @booking = current_resource
+       if @booking.destroy
+         BookingMailer.booking_cancellation(@booking).deliver
+         notice = "Booking successfully deleted"
+       else
+         notice = "Unable to delete booking"
+       end
+       flash_keep notice
+       #quick fix to cope with where destroy request comes from.
+       if request.referrer.include?("bookings")
+         redirect_to bookings_path
+       else
+         redirect_to courts_path(@booking.playing_on)
+       end
+     end
   
   protected
+  
+  def get_autocomplete_items(parameters)
+    super(parameters).without_user(current_user)
+  end
   
   def bookings
     @bookings ||= (current_user.admin? ? Booking.ordered.load : current_user.bookings.ordered.load)
