@@ -4,16 +4,18 @@
 
 @import "shared";
 
-#bookingslots, #calendar{
+#calendar, #bookingslots{
 	text-align: center;
 }
 
 #calendar{
-	float: right;
-	position: relative;
-	left: -2%;
-	color: black;
 	
+	float: right;
+	padding-left: 20px;
+	padding-top: 40px;
+	color: black;
+	font-size: 0.9em;
+
 	table{
 		
 		background-color: $light_brown;
@@ -28,16 +30,9 @@
 		}
 		
 		tr{
-			td{
-			}
-			
 			.selected{
 				
 				background-color: $light_green;
-			}
-			
-			th{
-				padding: 5px 0 5px 0;
 			}
 			
 			td, th{
@@ -55,8 +50,9 @@
 
 #bookingslots{
 	table{
-		width: 70%;
 		border-collapse: collapse;
+		
+		@include standardcaption;
 		
 		tr{
 			td, th{
@@ -67,24 +63,25 @@
 					width: 40px;
 					vertical-align: top;
 				}
-				
-				
 			}
 
 			td{
-				height: 75px;
+				height: 50px;
 				width: 25%;
+				
+				&:not(:first-child):not(:last-child){
+					font-size: 0.8em;
+					
+					&:hover{
+						@include highlight(0px,2px,3px,$dark_brown);
+					}
+					
+				}
 				
 				a{
 					color: $mid_brown;
 					display: block;
 					height: 100%;
-				}
-				&:not(:first-child):not(:last-child){
-					&:hover{
-						@include highlight(0px,2px,3px,$dark_brown);
-					}
-					
 				}
 				
 				.booked, .past{
@@ -105,7 +102,7 @@
 				.past{
 					background-color: $light_grey;
 				}
-				
+		
 			}
 
 			th{
@@ -114,5 +111,5 @@
 			}
 		}
 	}
-	
+
 }

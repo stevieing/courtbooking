@@ -10,8 +10,14 @@ module BookingSlotsHelper
     def section
       content_tag :section, id: "bookingslots" do
         content_tag :table do
-          courts_row + booking_slots_rows + courts_row
+          header + courts_row + booking_slots_rows + courts_row
         end
+      end
+    end
+    
+    def header
+      content_tag :caption do
+        current_date.to_s(:uk).html_safe
       end
     end
     

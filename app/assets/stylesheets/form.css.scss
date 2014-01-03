@@ -1,0 +1,132 @@
+@import "shared";
+
+footer{
+	border-top: 2px solid $dark_red;
+	margin-top: 50px;
+	height: 40px;
+	
+	#copyright{
+		padding-top: 10px;
+	}
+}
+
+
+*{
+    padding: 0;
+	margin: 0;
+}
+
+ul, ol{
+	list-style-type: none;
+}
+
+html, body{
+	height: 100%;
+	width: 100%;
+	text-decoration: none;
+	font: {
+		family: 'Helvetica Neue', helvetica, arial, sans-serif;
+	}
+}
+
+a{
+	text-decoration: none;
+	color: $dark_green;
+	
+	&:hover{
+		text-decoration: underline;
+	}
+}
+
+fieldset{
+	
+	legend{
+		display: none;
+	}
+	
+	ul{
+		margin: 5% auto 5% auto;
+		width: 80%;
+			
+		li{
+			margin: 0 0 0 10px;
+		    padding: 10px 0 0 0;
+		}
+	}
+		
+	label{
+		float: left;
+		width: 120px;
+		margin-right: 10px;
+		text-align: right;
+	}
+}
+
+legend{
+	font:{
+		size: 1.5em;
+		weight: bold;
+	}
+}
+
+select{
+	min-width: 200px;
+}
+
+input[type="submit"]{
+	width: auto;
+	height: 35px;
+	background-color: $dark_red;
+	padding: 5px;
+	color: white;
+	border: none;
+	font:{
+		size: 1.2em;
+	}
+	
+	@include rounded_corners(5px);
+	@include gradient($dark_red, $dark_red_grad);
+}
+
+.jazzyform{
+	fieldset{
+		@include jazzyform;
+	}
+}
+
+#signin{
+	width: 50%;
+	margin: 0 auto;
+
+	fieldset{
+		
+		margin-bottom: 10px;
+			
+		input[type="submit"]
+		{
+			position: relative;
+			left: 70%;
+		}  
+	}
+}
+
+#newbooking, #editbooking{
+	width: 60%;
+	margin: 0 auto;
+}
+
+#ajaxbooking{
+	font-size: 0.8em;
+	
+}
+
+#newbooking, #editbooking, #ajaxbooking{
+	fieldset{
+		input[type="submit"]
+		{
+			position: relative;
+			left: 55%;
+			top: 20px;
+		}
+	}
+}

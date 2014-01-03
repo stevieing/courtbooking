@@ -2,11 +2,9 @@
 
 FactoryGirl.define do
   factory :court_time do
-    court_id 1
     day 1
     time_from "06:20"
     time_to "22:00"
-    court
     
     factory :opening_time, :parent => :court_time, :class => 'OpeningTime' do
       time_from "06:20"

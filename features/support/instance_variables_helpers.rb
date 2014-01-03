@@ -31,7 +31,8 @@ module InstanceVariablesHelpers
       setting: lambda {Setting.first},
       users: lambda {User.all},
       user: lambda {User.first},
-      court_opening_type: lambda{ :court_with_opening_and_peak_times }
+      court_opening_type: lambda{ :court_with_opening_and_peak_times },
+      new_court_number: lambda{ Court.next_court_number }
     }
   end
   

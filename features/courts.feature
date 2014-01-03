@@ -20,12 +20,6 @@ Feature: Users should be able to browse the status of courts
     Then I should see a row for each time slot
     And I should be able to book each time slot for each court for today
     
-  @split_opening_times
-  Scenario: Browsing the courts during split opening times
-    When I go to the courts page
-    Then I should see a column for each court
-    But I should not see a row for time slots where all the courts are closed
-    
   Scenario: Browsing the calendar
     When I go to the courts page
     Then I should see a box for each day until a set day in the future

@@ -1,15 +1,19 @@
 <article id="managecourts">
-	<h1>Manage Courts</h1>
-	<div id="addnew">
-		<%= link_to "Add new court", new_admin_court_path %>
-	</div>
-	<ul>
+	<table class="admintable">
+		<caption>Manage Courts</caption>
+		<tr>
+			<td><%= link_to "Add new court", new_admin_court_path %></td>
+		</tr>
+		<tr>
+			<th>Court Number</th>
+		</tr>
 		<% courts.each do |court| %>
-			<section id="court_<%= court.id %>">
-				<li>
+		
+			<tr id="court_<%= court.id %>">
+				<td>
 					<div class="text"><%= court.number %></div>
-				</li>
-			</section>
-		<% end%>
-	</ul>
+				</td>
+			</td>
+		<% end %>
+	</table>
 </article>

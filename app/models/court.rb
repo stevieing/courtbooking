@@ -2,16 +2,13 @@ class Court < ActiveRecord::Base
   
   has_many :opening_times, :class_name => 'OpeningTime', :dependent => :destroy
   has_many :peak_times, :class_name => 'PeakTime', :dependent => :destroy
-  
-  validates_presence_of :number
-  validates :number, uniqueness: true
-  
+
   delegate :open?, to: :opening_times
   delegate :peak_time?, to: :peak_times
   
-  after_initialize do
-    self.number = Court.next_court_number if self.new_record?
-  end
+  extend AssociationExtras
+  
+  association_extras :opening_times, :peak_times
   
   class << self
   

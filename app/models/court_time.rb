@@ -4,5 +4,5 @@ class CourtTime < ActiveRecord::Base
   
   validates_presence_of :time_from, :time_to, :day
   validates :time_from, :time_to, :time => true
-  
+
 end

@@ -4,126 +4,63 @@
 
 @import "shared";
 
+.admintable{
+	@include standardtable(2);
+	@include admintable;
+}
+
 #admin{
-	margin: 5% auto 5% auto;
-	width: 80%;
+	width: 100%;
+	margin-top: 20px;
 	
-	li{
-		margin: 10px 0 0 10px;
-	    padding: 10px 0 0 0;
-		height: 100px;
-		background-color: $light_brown;
-		border: 2px solid $dark_brown;
-		
-		@include rounded_corners(5px);
-		
-		h1{
-			padding: 0 0 0 20px;
-		}
-	}
-}
-
-#manageusers, #managecourts{
-	margin: 5% auto 5% auto;
-	width: 80%;
-	color: $dark_green;
-	
-	#addnew{
-		font:{
-			size: 1.5em;
-		}
-		position: relative;
-		left: 85%;
-	}
-
 	ul{
-		font:{
-			color: $dark-green;
-			size: 1.2em;
-		}
-	
-		li{
-	    	padding: 10px 0 0 0;
-			height: 50px;
-			background-color: $light_brown;
-			border-top: 1px dotted $dark_brown;
-			border-bottom: 1px dotted $dark_brown;
-			
-			.text{
-				width: 150px;
-				
-			}
-				
-			.link{
-				float: right;
-				width: 150px;
-				
-				a{
-					padding-right: 20px;
-				}
-			}
+		margin-top: 20px;
+		text-align: center;
 		
-			div{
-				display: inline-block;
-				margin: 10px 10px 10px 10px;
+		h2{
+			padding:{
+				top: 120px;
+				bottom: 10px;
 			}
+			color: $dark_green;
 		}
-	}
-	
-}
+		
+		p{
+			font-size: 1.1em;
+		}
 
-#newuser, #edituser{
-	width: 50%;
-	margin: 0 auto;
-	
-	fieldset{
-		input[type="submit"]
-		{
-			position: relative;
-			left: 75%;
-			top: 20px;
-			width: 120px;
+		@each $admin in settings, members, courts, events, emails, reports{
+			.#{$admin}{
+				@include adminicon("#{$admin}.png");
+			}
 		}
 		
-		input
-		{
-			width: 250px;
+		li{
+			width: 32%;
+			height: 270px;
+			float: left;
+			margin:{
+				bottom: 10px;
+			}
+			padding:{
+				left: 5px;
+				right: 5px;
+			}
+			
+			background-color: $light_brown;
 		}
-		
-		input[type="checkbox"]{
-			width: auto;
-		}
-		
-		label{
-			width: 200px;
-		}
-		
-		
 	}
 }
 
 #managesettings{
-	margin: 5% auto 5% auto;
-	width: 90%;
-	
+
 	fieldset{
 		border: none;
 	}
 	
-	ul{
-		background-color: $light_green;
-		
-		li{
-			border:{
-				top: 1px dotted $dark_brown;
-				bottom: 1px dotted $dark_brown;
-			};
-		}
-	}
-	
 	label{
 		margin-top: 5px;
-		width: 500px;
+		width: 60%;
 	}
 	
 	input[type="text"]{
@@ -135,6 +72,28 @@
 		position: relative;
 		left: 5%;
 		width: 100px;
+	}
+}
+
+#newcourt{
+
+	label{
+		width: 100px;
+	}
+	
+	input[type="text"]
+	{
+		width: 100px;
+	}
+	
+	fieldset fieldset ul {
+		clear: both;
+		width: 100%;
+		
+		li{
+			float: left;
+		}
+		
 	}
 }
 

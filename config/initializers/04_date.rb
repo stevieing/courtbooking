@@ -21,4 +21,10 @@ class Date
     end
   end
   
+  class << self
+    def days_of_week
+      Date::DAYS_INTO_WEEK.inject({}) { |h, (k, v)| h[k.to_s.capitalize] = v; h }
+    end
+  end
+  
 end

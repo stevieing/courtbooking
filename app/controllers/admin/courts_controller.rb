@@ -6,17 +6,19 @@ class Admin::CourtsController < ApplicationController
   end
   
   def new
-    @court = Court.new
-    @header = "New court"
+    @manage_court_form = ManageCourtForm.new
+    @manage_court_form.opening_times.build
+    @manage_court_form.peak_times.build
+    @header = "New Court"
   end
   
   def create
-    @court = Court.new(params[:court])
-     if @court.save
-       redirect_to admin_courts_path, notice: "Court successfully created."
-     else
-       render :new
-     end
+    @manage_court_form = ManageCourtForm.new
+    if @manage_court_form.submit(params[:court])
+      redirect_to admin_courts_path, notice: "Court successfully created."
+    else
+      render :new
+    end
   end
   
   private

@@ -2,10 +2,6 @@ Before('@other_member') do
   other_member
 end
 
-Before('@split_opening_times') do
-  create_court_opening_type(:court_with_split_opening_times)
-end
-
 Given /^there are (\d+) courts$/ do |number|
   create_courts number.to_i
 end

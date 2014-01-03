@@ -41,3 +41,15 @@ end
 Then(/^I should see a message with the text (.*)$/) do |message|
   page.should have_content message
 end
+
+When(/^I click on the "(.*?)" link$/) do |link|
+  click_link link
+end
+
+When(/^I follow the link to add a new (.*)$/) do |model|
+  click_link "Add new #{model}"
+end
+
+When(/^I leave the (.*) blank$/) do |field|
+  fill_in field, with: nil
+end

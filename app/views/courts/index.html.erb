@@ -1,4 +1,5 @@
 <%#= courts view %>
-<h2><%= current_date.to_s(:uk) %></h2>
-<%= render "calendar" %>
-<%= render "slots", slots: slots %>
+<div id="courts">
+	<%= render "calendar" %>
+	<%= render "slots", slots: slots %>
+</div>

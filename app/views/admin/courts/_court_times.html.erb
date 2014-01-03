@@ -1,0 +1,24 @@
+<li id="<%= court_times.remove_underscores %>">
+	<fieldset>
+		<legend><%= court_times.to_heading %></legend>
+		<h2><%= court_times.to_heading %></h2>
+		<% objects.each do |object| %>
+			<%= f.fields_for court_times, object do |court_time| %>
+				<ul>
+					<li>
+						<%= court_time.label :day %>
+						<%= court_time.text_field :day %>
+					</li>
+					<li>
+						<%= court_time.label :time_from, "From" %>
+						<%= court_time.text_field :time_from %>
+					</li>
+					<li>
+						<%= court_time.label :time_to, "To" %>
+						<%= court_time.text_field :time_to %>
+					</li>
+				</ul>
+				<% end %>
+		<% end %>
+	</fieldset>
+</li>

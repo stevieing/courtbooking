@@ -17,4 +17,7 @@ Feature: administration
       | heading          |
       | Manage Settings  |
       | Manage Users     |
-      | Manage Courts    | 
+      | Manage Courts    |
+      | Manage Events    |
+      | Send Emails      |
+      | Run Reports      |

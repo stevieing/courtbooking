@@ -52,3 +52,72 @@
 		repeat: no-repeat;
 	};
 }
+
+@mixin jazzyform{
+	border: 1px solid $dark_green;
+	background-color: $light_green;
+	@include rounded_corners(5px);
+}
+
+@mixin adminicon($image){
+	background:{
+		image: image-url($image);
+		repeat: no-repeat;
+		position: center 5%;
+	}
+}
+
+@mixin standardcaption{
+	caption{
+		font:{
+			size: 1.5em;
+			weight: bold;
+		}
+		
+		text-align: left;
+		margin: 20px 0 20px 0;
+		color: $dark_green;
+	}
+}
+
+@mixin standardtable($header_row){
+	width: 100%;
+	
+	@include standardcaption;
+		
+	th{
+		padding: 10px 0 10px 0;
+		color: $dark_green;
+	}
+		
+	tr{
+		&:not(:first-child):not(:nth-child(#{$header_row})){
+			background-color: $light_brown;
+			border-bottom: 1px dotted $dark_brown;
+		}
+			
+		&:nth-child(#{$header_row}){
+			background-color: $light_red;
+			border:{
+				top: 2px solid $dark_red;
+				bottom: 2px solid $dark_red;
+			}
+		}
+	}
+}
+
+@mixin admintable{
+	th{
+		text-align: left;
+		padding-left: 5px;
+	}
+	
+	tr{
+		&:first-child{
+			text-align: right;
+			font-size: 1.2em;
+			padding-bottom: 5px;
+		}
+		
+	}
+}

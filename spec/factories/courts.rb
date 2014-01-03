@@ -5,21 +5,12 @@ FactoryGirl.define do
     sequence(:number, 1) {|n| n}
     
     factory :court_with_opening_and_peak_times do
-           after(:create) do |court|
-             (0..6).each do |day|
-               FactoryGirl.create(:opening_time, court: court, day: day)
-               FactoryGirl.create(:peak_time, court: court, day: day) if day > 0 && day < 6
-             end
-           end
-         end
-         
-         factory :court_with_split_opening_times do
-            after(:create) do |court|
-               (0..6).each do |day|
-                 FactoryGirl.create(:opening_time, time_from: "06:20", time_to: "08:20", court: court, day: day)
-                 FactoryGirl.create(:opening_time, time_from: "17:40", time_to: "22:00", court: court, day: day)
-               end
-             end
-         end
+      after(:create) do |court|
+        (0..6).each do |day|
+          FactoryGirl.create(:opening_time, court: court, day: day)
+          FactoryGirl.create(:peak_time, court: court, day: day) if day < 5
+        end
+      end
+    end
   end
 end

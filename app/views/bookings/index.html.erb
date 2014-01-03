@@ -1,7 +1,6 @@
-<h1>Bookings</h1>
-
 <section id="bookings">
-	<table>
+	<table class="standardtable">
+		<caption>Bookings</caption>
 		<tr>
 			<th>Playing on</th>
 			<th>From</th>
@@ -25,7 +24,7 @@
 					<td>
 						<%= render 'delete', link_text: "Delete Booking", booking: booking %>
 					</td>
-				<% else%>
+				<% else %>
 					<td>&nbsp;</td><td>&nbsp;</td>
 				<% end %>
 			<tr>

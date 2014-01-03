@@ -15,6 +15,9 @@ Courtbooking::Application.routes.draw do
     resources :settings, only: [:index, :edit, :update]
     resources :users
     resources :courts
+    resources :events
+    resources :emails
+    resources :reports
   end
 
   # The priority is based upon order of creation:

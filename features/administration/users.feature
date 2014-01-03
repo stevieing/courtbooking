@@ -8,7 +8,7 @@ Feature: manage users
     Given the courts are setup
     And I am signed in as an administrator
     
-  Scenario: Manage users
+  Scenario: Manage members
     Given I go to the admin users page
     Then I should see a list of all of the current users
     

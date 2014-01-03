@@ -5,6 +5,12 @@
 	color: white;
 }
 
+.ui-dialog-content{
+	fieldset{
+		@include jazzyform;
+	}
+}
+
 .ui-button{
 	color: white;
 	background-color: black;
