@@ -1,5 +1,32 @@
 @import "shared";
 
+*{
+    padding: 0;
+	margin: 0;
+}
+
+ul, ol{
+	list-style-type: none;
+}
+
+html, body{
+	height: 100%;
+	width: 100%;
+	text-decoration: none;
+	font: {
+		family: 'Helvetica Neue', helvetica, arial, sans-serif;
+	}
+}
+
+a{
+	text-decoration: none;
+	color: $dark_green;
+	
+	&:hover{
+		text-decoration: underline;
+	}
+}
+
 h2,h3,h4,h5,h6{
 	color: $dark_green;
 }
@@ -61,6 +88,17 @@ header{
 		}
 	}
 }
+
+footer{
+	border-top: 2px solid $dark_red;
+	margin-top: 50px;
+	height: 40px;
+	
+	#copyright{
+		padding-top: 10px;
+	}
+}
+
 
 #container{
 	position: relative;
