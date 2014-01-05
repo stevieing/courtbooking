@@ -54,6 +54,8 @@ module Courtbooking
     # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
     # parameters by using an attr_accessible or attr_protected declaration.
     
+    config.i18n.enforce_available_locales = false
+    
     #convert dates and times to correct time zone
     config.time_zone = 'London'
     config.active_record.default_timezone = :local

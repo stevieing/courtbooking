@@ -51,7 +51,7 @@ describe Court do
   describe "association add ons" do
     
     let!(:court) { create(:court) }
-    let(:attributes) { {"0"=>{"day"=>"0", "time_from"=>"06:20", "time_to"=>"22:20"}, "1"=>{"day"=>"1", "time_from"=>"06:20", "time_to"=>"22:20"}, "2"=>{"day"=>"2", "time_from"=>"06:20", "time_to"=>"22:20"}, "3"=>{"day"=>"3", "time_from"=>"06:20", "time_to"=>"22:20"}}}
+    let(:attributes) { [{"day"=>"0", "time_from"=>"06:20", "time_to"=>"22:20"},{"day"=>"1", "time_from"=>"06:20", "time_to"=>"22:20"},{"day"=>"2", "time_from"=>"06:20", "time_to"=>"22:20"},{"day"=>"3", "time_from"=>"06:20", "time_to"=>"22:20"}]}
     
     describe "should be included" do
       

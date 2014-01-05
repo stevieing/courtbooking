@@ -16,8 +16,6 @@
 
 .rvmrc
 .DS_Store
-.ruby-gemset
-.ruby-version
 
 #ignore the database.yml and mailer.yml file for security reasons
 /config/database.yml
