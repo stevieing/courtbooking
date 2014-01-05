@@ -20,3 +20,6 @@
 #ignore the database.yml and mailer.yml file for security reasons
 /config/database.yml
 /config/mailer.yml
+
+#ignore Capistrano deployment environments for security reasons
+/config/deploy/
