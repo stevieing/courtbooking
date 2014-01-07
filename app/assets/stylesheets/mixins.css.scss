@@ -24,10 +24,10 @@
 }
 
 @mixin highlight($horiz, $vert, $blur, $colour){
-	-moz-box-shadow: $horiz $vert $blur $colour, inset $horiz $vert $blur $colour;
-	-webkit-box-shadow: $horiz $vert $blur $colour, inset $horiz $vert $blur $colour;
-	-o-box-shadow: $horiz $vert $blur $colour, inset $horiz $vert $blur $colour;
-	box-shadow: $horiz $vert $blur $colour, inset $horiz $vert $blur $colour;
+	-moz-box-shadow: inset $horiz $vert $blur $colour;
+	-webkit-box-shadow: inset $horiz $vert $blur $colour;
+	-o-box-shadow: inset $horiz $vert $blur $colour;
+	box-shadow: inset $horiz $vert $blur $colour;
 }
 
 @mixin flash($colour, $image){

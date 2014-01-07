@@ -73,7 +73,8 @@
 					
 					&:hover{
 						border-collapse: separate;
-						@include highlight(0px,2px,3px,$dark_brown);
+						@include highlight(0px,0px,6px,$dark_brown);
+						//@include highlight(0px,2px,3px,$dark_brown);
 					}
 					
 				}
