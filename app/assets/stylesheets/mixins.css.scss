@@ -1,9 +1,12 @@
 //mixins.css.scss
 
 @mixin gradient($top, $bottom){
-	background-image:-moz-linear-gradient(top, $top, $bottom);
-	background-image: -webkit-gradient(linear,left top, left bottom, color-stop(0, $top), color-stop(1, $bottom));
-	background-image: linear-gradient(top, $top,$bottom);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, $top), color-stop(1, $bottom));
+	background-image: -o-linear-gradient(bottom, $top, $bottom);
+	background-image: -moz-linear-gradient(bottom, $top, $bottom);
+	background-image: -webkit-linear-gradient(bottom, $top, $bottom);
+	background-image: -ms-linear-gradient(bottom, $top, $bottom);
+	background-image: linear-gradient(to bottom, $top,$bottom);
 }
 
 @mixin rounded_corners($width){
@@ -13,7 +16,6 @@
 }
 
 @mixin drop_shadow($width, $colour){
-	
 	-moz-box-shadow: $width $width $width $colour;
 	-webkit-box-shadow: $width $width $width $colour;
 	-o-box-shadow: $width $width $width $colour;
@@ -22,12 +24,10 @@
 }
 
 @mixin highlight($horiz, $vert, $blur, $colour){
-	
 	-moz-box-shadow: $horiz $vert $blur $colour, inset $horiz $vert $blur $colour;
 	-webkit-box-shadow: $horiz $vert $blur $colour, inset $horiz $vert $blur $colour;
 	-o-box-shadow: $horiz $vert $blur $colour, inset $horiz $vert $blur $colour;
 	box-shadow: $horiz $vert $blur $colour, inset $horiz $vert $blur $colour;
-	
 }
 
 @mixin flash($colour, $image){

@@ -50,8 +50,6 @@
 
 #bookingslots{
 	table{
-		border-collapse: collapse;
-		
 		@include standardcaption;
 		
 		tr{
@@ -66,6 +64,7 @@
 			}
 
 			td{
+				
 				height: 50px;
 				width: 25%;
 				
@@ -73,6 +72,7 @@
 					font-size: 0.8em;
 					
 					&:hover{
+						border-collapse: separate;
 						@include highlight(0px,2px,3px,$dark_brown);
 					}
 					

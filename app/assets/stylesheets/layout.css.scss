@@ -45,8 +45,9 @@ header{
 	margin-top: 10px;
 	color: white;
 	height: 50px;
+	background-color: $dark_red;
 	
-	@include gradient( $dark_red, $dark_red_grad);
+	@include gradient($dark_red, $dark_red_grad);
 	
 	#logo {
 		padding-left: 3px;
