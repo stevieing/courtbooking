@@ -45,6 +45,15 @@ Feature: manage courts
     And I submit the court
     Then I should see a message with the text Time from should be in format hh:mm
     
+  Scenario: Add a new court with multiple opening times
+    Given I go to the admin courts page
+    When I follow the link to add a new court
+    And I add a valid opening time
+    And I add an additional opening time
+    And I submit the court
+    Then I should see a message with the text Court successfully created
+    And the court should have more than one opening time
+    
   @newcourtnumber  
   Scenario: Add a new court with a valid peak time
     Given I go to the admin courts page

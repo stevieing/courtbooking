@@ -8,9 +8,9 @@
 		<li><%= link_to "ADMIN", admin_path %></li>
 	<% end %>
 	<% if user_signed_in? %>
-		<li><%= link_to "SIGN OUT", destroy_user_session_path, :method => :delete %></li></ul>
+		<li><%= link_to "SIGN OUT", sign_out_path, :method => :delete %></li></ul>
 		<div class="username">Signed in as: <%= current_user.username %></div>
 	<% else%>
-		<li><%= link_to "SIGN IN", new_user_session_path %></li></ul>
+		<li><%= link_to "SIGN IN", sign_in_path %></li></ul>
 	<% end %>
 </nav>

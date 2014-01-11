@@ -3,3 +3,8 @@
 
 en:
   hello: "Hello world"
+  booking_mailer:
+      booking_confirmation:
+          subject: Booking Confirmation - Stamford Squash Club
+      booking_cancellation:
+          subject: Booking Cancelled - Stamford Squash Club

@@ -19,8 +19,7 @@ When(/^I update the email address( .*)?$/) do |invalid|
 end
 
 When(/^I fill in valid user details$/) do
-  user = build(:user)
-  fill_in_details({username: user.username, email: user.email, password: user.password, password_confirmation: user.password})
+  fill_in_details valid_user_details
 end
 
 When(/^I follow the link to delete an existing user$/) do

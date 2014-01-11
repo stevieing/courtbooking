@@ -10,4 +10,8 @@ class Symbol
   def to_heading
     self.to_s.gsub(/_/,' ').titleize
   end
+  
+  def superclass
+    self.to_s.classify.constantize.superclass
+  end
 end

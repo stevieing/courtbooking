@@ -1,7 +1,5 @@
 class BookingsController < ApplicationController
   
-  autocomplete :user, :username
-  
   before_filter :bookings, only: [:index]
   before_filter :store_location, only: [:index, :edit]
   
@@ -79,11 +77,7 @@ class BookingsController < ApplicationController
      end
   
   protected
-  
-  def get_autocomplete_items(parameters)
-    super(parameters).without_user(current_user)
-  end
-  
+
   def bookings
     @bookings ||= (current_user.admin? ? Booking.ordered.load : current_user.bookings.ordered.load)
   end

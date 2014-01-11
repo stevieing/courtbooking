@@ -4,13 +4,7 @@ Before('@opponent') do
 end
 
 When /^I select an opponent$/ do
-  fill_in "Opponent", with: opponent.username
-end
-
-When /^I should not be able to select myself$/ do
-  within("#booking_opponent_id") do
-    page.should_not have_content current_user.username
-  end
+  select opponent.username, from: "Opponent"
 end
 
 Given(/^I have already created the maximum number of bookings during peak hours for the week$/) do
@@ -115,6 +109,6 @@ Then(/^the "(.*?)" field should contain "(.*?)"$/) do |field, value|
   field_labeled(field).value.should =~ /#{value}/
 end
 
-When /^I wait for (\d+) seconds?$/ do |secs|
-sleep secs.to_i
+Then(/^I should not be able to select myself as an opponent$/) do
+  page.should_not have_xpath "//select[@id = 'Opponent']/option[@value = '#{current_user.username}']"
 end

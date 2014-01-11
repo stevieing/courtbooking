@@ -6,10 +6,7 @@ When(/^I have successfully created a new booking( against an opponent)?$/) do |e
   visit courts_path
   create_current_booking(build_valid_booking)
   click_link current_booking.link_text
-  unless enemy.nil?
-    fill_in "Opponent", with: opponent.username
-    find(:xpath, "//input[@id='booking_opponent_id']").set opponent.id
-  end
+  select opponent.username, from: "Opponent" unless enemy.nil?
   click_button "Submit booking"
   page.should have_content "Booking successfully created"
 end

@@ -3,7 +3,7 @@ module Permissions
     def initialize(user)
       allow :courts, [:index]
       allow "devise/sessions", [:create, :destroy]
-      allow_param :booking, [:time_and_place, :opponent_id, :opponent_name]
+      allow_param :booking, [:time_and_place, :opponent_id]
       user.permissions.each do |permission|
         if permission.allowed_action.user_specific
           allow permission.allowed_action.controller, permission.allowed_action.action do |booking|

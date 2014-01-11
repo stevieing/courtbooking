@@ -124,7 +124,6 @@ Then /^I should be able to edit the second booking$/ do
 end
 
 Then(/^I should not see a row for time slots where all the courts are closed$/) do
-  Court.all.count.should == 4
   within_the_bookingslots_container do
     courts.each do |court|
       slots.all.each do |slot|

@@ -37,6 +37,7 @@ module AuthenticationHelpers
   def add_user_permission(permission)
     current_user.permissions.create(allowed_action_id: AllowedAction.find_by(:name => permission).id)
   end
+  
 end
 
 World(AuthenticationHelpers)

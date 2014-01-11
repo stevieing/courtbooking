@@ -36,16 +36,16 @@ module AdministrationHelpers
     end
   end
   
-  def add_valid_opening_time
-    add_valid_court_time "openingtimes", build(:opening_time)
+  def add_valid_opening_time(n)
+    add_valid_court_time "opening_time_#{n}", build(:opening_time)
   end
   
-  def add_valid_peak_time
-    add_valid_court_time "peaktimes", build(:peak_time)
+  def add_valid_peak_time(n)
+    add_valid_court_time "peak_time_#{n}", build(:peak_time)
   end
   
-  def add_valid_court_time(key, court_time)
-    fill_in_court_time key, Date.days_of_week["Monday"], court_time
+  def add_valid_court_time(id, court_time)
+    fill_in_court_time id, Date.days_of_week["Monday"], court_time
   end
   
   def fill_in_court_time(id, day, court_time)
@@ -73,6 +73,11 @@ module AdministrationHelpers
   
   def has_valid_opening_times(court_number)
     has_valid_court_times court_number, :opening_times
+  end
+  
+  def valid_user_details
+    user = build(:user)
+    {username: user.username, email: user.email, password: user.password, password_confirmation: user.password}
   end
 end
 

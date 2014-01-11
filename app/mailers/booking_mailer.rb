@@ -1,5 +1,8 @@
 class BookingMailer < ActionMailer::Base
-  default from: Rails.configuration.mailer['smtp']['user_name']
+  
+  @default_from = Rails.env.production? ? Rails.configuration.mailer['sendmail']['from'] : Rails.configuration.mailer['smtp']['user_name']
+  
+  default from: @default_from
   
   after_action :mail_me
   
@@ -10,12 +13,12 @@ class BookingMailer < ActionMailer::Base
   #
   def booking_confirmation(booking)
     @booking = booking
-    mail to: set_emails, subject: "Booking Confirmation - Stamford Squash Club"
+    mail to: set_emails, subject: I18n.t('booking_mailer.booking_confirmation.subject')
   end
   
   def booking_cancellation(booking)
     @booking = booking
-    mail to: set_emails, subject: "Booking Cancelled - Stamford Squash Club"
+    mail to: set_emails, subject: I18n.t('booking_mailer.booking_cancellation.subject')
   end
   
   private
