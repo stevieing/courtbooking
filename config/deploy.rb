@@ -45,6 +45,7 @@ namespace :deploy do
   
   desc "Create config folder and add database.yml"
   task :create_config do
+    run "rm -rf #{shared_path}/config"
     run "mkdir #{shared_path}/config"
     put (File.read("config/database.yml")), "#{shared_path}/config/database.yml"
     put (File.read("config/mailer.yml")), "#{shared_path}/config/mailer.yml"
