@@ -3,10 +3,10 @@
 		<legend><%= court_times.to_heading %></legend>
 		<h2><%= court_times.to_heading %></h2>
 		<% objects.each_with_index do |object, i| %>
-			<%= f.fields_for court_times, object do |builder| %>
+			<%= f.fields_for court_times, object, index: i do |builder| %>
 				<%= render 'court_time', f: builder, id: "#{court_times.to_s.singularize}_#{i+1}" %>
 			<% end %>
-			<%= link_to_add_fields "Add #{court_times.to_heading.singularize}", f, court_times %>
+			<ul><li><%= link_to_add_fields "Add #{court_times.to_heading.singularize}", f, court_times %></li></ul>
 		<% end %>
 	</fieldset>
 </li>

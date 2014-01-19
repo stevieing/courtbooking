@@ -30,8 +30,8 @@ class ManageCourtForm
 
   def submit(params)
     court.attributes = params.slice(:number)
-    court.build_opening_times(reject_blank_court_times([params["opening_times"]]))
-    court.build_peak_times(reject_blank_court_times([params["peak_times"]]))
+    court.build_opening_times(reject_blank_court_times(params["opening_times"]))
+    court.build_peak_times(reject_blank_court_times(params["peak_times"]))
     if valid?
       save_objects
     else
@@ -55,7 +55,7 @@ class ManageCourtForm
   end
   
   def reject_blank_court_times(court_times)
-    court_times.reject{ |court_time| court_time["day"].empty? && court_time["time_from"].empty? && court_time["time_to"].empty?}
+    court_times.reject{ |k, court_time| court_time["day"].empty? && court_time["time_from"].empty? && court_time["time_to"].empty?}
   end
   
   def verify_unique_court_number

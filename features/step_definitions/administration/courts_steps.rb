@@ -18,34 +18,29 @@ When(/^I fill in time from with an invalid value for the (.*)$/) do |court_time|
   add_invalid_court_time court_time.gsub(/ /,'').pluralize
 end
 
-When(/^I add a valid opening time$/) do
-  within("#openingtimes") do
-    add_valid_opening_time(1)
+When(/^I add a valid (.*) time$/) do |type|
+   within("##{type}times") do
+    add_valid_court_time 1, type
+  end  
+end
+
+Then(/^the court should have (\w+) times$/) do |type|
+  has_valid_court_times new_court_number, "#{type}_times".to_s
+end
+
+When(/^I add an additional (.*) time$/) do |type|
+  within("##{type}times") do
+    click_link "Add #{type.capitalize} Time"
+    add_valid_court_time 2, type
   end
 end
 
-Then(/^the court should have opening times$/) do
-  has_valid_opening_times new_court_number
+Then(/^the court should have (\d+) (.*) times?$/) do |n, type|
+  has_multiple_court_times new_court_number, n, "#{type}_times".to_sym
 end
 
-When(/^I add a valid peak time$/) do
-  within("#peaktimes") do
-    add_valid_peak_time(1)
+When(/^I remove the additional (.*) time$/) do |type|
+  within("##{type}times") do
+    remove_court_time 2, type
   end
-end
-
-Then(/^the court should have peak times$/) do
-  has_valid_peak_times new_court_number
-end
-
-When(/^I add an additional opening time$/) do
-  # within("#openingtimes") do
-  #     click_link "Add Opening Time"
-  #     add_valid_opening_time(2)
-  #   end
-  pending # express the regexp above with the code you wish you had
-end
-
-Then(/^the court should have more than one opening time$/) do
-  pending # express the regexp above with the code you wish you had
 end

@@ -17,3 +17,4 @@ $.fn.addDialog = (partial, title) ->
 		open: -> $(this).html(partial)
 		buttons:
 			Cancel: -> $(this).dialog("close")
+

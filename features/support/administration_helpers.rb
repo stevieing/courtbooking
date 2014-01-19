@@ -35,17 +35,9 @@ module AdministrationHelpers
       fill_in field.to_s.capitalize.gsub('_',' '), with: value
     end
   end
-  
-  def add_valid_opening_time(n)
-    add_valid_court_time "opening_time_#{n}", build(:opening_time)
-  end
-  
-  def add_valid_peak_time(n)
-    add_valid_court_time "peak_time_#{n}", build(:peak_time)
-  end
-  
-  def add_valid_court_time(id, court_time)
-    fill_in_court_time id, Date.days_of_week["Monday"], court_time
+
+  def add_valid_court_time(n, type)
+    fill_in_court_time "#{type}_time_#{n}", Date.days_of_week["Monday"], build("#{type}_time".to_sym)
   end
   
   def fill_in_court_time(id, day, court_time)
@@ -67,18 +59,22 @@ module AdministrationHelpers
     court.send(object).should_not be_empty
   end
   
-  def has_valid_peak_times(court_number)
-    has_valid_court_times court_number, :peak_times
-  end
-  
-  def has_valid_opening_times(court_number)
-    has_valid_court_times court_number, :opening_times
-  end
-  
   def valid_user_details
     user = build(:user)
     {username: user.username, email: user.email, password: user.password, password_confirmation: user.password}
   end
+
+  def has_multiple_court_times(court_number, number, object)
+    court = Court.find_by :number => court_number
+    court.send(object).count.should ==  number.to_i
+  end
+
+  def remove_court_time(n, type)
+    within("##{type}_time_#{n}") do
+      click_link "Remove"
+    end
+  end
+
 end
 
 World(AdministrationHelpers)
