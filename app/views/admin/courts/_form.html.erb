@@ -8,7 +8,7 @@
 			</li>
 			<%= render "court_times", f: f, court_times: :opening_times, objects: @manage_court_form.opening_times %>
 			<%= render "court_times", f: f, court_times: :peak_times, objects: @manage_court_form.peak_times %>
-			<%= f.submit "Submit court" %>
+			<li class="submit"><%= f.submit "Submit court" %></li>
 		</ul>
 	</fieldset>
 <% end %>

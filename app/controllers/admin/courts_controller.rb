@@ -7,8 +7,6 @@ class Admin::CourtsController < ApplicationController
   
   def new
     @manage_court_form = ManageCourtForm.new
-    @manage_court_form.opening_times.build
-    @manage_court_form.peak_times.build
     @header = "New Court"
   end
   
@@ -20,6 +18,30 @@ class Admin::CourtsController < ApplicationController
       render :new
     end
   end
+
+  def edit
+    @manage_court_form = ManageCourtForm.new(current_resource)
+    @header = "Edit Court"
+  end
+
+  def update
+    @manage_court_form = ManageCourtForm.new(current_resource)
+    if @manage_court_form.submit(params[:court])
+      redirect_to admin_courts_path, notice: "Court successfully updated."
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @court = current_resource
+    if @court.destroy
+      notice = "Court successfully deleted"
+    else
+      notice = "Unable to delete court"
+    end
+    redirect_to admin_courts_path, notice: notice
+  end
   
   private
   
@@ -28,5 +50,9 @@ class Admin::CourtsController < ApplicationController
   end
   
   helper_method :courts
+
+  def current_resource
+    @current_resource ||= Court.find(params[:id]) if params[:id]
+  end
   
 end

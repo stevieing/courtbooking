@@ -46,11 +46,28 @@ Feature: manage users
       | Username                | Username can't be blank                      |
       | Email                   | Email can't be blank                         |
       
-    Scenario: Delete an existing user
-      Given I go to the admin users page
-      When I follow the link to delete an existing user
-      Then I should see a message with the text User successfully deleted
-    
-    
-  
-    
+  Scenario: Delete an existing user
+    Given I go to the admin users page
+    When I follow the link to delete an existing user
+    Then I should see a message with the text User successfully deleted
+
+  @javascript @authorisation
+  Scenario: Add a new user with permissions
+    Given I go to the admin users page
+    When I follow the link to add a new user
+    And I fill in valid user details
+    And I fill in email with an email address
+    And I add some valid permissions
+    And I submit the user
+    Then I should see a message with the text User successfully created
+    And the user should have some valid permissions
+
+  @javascript @authorisation
+  Scenario: Edit an existing user with permissions
+    Given there is a user with standard permissions
+    When I go to the admin users page
+    And I edit the user
+    And I remove a permission
+    And I submit the user
+    Then I should see a message with the text User successfully updated
+    And 1 permission should have been deleted from the user

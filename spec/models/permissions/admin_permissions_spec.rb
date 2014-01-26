@@ -22,6 +22,7 @@ describe Permissions::AdminPermission do
     should allow_param(:court, :number)
     should allow_param(:court, :opening_times => [:day, :time_from, :time_to])
     should allow_param(:court, :peak_times => [:day, :time_from, :time_to])
+    should allow_param(:user, :permissions => [:allowed_action_id])
   end
 
 end

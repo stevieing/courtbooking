@@ -1,5 +1,5 @@
 <article id="newuser">
 	<h2><%= @header %></h2>
-	<%= render "error_messages", :target => @user %>
-	<%= render "form", :header => @header, :resource => admin_users_path %>
+	<%= render "error_messages", target: @manage_user_form %>
+	<%= render "form", header: @header, resource: admin_users_path %>
 </article>

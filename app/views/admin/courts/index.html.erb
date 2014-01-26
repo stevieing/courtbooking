@@ -2,10 +2,12 @@
 	<table class="admintable">
 		<caption>Manage Courts</caption>
 		<tr>
-			<td><%= link_to "Add new court", new_admin_court_path %></td>
+			<td colspan="3"><%= link_to "Add new court", new_admin_court_path %></td>
 		</tr>
 		<tr>
 			<th>Court Number</th>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
 		</tr>
 		<% courts.each do |court| %>
 		
@@ -13,6 +15,8 @@
 				<td>
 					<div class="text"><%= court.number %></div>
 				</td>
+				<td><%= link_to "Edit", edit_admin_court_path(court) %></td>
+				<td><%= link_to "Delete", admin_court_path(court), method: :delete, data: {confirm: "Are you sure?"} %></td>
 			</td>
 		<% end %>
 	</table>

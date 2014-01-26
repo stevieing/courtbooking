@@ -33,6 +33,14 @@ describe User do
     it { booking.user_id.should == user.id}
     
   end
-  
+
+  describe "association add ons" do
+
+    subject { build(:user)}
+
+    it { should respond_to :build_permissions }
+    it { should respond_to :save_permissions }
+    it { should respond_to :update_permissions }
+  end
 
 end

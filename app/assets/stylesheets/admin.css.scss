@@ -75,28 +75,68 @@
 	}
 }
 
-#newcourt{
+.managecourt{
 
-	label{
-		width: 100px;
-	}
-	
-	input[type="text"]
-	{
-		width: 100px;
-	}
-	
-	fieldset fieldset ul {
-		clear: both;
-		width: 100%;
-		
-		li{
-			float: left;
+	ul ul li{
+		&:first-child{
+			select{
+				width: 120px;
+			}
 		}
-		
+	}
+	
+	fieldset{
+		background-color: $light_brown;
+		border: 2px solid $dark_brown;
+
+		label{
+			width: 100px;
+			padding-top: 2px;
+		}
+
+		ul{
+			li{
+				margin: 0;
+			}
+		}
+
+		fieldset{
+			border: 2px dotted $dark_brown;
+
+			label{
+				width: 50px;
+			}
+
+			ul{
+				clear: both;
+				width: 100%;
+				margin-left: 20px;
+
+				li{
+					float: left;
+					margin-right: 20px;
+				}
+			}
+		}
+	}
+	
+	input[type="text"]{
+		width: 120px;
+	}
+
+	.add_fields{
+		margin-left: 60px;
+		text-decoration: underline;
+		font-size: 1.2em;
+	}
+
+	.submit{
+		width: 100%;
+	}
+
+	input[type="submit"]{
+		position: relative;
+		left: 85%;
 	}
 
 }
-
-
-

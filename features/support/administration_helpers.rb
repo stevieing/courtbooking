@@ -36,21 +36,18 @@ module AdministrationHelpers
     end
   end
 
-  def add_valid_court_time(n, type)
-    fill_in_court_time "#{type}_time_#{n}", Date.days_of_week["Monday"], build("#{type}_time".to_sym)
+  def add_court_time(n, type, time_from, time_to)
+    (1..n.to_i).each do |i|
+      click_link "Add #{type.capitalize} Time"
+      fill_in_court_time "#{type}_time_#{i}", Date.days_of_week.keys.first, time_from, time_to
+    end  
   end
-  
-  def fill_in_court_time(id, day, court_time)
+
+  def fill_in_court_time(id, day, time_from, time_to)
     within("##{id}") do
-      fill_in "Day", with: day
-      fill_in "From", with: court_time.time_from
-      fill_in "To", with: court_time.time_to
-    end
-  end
-  
-  def add_invalid_court_time(court_time)
-    within("##{court_time}") do
-      fill_in "From", with: "invalid value"
+      select day, from: "Day"
+      select time_from, from: "From"
+      select time_to, from: "To"
     end
   end
   
@@ -74,6 +71,20 @@ module AdministrationHelpers
       click_link "Remove"
     end
   end
+
+  def add_user_permissions
+    AllowedAction.all.each_with_index do |permission, i|
+      click_link "Add permissions"
+      within("#permission_#{i+1}") do
+        select permission.name, from: "Permission"
+      end
+    end
+  end
+
+  def user_should_have_standard_permissions(email_address)
+    User.find_by(:email => email_address).permissions.count.should == AllowedAction.all.count
+  end
+
 
 end
 

@@ -15,8 +15,8 @@ class Booking < ActiveRecord::Base
   validates :playing_from, :playing_to, :time => true
   validates :playing_from, :time_past => true, :if => :playing_on_today?
   
-  before_destroy :in_the_future?                                            
-  validate :create_validations, :on => :create
+  before_destroy :in_the_future?
+  validates_with PeakHoursValidator, DuplicateBookingsValidator, :on => :create
   validates :court_number, :playing_on, :playing_from, :playing_to, :changed => true, :on => :update
 
   scope :by_day,    lambda{|day| where(:playing_on => day) }
@@ -71,16 +71,6 @@ class Booking < ActiveRecord::Base
   end
 
   private
-                                                            
-  def create_validations
-    unless self.playing_on.blank? || self.playing_from.blank?
-      validates_with PeakHoursValidator
-      
-      unless self.court_number.nil?
-        validates_with DuplicateBookingsValidator
-      end
-    end
-  end
   
   def in_the_future?
     if to_datetime.in_the_past?

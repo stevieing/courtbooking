@@ -1,14 +1,17 @@
 <ul id="<%= id %>">
 	<li>
 		<%= f.label :day %>
-		<%= f.text_field :day %>
+		<%= f.collection_select :day, Date.days_of_week, :last, :first %>
 	</li>
 	<li>
 		<%= f.label :time_from, "From" %>
-		<%= f.text_field :time_from %>
+		<%= f.select :time_from, Rails.configuration.slots %>
 	</li>
 	<li>
 		<%= f.label :time_to, "To" %>
-		<%= f.text_field :time_to %>
+		<%= f.select :time_to, Rails.configuration.slots %>
+	</li>
+	<li>
+		<a class='remove_fields' href='#'>Remove</a>
 	</li>
 </ul>

@@ -3,12 +3,14 @@ class Court < ActiveRecord::Base
   has_many :opening_times, :class_name => 'OpeningTime', :dependent => :destroy
   has_many :peak_times, :class_name => 'PeakTime', :dependent => :destroy
 
+  validates :number, :presence => true, :uniqueness => true
+
   delegate :open?, to: :opening_times
   delegate :peak_time?, to: :peak_times
   
   extend AssociationExtras
   
-  association_extras :opening_times, :peak_times
+  association_extras :opening_times, :peak_times, :key => :day
   
   class << self
   

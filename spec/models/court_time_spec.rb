@@ -32,4 +32,11 @@ describe CourtTime do
   describe CourtTime::PeakTime do
     it_behaves_like "an STI class"
   end
+
+  describe "Time to after time from" do
+    subject { build(:court_time, day: 0, time_from: "22:20", time_to: "21:40")}
+
+    it { should_not be_valid}
+  end
+
 end

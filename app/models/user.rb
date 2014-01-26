@@ -12,6 +12,10 @@ class User < ActiveRecord::Base
   attr_accessor :login
   
   validates_presence_of :username
+
+  extend AssociationExtras
+
+  association_extras :permissions, :key => :allowed_action_id
   
   scope :without_user, ->(user) { where.not(:id => user.id) }
   

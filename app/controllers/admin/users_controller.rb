@@ -6,13 +6,14 @@ class Admin::UsersController < ApplicationController
   end
   
   def new
-    @user = User.new
+    @manage_user_form = ManageUserForm.new
     @header = "New user"
   end
   
   def create
-    @user = User.new(params[:user])
-     if @user.save
+
+    @manage_user_form = ManageUserForm.new
+     if @manage_user_form.submit(params[:user])
        redirect_to admin_users_path, notice: "User successfully created."
      else
        render :new
@@ -21,13 +22,12 @@ class Admin::UsersController < ApplicationController
   
   def edit
     @header = "Edit user"
-    @user = current_resource
+    @manage_user_form = ManageUserForm.new(current_resource)
   end
   
   def update
-    @user = current_resource
-    params[:user].delete_all(:password, :password_confirmation) if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
-    if @user.update_attributes(params[:user])
+    @manage_user_form = ManageUserForm.new(current_resource)
+    if @manage_user_form.submit(params[:user])
       redirect_to admin_users_path, notice: "User successfully updated."
     else
       render :edit

@@ -32,7 +32,11 @@ module InstanceVariablesHelpers
       users: lambda {User.all},
       user: lambda {User.first},
       court_opening_type: lambda{ :court_with_opening_and_peak_times },
-      new_court_number: lambda{ Court.next_court_number }
+      new_court_number: lambda{ Court.next_court_number },
+      current_court: lambda { Court.first },
+      number_of_opening_times: lambda { 1 },
+      number_of_peak_times: lambda { 1 },
+      standard_email_address: lambda { build(:user).email }
     }
   end
   

@@ -8,9 +8,7 @@ nextID = (association) ->
 jQuery ->
 	$('form').on 'click', '.add_fields', (event) ->
 		regexp = new RegExp($(this).data('id'), 'g')
-		iD = nextID($(this).data('association'))
-		$(this).parent().parent().before($(this).data('fields').replace(regexp, iD))
-		$("<li><a class='remove_fields' href='#'>Remove</a></li>").appendTo("#" + $(this).data('association') + "_" + iD)
+		$(this).parent().parent().before($(this).data('fields').replace(regexp, nextID($(this).data('association'))))
 		event.preventDefault()
 
 	$('form').on 'click', '.remove_fields', (event) ->

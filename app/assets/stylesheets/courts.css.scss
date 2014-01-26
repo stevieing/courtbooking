@@ -11,8 +11,10 @@
 #calendar{
 	
 	float: right;
-	padding-left: 20px;
-	padding-top: 40px;
+	padding:{
+		left: 20px;
+		top: 40px;
+	}
 	color: black;
 	font-size: 0.9em;
 
@@ -74,7 +76,6 @@
 					&:hover{
 						border-collapse: separate;
 						@include highlight(0px,0px,6px,$dark_brown);
-						//@include highlight(0px,2px,3px,$dark_brown);
 					}
 					
 				}

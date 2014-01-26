@@ -1,37 +1,23 @@
 class ManageCourtForm
-  include ActiveModel::Model
   
-  def initialize
-    court.number = Court.next_court_number
-  end
-  
-  def persisted?
-    false
-  end
-  
-  def self.model_name
-    ActiveModel::Name.new(self, nil, "Court")
-  end
-  
-  validates_presence_of :number
-  validate :verify_unique_court_number
-  validate :verify_associated_models
-  
-  delegate :number, :opening_times, :peak_times, to: :court
-  delegate :court_id, :day, :time_from, :time_to, to: :court_time
-  
-  def court
-    @court ||= Court.new
-  end
-  
-  def associated_models
-    [:opening_times, :peak_times]
+  include ManageForm
+  set_model :court, [:number]
+  set_associated_models :opening_times, :peak_times
+
+  def initialize(_court = nil)
+    if _court.nil?
+      court.number = Court.next_court_number
+    else
+      @court = _court
+    end
   end
 
+  validate :verify_associated_models
+  validate :verify_court
+
   def submit(params)
-    court.attributes = params.slice(:number)
-    court.build_opening_times(reject_blank_court_times(params["opening_times"]))
-    court.build_peak_times(reject_blank_court_times(params["peak_times"]))
+    court.attributes = params.slice(*accepted_attributes)
+    build_associations reject_blank_court_times(params)
     if valid?
       save_objects
     else
@@ -41,39 +27,14 @@ class ManageCourtForm
   
   private
   
-  def save_objects
-    begin
-      ActiveRecord::Base.transaction do
-        court.save!
-        court.save_opening_times
-        court.save_peak_times
-      end
-      true
-    rescue
-      false
-    end
-  end
-  
-  def reject_blank_court_times(court_times)
-    court_times.reject{ |k, court_time| court_time["day"].empty? && court_time["time_from"].empty? && court_time["time_to"].empty?}
-  end
-  
-  def verify_unique_court_number
-    if Court.exists? number: number
-      errors.add :number, "has already been taken"
-    end
-  end
-  
-  def verify_associated_models
+  def reject_blank_court_times(params)
+    cleaned_params = {}
     associated_models.each do |association|
-      court.send(association).each do |object|
-        unless object.valid?
-          object.errors.each do |key, value|
-            errors.add key, value
-          end
-        end
+      unless params[association.to_s].nil?
+        cleaned_params[association.to_s] = params[association.to_s].reject{ |k, court_time| court_time["day"].empty? && court_time["time_from"].empty? && court_time["time_to"].empty?}
       end
     end
+    cleaned_params
   end
   
 end

@@ -140,13 +140,18 @@ td{
 	color: $dark_red;
 	border: 1px solid $dark_red;
 	border-top: 3px solid $dark_red;
-	margin-bottom: 20px;
+	margin:{
+		top: 20px;
+		bottom: 20px;
+	}
 	padding-left: 20px;
 	
 	h3{
 		font:{
 			size: 1.4em;
 		};
+
+		color: $dark_red;
 	}
 	
 	ul{
@@ -160,4 +165,12 @@ td{
 
 .standardtable{
 	@include standardtable(1);
+}
+
+.field_with_errors {
+    display: inline-block;
+
+    input{
+    	border: 3px solid $dark_red;
+    }
 }

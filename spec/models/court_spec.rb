@@ -12,6 +12,8 @@ describe Court do
 
   it { should have_many(:opening_times)}
   it { should have_many(:peak_times)}
+  it { should validate_presence_of(:number) }
+  it { should validate_uniqueness_of(:number) }
   
   describe "opening times" do
     
@@ -52,6 +54,7 @@ describe Court do
     
     let!(:court) { create(:court) }
     let(:attributes) { {"0" => {"day"=>"0", "time_from"=>"06:20", "time_to"=>"22:20"},"1"=> {"day"=>"1", "time_from"=>"06:20", "time_to"=>"22:20"},"2" => {"day"=>"2", "time_from"=>"06:20", "time_to"=>"22:20"},"3" => {"day"=>"3", "time_from"=>"06:20", "time_to"=>"22:20"}}}
+    let(:attributes_update) { {"0" => {"day"=>"0", "time_from"=>"06:20", "time_to"=>"21:40"},"1"=> {"day"=>"1", "time_from"=>"06:20", "time_to"=>"22:20"},"2" => {"day"=>"2", "time_from"=>"06:20", "time_to"=>"22:20"},"3" => {"day"=>"4", "time_from"=>"06:20", "time_to"=>"22:20"}, "4" => {"day"=>"5", "time_from"=>"06:20", "time_to"=>"22:20"}}}
     
     describe "should be included" do
       
@@ -59,6 +62,8 @@ describe Court do
       it { court.respond_to?(:save_opening_times).should be_true }
       it { court.respond_to?(:build_peak_times).should be_true }
       it { court.respond_to?(:save_peak_times).should be_true }
+      it { court.respond_to?(:update_opening_times).should be_true }
+      it { court.respond_to?(:update_peak_times).should be_true }
       
     end
     
@@ -79,6 +84,18 @@ describe Court do
         it { court.opening_times.count.should == attributes.length}
         it { court.opening_times.each {|o| o.new_record?.should be_false}}
       
+      end
+
+      context "update" do
+        before(:each) do
+          court.save_opening_times
+          court.update_opening_times(attributes_update)
+          court.save_opening_times
+        end
+
+        it { court.opening_times.count.should == attributes_update.length}
+        it { court.opening_times.find_by(day: 0).time_to.should == attributes_update["0"]["time_to"]}
+        it { court.opening_times.find_by(day: 3).should be_nil}
       end
     end
   end
