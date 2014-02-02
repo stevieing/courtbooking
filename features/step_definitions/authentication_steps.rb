@@ -14,8 +14,8 @@ Then /^I should( not)? be able to sign (in|out|up)$/ do |negate, in_or_out|
   negate ? page.should_not(have_link(text)) : page.should(have_link(text))
 end
 
-Then /^I should see my username$/ do
-  page.should have_content "Signed in as: #{current_user.username}"
+Then /^I should see my Full name$/ do
+  page.should have_content "Signed in as: #{current_user.full_name}"
 end
 
 When /^I press the sign in button$/ do

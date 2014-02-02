@@ -8,8 +8,12 @@ class ApplicationController < ActionController::Base
   def current_year
     @current_year ||= Date.today.year
   end
+
+  def header
+    @header ||= "#{params[:action].capitalize} #{params[:controller].split('/').last.capitalize.singularize}"
+  end
   
-  helper_method :allow?, :allow_param?, :current_year
+  helper_method :allow?, :allow_param?, :current_year, :header
 
   private
   

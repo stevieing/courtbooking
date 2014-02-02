@@ -31,6 +31,16 @@ module Permissions
       end
     end
 
+    def allow_nested_params(resources, attribute, nested_attributes)
+      @allowed_params ||= {}
+        Array(resources).each do |resource|
+        @allowed_params[resource] ||= []
+        @allowed_params[resource] += [{ attribute => Array(nested_attributes)}]
+      end
+    end
+
+
+
     def allow_param?(resource, attribute)
       if @allow_all_params
         true

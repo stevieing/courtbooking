@@ -4,7 +4,7 @@
 		<ul>
 			<li>
 				<%= f.label :username, "Member" %>
-				<span><%= current_user.username %></span>
+				<span><%= current_user.full_name %></span>
 			</li>
 			<% if allow_param? :booking, :time_and_place %>
 				<li>

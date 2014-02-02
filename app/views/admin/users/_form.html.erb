@@ -7,6 +7,10 @@
 				<%= f.text_field :username %>
 			</li>
 			<li>
+				<%= f.label :full_name, "Full name" %>
+				<%= f.text_field :full_name %>
+			</li>
+			<li>
 				<%= f.label :email, "Email" %>
 				<%= f.email_field :email %>
 			</li>
@@ -22,15 +26,8 @@
 				<%= f.label :mail_me, "Mail me" %>
 				<%= f.check_box :mail_me %>
 			</li>
-			<li id="permissions">
-				<% @manage_user_form.permissions.each_with_index do |permission, i| %>
-					<%= f.fields_for :permissions, permission, index: i do |builder| %>
-						<%= render 'permission', f: builder, id: "permission_#{i+1}" %>
-					<% end %>
-				<% end %>
-				<ul><li><%= link_to_add_fields "Add permissions", f, :permissions %></li></ul>
-			</li>
-			<%= f.submit "Submit user" %>
 		</ul>
+		<%= render "permissions", f: f %>
+		<ul class="submit"><li><%= f.submit "Submit user" %></li></ul>
 	</fieldset>
 <% end %>

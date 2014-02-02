@@ -10,7 +10,7 @@
 			<th>&nbsp;</th>
 		</tr>
 		<% bookings.each do |booking| %>
-			<tr id="booking_<%= booking.id %>">
+			<tr id="<%= dom_id(booking) %>">
 				<td><%= booking.playing_on_text %></td>
 				<td><%= booking.playing_from %></td>
 				<td><%= booking.playing_to %></td>

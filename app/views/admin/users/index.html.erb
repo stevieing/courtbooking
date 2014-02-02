@@ -12,7 +12,7 @@
 			<th>&nbsp;</th>
 		</tr>
 		<% users.each do |user| %>
-			<tr id="user_<%= user.id %>">
+			<tr id="<%= dom_id(user) %>">
 				<td><%= user.id %></td>
 				<td><%= user.username %></td>
 				<td><%= user.email %></td>

@@ -1,0 +1,29 @@
+<%= form_for @manage_closure_form, url: resource do |f| %>
+	<fieldset>
+		<legend><%= header %></legend>
+		<ul>
+			<li >
+				<%= f.label :description, "Reason" %>
+				<%= f.text_area :description %>
+			</li>
+			<li>
+				<%= f.label :date_from, "Date from" %>
+				<%= f.date_field :date_from %>
+			</li>
+			<li>
+				<%= f.label :date_to, "Date to" %>
+				<%= f.date_field :date_to %>
+			</li>
+			<li>
+				<%= f.label :time_from, "Time from" %>
+				<%= f.select :time_from, Rails.configuration.slots %>
+			</li>
+			<li>
+				<%= f.label :time_to, "Time to" %>
+				<%= f.select :time_to, Rails.configuration.slots %>
+			</li>
+		</ul>
+		<%= render "courts", f: f, object: @manage_closure_form %>
+		<ul class="submit"><li><%= f.submit "Submit closure" %></li></ul>
+	</fieldset>
+<% end %>

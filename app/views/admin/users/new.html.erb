@@ -1,5 +1,5 @@
-<article id="newuser">
-	<h2><%= @header %></h2>
+<article id="newuser" class="adminform manageuser">
+	<h2><%= header %></h2>
 	<%= render "error_messages", target: @manage_user_form %>
-	<%= render "form", header: @header, resource: admin_users_path %>
+	<%= render "form", resource: admin_users_path %>
 </article>

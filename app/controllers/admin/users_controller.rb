@@ -7,7 +7,6 @@ class Admin::UsersController < ApplicationController
   
   def new
     @manage_user_form = ManageUserForm.new
-    @header = "New user"
   end
   
   def create
@@ -21,7 +20,6 @@ class Admin::UsersController < ApplicationController
   end
   
   def edit
-    @header = "Edit user"
     @manage_user_form = ManageUserForm.new(current_resource)
   end
   

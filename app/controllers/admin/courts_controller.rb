@@ -7,7 +7,6 @@ class Admin::CourtsController < ApplicationController
   
   def new
     @manage_court_form = ManageCourtForm.new
-    @header = "New Court"
   end
   
   def create
@@ -21,7 +20,6 @@ class Admin::CourtsController < ApplicationController
 
   def edit
     @manage_court_form = ManageCourtForm.new(current_resource)
-    @header = "Edit Court"
   end
 
   def update

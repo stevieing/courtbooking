@@ -45,11 +45,11 @@ When(/^I remove the additional (.*) time$/) do |type|
 end
 
 Given(/^There is a court with a number of (.*) times$/) do |type|
-  send "create_number_of_#{type}_times", current_court.send("#{type}_times").count
+  create_current_count current_court.send("#{type}_times").count
 end
 
 Then(/^(\d+) (.*) time should have been deleted from the court$/) do |n, type|
-  current_court.send("#{type}_times").count.should == send("number_of_#{type}_times") - n.to_i
+  current_court.send("#{type}_times").count.should == current_count - n.to_i
 end
 
 When(/^I (.*) an existing court$/) do |action|

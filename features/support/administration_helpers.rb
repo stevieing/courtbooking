@@ -58,7 +58,7 @@ module AdministrationHelpers
   
   def valid_user_details
     user = build(:user)
-    {username: user.username, email: user.email, password: user.password, password_confirmation: user.password}
+    {username: user.username, full_name: user.full_name, email: user.email, password: user.password, password_confirmation: user.password}
   end
 
   def has_multiple_court_times(court_number, number, object)
@@ -76,7 +76,7 @@ module AdministrationHelpers
     AllowedAction.all.each_with_index do |permission, i|
       click_link "Add permissions"
       within("#permission_#{i+1}") do
-        select permission.name, from: "Permission"
+        select permission.name
       end
     end
   end
@@ -85,6 +85,31 @@ module AdministrationHelpers
     User.find_by(:email => email_address).permissions.count.should == AllowedAction.all.count
   end
 
+  def add_valid_closure_details(closure)
+    fill_in "Reason", with: closure.description
+    fill_in "Date from", with: closure.date_from
+    fill_in "Date to", with: closure.date_to
+    select closure.time_from, from: "Time from"
+    select closure.time_to, from: "Time to"
+  end
+
+  def valid_closure_details
+    build(:closure)
+  end
+
+  def add_list_of_courts(closure)
+    within("#courts") do
+      courts.each do |court|
+        check court.number
+      end
+    end
+  end
+
+  def remove_all_courts_from_closure(closure)
+    closure.courts.each do |court|
+      uncheck court.number
+    end
+  end
 
 end
 

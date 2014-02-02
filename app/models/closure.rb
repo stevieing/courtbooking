@@ -1,0 +1,3 @@
+class Closure < Activity
+
+end

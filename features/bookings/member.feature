@@ -20,7 +20,7 @@ Feature: Members should be able to book a court
     Given I have created a booking
     When I edit the booking I have created
     And I should see "Edit booking"
-    And I should see my username
+    And I should see my Full name
     And I select an opponent
     And I submit the booking
     Then I should see a message with the text Booking successfully updated

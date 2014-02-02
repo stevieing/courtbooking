@@ -10,7 +10,7 @@ Feature: authentication
   Scenario: sign in successfully
     Given I sign in with the correct credentials
     Then I should be able to sign out
-    And I should see my username
+    And I should see my Full name
     
   Scenario Outline: sign in unsuccessfully
     Given a user exists with username: "joebloggs", password: "password"

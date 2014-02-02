@@ -12,6 +12,7 @@ describe Court do
 
   it { should have_many(:opening_times)}
   it { should have_many(:peak_times)}
+  it { should have_many(:closures).through(:occurrences)}
   it { should validate_presence_of(:number) }
   it { should validate_uniqueness_of(:number) }
   
@@ -51,6 +52,13 @@ describe Court do
   end
   
   describe "association add ons" do
+
+    before(:all) do
+      Court.class_eval do
+        extend ManageForm::AssociationExtras
+        association_extras :opening_times, :peak_times
+      end
+    end
     
     let!(:court) { create(:court) }
     let(:attributes) { {"0" => {"day"=>"0", "time_from"=>"06:20", "time_to"=>"22:20"},"1"=> {"day"=>"1", "time_from"=>"06:20", "time_to"=>"22:20"},"2" => {"day"=>"2", "time_from"=>"06:20", "time_to"=>"22:20"},"3" => {"day"=>"3", "time_from"=>"06:20", "time_to"=>"22:20"}}}

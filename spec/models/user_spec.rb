@@ -9,6 +9,8 @@ describe User do
   it { should validate_presence_of(:username) }
   it { should validate_presence_of(:password) }
   it { should validate_presence_of(:email) }
+  it { should validate_presence_of(:full_name) }
+
   
   it { should have_many(:bookings)}
   it { should have_many(:permissions)}
@@ -35,6 +37,13 @@ describe User do
   end
 
   describe "association add ons" do
+
+    before(:all) do
+      User.class_eval do
+        extend ManageForm::AssociationExtras
+        association_extras :permissions
+      end
+    end
 
     subject { build(:user)}
 

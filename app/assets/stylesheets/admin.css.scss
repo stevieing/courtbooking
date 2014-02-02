@@ -75,22 +75,13 @@
 	}
 }
 
-.managecourt{
+.adminform{
 
-	ul ul li{
-		&:first-child{
-			select{
-				width: 120px;
-			}
-		}
-	}
-	
 	fieldset{
 		background-color: $light_brown;
 		border: 2px solid $dark_brown;
 
 		label{
-			width: 100px;
 			padding-top: 2px;
 		}
 
@@ -102,10 +93,6 @@
 
 		fieldset{
 			border: 2px dotted $dark_brown;
-
-			label{
-				width: 50px;
-			}
 
 			ul{
 				clear: both;
@@ -120,10 +107,6 @@
 		}
 	}
 	
-	input[type="text"]{
-		width: 120px;
-	}
-
 	.add_fields{
 		margin-left: 60px;
 		text-decoration: underline;
@@ -134,9 +117,101 @@
 		width: 100%;
 	}
 
+}
+
+.managecourt{
+
+	ul ul li{
+		&:first-child{
+			select{
+				width: 120px;
+			}
+		}
+	}
+
+	fieldset{
+		label{
+			width: 100px;
+		}
+		fieldset{
+			label{
+				width: 50px;
+			}
+		}
+	}
+
+	input[type="text"]{
+		width: 120px;
+	}
+
 	input[type="submit"]{
 		position: relative;
 		left: 85%;
 	}
 
+}
+
+.manageuser{
+	input[type="text"], input[type="email"], input[type="password"]{
+		min-width: 250px;
+	}
+
+	fieldset{
+
+		min-height: 250px;
+
+		ul{
+			margin: 0;
+			float: left;
+			width: 50%;	
+			padding: 10px;
+
+		}
+
+		label{
+			width: 200px;
+		}
+	}
+
+	#permissions{
+		float: right;
+		width: 45%;
+	}
+
+	input[type="submit"]{
+		position: relative;
+		left: 87%;
+	}
+
+	.add_fields{
+		margin-left: 0;
+	}
+}
+
+.manageclosure{
+	#courts{
+		width: 50%;
+		float: right;
+		margin-top: 15px;
+
+		label{
+			width: 50px;
+		}
+	}
+
+	fieldset{
+
+		ul{
+			margin: 0;
+			float: left;
+			width: 45%;	
+			padding: 10px;
+
+		}
+	}
+
+	input[type="submit"]{
+		position: relative;
+		left: 85%;
+	}
 }

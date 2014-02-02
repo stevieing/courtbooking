@@ -8,6 +8,7 @@ class Booking < ActiveRecord::Base
   before_validation :save_playing_on_text, :save_time_and_place
   
   validates_presence_of :court_number, :user_id, :playing_on, :playing_from, :playing_to
+  attr_readonly :court_number, :playing_on, :playing_from, :playing_to
                                               
   validates_date :playing_on, :on_or_after => lambda {Date.today}, 
                       :before => lambda {Date.today + Rails.configuration.days_bookings_can_be_made_in_advance}
@@ -17,14 +18,13 @@ class Booking < ActiveRecord::Base
   
   before_destroy :in_the_future?
   validates_with PeakHoursValidator, DuplicateBookingsValidator, :on => :create
-  validates :court_number, :playing_on, :playing_from, :playing_to, :changed => true, :on => :update
-
+ 
   scope :by_day,    lambda{|day| where(:playing_on => day) }
   scope :by_court,  lambda{|court| where(:court_number => court)}
   scope :by_time,   lambda{|time| where(:playing_from => time)}
   
   def players
-    user.username + (opponent.nil? ? "" : " V " + self.opponent.username)
+    user.full_name + (opponent.nil? ? "" : " V " + self.opponent.full_name)
   end
   
   def in_the_past?

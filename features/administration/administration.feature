@@ -21,3 +21,8 @@ Feature: administration
       | Manage Events    |
       | Send Emails      |
       | Run Reports      |
+
+  Scenario: navigate to the closures page
+    Given I go to the admin courts page
+    When I click on the "Closures" link
+    Then I should see "Court Closures"

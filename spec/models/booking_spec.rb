@@ -26,19 +26,16 @@ describe Booking do
   it { should have_db_column(:opponent_id).of_type(:integer).with_options(null: true) }
   it { should have_db_column(:opponent_name).of_type(:string).with_options(null: true) }
   it { should_not allow_value(Date.today-1).for(:playing_on)}
-  
-  it { should_not allow_value("1045").for(:playing_from) }
-  it { should_not allow_value("invalid playing from").for(:playing_from) }
-  it { should_not allow_value("25:45").for(:playing_from) }
-  it { should_not allow_value("10:63").for(:playing_from) }
 
-  it { should_not allow_value("1045").for(:playing_to) }
-  it { should_not allow_value("invalid playing to").for(:playing_to) }
-  it { should_not allow_value("25:45").for(:playing_to) }
-  it { should_not allow_value("10:63").for(:playing_to) }
+  it_behaves_like "time formats", :playing_from, :playing_to
   
   it { should belong_to(:user)}
   it { should belong_to(:opponent)}
+
+  it {should have_readonly_attribute(:court_number)}
+  it {should have_readonly_attribute(:playing_on)}
+  it {should have_readonly_attribute(:playing_from)}
+  it {should have_readonly_attribute(:playing_to)}
   
   context "date after number of days courts can be booked in advance" do
     it { should_not allow_value(Date.today + Rails.configuration.days_bookings_can_be_made_in_advance + 1).for(:playing_on) }
@@ -151,12 +148,12 @@ describe Booking do
      let(:booking3) {build(:booking, user_id: players[0].id, opponent_id: players[2].id, court_number: 3)}
      
      it "one player" do
-       booking1.players.should == players[0].username
+       booking1.players.should == players[0].full_name
      end
 
      it "two players" do
-       booking2.players.should == "#{players[0].username} V #{players[1].username}"
-       booking3.players.should == "#{players[0].username} V #{players[2].username}"
+       booking2.players.should == "#{players[0].full_name} V #{players[1].full_name}"
+       booking3.players.should == "#{players[0].full_name} V #{players[2].full_name}"
      end
 
    end
@@ -195,30 +192,6 @@ describe Booking do
        booking_invalid.should_not be_valid
      end
 
-   end
-
-   describe "non-editable attributes" do
-     let!(:booking) {create(:booking, playing_on_text: "17 September 2013", playing_from: "19:00", playing_to: "19:40" )}
-
-     it "court_number" do
-       booking.update_attributes(:court_number => 2).should be_false
-     end
-
-     it "playing_on_text" do
-       booking.update_attributes(:playing_on_text => "18 September 2013").should be_false
-     end
-     
-     it "playing_from" do
-       booking.update_attributes(:playing_from => "20:20").should be_false
-     end
-     
-     it "playing_to" do
-       booking.update_attributes(:playing_to => "20:20").should be_false
-     end
-     
-     it "opponent_id" do
-       booking.update_attributes(:opponent_id => 1).should be_true
-     end
    end
 
    describe "time_and_place" do

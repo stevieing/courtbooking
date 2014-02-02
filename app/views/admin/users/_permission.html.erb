@@ -1,6 +1,5 @@
 <ul id="<%= id %>">
 	<li>
-		<%= f.label :allowed_action_id, "Permission" %>
 		<%= f.collection_select :allowed_action_id, AllowedAction.all, :id, :name %>
 	</li>
 	<li>
