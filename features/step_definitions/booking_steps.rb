@@ -8,11 +8,11 @@ When /^I select an opponent$/ do
 end
 
 Given(/^I have already created the maximum number of bookings during peak hours for the week$/) do
-  create_current_booking(peak_hours_bookings_for_the_week(courts, current_user, slots.slot_time))
+  create_current_booking(peak_hours_bookings_for_the_week(courts, current_user, slot_time))
 end
 
 Given(/^I have already created the maximum number of bookings during peak hours for the day$/) do
-  create_current_booking(peak_hours_bookings_for_the_day(courts, current_user, slots.slot_time))
+  create_current_booking(peak_hours_bookings_for_the_day(courts, current_user, slot_time))
 end
 
 Then /^I should see a message telling me I cannot make another booking during peak hours for the week$/ do

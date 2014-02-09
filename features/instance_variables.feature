@@ -8,7 +8,7 @@ Feature: Instance Variables
     Given the courts are setup
     
   Scenario: Set up simple instance variables
-    Given there is a rails configuration value for days bookings can be made in advance
+    Given there is a configuration value for days bookings can be made in advance
     When I set up days that bookings can be made in advance through a helper method
     Then it should return the correct value
     

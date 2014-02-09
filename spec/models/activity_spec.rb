@@ -16,7 +16,18 @@ describe Activity do
     it { should_not be_valid}
   end
 
-  describe Closure::Activity do
+  describe Activity::Closure do
+    it_behaves_like "an STI class"
+
+    describe "message" do
+      subject { create(:closure)}
+
+      its(:message) {should eq("Courts #{subject.court_ids.join(',')} closed from #{subject.time_from} to #{subject.time_to} for #{subject.description}")}
+    end
+    
+  end
+
+  describe Activity::Event do
     it_behaves_like "an STI class"
   end
 

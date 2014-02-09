@@ -11,7 +11,7 @@ class Booking < ActiveRecord::Base
   attr_readonly :court_number, :playing_on, :playing_from, :playing_to
                                               
   validates_date :playing_on, :on_or_after => lambda {Date.today}, 
-                      :before => lambda {Date.today + Rails.configuration.days_bookings_can_be_made_in_advance}
+                      :before => lambda {Date.today + Settings.days_bookings_can_be_made_in_advance}
                       
   validates :playing_from, :playing_to, :time => true
   validates :playing_from, :time_past => true, :if => :playing_on_today?

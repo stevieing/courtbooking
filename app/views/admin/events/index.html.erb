@@ -2,7 +2,27 @@
 	<table class="admintable">
 		<caption>Manage Events</caption>
 		<tr>
-			<td>&nbsp;</td>
+			<td colspan="5">
+				<%= link_to "Add new event", new_admin_event_path %>
+			</td>
 		</tr>
+		<tr>
+			<th>id</th>
+			<th>Description</th>
+			<th>Date from</th>
+			<th>Time from</th>
+			<th>&nbsp;</th>
+		</tr>
+
+		<% events.each do |event| %>
+			<tr id="<%= dom_id(event) %>">
+				<td><%= event.id %></td>
+				<td><%= event.description %></td>
+				<td><%= event.date_from %></td>
+				<td><%= event.time_from %></td>
+				<td><%= link_to "Edit", edit_admin_event_path(event) %></td>
+				<td><%= link_to "Delete", admin_event_path(event), method: :delete, data: {confirm: "Are you sure?"} %></td>
+			</tr>
+		<% end %>
 	</table>
 </article>

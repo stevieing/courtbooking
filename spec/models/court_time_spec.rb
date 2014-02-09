@@ -2,14 +2,6 @@ require 'spec_helper'
 
 describe CourtTime do
   
-  before(:all) do
-    create_standard_settings
-  end
-  
-  after(:all) do
-    Setting.delete_all
-  end
-  
   it { should validate_presence_of(:time_from)}
   it { should validate_presence_of(:time_to)}
   it { should validate_presence_of(:day)}

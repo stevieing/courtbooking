@@ -39,6 +39,12 @@ describe Permissions::AdminPermission do
     should allow_param(:closure, :time_from)
     should allow_param(:closure, :time_to)
     should allow_param(:closure, :court_ids => [])
+    should allow_param(:event, :description)
+    should allow_param(:event, :date_from)
+    should allow_param(:event, :date_to)
+    should allow_param(:event, :time_from)
+    should allow_param(:event, :time_to)
+    should allow_param(:event, :court_ids => [])
 
   end
 

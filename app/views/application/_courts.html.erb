@@ -1,12 +1,12 @@
-<ul id="courts">
-	<fieldset>
-		<legend>Courts</legend>
-		<h2>Courts</h2>
-		<% @manage_user_form.permissions.each_with_index do |permission, i| %>
-			<%= f.fields_for :permissions, permission, index: i do |builder| %>
-				<%= render 'permission', f: builder, id: "permission_#{i+1}" %>
-			<% end %>
-		<% end %>
-		<ul><li><%= link_to_add_fields "Add permissions", f, :permissions %></li></ul>
-	</fieldset>
-</ul>
+<fieldset id="courts">
+	<h2>Courts</h2>
+	<ul>
+		<%= hidden_field_tag "#{f.object_name}[court_ids][]", nil %>
+    <% Court.all.each do |court| %>
+      <li>
+      	<%= check_box_tag "#{f.object_name}[court_ids][]", court.id, object.court_ids.include?(court.id), id: dom_id(court) %>
+      	<%= label_tag dom_id(court), court.number %>
+      </li>
+    <% end %>
+	</ul>
+</fieldset>

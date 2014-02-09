@@ -1,5 +1,5 @@
 class String
-  def hhmm_to_t
+  def to_time
     Time.parse(self)
   end
   

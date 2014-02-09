@@ -1,5 +1,5 @@
 @closures @admin
-Feature: manage users
+Feature: manage closures
   In order to make sure courts can be closed for maintenance and other standard reasons
   An admin user
   Should be able to manage court closures

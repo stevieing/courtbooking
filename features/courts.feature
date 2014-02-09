@@ -55,3 +55,9 @@ Feature: Users should be able to browse the status of courts
     And I go to the courts page
     Then I should not be able to edit the first booking
     But I should be able to edit the second booking
+
+  Scenario: All the courts are closed
+    Given All of the courts are closed for a fixed period
+    When I go to the courts page
+    Then I should not see any time slots over that period
+    And I should see a message telling me when and why the courts are closed

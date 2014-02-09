@@ -19,13 +19,14 @@ module InstanceVariablesHelpers
   
   def current_variables
     {
-      days_bookings_can_be_made_in_advance: lambda { Rails.configuration.days_bookings_can_be_made_in_advance },
-      max_peak_hours_bookings_weekly: lambda { Rails.configuration.max_peak_hours_bookings_weekly },
-      max_peak_hours_bookings_daily: lambda { Rails.configuration.max_peak_hours_bookings_daily },
+      days_bookings_can_be_made_in_advance: lambda { Settings.days_bookings_can_be_made_in_advance },
+      max_peak_hours_bookings_weekly: lambda { Settings.max_peak_hours_bookings_weekly },
+      max_peak_hours_bookings_daily: lambda { Settings.max_peak_hours_bookings_daily },
       current_booking: lambda { create(:booking) },
       current_bookings: lambda { create_list(:booking, 4) },
       courts: lambda { Court.all },
-      slots: lambda { TimeSlotsHelpers::Slots.new },
+      slots: lambda { Settings.slots },
+      slot_time: lambda { Settings.slot_time},
       dates: lambda { DateTimeHelpers::Utils.new(Date.today.to_s(:uk), "19:00")},
       settings: lambda {Setting.all},
       setting: lambda {Setting.first},
@@ -36,7 +37,9 @@ module InstanceVariablesHelpers
       current_court: lambda { Court.first },
       standard_email_address: lambda { build(:user).email },
       current_closure: lambda { build(:closure)},
-      current_count: lambda { 1 }
+      current_activity: lambda { build(:activity)},
+      current_count: lambda { 1 },
+      closure_details: lambda {{}}
     }
   end
   

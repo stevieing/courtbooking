@@ -10,7 +10,7 @@ class CourtsController < ApplicationController
   protected
   
   def days_bookings_can_be_made_in_advance
-    @days_bookings_can_be_made_in_advance ||= Rails.configuration.days_bookings_can_be_made_in_advance
+    @days_bookings_can_be_made_in_advance ||= Settings.days_bookings_can_be_made_in_advance
   end
   
   def current_date
@@ -22,17 +22,14 @@ class CourtsController < ApplicationController
   end
   
   def courts
-    @courts ||= Court.includes(:opening_times, :peak_times)
+    @courts ||= Court.includes(:opening_times, :peak_times, :closures)
   end
   
   def slots
-    @slots ||= Rails.configuration.slots
+    @slots ||= Settings.slots
   end
+
   
-  def slot_time
-    @slot_time ||= Rails.configuration.slot_time
-  end
-  
-  helper_method :days_bookings_can_be_made_in_advance, :courts, :slots, :current_date, :bookings, :slot_time
+  helper_method :days_bookings_can_be_made_in_advance, :courts, :slots, :current_date, :bookings
   
 end

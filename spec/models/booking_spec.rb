@@ -3,14 +3,6 @@ require 'spec_helper'
 
 describe Booking do
   
-  before(:all) do
-    create_standard_settings
-  end
-  
-  after(:all) do
-    Setting.delete_all
-  end
-  
   before(:each) do
     Date.stub(:today).and_return(Date.parse("16 September 2013"))
     DateTime.stub(:now).and_return(DateTime.parse("16 September 2013 09:00"))
@@ -36,11 +28,9 @@ describe Booking do
   it {should have_readonly_attribute(:playing_on)}
   it {should have_readonly_attribute(:playing_from)}
   it {should have_readonly_attribute(:playing_to)}
-  
-  context "date after number of days courts can be booked in advance" do
-    it { should_not allow_value(Date.today + Rails.configuration.days_bookings_can_be_made_in_advance + 1).for(:playing_on) }
-    it { should_not allow_value(Date.today + Rails.configuration.days_bookings_can_be_made_in_advance).for(:playing_on) }
-  end
+
+  it { should_not allow_value(Date.today + Settings.days_bookings_can_be_made_in_advance + 1).for(:playing_on) }
+  it { should_not allow_value(Date.today + Settings.days_bookings_can_be_made_in_advance).for(:playing_on) }
   
   context "time in the past" do
     
@@ -59,8 +49,8 @@ describe Booking do
 
     context "for the week" do
       
-      let!(:max_bookings) { Rails.configuration.max_peak_hours_bookings_weekly}
-      let!(:booking) { create_peak_hours_bookings_for_week court, create(:user), Date.today, max_bookings, Rails.configuration.slots}
+      let!(:max_bookings) { Settings.max_peak_hours_bookings_weekly}
+      let!(:booking) { create_peak_hours_bookings_for_week court, create(:user), Date.today, max_bookings, Settings.slots.all}
       it { booking.should_not be_valid}
       it { Booking.all.count.should == 3}
       
@@ -68,8 +58,8 @@ describe Booking do
     
     context "for the day" do
       
-      let!(:max_bookings) { Rails.configuration.max_peak_hours_bookings_daily}
-      let!(:booking) { create_peak_hours_bookings_for_day court, create(:user), Date.today, max_bookings, Rails.configuration.slots}
+      let!(:max_bookings) { Settings.max_peak_hours_bookings_daily}
+      let!(:booking) { create_peak_hours_bookings_for_day court, create(:user), Date.today, max_bookings, Settings.slots.all}
       it { booking.should_not be_valid}
       it { Booking.all.count.should == 1}
       
@@ -80,18 +70,10 @@ describe Booking do
   describe "duplicate bookings" do
     
     let!(:booking) { create(:booking, court_number: 1, playing_on: "17 Sep 2013", playing_from: "19:00") }
-         
-    it "for the same court with identical date and time" do
-      build(:booking, court_number: 1, playing_on: "17 Sep 2013", playing_from: "19:00").should_not be_valid
-    end
-          
-    it "for the same court with a different date and time" do
-      build(:booking, court_number: 1, playing_on: "18 Sep 2013", playing_from: "19:00").should be_valid
-    end
-         
-    it "for a different court with identical date and time" do
-      build(:booking, court_number: 2, playing_on: "17 Sep 2013", playing_from: "19:00").should be_valid
-    end
+
+    it { expect(build(:booking, court_number: 1, playing_on: "17 Sep 2013", playing_from: "19:00")).to_not be_valid }
+    it { expect(build(:booking, court_number: 1, playing_on: "18 Sep 2013", playing_from: "19:00")).to be_valid}
+    it { expect(build(:booking, court_number: 2, playing_on: "17 Sep 2013", playing_from: "19:00")).to be_valid}
     
    end
   
@@ -117,44 +99,23 @@ describe Booking do
      let!(:booking2) {create(:booking, court_number: 2, playing_on: "17 Sep 2013", playing_from: "12:00") }
      let!(:booking3) {create(:booking, court_number: 2, playing_on: "18 Sep 2013", playing_from: "20:40") }
      let!(:booking4) {create(:booking, court_number: 3, playing_on: "17 Sep 2013", playing_from: "10:00") }
- 
-     it "by day" do
-       Booking.by_day(Date.parse("17 Sep 2013")).count.should == 3
-     end
 
-     it "by court" do
-       Booking.by_day(Date.parse("17 Sep 2013")).by_court(2).count.should == 1
-     end
-
-     it "by time" do
-       Booking.by_day(Date.parse("17 Sep 2013")).by_time("12:00").count.should == 1
-     end
-     
-     it "ordered" do
-       Booking.all.ordered.to_a.should == [booking3, booking1, booking2, booking4]
-     end
-     
-     it "by_slot" do
-       Booking.by_slot("19:00", 1).should == booking1
-     end
+     it { expect(Booking.by_day(Date.parse("17 Sep 2013"))).to have(3).items}
+     it { expect(Booking.by_day(Date.parse("17 Sep 2013")).by_court(2)).to have(1).item}
+     it { expect(Booking.by_day(Date.parse("17 Sep 2013")).by_time("12:00")).to have(1).item}
+     it { expect(Booking.all.ordered.to_a).to eq([booking3, booking1, booking2, booking4])}
+     it { expect(Booking.by_slot("19:00", 1)).to eq(booking1)}
 
    end
 
    describe "players" do
 
-     let!(:players) {create_list(:user, 3)}
+     let!(:players) {create_list(:user, 2)}
      let(:booking1) {build(:booking, user_id: players[0].id, opponent_id: nil)}
      let(:booking2) {build(:booking, user_id: players[0].id, opponent_id: players[1].id, court_number: 2)}
-     let(:booking3) {build(:booking, user_id: players[0].id, opponent_id: players[2].id, court_number: 3)}
-     
-     it "one player" do
-       booking1.players.should == players[0].full_name
-     end
 
-     it "two players" do
-       booking2.players.should == "#{players[0].full_name} V #{players[1].full_name}"
-       booking3.players.should == "#{players[0].full_name} V #{players[2].full_name}"
-     end
+     it { expect(booking1.players).to eq(players[0].full_name)}
+     it { expect(booking2.players).to eq("#{players[0].full_name} V #{players[1].full_name}")}
 
    end
 
@@ -167,30 +128,17 @@ describe Booking do
        Time.stub(:now).and_return(Time.parse("17 Sep 2013 19:00"))
      end
 
-     it "in the past" do
-       booking1.in_the_past?.should be_true
-     end
+     it { expect(booking1.in_the_past?).to be_true}
+     it { expect(booking2.in_the_past?).to_not be_true}
 
-     it "in the future" do
-       booking2.in_the_past?.should be_false
-     end
    end
 
    describe "playing_on_text" do
      let!(:booking) {create(:booking, playing_on_text: "17 September 2013")}
      let!(:booking_invalid) {build(:booking, playing_on_text: "32 September 2013")}
 
-     it "populate playing_on" do
-       booking.playing_on.to_s(:uk).should eq("17 September 2013")
-     end
-
-     it "read correctly" do
-       booking.playing_on_text.should eq("17 September 2013")
-     end
-
-     it "validate" do
-       booking_invalid.should_not be_valid
-     end
+     it { expect(booking.playing_on_text).to eq("17 September 2013")}
+     it { expect(booking_invalid).to_not be_valid }
 
    end
 
@@ -205,24 +153,6 @@ describe Booking do
      its(:playing_to) {should eq("19:40")}
      its(:time_and_place_text) {should eq("17 September 2013 at 5.40pm to 7.40pm")}
      
-   end
-   
-   describe "user association" do
-     
-     let!(:user)    {create(:user)}
-     let(:booking)  {user.bookings.build}
-     
-     it { booking.user.should_not be_nil}
-
-   end
-   
-   describe "opponent association" do
-     
-     let!(:booking)  {create(:booking, playing_on: "17 September 2013")}
-     let(:opponent)  {booking.opponent.build}
-     
-     it { booking.opponent.should_not be_nil}
-
    end
    
    describe "link text" do

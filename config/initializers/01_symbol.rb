@@ -8,7 +8,11 @@ class Symbol
   end
   
   def to_heading
-    self.to_s.gsub(/_/,' ').titleize
+    self.to_s.titleize
+  end
+
+  def to_class_name
+    self.to_heading.gsub(' ','')
   end
   
   def superclass

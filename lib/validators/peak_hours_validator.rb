@@ -5,8 +5,8 @@ class PeakHoursValidator < ActiveModel::Validator
   def validate(record)
     unless record.playing_on.blank? || record.playing_from.blank?
       if Court.peak_time?(record.court_number, record.playing_on.wday, record.playing_from)
-        add_error user_records_for_day(record), record, Rails.configuration.max_peak_hours_bookings_daily, "day"
-        add_error user_records_for_week(record), record, Rails.configuration.max_peak_hours_bookings_weekly, "week"
+        add_error user_records_for_day(record), record, Settings.max_peak_hours_bookings_daily, "day"
+        add_error user_records_for_week(record), record, Settings.max_peak_hours_bookings_weekly, "week"
       end
     end
   end

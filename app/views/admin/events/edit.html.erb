@@ -1,0 +1,5 @@
+<article id="editevent" class="adminform manageactivity">
+	<h2><%= header %></h2>
+	<%= render "error_messages", target: @manage_event_form %>
+	<%= render "form", resource: admin_event_path(@manage_event_form) %>
+</article>

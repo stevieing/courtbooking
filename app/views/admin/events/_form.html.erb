@@ -1,18 +1,14 @@
-<%= form_for @manage_closure_form, url: resource do |f| %>
+<%= form_for @manage_event_form, url: resource do |f| %>
 	<fieldset>
 		<legend><%= header %></legend>
 		<ul>
 			<li >
-				<%= f.label :description, "Reason" %>
+				<%= f.label :description, "Description" %>
 				<%= f.text_area :description %>
 			</li>
 			<li>
 				<%= f.label :date_from, "Date from" %>
 				<%= f.date_field :date_from %>
-			</li>
-			<li>
-				<%= f.label :date_to, "Date to" %>
-				<%= f.date_field :date_to %>
 			</li>
 			<li>
 				<%= f.label :time_from, "Time from" %>
@@ -23,7 +19,7 @@
 				<%= f.select :time_to, list_of_slots %>
 			</li>
 		</ul>
-		<%= render "courts", f: f, object: @manage_closure_form %>
-		<ul class="submit"><li><%= f.submit "Submit closure" %></li></ul>
+		<%= render "courts", f: f, object: @manage_event_form %>
+		<ul class="submit"><li><%= f.submit "Submit event" %></li></ul>
 	</fieldset>
 <% end %>

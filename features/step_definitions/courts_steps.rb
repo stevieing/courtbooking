@@ -18,7 +18,7 @@ end
 
 Then /^I should see a row for each time slot$/ do
   within_the_bookingslots_container do
-    slots.all.each do |slot|
+    slots.each do |slot|
       page.should have_content(slot)
     end
   end
@@ -37,7 +37,7 @@ end
 Then /^I should be able to book each time slot for each court for today$/ do
   within_the_bookingslots_container do
     courts.each do |court|
-      slots.all.each do |slot|
+      slots.each do |slot|
         page.should have_link("#{court.number.to_s} - #{dates.current_date_to_s} #{slot}")
       end
     end
@@ -123,12 +123,16 @@ Then /^I should be able to edit the second booking$/ do
   page.should have_link(current_bookings.last.players)
 end
 
-Then(/^I should not see a row for time slots where all the courts are closed$/) do
-  within_the_bookingslots_container do
-    courts.each do |court|
-      slots.all.each do |slot|
-         page.should_not have_content(slot) unless court.open?(dates.current_date.wday, slot)
-      end
-    end
+Given(/^All of the courts are closed for a fixed period$/) do
+  create_current_closure create_valid_closure(:all, valid_closure_details)
+end
+
+Then(/^I should not see any time slots over that period$/) do
+  slots.collect_range(closure_details[:time_from],closure_details[:time_to]).each do |slot|
+    page.should_not have_content slot
   end
+end
+
+Then(/^I should see a message telling me when and why the courts are closed$/) do
+  page.should have_content(current_closure.message)
 end

@@ -1,85 +1,5 @@
 require 'spec_helper'
 
-describe "ManageSettings" do
-  
-  describe "setting without attributes" do
-    
-    before(:each) do
-      create_setting :setting_one
-    end
-    
-    it { Rails.configuration.should.respond_to? :setting_one }
-
-  end
-  
-  describe "setting with attributes as hash" do
-    
-    let(:setting_one) {create_setting :setting_one, {value: "setting one", description: "setting one"} }
-
-    it { setting_one.value.should eq("setting one") }
-    it { setting_one.description.should eq("setting one") }
-
-  end
-  
-  describe "setting with attributes as string" do
-    
-    let(:setting_one) {create_setting :setting_one, "value: setting one and description: setting one"}
-    
-    it { setting_one.value.should eq("setting one") }
-    it { setting_one.description.should eq("setting one") }
-
-  end
-  
-  describe "update setting" do
-    
-    before(:each) do
-      create_setting :setting_one
-      create_setting :setting_one, {value: "2"}
-    end
-
-    it {Setting.find_by_name(:setting_one).value.should eq("2")}
-  end
-  
-  describe "multiple settings" do
-    
-    before(:each) do
-      create_settings :setting_one, :setting_two, :setting_three
-    end
-    
-    it { Setting.count.should == 3}
-    
-    it "duplicate settings" do
-      create_settings :setting_three
-      Setting.count.should == 3
-    end
-    
-  end
-  
-  describe "factory already defined" do
-    before(:all) do
-      FactoryGirl.define do
-        factory :setting_one, parent: :setting do
-          name "setting_one"
-          value "1"
-          description "setting_one"
-        end
-      end
-    end
-    
-    before(:each) do
-      create_setting :setting_one
-    end
-    
-    it {Setting.find_by_name(:setting_one).value.should eq("1")}
-    
-    it "update" do
-      create_setting :setting_one, {value: "2"}
-      Setting.find_by_name(:setting_one).value.should eq("2")
-    end
-    
-  end
-end
-
 describe "BookingsHelpers" do
   
   before(:all) do
@@ -100,11 +20,11 @@ describe "BookingsHelpers" do
     let(:date)          { Date.today+1}
     let!(:court)        {create(:court_with_opening_and_peak_times)}
     let!(:user)         { create(:user)}
-    let!(:slots)        { Rails.configuration.slots}
+    let!(:slots)        { Settings.slots.all}
     
     context "during a week" do
       
-      let(:max_bookings)  {Rails.configuration.max_peak_hours_bookings_weekly}
+      let(:max_bookings)  {Settings.max_peak_hours_bookings_weekly}
       let!(:booking)      {create_peak_hours_bookings_for_week court, user, date, max_bookings, slots}
    
       it { booking.should be_kind_of(Booking)}
@@ -122,7 +42,7 @@ describe "BookingsHelpers" do
     
     context "for a day" do
       
-      let(:max_bookings)  {Rails.configuration.max_peak_hours_bookings_daily}
+      let(:max_bookings)  {Settings.max_peak_hours_bookings_daily}
       let!(:booking)      {create_peak_hours_bookings_for_day court, user, date, max_bookings, slots}
       
       it { booking.should be_kind_of(Booking)}
@@ -142,7 +62,7 @@ describe "BookingsHelpers" do
     let!(:users) {create_list(:user, 3)}
     let!(:courts) {build_list(:court, 4)}
     let(:date) {Date.parse("16 September 2013")}
-    let!(:slots) {Rails.configuration.slots}
+    let!(:slots) {Settings.slots.all}
       
     before(:each) do
       create_valid_bookings([users[0], users[1]], users[2], courts, date+1, slots)

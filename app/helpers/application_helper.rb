@@ -9,4 +9,8 @@ module ApplicationHelper
     end
     link_to(name, '#', class: "add_fields", data: {id: id, association: assoc, fields: fields.gsub("\n", "")})
   end
+
+  def list_of_slots
+    Settings.slots
+  end
 end

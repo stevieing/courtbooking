@@ -1,7 +1,7 @@
 module BookingsHelpers
 
   def valid_booking_attributes
-    FactoryGirl.attributes_for(:booking).merge(court_number: courts.first.number, playing_on: dates.current_date_to_s, playing_from: slots.playing_from, playing_to: slots.playing_to)
+    FactoryGirl.attributes_for(:booking).merge(court_number: courts.first.number, playing_on: dates.current_date_to_s, playing_from: valid_playing_from, playing_to: valid_playing_to)
   end
 
   def build_valid_booking(opponent_id = nil)
@@ -14,6 +14,15 @@ module BookingsHelpers
 
   def create_booking(user, attributes)
     user.bookings.create(attributes)
+  end
+
+  def valid_playing_from
+    slot = slots.all.find_index { |slot| Time.parse(slot).to_sec > DateTime.now.to_sec }
+    slot.nil? ? slots.all[length-1] : slots.all[slot]
+  end
+
+  def valid_playing_to
+    slots.all[slots.all.find_index(valid_playing_from)+1]
   end
   
   def create_subsequent_bookings(user, date, slots, no_of_bookings = 2)

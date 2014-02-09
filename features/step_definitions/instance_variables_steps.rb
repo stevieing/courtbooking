@@ -1,15 +1,15 @@
-Given /^there is a rails configuration value for days bookings can be made in advance$/ do
-  Rails.configuration.days_bookings_can_be_made_in_advance.should_not be_nil
+Given /^there is a configuration value for days bookings can be made in advance$/ do
+  Settings.days_bookings_can_be_made_in_advance.should_not be_nil
 end
 
 When /^I set up days that bookings can be made in advance through a helper method$/ do
   setup_instance_variable :days_bookings_can_be_made_in_advance do
-    Rails.configuration.days_bookings_can_be_made_in_advance
+    Settings.days_bookings_can_be_made_in_advance
   end
 end
 
 Then /^it should return the correct value$/ do
-  days_bookings_can_be_made_in_advance.should == Rails.configuration.days_bookings_can_be_made_in_advance
+  days_bookings_can_be_made_in_advance.should == Settings.days_bookings_can_be_made_in_advance
 end
 
 Given /^there is a helper class for date utils$/ do

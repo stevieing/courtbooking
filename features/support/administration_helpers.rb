@@ -1,24 +1,18 @@
 module AdministrationHelpers
   
   def valid_setting_value(setting)
-    case setting.type
-    when "NumberSetting"
-      "1"
-    when "TimeSetting"
-      "10:30"
-    else
-      setting.value
-    end
+    set_setting_value setting, "1", "10:30"
   end
-  
+
   def invalid_setting_value(setting)
+    set_setting_value setting, "10:30", "1"
+  end
+
+  def set_setting_value(setting, vala, valb)
     case setting.type
-    when "NumberSetting"
-      "10:30"
-    when "TimeSetting"
-      "1"
-    else
-      setting.value
+      when "NumberSetting" then vala
+      when "TimeSetting" then valb
+      else setting.value
     end
   end
   
@@ -85,19 +79,19 @@ module AdministrationHelpers
     User.find_by(:email => email_address).permissions.count.should == AllowedAction.all.count
   end
 
-  def add_valid_closure_details(closure)
-    fill_in "Reason", with: closure.description
-    fill_in "Date from", with: closure.date_from
-    fill_in "Date to", with: closure.date_to
-    select closure.time_from, from: "Time from"
-    select closure.time_to, from: "Time to"
+  def add_valid_activity_details(activity)
+    fill_in (activity.type == "Closure" ? "Reason" : "Description"), with: activity.description
+    fill_in "Date from", with: activity.date_from
+    fill_in "Date to", with: activity.date_to if activity.type == "Closure"
+    select activity.time_from, from: "Time from"
+    select activity.time_to, from: "Time to"
   end
 
   def valid_closure_details
     build(:closure)
   end
 
-  def add_list_of_courts(closure)
+  def add_list_of_courts
     within("#courts") do
       courts.each do |court|
         check court.number
@@ -105,10 +99,15 @@ module AdministrationHelpers
     end
   end
 
-  def remove_all_courts_from_closure(closure)
-    closure.courts.each do |court|
+  def remove_all_courts_from_activity(activity)
+    activity.courts.each do |court|
       uncheck court.number
     end
+  end
+
+  def create_activity_and_count(activity)
+    create_current_activity create(activity.to_sym)
+    create_current_count current_activity.courts.count
   end
 
 end

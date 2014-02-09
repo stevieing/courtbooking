@@ -1,41 +1,71 @@
 class Slots
-  
-  include AppConfig
-  
-  attr_reader :name, :value
-  
-  #there must be a a better way to do this?
-  def initialize(start_time, finish_time, slot_time = Rails.configuration.slot_time, config = false, name="slots")
-    @name = name
-    if start_time.nil? || finish_time.nil? || slot_time.nil?
-      @value = nil
-    else
-      @value = create_slots(start_time, finish_time, slot_time)
-    end
-    add_config if config
-  end
-  
-  def create_slots(start_time, finish_time, slot_time)
-    start_time.hhmm_to_t.to(finish_time.hhmm_to_t, slot_time.to_i.minutes).collect {|t| t.to_s(:hrs_and_mins)}.to_a
-  end
-  
-  class << self
-    
-    def settings
-      [:courts_opening_time, :courts_closing_time, :slot_time]
-    end
-    
-    def valid_settings(setting = nil)
-      return true if setting.nil?
-      settings.include? setting.name.to_sym
-    end
-    
-    def create(setting = nil)
-      if valid_settings(setting)
-        Slots.new(Setting.by_name("courts_opening_time"), Setting.by_name("courts_closing_time"), Setting.by_name("slot_time"), true)
-      end
-    end
-  end
-  
-end
 
+	include Enumerable
+
+	attr_accessor :slots
+
+	#TODO: quick fix while I refactor slots.
+	delegate :empty?, :last, to: :slots
+
+	def initialize(options = nil)
+		unless options.nil?
+			@courts_opening_time = options[:courts_opening_time]
+			@courts_closing_time = options[:courts_closing_time]
+			@slot_time = options[:slot_time]
+			@slots = create_slots
+			reset!
+		end
+	end
+
+	def each(&block)
+		@slots.each(&block)
+	end
+
+	def current
+		@slots[@index]
+	end
+
+	def next(slot=nil)
+		slot.nil? ? @slots[@index+=1] : check_for_last_slot(slot)
+	end
+
+	def previous
+		@slots[@index-=1]
+	end
+
+	def skip(n)
+		@index+=n
+	end
+
+	def reset!
+		@index = @slots.index(@slots.first)
+	end
+
+	def collect_range(first, last)
+		@slots.find_all { |slot| slot >= first && slot <= last }
+	end
+
+	def reject_range(first, last)
+		@slots.reject { |slot| slot >= first && slot <= last }	
+	end
+
+	def reject_range!(first, last)
+		@slots.reject! { |slot| slot >= first && slot <= last }
+	end
+
+	alias_method :all, :slots
+
+	private
+
+	def check_for_last_slot(slot)
+		if @slots[@slots.find_index(slot)+1].nil?
+			(DateTime.parse(slot) + @slot_time.minutes).to_s(:hrs_and_mins)
+		else
+			@slots[@slots.find_index(slot)+1]
+		end
+	end
+
+	def create_slots
+		@courts_opening_time.to(@courts_closing_time, @slot_time.minutes).collect {|t| t.to_s(:hrs_and_mins)}.to_a
+	end
+end

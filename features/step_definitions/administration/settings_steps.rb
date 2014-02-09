@@ -1,4 +1,5 @@
 Before('@settings') do
+	create_standard_settings
   setup_record_checker :setting, :description
 end
 

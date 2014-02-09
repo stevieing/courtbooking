@@ -62,6 +62,7 @@ group :test do
   gem 'email_spec'
   gem 'ruby-prof'
   gem 'selenium-webdriver'
+  gem 'with_model'
 end
 
 group :test, :darwin do

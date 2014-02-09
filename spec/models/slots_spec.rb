@@ -1,75 +1,54 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Slots do
-  
-  describe "new slots" do
 
-    let!(:slots) { Slots.new("06:40", "22:00", 40)}
-  
-    it "should have the correct name" do
-      slots.name.should == "slots"
-    end
-  
-    it "should all be valid times" do
-      slots.value.each { |slot| slot.should be_kind_of(String) }
-    end
-  
-    it "should have the correct start time" do
-      slots.value.first.should eq("06:40")
-    end
-  
-    it "should have the correct finish time" do
-      slots.value.last.should eq("22:00")
-    end
-  
-    it "should have the correct slot length" do
-      slots.value.each_with_index do |item, index|
-        (Time.parse(slots.value[index]) - Time.parse(slots.value[index-1])).should eq(40.minutes) unless index == 0
-      end
-    end
-  
-  end
-  
-  describe "create slots" do
-    
-    it "should have the correct settings" do
-      [:courts_opening_time, :courts_closing_time, :slot_time].each do |attribute|
-        Slots.settings.include?(attribute).should be_true
-      end
-    end
-    
-    describe "by initialize" do
+	it { expect(described_class).to include(Enumerable)}
 
-      it "with complete settings" do
-        create_settings :slot_time, :courts_opening_time, :courts_closing_time
-        Slots.create
-        Rails.configuration.slots.should_not be_nil
-      end
-      
-      it "with incomplete settings" do
-        create_settings :slot_time, :courts_opening_time
-        Setting.by_name("courts_closing_time").should be_nil
-        Slots.create
-        Rails.configuration.slots.should be_nil
-      end
-      
-    end
-    
-    describe "by settings" do
-      
-      before(:each) do
-        Rails.configuration.slots = nil
-        create_settings :slot_time, :courts_opening_time
-      end
-      
-      it "with relevant setting" do
-        Slots.create(create(:courts_closing_time)).should be_kind_of(Slots)
-      end
-      
-      it "with irrelevant setting" do
-        Slots.create(create(:setting, name: "any_setting")).should_not be_kind_of(Slots)
-      end
-    end
-      
-  end
+	let(:all_slots) 		{ ["06:20", "07:00", "07:40", "08:20", "09:00"] }
+	let(:closing_time)	{ "09:40" }
+	let(:slot_time)			{ 40 }
+	let(:options)				{ {:courts_opening_time => all_slots.first.to_time, :courts_closing_time => all_slots.last.to_time, :slot_time => slot_time}}
+	subject  						{ Slots.new(options)}
+
+	its(:slots)  { should have(all_slots.count).items }
+	its(:slots)  { should eq(all_slots) }
+	its(:all)		 { should eq(all_slots) }
+	its(:last)   { should eq(all_slots.last)}
+	its(:first)  { should eq(all_slots.first)}
+	its(:empty?) { should be_false}
+
+	it { expect(subject.all? {|slot| all_slots.include? slot}).to be_true }
+
+	describe "movement" do
+		let(:skip) {3}
+
+		its(:current) {should eq(all_slots.first)}
+		its(:next) {should eq(all_slots[1])}
+
+		it { expect{subject.skip(skip)}.to change{subject.current}.from(all_slots.first).to(all_slots[skip])}
+		it { expect(subject.next(all_slots[1])).to eq(all_slots[2])}
+		it { expect(subject.next(all_slots[4])).to eq(closing_time)}
+
+		context "backwards" do
+			before(:each) do
+				subject.skip(skip)
+			end
+
+			it {expect{subject.previous}.to change{subject.current}.from(all_slots[skip]).to(all_slots[skip-1])}
+			it {expect{subject.reset!}.to change{subject.current}.from(all_slots[skip]).to(all_slots.first)}
+		end
+	  
+	end
+
+	describe "manipulation" do
+		let(:range) 			{["07:00", "08:20"]}
+		let(:collection) 	{["07:00","07:40","08:20"]}
+		let(:rejection) 	{["06:20", "09:00"]}
+
+		it { expect(subject.collect_range(range.first, range.last)).to eq(collection)}
+		it { expect(subject.reject_range(range.first, range.last)).to eq(rejection)}
+		it { expect{subject.reject_range!(range.first, range.last)}.to change{subject.all}.from(all_slots).to(rejection)}
+	end
+
+  
 end
