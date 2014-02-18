@@ -1,7 +1,7 @@
 class TimeAfterTimeValidator < ActiveModel::Validator
 
   def default_options
-    {:from => :time_from, :to => :time_to}
+    {from: :time_from, to: :time_to}
   end
   
   def validate(record)

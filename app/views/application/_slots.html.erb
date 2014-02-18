@@ -1,15 +1,11 @@
 <%#= slots view %>
-<%= booking_slots(current_date, courts, slots) do |new_booking| %>
-	<%= with_booking(bookings, new_booking) do |booking| %>
-		<% if booking.nil? %>
-			<%unless in_the_past? new_booking %>
-				<%= new_booking_link new_booking %>
-			<% else %>
-				<div class="past">&nbsp;</div>
-			<% end %>
+<%= booking_slots(current_date, courts, slots) do |court, slots| %>
+	<%= get_booking(bookings, court, slots) do |booking| %>
+		<%if booking.in_the_past? %>
+			<div class="past"><%= booking.players %></div>
 		<% else %>
-			<% if booking.in_the_past? %>
-				<div class="past"><%= booking.players %></div>
+			<% if booking.id.nil? %>
+				<%= new_booking_link booking %>
 			<% else %>
 				<% if allow? :bookings, :edit, booking %>
 					<%= link_to booking.players, edit_booking_path(booking), remote: true, class: "booked"  %>
@@ -17,7 +13,7 @@
 					<div class="booked"><%= booking.players %></div>
 				<% end %>
 			<% end%>
-		<% end %>
+		<% end%>
 	<% end %>
 <% end %>
 <section id="ajaxbooking" title="Booking" style="display:hidden">

@@ -1,6 +1,6 @@
 class Admin::CourtsController < ApplicationController
   
-  before_filter :courts, :only => [:index]
+  before_filter :courts, only: [:index]
   
   def index
   end

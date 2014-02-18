@@ -20,9 +20,10 @@ module CourtHelpers
     "Court: " + courts.first.number.to_s + " " + booking.time_and_place_text
   end
 
-  def valid_closure_details
-    r = Random.new.rand(0..(((slots.all.count)/2).round))
-    create_closure_details({:description => "for maintenance", :date_from => dates.current_date_to_s, :time_from => slots.all[r], :time_to => slots.all[slots.all.count-5]})
+  def valid_closure_details(n=0)
+    from = booking_slots.all[2].from
+    to = booking_slots.all[booking_slots.count-2].from
+    create_closure_details({description: "for maintenance", date_from: dates.current_date, date_to: dates.current_date+n, time_from: from, time_to: to})
     closure_details
   end
 
@@ -30,7 +31,7 @@ module CourtHelpers
     if courts == :all
       ids = Court.pluck(:id)
     end
-    create(:closure, details.merge(:court_ids => ids, :date_to => nil))
+    create(:closure, details.merge(court_ids: ids))
   end
 end
 

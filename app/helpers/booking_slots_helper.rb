@@ -1,28 +1,22 @@
+#TODO: might need to move this into a separate class due to increasing complexity and name variable clashes.
 module BookingSlotsHelper
   def booking_slots(current_date, courts, slots, &block)
-    #need to duplicate slots as the bang operator is used.
-    BookingSlots.new(self, current_date, courts, slots.dup, block).section
+    BookingSlots.new(self, current_date, courts, slots, block).section
   end
   
-  class BookingSlots < Struct.new(:view, :current_date, :courts, :slots, :callback)
+  class BookingSlots < Struct.new(:view, :current_date, :courts, :todays_slots, :callback)
     
     delegate :content_tag, to: :view
+
+    def initialize(*args)
+      super(*args)
+    end
     
     def section
       content_tag :section, id: "bookingslots" do
-        message + table
-      end
-    end
-
-    def message
-      content_tag :div, id: "message" do
-        closures_for_all_courts.html_safe
-      end
-    end
-
-    def table
-      content_tag :table do
-        header + courts_row + booking_slots_rows + courts_row
+        content_tag :table do
+          header + courts_row + booking_slots_rows + courts_row
+        end
       end
     end
     
@@ -39,42 +33,30 @@ module BookingSlotsHelper
     end
     
     def booking_slots_rows
-      slots.map do |slot|
-        content_tag :tr do
-          slot_cell(slot) + courts_cells(slot) +  slot_cell(slot)
+      String.new.tap do |row|
+        until (todays_slots.current.nil?)
+          row << content_tag(:tr, slot_cell + courts_cells +  slot_cell)
+          todays_slots.up
         end
-      end.join.html_safe
+      end.html_safe
     end
     
-    def slot_cell(slot)
-      content_tag :td, slot.html_safe
+    def slot_cell
+      content_tag :td, todays_slots.current.from.html_safe
     end
 
-    def courts_cells(slot)
+    def courts_cells
       courts.map do |court|
-        content_tag :td, view.capture(new_booking(court.number,slot), &callback)
+        content_tag :td, view.capture(court, todays_slots, &callback)
       end.join.html_safe
     end
-    
+
     def space_tag
       content_tag :th, "&nbsp;".html_safe
     end
     
     def courts_header
       courts.map { |court| content_tag :th, "Court " + court.number.to_s }.join.html_safe
-    end
-  
-    def new_booking(court_number, slot)
-      Booking.new(court_number: court_number, playing_on: current_date.to_s(:uk), playing_from: slot, playing_to: slots.next(slot))
-    end
-
-    def closures_for_all_courts
-      String.new.tap do |description|
-        Court.closures_for_all_courts(current_date.to_datetime).each do |closure|
-          slots.reject_range!(closure.time_from, closure.time_to)
-          description << closure.message
-        end
-      end.html_safe
     end
    
   end

@@ -1,29 +1,28 @@
 class Court < ActiveRecord::Base
   
-  has_many :opening_times, :class_name => 'OpeningTime', :dependent => :destroy
-  has_many :peak_times, :class_name => 'PeakTime', :dependent => :destroy
+  has_many :opening_times, class_name: 'OpeningTime', dependent: :destroy
+  has_many :peak_times, class_name: 'PeakTime', dependent: :destroy
   has_many :occurrences
   has_many :closures, through: :occurrences, source: :activity
   has_many :events, through: :occurrences, source: :activity
 
-  validates :number, :presence => true, :uniqueness => true
+  validates :number, presence: true, uniqueness: true
 
   delegate :peak_time?, to: :peak_times
  
   class << self
   
     def peak_time?(court_number, day, time)
-      court = Court.find_by(number: court_number)
-      return false if court.nil?
-      court.peak_time?(day, time)
+      court = find_by(number: court_number)
+      court.nil? ? false : court.peak_time?(day, time)
     end
     
     def next_court_number
-      Court.count == 0 ? 1 : Court.maximum(:number)+1
+      count == 0 ? 1 : maximum(:number)+1
     end
 
     def closures_for_all_courts(date)
-      closures = Closure.where(:date_from => date)
+      closures = Closure.where(":date BETWEEN date_from AND date_to", {date: date})
       closures.nil? ? nil : closures.select {|closure| closure.court_ids = Court.pluck(:id)}
     end
   end

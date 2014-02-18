@@ -7,23 +7,21 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # app settings
+
+Setting.delete_all
+
 NumberSetting.create(name: "days_bookings_can_be_made_in_advance", value: "21", description: "Number of days that courts can be booked in advance")
 NumberSetting.create(name: "max_peak_hours_bookings_weekly", value: "3", description: "Maximum number of bookings that can be made during peak hours for the week")
 NumberSetting.create(name: "max_peak_hours_bookings_daily", value: "1", description: "Maximum number of bookings that can be made during peak hours for the day")
 NumberSetting.create(name: "slot_time", value: "40", description: "Slot time")
-TimeSetting.create(name: "courts_opening_time", value: "06:20", description: "Court opening time")
-TimeSetting.create(name: "courts_closing_time", value: "22:20", description: "Court closing time")
+TimeSetting.create(name: "slot_first", value: "06:20", description: "First slot")
+TimeSetting.create(name: "slot_last", value: "22:20", description: "Last slot")
 
+Court.delete_all
 #courts
 (1..4). each do |i|
   Court.create(number: i)
 end
-
-Setting.all.each do |instance|
-  instance.add_config
-end
-
-Slots.create
 
 Court.all.each do |c|
   (0..6).each do |day|
@@ -31,6 +29,8 @@ Court.all.each do |c|
     c.peak_times.build(day: day, time_from: "17:40", time_to: "20:20").save if day < 5
   end
 end
+
+AllowedAction.delete_all
 
 AllowedAction.create(name: "View all bookings",controller: :bookings,action: [:index])
 AllowedAction.create(name: "Create a new booking",controller: :bookings,action: [:new, :create])

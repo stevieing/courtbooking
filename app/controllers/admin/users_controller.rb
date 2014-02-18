@@ -1,6 +1,6 @@
 class Admin::UsersController < ApplicationController
   
-  before_filter :users, :only => [:index]
+  before_filter :users, only: [:index]
   
   def index
   end

@@ -1,6 +1,6 @@
 class Admin::ClosuresController < ApplicationController
   
-  before_filter :closures, :only => [:index]
+  before_filter :closures, only: [:index]
   
   def index
   end

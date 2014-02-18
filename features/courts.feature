@@ -61,3 +61,13 @@ Feature: Users should be able to browse the status of courts
     When I go to the courts page
     Then I should not see any time slots over that period
     And I should see a message telling me when and why the courts are closed
+
+  Scenario: All the courts are closed for several days
+    Given All of the courts are closed for a fixed period for 5 days
+    When I go to the courts page
+    And I view the courts for 5 days from today
+    Then I should not see any time slots over that period
+    And I should see a message telling me when and why the courts are closed
+    And I view the courts for 1 day from today
+    Then I should see a row for each time slot
+

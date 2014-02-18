@@ -1,6 +1,6 @@
 class Admin::SettingsController < ApplicationController
   
-  before_filter :settings, :only => [:index]
+  before_filter :settings, only: [:index]
   
   def index
   end

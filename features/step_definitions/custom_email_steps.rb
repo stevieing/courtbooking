@@ -3,8 +3,8 @@ Before('@user_no_mail') do
 end
 
 When(/^I have successfully created a new booking( against an opponent)?$/) do |enemy|
-  visit courts_path
   create_current_booking(build_valid_booking)
+  visit courts_path
   click_link current_booking.link_text
   select opponent.username, from: "Opponent" unless enemy.nil?
   click_button "Submit booking"

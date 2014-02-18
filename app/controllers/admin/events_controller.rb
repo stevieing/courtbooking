@@ -1,6 +1,6 @@
 class Admin::EventsController < ApplicationController
 
-	before_filter :events, :only => [:index]
+	before_filter :events, only: [:index]
   
   def index
   end

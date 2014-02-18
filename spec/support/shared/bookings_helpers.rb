@@ -25,11 +25,11 @@ module BookingsHelpers
   end
 
   def get_slots(court, date, slots)
-    slots.index(court.peak_times.find_by(:day => date.wday).time_from)
+    slots.find_index{|slot| slot.from == court.peak_times.find_by(:day => date.wday).time_from }
   end
   
   def set_attributes(court, date, slots, index)
-    { court_number: court.number, playing_on: date.to_s(:uk), playing_from: slots[index], playing_to: slots[index+1]}
+    { court_number: court.number, playing_on: date.to_s(:uk), time_from: slots[index].from, time_to: slots[index].to}
   end
    
    #create two bookings for each user on the same day
@@ -39,7 +39,7 @@ module BookingsHelpers
      court_number, incr = courts.first.number, 0
      1.upto(users.length*2) do |i|
        user = users[incr]
-       attributes = {court_number: court_number, playing_on: date.to_s(:uk), playing_from: slots[i], playing_to: slots[i+1]}
+       attributes = {court_number: court_number, playing_on: date.to_s(:uk), time_from: slots[i].from, time_to: slots[i].to}
        if i % 2 == 0
          attributes[:opponent_id] = opponent.id
          incr += 1

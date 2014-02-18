@@ -11,7 +11,6 @@ describe AppSettings do
 
 	let(:test_const_name) { "TestSettings" }
 	let(:test_table_name) { "TestSetting" }
-	let(:dependency) { [:my_dependencies, :attr_a, :attr_b, :attr_c] }
 
 	with_model :TestSetting do
 		table do |t|
@@ -24,18 +23,8 @@ describe AppSettings do
 		end
 	end
 
-	class MyDependencies
-		attr_accessor :attr_a, :attr_b, :attr_c
-		def initialize(attributes)
-			@attr_a, @attr_b, @attr_c = attributes[:attr_a], attributes[:attr_b], attributes[:attr_c]
-		end
-		def do_some_stuff
-			"#{attr_a} #{attr_b} #{attr_c}"
-		end
-	end
-
 	before(:each) do
-		setup_appsettings test_const_name, test_table_name, dependency
+		setup_appsettings test_const_name, test_table_name
 		TestSetting.create(name: :my_name, value: "my value")
 		AppSettings.load!
 	end
@@ -76,19 +65,6 @@ describe AppSettings do
 
 	end
 
-	describe "dependencies" do
-		before(:each) do
-			TestSetting.create(name: :attr_a, value: "attr A")
-			TestSetting.create(name: :attr_b, value: "attr B")
-			TestSetting.create(name: :attr_c, value: "attr C")	
-		end
-
-		it { TestSettings.should respond_to(:my_dependencies)}
-		it { expect(TestSettings.my_dependencies).to be_instance_of(MyDependencies)}
-		it { expect(TestSettings.my_dependencies.do_some_stuff).to eq("attr A attr B attr C")}
-
-	end
-
 	describe "reset!" do
 
 		before(:each) do
@@ -96,12 +72,11 @@ describe AppSettings do
 		end
 
 		after(:each) do
-			setup_appsettings test_const_name, test_table_name, dependency
+			setup_appsettings test_const_name, test_table_name
 		end
 
 		it { expect(AppSettings.const_name).to eq(const_name)}
 		it { expect(AppSettings.table_name).to eq(table_name)}
-		it { expect(AppSettings.dependencies).to be_empty}
 	end
 
 	describe "defaults" do

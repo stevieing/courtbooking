@@ -34,14 +34,27 @@ describe Court do
 
   describe "closures" do
 
+    let(:date)      { Date.today}
+    let(:court_ids) { Court.pluck(:id)}
+
     context "for all courts" do
 
-      let(:date)      { Date.today}
-      let!(:closure) { create(:closure, date_from: date, court_ids: Court.pluck(:id))}
+      let!(:closure) { create(:closure, date_from: date, court_ids: court_ids)}
 
       it { expect(Court.closures_for_all_courts(date)).to include(closure)}
 
     end
+
+    context "for all courts on multiple days" do
+
+      let(:date_to)   {Date.today+5}
+      let!(:closure) { create(:closure, date_from: date, date_to: date_to, court_ids: court_ids)}
+
+      it { expect(Court.closures_for_all_courts(date)).to include(closure)}
+      it { expect(Court.closures_for_all_courts(date_to)).to include(closure)}
+      it { expect(Court.closures_for_all_courts(date_to+1)).to be_empty}
+    end
+
     
   end
 

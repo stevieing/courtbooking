@@ -3,8 +3,8 @@
 		<li>User id: <%= @booking.user_id %></li>
 		<li>Court number: <%= @booking.court_number %></li>
 		<li>Playing on: <%= @booking.playing_on_text %></li>
-		<li>Playing from: <%= @booking.playing_from %></li>
-		<li>Playing to: <%= @booking.playing_to %></li>
+		<li>Playing from: <%= @booking.time_from %></li>
+		<li>Playing to: <%= @booking.time_to %></li>
 	</ul>
 	<%= render 'delete', link_text: "Delete Booking", booking: @booking %>
 </section>

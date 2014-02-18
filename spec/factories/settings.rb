@@ -42,16 +42,16 @@ FactoryGirl.define do
     value "10:30"
     description "time setting"
 
-    factory :courts_opening_time, :class => "TimeSetting" do
-      name "courts_opening_time"
+    factory :slot_first, :class => "TimeSetting" do
+      name "slot_first"
       value "06:20"
-      description "Court opening time"
+      description "First slot"
     end
 
-    factory :courts_closing_time, :class => "TimeSetting" do
-      name "courts_closing_time"
+    factory :slot_last, :class => "TimeSetting" do
+      name "slot_last"
       value "22:20"
-      description "Court closing time"
+      description "Last slot"
     end
   end
 

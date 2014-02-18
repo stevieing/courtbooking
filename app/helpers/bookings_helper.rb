@@ -1,22 +1,20 @@
 module BookingsHelper
   
-  def with_booking(bookings, booking, &block)
-    self.capture(booking_for_slot(bookings, booking), &block)
-  end
-  
-  def in_the_past?(booking)
-    DateTime.parse(booking.playing_on.to_s(:uk) + " " + booking.playing_from).in_the_past?
+  def get_booking(bookings, court, slots, &block)
+    self.capture(booking_by_slot(bookings, court, slots), &block)
   end
   
   def new_booking_link(booking)
     link_to booking.link_text, 
-    court_booking_path(booking.playing_on, booking.playing_from, booking.playing_to, booking.court_number.to_s), remote: true
+    court_booking_path(booking.playing_on, booking.time_from, booking.time_to, booking.court_number.to_s), remote: true
 	end
 
-  private
-    
-  def booking_for_slot(bookings, booking)
-    bookings.by_slot(booking.playing_from, booking.court_number)
+  def new_booking(court, slots)
+    Booking.new(court_number: court.number, playing_on: current_date.to_s(:uk), time_from: slots.current.from, time_to: slots.current.to)
+  end
+
+  def booking_by_slot(bookings, court, slots)
+    bookings.by_slot(slots.current.from, court.number) || new_booking(court, slots)
   end
 
 end

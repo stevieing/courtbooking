@@ -18,8 +18,8 @@ end
 
 Then /^I should see a row for each time slot$/ do
   within_the_bookingslots_container do
-    slots.each do |slot|
-      page.should have_content(slot)
+    booking_slots.each do |slot|
+      page.should have_content(slot.from)
     end
   end
 end
@@ -29,7 +29,7 @@ When /^I view the courts for tomorrow$/ do
   click_link dates.current_date.day_of_month
 end
 
-When /^I view the courts for (\d+) days from today$/ do |days|
+When /^I view the courts for (\d+) days? from today$/ do |days|
   dates.set_current_date(days.to_i)
   click_link dates.current_date.day_of_month
 end
@@ -37,8 +37,8 @@ end
 Then /^I should be able to book each time slot for each court for today$/ do
   within_the_bookingslots_container do
     courts.each do |court|
-      slots.each do |slot|
-        page.should have_link("#{court.number.to_s} - #{dates.current_date_to_s} #{slot}")
+      booking_slots.each do |slot|
+        page.should have_link("#{court.number.to_s} - #{dates.current_date_to_s} #{slot.from}")
       end
     end
   end
@@ -92,7 +92,7 @@ Given /^todays date is near the end of the month$/ do
 end
 
 Given /^there are a number of valid bookings for myself and another member for the next day$/ do
-  create_valid_bookings([current_user, other_member], opponent, courts, dates.current_date+1, slots.all)
+  create_valid_bookings([current_user, other_member], opponent, courts, dates.current_date+1, booking_slots.all)
 end
 
 Then /^I should be able to edit my bookings$/ do
@@ -108,11 +108,11 @@ Then /^I should not be able to edit the bookings for another member$/ do
 end
 
 When /^there are two bookings one after the other for tomorrow$/ do
-  create_current_bookings(create_subsequent_bookings(current_user, dates.current_date, slots.all))
+  create_current_bookings(create_subsequent_bookings(current_user, dates.current_date, booking_slots.all))
 end
 
 When /^it is tomorrow after the first booking has started$/ do
-  set_dates(current_bookings.first.playing_on_text, current_bookings.first.playing_from)
+  set_dates(current_bookings.first.playing_on_text, current_bookings.first.time_from)
 end
 
 Then /^I should not be able to edit the first booking$/ do
@@ -128,11 +128,17 @@ Given(/^All of the courts are closed for a fixed period$/) do
 end
 
 Then(/^I should not see any time slots over that period$/) do
-  slots.collect_range(closure_details[:time_from],closure_details[:time_to]).each do |slot|
-    page.should_not have_content slot
+  within("#bookingslots table") do
+    booking_slots.dup.collect_range(closure_details[:time_from],closure_details[:time_to]).each do |slot|
+      page.should_not have_content slot.from
+    end
   end
 end
 
 Then(/^I should see a message telling me when and why the courts are closed$/) do
   page.should have_content(current_closure.message)
+end
+
+Given(/^All of the courts are closed for a fixed period for (\d+) days$/) do |n|
+  create_current_closure create_valid_closure(:all, valid_closure_details(n.to_i))
 end

@@ -12,8 +12,8 @@
 		<% bookings.each do |booking| %>
 			<tr id="<%= dom_id(booking) %>">
 				<td><%= booking.playing_on_text %></td>
-				<td><%= booking.playing_from %></td>
-				<td><%= booking.playing_to %></td>
+				<td><%= booking.time_from %></td>
+				<td><%= booking.time_to %></td>
 				<td><%= booking.court_number %></td>
 				<% unless booking.in_the_past? %>
 					<td>

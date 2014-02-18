@@ -31,9 +31,6 @@ module AppSettings
 	mattr_accessor :value_column
 	self.value_column = :value
 
-	mattr_accessor :dependencies, instance_writer: false
-	self.dependencies = {}
-
 	mattr_accessor :defaults, instance_writer: false
 	self.defaults = {}
 
@@ -53,28 +50,9 @@ module AppSettings
 
 	#
 	# load any settings from the table and create or recreate the Kernel constant
-	# add any dependent constants and if all are present created the dependent model.
 	#
 	def load!
 		create_constant load_settings
-	end
-
-	#
-	# == Dependencies
-	#
-	# a constant or group of constants can build another constant based on a model.
-	# When all of those constants have been loaded a new model will be created
-	# The models initializer must take the form:
-	#    
-	# def initialize(options)
-	# end
-	#   
-	# where each option will be the name of the constant that will form part of the dependency
-	# to add a dependency use config.add_dependency :model, :attribute_a, :attribute_b, :attribute_c
-	# The first argument is the name of the model and the rest of the arguments are attributes/constants
-	#
-	def add_dependency(*options)
-		self.dependencies[options.shift] = options
 	end
 
 	#
@@ -84,7 +62,6 @@ module AppSettings
 	def reset!
 		self.const_name = self.factory_const_name
 		self.table_name = self.factory_table_name
-		self.dependencies.clear
 	end
 
 	# 
@@ -122,7 +99,7 @@ module AppSettings
 	private
 
 	def load_settings
-		Options.new(records.merge(load_dependencies(records)))	
+		Options.new(records)	
 	end
 
 	def create_constant(settings)
@@ -137,24 +114,6 @@ module AppSettings
 
 	def records
 		model.all.pluck(self.name_column, self.value_column).to_h.to_implicit!
-	end
-
-	def load_dependencies(records)
-		{}.tap do |h|
-			self.dependencies.each do |k,v|
-				if valid_dependency?(v, records)
-					h.merge!(load_dependency(k, v, records.dup))
-				end
-			end
-		end
-	end
-
-	def load_dependency(model, attributes, values)
-		{model => model.to_class_name.constantize.new(values.slice(*attributes))}
-	end
-
-	def valid_dependency?(attributes, records)
-		attributes.all? {|attribute| records.key? attribute}
 	end
 
 	def add_method_missing

@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140129144408) do
+ActiveRecord::Schema.define(version: 20140217153516) do
 
   create_table "activities", force: true do |t|
     t.string   "description"
-    t.datetime "date_from"
-    t.datetime "date_to"
+    t.date     "date_from"
+    t.date     "date_to"
     t.string   "time_from"
     t.string   "time_to"
     t.string   "type"
@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(version: 20140129144408) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "playing_on"
-    t.string   "playing_from"
-    t.string   "playing_to"
+    t.string   "time_from"
+    t.string   "time_to"
     t.string   "opponent_name"
   end
 
@@ -66,8 +66,10 @@ ActiveRecord::Schema.define(version: 20140129144408) do
   end
 
   create_table "occurrences", force: true do |t|
-    t.integer "activity_id"
-    t.integer "court_id"
+    t.integer  "activity_id"
+    t.integer  "court_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "occurrences", ["activity_id"], name: "index_occurrences_on_activity_id"

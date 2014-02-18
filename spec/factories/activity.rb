@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :activity do
     description "An Activity"
-    date_from "2014-01-29"
+    date_from Date.today
     time_from "06:20"
     time_to "17:40"
     after(:build) do |cl|
@@ -11,7 +11,7 @@ FactoryGirl.define do
     end
 
     factory :closure, :parent => :activity, :class => 'Closure' do
-      date_to "2014-01-30"
+      date_to Date.today
     end
 
     factory :event, :parent => :activity, :class => 'Event' do

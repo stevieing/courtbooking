@@ -1,5 +1,8 @@
 <%#= courts view %>
 <div id="courts">
+	<% unless closure_message.empty? %>
+		<div id="closure_message"><%= closure_message %></div>
+	<% end %>
 	<%= render "calendar" %>
 	<%= render "slots", slots: slots %>
 </div>

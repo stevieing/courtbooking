@@ -16,6 +16,6 @@ module ManageSettings
   
   def create_standard_settings
     create_settings :days_bookings_can_be_made_in_advance, :max_peak_hours_bookings_weekly, 
-    :max_peak_hours_bookings_daily, :slot_time, :courts_opening_time, :courts_closing_time
+    :max_peak_hours_bookings_daily, :slot_time, :slot_first, :slot_last
   end
 end

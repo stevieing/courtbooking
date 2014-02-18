@@ -19,4 +19,8 @@ class String
     !(self =~ /([01][0-9]|2[0-3]):[0-5][0-9]/).nil?
   end
 
+  def in_the_future?
+    Time.parse(self).to_sec > DateTime.now.to_sec if self.valid_time?
+  end
+
 end
