@@ -7,6 +7,9 @@ describe Booking do
     Date.stub(:today).and_return(Date.parse("16 September 2013"))
     DateTime.stub(:now).and_return(DateTime.parse("16 September 2013 09:00"))
     Time.stub(:now).and_return(Time.parse("16 September 2013 09:00"))
+    Settings.stub(:days_bookings_can_be_made_in_advance).and_return(15)
+    Settings.stub(:max_peak_hours_bookings_weekly).and_return(2)
+    Settings.stub(:max_peak_hours_bookings_daily).and_return(1)
   end
   
   it { should validate_presence_of(:user_id) }
@@ -29,8 +32,8 @@ describe Booking do
   it {should have_readonly_attribute(:time_from)}
   it {should have_readonly_attribute(:time_to)}
 
-  it { should_not allow_value(Date.today + Settings.days_bookings_can_be_made_in_advance + 1).for(:playing_on) }
-  it { should_not allow_value(Date.today + Settings.days_bookings_can_be_made_in_advance).for(:playing_on) }
+  it { should_not allow_value(Date.today + 16).for(:playing_on) }
+  it { should_not allow_value(Date.today + 15).for(:playing_on) }
   
   context "time in the past" do
     
@@ -45,23 +48,35 @@ describe Booking do
    
   describe "during peak hours" do
     
-    let!(:court) {create(:court_with_opening_and_peak_times)}
+    let!(:court)        { create(:court_with_opening_and_peak_times) }
+    let(:time_from)     { court.peak_times.first.time_from }
+    let(:time_to)       { time_from.time_step(30) }
+    let!(:user)         { create(:user) }
 
     context "for the week" do
-      
-      let!(:max_bookings) { Settings.max_peak_hours_bookings_weekly}
-      let!(:booking) { create_peak_hours_bookings_for_week court, create(:user), Date.today, max_bookings, Settings.slots.all}
-      it { booking.should_not be_valid}
-      it { Booking.all.count.should == 3}
-      
+
+      before(:each) do
+        create(:booking, playing_on: Date.today+1, court_number: court.number, user_id: user.id, time_from: time_from, time_to: time_to)
+        create(:booking, playing_on: Date.today+2, court_number: court.number, user_id: user.id, time_from: time_from, time_to: time_to)
+        @current_booking = Booking.new(playing_on: Date.today+3, court_number: court.number, user_id: user.id, time_from: time_from, time_to: time_to)
+        @current_booking.save
+      end
+
+      it { expect(@current_booking).to_not be_valid }
+      it { expect(@current_booking.errors.full_messages).to include("No more than 2 bookings allowed during peak hours in the same week.")}
+ 
     end
     
     context "for the day" do
+
+      before(:each) do
+        create(:booking, playing_on: Date.today+1, court_number: court.number, user_id: user.id, time_from: time_from, time_to: time_to)
+        @current_booking = Booking.new(playing_on: Date.today+1, court_number: court.number, user_id: user.id, time_from: time_to, time_to: time_to.time_step(30))
+        @current_booking.save
+      end
       
-      let!(:max_bookings) { Settings.max_peak_hours_bookings_daily}
-      let!(:booking) { create_peak_hours_bookings_for_day court, create(:user), Date.today, max_bookings, Settings.slots.all}
-      it { booking.should_not be_valid}
-      it { Booking.all.count.should == 1}
+      it { expect(@current_booking).to_not be_valid }
+      it { expect(@current_booking.errors.full_messages).to include("No more than 1 booking allowed during peak hours in the same day.")}
       
     end
       
@@ -108,7 +123,7 @@ describe Booking do
 
    end
 
-   describe "players" do
+   describe "#players" do
 
      let!(:players)     { create_list(:user, 2) }
      let(:booking1)     { build(:booking, user_id: players[0].id, opponent_id: nil) }
@@ -121,7 +136,7 @@ describe Booking do
 
    end
 
-   describe "when" do
+   describe "#in_the_past?" do
      let!(:booking1) { create(:booking, playing_on: "17 Sep 2013", time_from: "17:40") }
      let!(:booking2) { create(:booking, playing_on: "17 Sep 2013", time_from: "19:40") }
 
@@ -135,7 +150,7 @@ describe Booking do
 
    end
 
-   describe "playing_on_text" do
+   describe "#playing_on_text" do
      let!(:booking) {create(:booking, playing_on_text: "17 September 2013")}
      let!(:booking_invalid) {build(:booking, playing_on_text: "32 September 2013")}
 
@@ -144,7 +159,7 @@ describe Booking do
 
    end
 
-   describe "time_and_place" do
+   describe "#time_and_place" do
      
      subject {create(:booking, time_and_place: "17 September 2013,17:40,19:40,2")}
 
@@ -157,7 +172,7 @@ describe Booking do
      
    end
    
-   describe "link text" do
+   describe "#link_text" do
      subject { build(:booking, court_number: 1, playing_on: "17 September 2013", time_from: "19:00")}
      
      its(:link_text) { should == "1 - 17 September 2013 19:00" }

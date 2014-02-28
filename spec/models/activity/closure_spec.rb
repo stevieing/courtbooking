@@ -12,7 +12,7 @@ describe Activity do
 
 		describe "date to before date from" do
 
-			subject {build(:closure, date_to: Date.today-1)}
+			subject {build(:closure, date_to: Date.today-1, )}
 
 			it { should_not be_valid }
 		end
@@ -20,7 +20,7 @@ describe Activity do
 		describe "message" do
 	  	subject { create(:closure)}
 
-	  	its(:message) {should eq("Courts #{subject.court_ids.join(',')} closed from #{subject.time_from} to #{subject.time_to} for #{subject.description}")}
+	  	its(:message) {should eq("Courts #{subject.courts.pluck(:number).join(',')} closed from #{subject.time_from} to #{subject.time_to} for #{subject.description}. ")}
 		end
 	end
       

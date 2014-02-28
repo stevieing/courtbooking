@@ -91,9 +91,9 @@ Given /^todays date is near the end of the month$/ do
   dates.end_of_month
 end
 
-Given /^there are a number of valid bookings for myself and another member for the next day$/ do
-  create_valid_bookings([current_user, other_member], opponent, courts, dates.current_date+1, booking_slots.all)
-end
+# Given /^there are a number of valid bookings for myself and another member for the next day$/ do
+#   create_valid_bookings([current_user, other_member], opponent, courts, dates.current_date+1, booking_slots.all)
+# end
 
 Then /^I should be able to edit my bookings$/ do
   within_the_bookingslots_container do
@@ -129,7 +129,7 @@ end
 
 Then(/^I should not see any time slots over that period$/) do
   within("#bookingslots table") do
-    booking_slots.dup.collect_range(closure_details[:time_from],closure_details[:time_to]).each do |slot|
+    booking_slots.dup.collect_range(create_activity_slot(closure_details)).each do |slot|
       page.should_not have_content slot.from
     end
   end

@@ -23,4 +23,8 @@ class String
     Time.parse(self).to_sec > DateTime.now.to_sec if self.valid_time?
   end
 
+  def time_step(step)
+    (Time.zone.parse(self) + step.minutes).to_s(:hrs_and_mins)
+  end
+
 end

@@ -39,15 +39,6 @@ module BookingsHelpers
       end
     end
   end
-
-  #returns a booking which is a factory build
-  def peak_hours_bookings_for_the_week(courts, current_user, slot_time)
-    create_peak_hours_bookings_for_week(courts.first, current_user, dates.current_date+7, max_peak_hours_bookings_weekly, booking_slots.all)
-  end
-  
-  def peak_hours_bookings_for_the_day(courts, current_user, slot_time)
-    create_peak_hours_bookings_for_day(courts.first, current_user, dates.current_date+7, max_peak_hours_bookings_daily, booking_slots.all)
-  end
   
   def valid_booking_details(booking)
     page.should have_content booking.court_number

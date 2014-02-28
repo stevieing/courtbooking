@@ -4,7 +4,7 @@ class CourtsController < ApplicationController
   before_filter :days_bookings_can_be_made_in_advance, :current_date, :bookings, :courts, :slots, only: [:index]
   
   def index
-    fresh_when etag: [bookings, current_user, flash, current_date, courts, activities, slots]
+    fresh_when etag: [bookings, current_user, flash, current_date, courts,  slots]
     @closure_message, @slots = closures_for_all_courts(Settings.slots.dup, current_date)
   end
   
@@ -30,22 +30,18 @@ class CourtsController < ApplicationController
     @slots ||= Settings.slots.dup
   end
 
-  def activities
-    @activities ||= Activity.by_day(current_date)
-  end
-
   def closure_message
     @closure_message
   end
   
-  helper_method :days_bookings_can_be_made_in_advance, :courts, :slots, :current_date, :bookings, :activities, :closure_message
+  helper_method :days_bookings_can_be_made_in_advance, :courts, :slots, :current_date, :bookings, :closure_message
 
   private
 
   def closures_for_all_courts(slots, current_date)
     [String.new, slots].tap do |description, collected_slots|
       Court.closures_for_all_courts(current_date).each do |closure|
-        collected_slots.reject_range!(closure.time_from, closure.time_to)
+        collected_slots.reject_range!(closure.slot)
         description << closure.message
       end
     end

@@ -116,6 +116,7 @@ module AppSettings
 		model.all.pluck(self.name_column, self.value_column).to_h.to_implicit!
 	end
 
+	#TODO: need to shore this up so that if constant has not been defined then an error is raised.
 	def add_method_missing
 		self.const_name.constantize.class_eval do
 			def method_missing(name, *args, &block)

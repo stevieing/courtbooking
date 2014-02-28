@@ -1,13 +1,9 @@
 require "spec_helper"
 
 describe BookingMailer do
-  
-  before(:all) do
-    create_standard_settings
-  end
-  
-  after(:all) do
-    Setting.delete_all
+
+  before(:each) do
+    stub_settings
   end
   
   describe "booking_confirmation" do

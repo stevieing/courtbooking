@@ -41,12 +41,14 @@ Feature: Users should be able to browse the status of courts
     
   @opponent, @other_member  
   Scenario: Browsing the courts for existing bookings
-    Given I am signed in
-    When there are a number of valid bookings for myself and another member for the next day
-    And I go to the courts page
-    And I view the courts for tomorrow
-    Then I should be able to edit my bookings
-    But I should not be able to edit the bookings for another member
+    Given PENDING
+    # Given I am signed in
+    # And I have created a booking for tomorrow
+    # And another user has created a booking for tomorrow
+    # When I go to the courts page
+    # And I view the courts for tomorrow
+    # Then I should be able to edit my bookings
+    # But I should not be able to edit the bookings for another member
     
   Scenario: Bookings in the past
     Given I am signed in

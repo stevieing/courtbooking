@@ -7,22 +7,6 @@ When /^I select an opponent$/ do
   select opponent.username, from: "Opponent"
 end
 
-Given(/^I have already created the maximum number of bookings during peak hours for the week$/) do
-  create_current_booking(peak_hours_bookings_for_the_week(courts, current_user, slot_time))
-end
-
-Given(/^I have already created the maximum number of bookings during peak hours for the day$/) do
-  create_current_booking(peak_hours_bookings_for_the_day(courts, current_user, slot_time))
-end
-
-Then /^I should see a message telling me I cannot make another booking during peak hours for the week$/ do
-  page.should have_content "No more than #{max_peak_hours_bookings_weekly} bookings allowed during peak hours in the same week."
-end
-
-Then(/^I should see a message telling me I cannot make another booking during peak hours for the day$/) do
-  page.should have_content "No more than #{max_peak_hours_bookings_daily} booking allowed during peak hours in the same day."
-end
-
 Given /^I have created a booking$/ do
   create_current_booking(create_valid_booking(current_user))
 end
@@ -49,11 +33,6 @@ end
 
 Then /^I should not be able to delete the booking$/ do
   page.should_not have_link("Delete Booking")
-end
-
-When(/^I try to create another booking during peak hours$/) do
-  visit courts_path(current_booking.playing_on)
-  click_link current_booking.link_text
 end
 
 When /^I follow a link to create a new booking$/ do
@@ -111,4 +90,9 @@ end
 
 Then(/^I should not be able to select myself as an opponent$/) do
   page.should_not have_xpath "//select[@id = 'Opponent']/option[@value = '#{current_user.username}']"
+end
+
+Given(/^another user has also created a booking$/) do
+  dates.set_current_date(1)
+  create_current_booking(create_valid_booking(other_member))
 end

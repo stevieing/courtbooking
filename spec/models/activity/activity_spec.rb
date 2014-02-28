@@ -27,7 +27,6 @@ describe Activity do
     it { expect(Closure.by_day(Date.today+5).count).to eq(closures_in.count)}
     it { expect(Closure.by_day(Date.today+2).count).to eq(closures_in.count)}
     it { expect(Event.by_day(Date.today).count).to eq(events_in.count) }
-    it { expect(Activity.by_day(Date.today).count).to eq(closures_in.count+events_in.count)}
       
   end
 

@@ -56,18 +56,6 @@ Feature: Members should be able to book a court
     And I delete the booking
     Then I should see a message with the text Booking successfully deleted
     
-  Scenario: making more than the allowed bookings during peak periods for the week
-    Given I have already created the maximum number of bookings during peak hours for the week
-    When I try to create another booking during peak hours
-    And I submit the booking
-    Then I should see a message telling me I cannot make another booking during peak hours for the week
-    
-  Scenario: making more than the allowed bookings during peak periods for the day
-    Given I have already created the maximum number of bookings during peak hours for the day
-    When I try to create another booking during peak hours
-    And I submit the booking
-    Then I should see a message telling me I cannot make another booking during peak hours for the day
-    
   Scenario: Viewing my bookings
     Given I have created a number of bookings in the future
     When I go to the bookings page
@@ -98,7 +86,8 @@ Feature: Members should be able to book a court
   
   @opponent, @other_member  
   Scenario: Viewing bookings for another user
-    Given there are a number of valid bookings for myself and another member for the next day
+    Given I have created a booking
+    And another user has also created a booking
     When I go to the bookings page
     Then I should see a list of the bookings I have created
     But I should not see a list of the bookings they have created

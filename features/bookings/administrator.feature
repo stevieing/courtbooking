@@ -27,7 +27,8 @@ Feature: Administrative users should be able to book a court
     
   @opponent, @other_member  
   Scenario: Viewing bookings for another user
-    Given there are a number of valid bookings for myself and another member for the next day
+    Given I have created a booking
+    And another user has also created a booking
     When I go to the bookings page
     Then I should see a list of the bookings I have created
     And I should see a list of the bookings they have created

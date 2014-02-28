@@ -7,8 +7,6 @@ class Activity < ActiveRecord::Base
 	validates :time_from, :time_to, time: true
 	validates_with TimeAfterTimeValidator
 
-	def self.by_day(day)
-		Closure.by_day(day)+Event.by_day(day)
-	end
+	include Slots::ActiveRecordSlots
 
 end

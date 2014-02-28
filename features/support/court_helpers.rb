@@ -6,6 +6,7 @@ module CourtHelpers
   
   def setup_courts
     create_courts 4
+    stub_settings
   end
 
   def within_the_bookingslots_container(&block)
@@ -32,6 +33,10 @@ module CourtHelpers
       ids = Court.pluck(:id)
     end
     create(:closure, details.merge(court_ids: ids))
+  end
+
+  def create_activity_slot(closure_details)
+    build(:activity_slot, from: closure_details[:time_from], to: closure_details[:time_to], constraints: booking_slots.constraints)
   end
 end
 

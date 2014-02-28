@@ -22,6 +22,8 @@ class Booking < ActiveRecord::Base
   scope :by_day,    lambda{|day| where(playing_on: day) }
   scope :by_court,  lambda{|court| where(court_number: court)}
   scope :by_time,   lambda{|time| where(time_from: time)}
+
+  include Slots::ActiveRecordSlots
   
   def players
     user.nil? ? ' ' : user.full_name << (opponent.nil? ? "" : " V " + opponent.full_name)
