@@ -20,25 +20,17 @@ module BookingSlots
 		#TODO: this is obviously going to be the heart of the matter and may need refactoring.
 		def add_attributes
 			unless get_record.nil?
-				@cell.add do |c|
-					c.span = @record.slot.between
-					@slots.skip(@courts.index, @record.slot.between)
-					set_text_and_link(c)
-				end
+				@cell.add(@record)
+				@slots.skip(@courts.index, @record.span)
 			end
 		end
+
+		alias_method :add, :cell
 
 		private
 
 		def get_record
-			@record = @records.current_record(@courts, @slots)
-		end
-
-		def set_text_and_link(c)
-			if @record.is_a? Activity
-				c.text 		= @record.description
-			else
-			end
+			@record = @records.current_record(@slots)
 		end
 
 	end

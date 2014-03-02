@@ -22,8 +22,8 @@ module BookingSlots
 			end
 		end
 
-		def current_record(court, slots)
-			@activities.current_activity(court, slots) || @bookings.current_booking(court, slots)
+		def current_record(slots)
+			@activities.current_record(@courts, slots) || @bookings.current_record(@courts, slots)
 		end
 
 		def valid?

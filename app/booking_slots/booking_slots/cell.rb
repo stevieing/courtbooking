@@ -12,8 +12,10 @@ module BookingSlots
 			!link.nil?
 		end
 
-		def add(&block)
-			yield self if block_given?
+		def add(record)
+			record.instance_variables.each do |attribute|
+				instance_variable_set(attribute.to_s, record.send(attribute.to_s.gsub('@','').to_sym))
+			end
 		end
 
 		def valid?

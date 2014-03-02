@@ -60,6 +60,18 @@ describe BookingSlots::Row do
       it { expect(subject[1]).to be_instance_of(BookingSlots::NullCell) }
     end
 
+    context 'valid cell' do
+
+      let(:new_cell) { build(:cell)}
+
+
+      before(:each) do
+        allow_any_instance_of(BookingSlots::CellBuilder).to receive(:add).and_return(new_cell)
+      end
+
+      it { expect(courts.all? { |court| subject.each { |cell| cell == new_cell unless (cell == subject.first || cell == subject.last) } }).to be_true }
+    end
+
 
   end
 

@@ -25,6 +25,7 @@ Spork.prefork do
     config.filter_run focus: true
     config.run_all_when_everything_filtered = true
     config.filter_run_excluding broken: true
+    config.include Rails.application.routes.url_helpers
     # ## Mock Framework
     #
     # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:

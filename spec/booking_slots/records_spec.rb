@@ -69,19 +69,42 @@ describe BookingSlots::Records do
 
 	describe '#current_record' do
 
-		let(:activity)			{ build(:activity) }
-		let(:booking)				{ build(:booking) }
-		let(:todays_slots)	{ build(:todays_slots)}
+		let(:activity)					{ build(:activity) }
+		let(:booking)						{ build(:booking) }
+		let(:todays_slots)			{ build(:todays_slots) }
+		let(:current_activity)	{ build(:current_record) }
+		let(:current_booking)		{ build(:current_record) }
 
-		it "activity" do
-			expect(subject.activities).to receive(:current_activity).with(courts.first, todays_slots).and_return(activity)
-			expect(subject.current_record(courts.first, todays_slots)).to eq(activity)
+		context 'activity' do
+
+			before(:each) do
+				allow(subject.activities).to receive(:current_record).with(subject.courts, todays_slots).and_return(current_activity)
+			end
+
+			it { expect(subject.current_record(todays_slots)).to eq(current_activity)}
+			
 		end
 
-		it "booking" do
-			expect(subject.activities).to receive(:current_activity).with(courts.first, todays_slots).and_return(nil)
-			expect(subject.bookings).to receive(:current_booking).with(courts.first, todays_slots).and_return(booking)
-			expect(subject.current_record(courts.first, todays_slots)).to eq(booking)
+		context 'activity' do
+
+			before(:each) do
+				allow(subject.activities).to receive(:current_record).with(subject.courts, todays_slots).and_return(nil)
+				allow(subject.bookings).to receive(:current_record).with(subject.courts, todays_slots).and_return(current_booking)
+			end
+
+			it { expect(subject.current_record(todays_slots)).to eq(current_booking)}
+			
+		end
+
+		# this should never happen but we need to test it
+		context 'nil' do
+
+			before(:each) do
+				allow(subject.activities).to receive(:current_record).with(subject.courts, todays_slots).and_return(nil)
+				allow(subject.bookings).to receive(:current_record).with(subject.courts, todays_slots).and_return(nil)
+			end
+
+			it { expect(subject.current_record(todays_slots)).to eq(nil)}
 		end
 
 	end

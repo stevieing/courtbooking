@@ -16,6 +16,6 @@ module BookingSlots
 	autoload :SlotRow,			'booking_slots/row'
 	autoload :Cell
 	autoload :NullCell,			'booking_slots/cell'
-	autoload :CellBuilder,	'booking_slots/cell_builder'
+	autoload :CellBuilder
 	
 end

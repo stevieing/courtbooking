@@ -16,7 +16,7 @@ module BookingSlots
 		end
 
 			def inspect
-			"<#{self.class}: @date=#{@date}, @user=#{@user}, @permissions=#{@permissions.inspect}>"
+				"<#{self.class}: @date=#{@date}, @user=#{@user}, @permissions=#{@permissions.inspect}>"
 		end
 	end
 end

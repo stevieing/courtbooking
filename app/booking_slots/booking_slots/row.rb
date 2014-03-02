@@ -58,7 +58,7 @@ module BookingSlots
 	class SlotRow < Row
 		def initialize(slots, records)
 			@slots, @records = slots, records
-			@cells = create_cells.wrap(Cell.new(slots.current_slot_time))
+			@cells = create_cells.wrap(Cell.new(@slots.current_slot_time))
 		end
 
 		private
@@ -66,7 +66,7 @@ module BookingSlots
 		def create_cells
 			[].tap do |cells|
 				until @records.courts.end?
-					cells << (@slots.synced?(@records.courts.index) ? Cell.new : NullCell.new)
+					cells << CellBuilder.new(@slots, @records).add
 					@records.courts.up
 				end
 				@records.courts.reset!

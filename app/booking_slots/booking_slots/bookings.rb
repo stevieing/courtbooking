@@ -1,6 +1,8 @@
 module BookingSlots
 	class Bookings
 
+		include Rails.application.routes.url_helpers
+
 		attr_reader :bookings
 		
 		def initialize(properties)
@@ -16,7 +18,20 @@ module BookingSlots
 		end
 
 		def current_record(courts, slots)
-			nil
+			booking = current_booking(courts, slots)
+			CurrentRecord.create(booking) do |record|
+				if booking.in_the_past?
+					record.text = booking.players
+				else
+					if booking.new_record?
+						record.text = booking.link_text
+						record.link = court_booking_path(booking.playing_on, booking.time_from, booking.time_to, booking.court_number.to_s)
+					else
+						record.text = booking.players
+						record.link = edit_booking_path(booking) if @properties.edit_booking?(booking)
+					end
+				end
+			end
 		end
 
 		def valid?

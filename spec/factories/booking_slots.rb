@@ -44,4 +44,14 @@ FactoryGirl.define do
 	
 		initialize_with { new(properties)}
 	end
+
+	factory :current_record, :class => BookingSlots::CurrentRecord do
+		text "a record"
+		span 4
+		link '/a/dodgy/link'
+		klass 'seriousclass'
+	end
+
+	factory :cell, :class => BookingSlots::Cell do
+	end
 end
