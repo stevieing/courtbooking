@@ -129,6 +129,10 @@ describe Slots::Base do
 	  
 	end
 
+	describe '#current_time' do
+		it { expect(subject.current_time).to eq("06:20".to_time)}
+	end
+
 	describe '#reset!' do
 		before(:each) do
 			subject.up(3)
@@ -144,11 +148,4 @@ describe Slots::Base do
 		it { should be_kind_of(Slots::Base)}
 	end
 	
-end
-
-describe Slots::NullObject do
-
-	subject { Slots::NullObject.new}
-
-	it { should_not be_valid}
 end

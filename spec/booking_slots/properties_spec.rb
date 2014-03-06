@@ -15,6 +15,7 @@ describe BookingSlots::Properties do
 
 	its(:user)	{ should eq(user)}
 	its(:date)	{ should eq(date)}
+	its(:wday)	{ should eq(date.wday)}
 
 	describe "edit booking" do
 

@@ -5,9 +5,9 @@ module BookingSlots
 		attr_reader :closures, :message
 
 		def initialize(properties)
-			@properties = properties
-			@closures = get_closures
-			@message = create_message
+			@properties 	= properties
+			@closures 		= get_closures
+			@message 			= create_message
 		end
 
 		def each(&block)

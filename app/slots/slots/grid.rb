@@ -5,7 +5,7 @@ module Slots
 
 		attr_accessor :objects
 		attr_reader :original
-		delegate :frozen?, :up, :current_slot_time, :current, :end?, to: :original
+		delegate :frozen?, :up, :current_slot_time, :current_time, :current, :end?, to: :original
 		
 		def initialize(number, original)
 			@number, @original = number, original

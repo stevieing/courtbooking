@@ -71,7 +71,7 @@ describe BookingSlots::Bookings do
 
 			it 					{ should be_instance_of(BookingSlots::CurrentRecord) }
 			its(:text) 	{ should eq(booking1.players) }
-			its(:klass) { should be_nil }
+			its(:klass) { should eq("booking") }
 			its(:span) 	{ should eq(1) }
 
 			context 'current user' do
@@ -95,6 +95,7 @@ describe BookingSlots::Bookings do
 				subject 	{ bookings.current_record(todays_courts, todays_slots) }
 
 				its(:link) { should be_nil }
+				its(:klass) { should eq("booking") }
 			end
 
 			context 'in the past' do
@@ -107,6 +108,7 @@ describe BookingSlots::Bookings do
 				subject 	{ bookings.current_record(todays_courts, todays_slots) }
 
 				its(:link) { should be_nil }
+				its(:klass) { should be_nil }
 			end
 
 		end

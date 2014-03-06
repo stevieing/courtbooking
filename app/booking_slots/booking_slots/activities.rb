@@ -11,9 +11,10 @@ module BookingSlots
 
 		def current_record(courts, slots)
 			activity = current_activity(courts, slots)
-			CurrentRecord.create(activity) do |record|
-				record.text = activity.description
-				record.span = activity.slot.between
+			BookingSlots::CurrentRecord.create(activity) do |record|
+				record.text 	= activity.description
+				record.span 	= activity.slot.between
+				record.klass 	= BookingSlots::HtmlKlass.new(activity).value
 			end
 		end
 

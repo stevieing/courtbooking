@@ -19,6 +19,10 @@ module BookingSlots
 			@rows.each(&block)
 		end
 
+		def heading
+			@properties.date.to_s(:uk)
+		end
+
 		def inspect
 			"<#{self.class}: @date=#{@date}, @rows=#{@rows.each {|row| row.inspect}}>"
 		end

@@ -6,9 +6,9 @@ describe BookingSlots::CellBuilder do
   let(:options)         { { slot_first: "07:00", slot_last: "17:00", slot_time: 30} }
   let(:court_slots)     { build(:court_slots, options: options) }
   let(:properties)      { build(:properties, date: date)}
-	let!(:courts)         { create_list(:court, 4) }
+	let!(:courts)         { create_list(:court_with_defined_opening_and_peak_times, 4, opening_time_from: "07:00", opening_time_to: "17:30") }
   let(:records)         { build(:records, properties: properties) }
-  let(:todays_slots)    { build(:todays_slots, records: records) }
+  let(:todays_slots)    { build(:todays_slots, slots: court_slots, records: records) }
 
   subject 						  { BookingSlots::CellBuilder.new(todays_slots, records) }
 
@@ -20,13 +20,25 @@ describe BookingSlots::CellBuilder do
     BookingSlots::CellBuilder.new(todays_slots, records)
   end
 
- 	describe 'not synced' do
+ 	describe 'current slot' do
 
-    before(:each) do
-      todays_slots.skip(0,1)
+    context 'valid' do
+      before(:each) do
+        allow(todays_slots).to receive(:current_slot_valid?).and_return(true)
+      end
+      
+      it { expect(subject.cell).to be_instance_of(BookingSlots::Cell) }
     end
 
-    it { expect(subject.cell).to be_instance_of(BookingSlots::NullCell) }
+    context 'not valid' do
+      before(:each) do
+        allow(todays_slots).to receive(:current_slot_valid?).and_return(false)
+      end
+      
+      it { expect(subject.cell).to be_instance_of(BookingSlots::NullCell) }
+    end
+
+    
   end
 
   describe 'with a record' do

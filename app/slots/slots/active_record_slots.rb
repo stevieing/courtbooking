@@ -1,4 +1,3 @@
-
 module Slots
 	module ActiveRecordSlots
 
@@ -17,8 +16,8 @@ module Slots
 		end
 
 		#
-		# TODO: I'm sure there must be a better way of doing this!
-		# TODO: solve autoloading problem.
+		# TODO: I'm sure there must be a better way of doing this! It looks ugly.
+		# Autoloading problem solved. However there is still some way to go.
 		#
 
 		def create_slot

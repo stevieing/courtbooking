@@ -9,6 +9,7 @@ class Court < ActiveRecord::Base
   validates :number, presence: true, uniqueness: true
 
   delegate :peak_time?, to: :peak_times
+  delegate :open?, to: :opening_times
  
   class << self
   
@@ -23,7 +24,7 @@ class Court < ActiveRecord::Base
 
     def closures_for_all_courts(date)
       closures = Closure.where(":date BETWEEN date_from AND date_to", {date: date})
-      closures.nil? ? nil : closures.select {|closure| closure.court_ids = Court.pluck(:id)}
+      closures.nil? ? nil : closures.select {|closure| closure.court_ids == Court.pluck(:id)}
     end
   end
   

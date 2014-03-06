@@ -43,35 +43,33 @@ describe BookingSlots::CurrentRecord do
   	context 'valid object' do
   		let(:test_object) { TestRecord.new("some text", "/a/link", 10, "sillyclass")}
 
-      before(:each) do
-        @record = BookingSlots::CurrentRecord.create(test_object) do |c|
-            c.text  = test_object.text
-            c.link  = test_object.link
-            c.span  = test_object.span
-            c.klass = test_object.klass
+      subject { BookingSlots::CurrentRecord.create(test_object) do |c|
+          c.text  = test_object.text
+          c.link  = test_object.link
+          c.span  = test_object.span
+          c.klass = test_object.klass
         end
-      end
+      }
 
-      it { expect(@record).to be_instance_of(BookingSlots::CurrentRecord) }
-      it { expect(@record.text).to eq("some text") }
-      it { expect(@record.link).to eq("/a/link") }
-      it { expect(@record.span).to eq(10) }
-      it { expect(@record.klass).to eq("sillyclass") }
+      it { expect(subject).to be_instance_of(BookingSlots::CurrentRecord) }
+      it { expect(subject).to have_text("some text") }
+      it { expect(subject).to be_a_link_to("/a/link") }
+      it { expect(subject).to have_a_span_of(10) }
+      it { expect(subject).to have_klass("sillyclass") }
 
   	end
 
     context 'nil' do
       let(:test_object) { nil }
-      before(:each) do
-        @record = BookingSlots::CurrentRecord.create(test_object) do |c|
+
+      subject { BookingSlots::CurrentRecord.create(test_object) do |c|
             c.text  = test_object.text
             c.link  = test_object.link
             c.span  = test_object.span
             c.klass = test_object.klass
-        end
-      end
+        end }
 
-      it { expect(@record).to be_nil }
+      it { expect(subject).to be_nil }
     end
     
   end

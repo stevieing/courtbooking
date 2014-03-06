@@ -56,9 +56,10 @@ describe BookingSlots::Activities do
 					allow_any_instance_of(BookingSlots::Activities).to receive(:get_activity).and_return(event)
 				end
 
-				it { expect(subject).to be_instance_of(BookingSlots::CurrentRecord)}
-				it { expect(subject.text).to eq(event.description)}
-				it { expect(subject.span).to eq(event.slot.between)}
+				it { expect(subject).to be_instance_of(BookingSlots::CurrentRecord) }
+				it { expect(subject.text).to eq(event.description) }
+				it { expect(subject.span).to eq(event.slot.between) }
+				it { expect(subject.klass).to eq("event") }
 
 			end
 
@@ -74,6 +75,7 @@ describe BookingSlots::Activities do
 				it { expect(subject).to be_instance_of(BookingSlots::CurrentRecord)}
 				it { expect(subject.text).to eq(closure.description)}
 				it { expect(subject.span).to eq(closure.slot.between)}
+				it { expect(subject.klass).to eq("closure") }
 
 			end
 

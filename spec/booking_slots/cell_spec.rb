@@ -38,11 +38,11 @@ describe BookingSlots::Cell do
 				cell.add(record)
 			end
 
-			it { expect(cell.text).to eq("some text") }
-			it { expect(cell.klass).to eq("class")}
-			it { expect(cell.link).to	eq("/link_to/cell/1") }
-			it { expect(cell.link?).to be_true }
-			it { expect(cell.span).to eq(5) }
+			it { expect(cell).to have_text("some text") }
+			it { expect(cell).to have_klass("class")}
+			it { expect(cell).to be_a_link_to("/link_to/cell/1") }
+			it { expect(cell).to be_a_link }
+			it { expect(cell).to have_a_span_of(5) }
 			it { expect(cell).to be_valid }
 
 		end

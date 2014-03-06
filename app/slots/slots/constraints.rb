@@ -1,7 +1,7 @@
 module Slots
 	class Constraints
 
-		include Helpers
+		include Slots::Helpers
 
 		cattr_accessor :slot_first, instance_writer: false
 		cattr_accessor :slot_last, instance_writer: false
@@ -27,7 +27,6 @@ module Slots
 			save if valid?
 		end
 
-		#TODO: change to check series.
 		# Fixed 26/02/14. This little methods was causing all sorts of failures.
 		def cover?(time)
 			@series.cover? time

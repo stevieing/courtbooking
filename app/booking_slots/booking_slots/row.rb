@@ -3,7 +3,7 @@ module BookingSlots
 	class Row
 		include Enumerable
 
-		attr_reader :cells
+		attr_reader :cells, :klass
 		delegate :last, to: :cells
 
 		def initialize
@@ -36,43 +36,6 @@ module BookingSlots
 				yield if block_given?
 			end
 		end
-	end
-
-	class HeaderRow < Row
-		def initialize(courts)
-			@courts, @heading = courts, true
-			@cells = create_cells.wrap(Cell.new)
-		end
-
-		private
-
-		def create_cells
-			[].tap do |cells|
-				@courts.each do |court|
-					cells << Cell.new("Court #{court.number.to_s}")
-				end
-			end
-		end
-	end
-
-	class SlotRow < Row
-		def initialize(slots, records)
-			@slots, @records = slots, records
-			@cells = create_cells.wrap(Cell.new(@slots.current_slot_time))
-		end
-
-		private
-
-		def create_cells
-			[].tap do |cells|
-				until @records.courts.end?
-					cells << CellBuilder.new(@slots, @records).add
-					@records.courts.up
-				end
-				@records.courts.reset!
-			end
-		end
-
 	end
 
 end

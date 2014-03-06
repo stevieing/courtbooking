@@ -1,7 +1,7 @@
 module Slots
 	class Series
 		include Enumerable
-		include Helpers
+		include Slots::Helpers
 
 		attr_reader :range
 

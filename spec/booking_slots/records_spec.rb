@@ -9,6 +9,7 @@ describe BookingSlots::Records do
 	let(:options)				{ { slot_first: "07:00", slot_last: "17:00", slot_time: 30}}
 	let(:court_slots)		{ build(:court_slots, options: options) }
 	let!(:courts)				{ create_list(:court, 4)}
+	let!(:courts) 			{ create_list(:court_with_defined_opening_and_peak_times, 4, opening_time_from: "08:00", opening_time_to: "17:00" )}
 	let!(:user)					{ create(:user) }
 	let(:date)					{ Date.today }
 	let(:properties)		{ build(:properties, date: date, user: user)}
@@ -105,6 +106,30 @@ describe BookingSlots::Records do
 			end
 
 			it { expect(subject.current_record(todays_slots)).to eq(nil)}
+		end
+
+	end
+
+	describe '#current_court_open?' do
+
+		let(:todays_slots)			{ build(:todays_slots) }
+
+		context 'court closed' do
+			before(:each) do
+				allow(todays_slots).to receive(:current_slot_time).and_return("07:00")
+			end
+
+			it {expect(subject.current_court_open?(todays_slots)).to be_false }
+
+		end
+
+		context 'court open' do
+			before(:each) do
+				allow(todays_slots).to receive(:current_slot_time).and_return("12:00")
+			end
+
+			it {expect(subject.current_court_open?(todays_slots)).to be_true }
+			
 		end
 
 	end

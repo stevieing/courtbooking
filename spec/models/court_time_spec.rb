@@ -11,6 +11,23 @@ describe CourtTime do
   
   describe CourtTime::OpeningTime do
     it_behaves_like "an STI class"
+
+    describe '#open?' do
+      subject { create(:court_with_defined_opening_and_peak_times, opening_time_from: "08:00", opening_time_to: "12:00" )}
+
+      it { expect(subject.open?(0, "07:00")).to be_false }
+      it { expect(subject.open?(0, "07:59")).to be_false }
+      it { expect(subject.open?(0, "08:00")).to be_true }
+      it { expect(subject.open?(0, "08:01")).to be_true }
+      it { expect(subject.open?(0, "10:00")).to be_true }
+      it { expect(subject.open?(0, "11:59")).to be_true }
+      it { expect(subject.open?(0, "12:00")).to be_true }
+      it { expect(subject.open?(0, "12:01")).to be_false }
+      it { expect(subject.open?(0, "13:00")).to be_false }
+      it { expect(subject.open?(5, "07:00")).to be_false }
+      it { expect(subject.open?(5, "10:00")).to be_true }
+
+    end
   end
   
   describe CourtTime::PeakTime do

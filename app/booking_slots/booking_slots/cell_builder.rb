@@ -4,7 +4,7 @@ module BookingSlots
 		attr_reader :cell
 
 		def initialize(slots, records)
-			@slots, @records, @courts = slots, records, records.courts
+			@slots, @records = slots, records
 			@cell = new_cell
 			add_attributes if @cell.valid?
 		end
@@ -14,14 +14,13 @@ module BookingSlots
 		end
 
 		def new_cell
-			@slots.synced?(@courts.index) ? Cell.new : NullCell.new
+			@slots.current_slot_valid? ? BookingSlots::Cell.new : BookingSlots::NullCell.new
 		end
 
-		#TODO: this is obviously going to be the heart of the matter and may need refactoring.
 		def add_attributes
 			unless get_record.nil?
 				@cell.add(@record)
-				@slots.skip(@courts.index, @record.span)
+				@slots.skip(@record.span)
 			end
 		end
 

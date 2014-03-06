@@ -28,9 +28,4 @@ module BookingSlots
 
 	end
 
-	class NullCell
-		def valid?
-			false
-		end
-	end
 end

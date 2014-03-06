@@ -7,6 +7,7 @@ class Activity < ActiveRecord::Base
 	validates :time_from, :time_to, time: true
 	validates_with TimeAfterTimeValidator
 
+
 	include Slots::ActiveRecordSlots
 
 end

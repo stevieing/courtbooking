@@ -9,7 +9,7 @@ module Slots
 		delegate :slot_time, to: :constraints
 
 		def initialize(options = {})
-			@constraints = Constraints.new(options)
+			@constraints = Slots::Constraints.new(options)
 			@slots = create_slots
 			@frozen = false
 			reset!
@@ -36,23 +36,23 @@ module Slots
 		end
 
 		def collect_range(slot)
-			RangeChecker.new(slot, self).collect
+			Slots::RangeChecker.new(slot, self).collect
 		end
 
 		def reject_range(slot)
-			RangeChecker.new(slot, self).reject
+			Slots::RangeChecker.new(slot, self).reject
 		end
 
 		def reject_range!(slot)
-			RangeChecker.new(slot, self).reject!
+			Slots::RangeChecker.new(slot, self).reject!
 		end
 
 		def valid_slot
-			CourtSlot.new(@constraints.series.find{ |slot| slot.in_the_future?}, @constraints)
+			Slots::CourtSlot.new(@constraints.series.find{ |slot| slot.in_the_future?}, @constraints)
 		end
 
 		def slots_between(slot)
-			RangeChecker.new(slot, self).slots_between
+			Slots::RangeChecker.new(slot, self).slots_between
 		end
 
 		def freeze
@@ -69,6 +69,10 @@ module Slots
 
 		def current_slot_time
 			current.from
+		end
+
+		def current_time
+			current.from.to_datetime
 		end
 
 		def inspect
@@ -98,15 +102,10 @@ module Slots
 		def create_slots
 			[].tap do |slots|
 				@constraints.series.each do |slot|
-					slots << CourtSlot.new(slot, @constraints)
+					slots << Slots::CourtSlot.new(slot, @constraints)
 				end
 			end
 		end
 	end
 
-	class NullObject
-		def valid?
-			false
-		end
-	end
 end

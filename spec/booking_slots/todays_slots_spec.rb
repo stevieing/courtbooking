@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe BookingSlots::TodaysSlots do
 
-	let!(:courts)				{ create_list(:court, 4)}
+	let!(:courts)				{ create_list(:court_with_defined_opening_and_peak_times, 4, opening_time_from: "09:00", opening_time_to: "17:00")}
 	let(:options)				{ { slot_first: "07:00", slot_last: "17:00", slot_time: 30}}
 	let(:court_slots)		{ build(:court_slots, options: options)}
 	let(:properties)		{ build(:properties, date: Date.today) }
@@ -15,7 +15,7 @@ describe BookingSlots::TodaysSlots do
 	  it { should be_valid }
 	  it { expect(subject.grid.frozen?).to be_true}
 	  it { expect(subject.grid).to be_instance_of(Slots::Grid)}
-	  it { expect(subject.grid.count).to eq(4)}
+	  it { expect(subject.grid).to have(4).items}
 
 	end
 
@@ -27,7 +27,36 @@ describe BookingSlots::TodaysSlots do
 
 		subject { BookingSlots::TodaysSlots.new(court_slots, records)}
 
-		it { expect(subject[0].count).to eq(15)}
+		it { expect(subject[0]).to have(15).items}
+	end
+
+	describe '#current_slot_valid?' do
+
+		subject { BookingSlots::TodaysSlots.new(court_slots, records)}
+
+		context 'court closed' do
+
+			it { expect(subject.current_slot_valid?).to be_false}
+		end
+
+		context 'slots not synced' do
+			before(:each) do
+				subject.up(4)
+				subject.skip(5)
+			end
+
+			it { expect(subject.current_slot_valid?).to be_false}
+		end
+
+		context 'court open and slots synced' do
+			before(:each) do
+				subject.up(4)
+				subject.skip(4)
+			end
+
+			it { expect(subject.current_slot_valid?).to be_true}
+		end
+
 	end
 
 end

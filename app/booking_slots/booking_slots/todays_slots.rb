@@ -4,7 +4,7 @@ module BookingSlots
 		include Enumerable
 
 		attr_reader :grid
-		delegate [], :up, :current_slot_time, :current, :synced?, :end?, :skip, to: :grid
+		delegate [], :up, :current_slot_time, :current_time, :current, :end?, to: :grid
 
 		def initialize(slots, records)
 			@records = records
@@ -19,6 +19,14 @@ module BookingSlots
 
 		def valid?
 			@grid.valid?
+		end
+
+		def skip(by)
+			@grid.skip(@records.courts.index, by)
+		end
+
+		def current_slot_valid?
+			@grid.synced?(@records.courts.index) && @records.current_court_open?(self)
 		end
 
 		def inspect

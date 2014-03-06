@@ -18,6 +18,7 @@ describe BookingSlots::Row do
   	it { expect(subject.first.text).to eq("&nbsp;")}
   	it { expect(subject.last.text).to eq("&nbsp;")}
   	it { expect(subject.count).to eq(courts.count+2)}
+    it { expect(subject.klass).to be_nil }
     it { should be_valid }
   	
   	it { expect(courts.any? { |court| subject.each { |cell| cell.text == "Court #{court.number}" } } ).to be_true}
@@ -49,7 +50,7 @@ describe BookingSlots::Row do
       it { expect(@row2.count).to eq(records.courts.count+2)}
     end
 
-    context 'not synced' do
+    describe 'not synced' do
 
       before(:each) do
         todays_slots.grid[0].up
@@ -60,10 +61,20 @@ describe BookingSlots::Row do
       it { expect(subject[1]).to be_instance_of(BookingSlots::NullCell) }
     end
 
-    context 'valid cell' do
+    describe 'in the past' do
+
+      subject { BookingSlots::SlotRow.new(todays_slots, records) }
+
+      before(:each) do
+        allow(DateTime).to receive(:now).and_return(todays_slots.current_time + 30.minutes)
+      end
+
+      it { expect(subject.klass).to eq("past")}
+    end
+
+    describe 'valid cell' do
 
       let(:new_cell) { build(:cell)}
-
 
       before(:each) do
         allow_any_instance_of(BookingSlots::CellBuilder).to receive(:add).and_return(new_cell)

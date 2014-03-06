@@ -10,7 +10,7 @@ describe BookingSlots::Unavailable do
 	let(:properties)			{ build(:properties, date: Date.today+1)}
 	let(:unavailable)			{ BookingSlots::Unavailable.new(properties) }
 
-	it { expect(unavailable.count).to eq(2) }
+	it { expect(unavailable).to have(2).items }
   it { expect(unavailable.message).to eq("#{closure1.message}#{closure2.message}")}
 
 end

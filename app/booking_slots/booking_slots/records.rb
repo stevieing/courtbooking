@@ -34,6 +34,10 @@ module BookingSlots
 			"<#{self.class}: @courts=#{@courts.inspect}, @unavailable=#{@unavailable.inspect}, @bookings=#{@bookings.inspect}, @activities=#{@activities.inspect}>"
 		end
 
+		def current_court_open?(slots)
+			@courts.current.open?(@properties.wday, slots.current_slot_time)
+		end
+
 		private
 
 		def create_records
