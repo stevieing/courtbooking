@@ -1,41 +1,41 @@
 module Slots
-	class Series
-		include Enumerable
-		include Slots::Helpers
+  class Series
+    include Enumerable
+    include Slots::Helpers
 
-		attr_reader :range
+    attr_reader :range
 
-		def initialize(slot, constraints)
-			@slot, @constraints = slot, constraints
-			@range = create_range
-		end
+    def initialize(slot, constraints)
+      @slot, @constraints = slot, constraints
+      @range = create_range
+    end
 
-		def each(&block)
-			@range.each(&block)
-		end
+    def each(&block)
+      @range.each(&block)
+    end
 
-		alias_method :all, :range
+    alias_method :all, :range
 
-		def inspect
-			"<#{self.class}: @range=[#{@range.join(",")}]>"
-		end
+    def inspect
+      "<#{self.class}: @range=[#{@range.join(",")}]>"
+    end
 
-		def include?(other)
-			other.to_set.subset?(self.to_set)
-		end
+    def include?(other)
+      other.to_set.subset?(self.to_set)
+    end
 
-		def cover?(time)
-			(@range.first..@range.last).cover?(time)
-		end
+    def cover?(time)
+      (@range.first..@range.last).cover?(time)
+    end
 
-		private
+    private
 
-		def create_range
-			if @constraints.valid?
-				to_range(@slot.from, @slot.to, @constraints.slot_time)
-			else
-				@slot.to_a
-			end
-		end
-	end
+    def create_range
+      if @constraints.valid?
+        to_range(@slot.from, @slot.to, @constraints.slot_time)
+      else
+        @slot.to_a
+      end
+    end
+  end
 end

@@ -8,17 +8,6 @@ Feature: Users should be able to browse the status of courts
   Background:
     Given todays date is "01 September 2013" and the time is "17:00"
     And the courts are setup
-  
-  Scenario: Browsing the courts for today
-    When I go to the courts page
-    Then I should see a column for each court
-    And I should see todays date
-    
-  Scenario: Browsing the courts for a time slot
-    When I go to the courts page
-    And I view the courts for tomorrow
-    Then I should see a row for each time slot
-    And I should be able to book each time slot for each court for today
     
   Scenario: Browsing the calendar
     When I go to the courts page
@@ -61,15 +50,9 @@ Feature: Users should be able to browse the status of courts
   Scenario: All the courts are closed
     Given All of the courts are closed for a fixed period
     When I go to the courts page
-    Then I should not see any time slots over that period
     And I should see a message telling me when and why the courts are closed
 
   Scenario: All the courts are closed for several days
     Given All of the courts are closed for a fixed period for 5 days
     When I go to the courts page
-    And I view the courts for 5 days from today
-    Then I should not see any time slots over that period
     And I should see a message telling me when and why the courts are closed
-    And I view the courts for 1 day from today
-    Then I should see a row for each time slot
-

@@ -86,30 +86,43 @@
 					height: 100%;
 				}
 				
-				.booked, .past{
-					color: black;
-					font:{
-						size: 1em;
-					}
-					vertical-align: center;
-					text-align: center;
-					width: 80%;
-					margin: 0 auto;
-				}
-				
-				.booked{
-					background-color: $light_green;
-				}
-				
-				.past{
-					background-color: $light_grey;
-				}
-		
 			}
+
+			.booking{
+				color: black;
+				font:{
+					size: 1em;
+				}
+				vertical-align: center;
+				text-align: center;
+				background-color: $light_green;
+
+				a{
+					color: black;
+				}
+			}
+
 
 			th{
 				padding-top: 10px;
 				padding-bottom: 10px;
+			}
+		}
+
+		.past{
+			td{
+				&:not(:first-child):not(:last-child){
+					background-color: $light_grey;
+				}
+
+				a{
+					color: $light_grey;
+				}
+			}
+
+			.booking{
+				background-color: $light_grey;
+				color: black;
 			}
 		}
 	}

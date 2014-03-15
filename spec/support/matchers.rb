@@ -39,3 +39,9 @@ RSpec::Matchers.define :be_a_link_to do |link|
    expect(cell.link).to eq(link)
   end
 end
+
+RSpec::Matchers.define :be_a_heading do
+  match do |row|
+   expect(row.heading?).to be_true
+  end
+end

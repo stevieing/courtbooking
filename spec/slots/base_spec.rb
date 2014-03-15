@@ -11,7 +11,7 @@ describe Slots::Base do
 	let(:range) 				{["07:00", "08:20"]}
 	let(:collection) 		{["07:00","07:40"]}
 	let(:rejection) 		{["06:20", "08:20", "09:00"]}
-	let(:slot_range)		{ build(:activity_slot, from: range.first, to: range.last, constraints: build(:constraints, options: options))}
+	let(:slot_range)		{ build(:slot, from: range.first, to: range.last, constraints: build(:constraints, options: options))}
 	subject  						{ Slots::Base.new(options)}
 
 	it { should be_valid }
@@ -25,25 +25,9 @@ describe Slots::Base do
 	it { expect(subject.first.from).to eq(all_slots.first)}
 	it { expect(subject.current.from).to eq(all_slots.first)}
 
-	describe 'movement' do
-		let(:shove) {3}
+	let(:enum_attribute)  { :@slots }
 
-		context '#up' do
-			it { expect{subject.up}.to change{subject.current.from}.from(all_slots.first).to(all_slots[1])}
-	  	it { expect{subject.up(shove)}.to change{subject.current.from}.from(all_slots.first).to(all_slots[shove])}
-		end
-
-		context '#down' do
-			before(:each) do
-				subject.up(3)
-			end
-
-			it { expect{subject.down}.to change{subject.current.from}.from(all_slots[shove]).to(all_slots[shove-1]) }
-			it { expect{subject.down(shove)}.to change{subject.current.from}.from(all_slots[shove]).to(all_slots.first) }
-			
-		end
-	  
-	end
+  it_behaves_like IndexManager
 
 	describe 'manipulation' do	
 
@@ -110,16 +94,9 @@ describe Slots::Base do
 	end
 
 	describe '#slots_between' do
-		let(:slot_between)		{ build(:activity_slot, from: all_slots.first, to: all_slots.last, constraints: build(:constraints, options: options))}
+		let(:slot_between)		{ build(:slot, from: all_slots.first, to: all_slots.last, constraints: build(:constraints, options: options))}
 		it { expect(subject.slots_between(slot_between)).to eq(4)}
 	  
-	end
-
-	describe '#end?' do
-		it { expect{subject.up(3)}.to_not change{subject.end?}.from(false).to(true) }
-		it { expect{subject.up(4)}.to_not change{subject.end?}.from(false).to(true) }
-		it { expect{subject.up(5)}.to change{subject.end?}.from(false).to(true) }
-		it { expect{subject.up(6)}.to change{subject.end?}.from(false).to(true) }
 	end
 
 	describe '#current_slot_time' do
@@ -131,14 +108,6 @@ describe Slots::Base do
 
 	describe '#current_time' do
 		it { expect(subject.current_time).to eq("06:20".to_time)}
-	end
-
-	describe '#reset!' do
-		before(:each) do
-			subject.up(3)
-		end
-
-		it { expect{subject.reset!}.to change{subject.current.from}.from("08:20").to("06:20")}
 	end
 
 	describe 'inherited' do

@@ -59,4 +59,16 @@ describe BookingSlots::TodaysSlots do
 
 	end
 
+	describe '#current_datetime' do
+
+		subject { BookingSlots::TodaysSlots.new(court_slots, records)}
+
+		before(:each) do
+			allow(subject).to receive(:current_slot_time).and_return("14:00")
+		end
+
+		it { expect(subject.current_datetime).to eq(DateTime.parse("#{Date.today.to_s(:uk)} 14:00"))}
+
+	end
+
 end

@@ -4,8 +4,9 @@ module BookingSlots
 		cattr_accessor :models, instance_accessor: false
 		self.models = [:courts, :unavailable, :bookings, :activities]
 
-		attr_reader *self.models
+		attr_reader *self.models, :properties
 		delegate :events, :closures, to: :activities
+		delegate :date, to: :properties
 
 		def initialize(properties)
 			@properties = properties

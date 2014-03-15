@@ -7,7 +7,7 @@ describe Slots::RangeChecker do
 	let(:slot_time)			{ 30 }
 	let(:options)				{ { slot_time: 30, slot_first: slot_first, slot_last: slot_last}}
 	let(:slots) 				{ Slots::Base.new(options)}
-	let(:slot)					{ Slots::ActivitySlot.new("11:00", "15:00", slots.constraints)}
+	let(:slot)					{ Slots::Slot.new("11:00", "15:00", slots.constraints)}
 
 	subject { Slots::RangeChecker.new(slot, slots)}
 

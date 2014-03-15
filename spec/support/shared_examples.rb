@@ -49,3 +49,15 @@ shared_examples "AppSettings" do
     end
   end
 end
+
+#TODO: improve way variables are passed.
+shared_examples IndexManager do
+
+  it { expect(described_class).to include(IndexManager) }
+  it { expect(described_class).to include(Enumerable) }
+  it { expect(subject.index).to eq(0) }
+  it { expect(subject.enumerator).to eq(subject.instance_variable_get(enum_attribute))}
+  it { expect(subject).to respond_to(:each)}
+  it { expect(subject.current).to eq(subject.instance_variable_get(enum_attribute).first)}
+
+end

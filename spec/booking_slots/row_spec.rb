@@ -1,28 +1,42 @@
 require "spec_helper"
 
 describe BookingSlots::Row do
-  
+
   subject { BookingSlots::Row.new }
 
   it { expect(subject).to be_instance_of(BookingSlots::Row)}
-  its(:heading?) 	{ should be_false }
-  its(:count) 		{ should eq(0) }
+  its(:heading?)  { should be_false }
+  its(:count)     { should eq(0) }
 
   describe BookingSlots::HeaderRow do
 
-  	let(:courts)			{ build_list(:court, 4) }
-  	subject       		{ BookingSlots::HeaderRow.new(courts)}
+    context 'courts' do
 
-  	its(:heading?)		{ should be_true }
+      let!(:courts)        { create_list(:court, 4) }
+      let(:todays_courts)  { BookingSlots::Courts.new(build(:properties)) }
+      subject              { BookingSlots::HeaderRow.new(todays_courts.header)}
 
-  	it { expect(subject.first.text).to eq("&nbsp;")}
-  	it { expect(subject.last.text).to eq("&nbsp;")}
-  	it { expect(subject.count).to eq(courts.count+2)}
-    it { expect(subject.klass).to be_nil }
-    it { should be_valid }
-  	
-  	it { expect(courts.any? { |court| subject.each { |cell| cell.text == "Court #{court.number}" } } ).to be_true}
-  
+      its(:heading?)    { should be_true }
+
+      it { expect(subject).to have(courts.count+2).items }
+      it { expect(subject.klass).to be_nil }
+      it { should be_valid }
+
+      it { expect(courts.any? { |court| subject.each { |cell| cell.text == "Court #{court.number}" } } ).to be_true}
+
+    end
+
+    context 'dates' do
+
+      let(:dates)   { build(:dates) }
+      subject       { BookingSlots::HeaderRow.new(dates.header) }
+
+      its(:heading?)  { should be_true }
+      it { expect(subject).to have(dates.split).items }
+      it { expect(subject.first).to have_text(dates.header.first)}
+    end
+
+
   end
 
   describe BookingSlots::SlotRow do
@@ -61,15 +75,41 @@ describe BookingSlots::Row do
       it { expect(subject[1]).to be_instance_of(BookingSlots::NullCell) }
     end
 
-    describe 'in the past' do
+
+    describe 'klass' do
 
       subject { BookingSlots::SlotRow.new(todays_slots, records) }
 
-      before(:each) do
-        allow(DateTime).to receive(:now).and_return(todays_slots.current_time + 30.minutes)
+      context ' in the past' do
+
+        before(:each) do
+          allow(DateTime).to receive(:now).and_return(todays_slots.current_datetime + 30.minutes)
+        end
+
+        it { expect(subject.klass).to eq("past")}
       end
 
-      it { expect(subject.klass).to eq("past")}
+      context 'in the future' do
+
+        context 'today' do
+          before(:each) do
+            allow(DateTime).to receive(:now).and_return(todays_slots.current_datetime - 30.minutes)
+          end
+
+          it { expect(subject.klass).to be_nil}
+
+        end
+
+        context 'tomorrow' do
+           before(:each) do
+              allow(DateTime).to receive(:now).and_return(todays_slots.current_datetime - 1.day + 30.minutes)
+            end
+
+            it { expect(subject.klass).to be_nil}
+        end
+
+      end
+
     end
 
     describe 'valid cell' do

@@ -6,22 +6,8 @@ Given /^there are (\d+) courts$/ do |number|
   create_courts number.to_i
 end
 
-Then /^I should see a column for each court$/ do
-  within_the_bookingslots_container do
-    courts.each { |court| page.should have_content("Court #{court.number}") }
-  end
-end
-
 Then /^I should see todays date$/ do
   page.should have_content(dates.current_date_to_s)
-end
-
-Then /^I should see a row for each time slot$/ do
-  within_the_bookingslots_container do
-    booking_slots.each do |slot|
-      page.should have_content(slot.from)
-    end
-  end
 end
 
 When /^I view the courts for tomorrow$/ do
@@ -32,16 +18,6 @@ end
 When /^I view the courts for (\d+) days? from today$/ do |days|
   dates.set_current_date(days.to_i)
   click_link dates.current_date.day_of_month
-end
-
-Then /^I should be able to book each time slot for each court for today$/ do
-  within_the_bookingslots_container do
-    courts.each do |court|
-      booking_slots.each do |slot|
-        page.should have_link("#{court.number.to_s} - #{dates.current_date_to_s} #{slot.from}")
-      end
-    end
-  end
 end
 
 Then /^I should see a box for each day until a set day in the future$/ do
@@ -91,10 +67,6 @@ Given /^todays date is near the end of the month$/ do
   dates.end_of_month
 end
 
-# Given /^there are a number of valid bookings for myself and another member for the next day$/ do
-#   create_valid_bookings([current_user, other_member], opponent, courts, dates.current_date+1, booking_slots.all)
-# end
-
 Then /^I should be able to edit my bookings$/ do
   within_the_bookingslots_container do
     edit_bookings? current_user
@@ -125,14 +97,6 @@ end
 
 Given(/^All of the courts are closed for a fixed period$/) do
   create_current_closure create_valid_closure(:all, valid_closure_details)
-end
-
-Then(/^I should not see any time slots over that period$/) do
-  within("#bookingslots table") do
-    booking_slots.dup.collect_range(create_activity_slot(closure_details)).each do |slot|
-      page.should_not have_content slot.from
-    end
-  end
 end
 
 Then(/^I should see a message telling me when and why the courts are closed$/) do

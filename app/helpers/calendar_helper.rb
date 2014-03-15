@@ -1,3 +1,8 @@
+#
+# TODO: This should be moved into the booking slots module.
+#
+#
+
 module CalendarHelper
   def calendar(days, current_date, start_date = Date.today, &block)
     Calendar.new(self, start_date, current_date, days, block).section

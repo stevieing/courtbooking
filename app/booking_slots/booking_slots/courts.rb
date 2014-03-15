@@ -1,34 +1,15 @@
 module BookingSlots
 	class Courts
 
-		include Enumerable
+    include BookingSlots::Wrapper
+		include IndexManager
+		set_enumerator :courts
 
-		attr_reader :courts, :index
+		attr_reader :courts
 
 		def initialize(properties)
 			@properties = properties
 			@courts = Court.includes(:opening_times)
-			reset!
-		end
-
-		def reset!
-			@index = 0
-		end
-
-		def each(&block)
-			@courts.each(&block)
-		end
-
-		def current
-			@courts[@index]
-		end
-
-		def up(n=1)
-			@index += n
-		end
-
-		def end?
-			@index >= @courts.count
 		end
 
 		def valid?
@@ -38,6 +19,16 @@ module BookingSlots
 		def inspect
 			"<#{self.class}: @index=#{@index}, @courts=#{@courts.inspect}>"
 		end
+
+		def header
+			Court.pluck(:number).collect { |n| "Court #{n.to_s}" }
+		end
+
+    def wrapper
+      "&nbsp;"
+    end
+
+    wrap :header, :wrapper
 
 		alias_method :all, :courts
 	end

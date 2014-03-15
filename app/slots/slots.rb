@@ -11,9 +11,6 @@ module Slots
 
 	eager_autoload do
 		autoload :Slot
-		autoload :ActivitySlot
-		autoload :CourtSlot
-		autoload :RecordSlot
 		autoload :NullObject
 		autoload :ActiveRecordSlots
 	end

@@ -2,6 +2,7 @@ module BookingSlots
 	class Table
 
 		include Enumerable
+		include BookingSlots::Wrapper
 
 		attr_reader :rows, :records
 		delegate :last, to: :rows
@@ -12,7 +13,7 @@ module BookingSlots
 			@properties = Properties.new(date, user)
 			@records = Records.new(@properties)
 			@todays_slots = TodaysSlots.new(slots.dup, @records)
-			setup_table
+			@rows = create_rows
 		end
 
 		def each(&block)
@@ -29,8 +30,8 @@ module BookingSlots
 
 		private
 
-		def setup_table
-			@rows = create_rows.wrap(HeaderRow.new(@records.courts))
+		def wrapper
+			HeaderRow.new(@records.courts.header)
 		end
 
 		def create_rows
@@ -41,6 +42,8 @@ module BookingSlots
 				end
 			end
 		end
+
+		wrap :create_rows, :wrapper
 
 	end
 end

@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Slots::Slot do
 	
-	describe Slots::Slot do
+	describe '#basic' do
 
 		subject { Slots::Slot.new("06:30", "07:00")}
 
@@ -33,9 +33,9 @@ describe Slots::Slot do
 
 	end
 
-	describe Slots::RecordSlot do
+	describe '#record' do
 
-		subject { Slots::RecordSlot.new("06:30", "07:00")}
+		subject { Slots::Slot.new("06:30", "07:00")}
 
 		it 						{ should be_kind_of(Slots::Slot)}
 		it 						{ expect(subject.series.to_a).to eq(["06:30","07:00"])}
@@ -43,7 +43,7 @@ describe Slots::Slot do
 
 	end
 
-	describe Slots::CourtSlot do
+	describe '#court' do
 		let(:slot_first) 		{ "07:00" }
 		let(:slot_last)			{ "12:00" }
 		let(:slot_time)			{ 30 }
@@ -52,7 +52,7 @@ describe Slots::Slot do
 
 		describe '#new' do
 
-			subject { Slots::CourtSlot.new("08:00", constraints)}
+			subject { Slots::Slot.new("08:00", nil, constraints)}
 
 			its(:from) 		{ should eq("08:00")}
 			its(:to)			{ should eq("08:30")}
@@ -63,16 +63,16 @@ describe Slots::Slot do
 
 			context 'invalid' do
 
-				it { expect(Slots::CourtSlot.new("06:00", constraints)).not_to be_valid }
-				it { expect(Slots::CourtSlot.new("13:00", constraints)).not_to be_valid }
-				it { expect(Slots::CourtSlot.new(nil, constraints)).not_to be_valid }
+				it { expect(Slots::Slot.new("06:00", nil, constraints)).not_to be_valid }
+				it { expect(Slots::Slot.new("13:00", nil, constraints)).not_to be_valid }
+				it { expect(Slots::Slot.new(nil, nil, constraints)).not_to be_valid }
 
 			end
 	  
 		end
 	end
 
-	describe Slots::ActivitySlot do
+	describe '#activity' do
 		let(:slot_first) 		{ "07:00" }
 		let(:slot_last)			{ "17:00" }
 		let(:slot_time)			{ 30 }
@@ -81,7 +81,7 @@ describe Slots::Slot do
 
 		describe '#new' do
 
-			subject { Slots::ActivitySlot.new("08:00", "12:00", constraints)}
+			subject { Slots::Slot.new("08:00", "12:00", constraints)}
 
 			its(:from) 		{ should eq("08:00")}
 			its(:to)			{ should eq("12:00")}
@@ -93,7 +93,7 @@ describe Slots::Slot do
 		end
 
 		describe '#between' do
-			subject { Slots::ActivitySlot.new("08:00", "8:30", constraints)}
+			subject { Slots::Slot.new("08:00", "8:30", constraints)}
 			its(:between)	{ should eq(1)}
 		end
 	end

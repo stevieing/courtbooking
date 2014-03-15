@@ -1,3 +1,9 @@
+#
+# TODO: This is really ugly.
+# The way objects are used signifies it needs to be move elsewhere.
+#
+#
+
 module ApplicationHelper
   def link_to_add_fields(name, f, association)
     new_object = f.object.send(association).klass.new

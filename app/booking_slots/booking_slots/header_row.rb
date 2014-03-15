@@ -1,20 +1,18 @@
 module BookingSlots
 
 	class HeaderRow < BookingSlots::Row
-		def initialize(courts)
-			@courts, @heading = courts, true
-			@cells = create_cells.wrap(BookingSlots::Cell.new)
+
+		def initialize(header)
+			@header, @heading = header, true
+			@cells = create_cells
 		end
 
 		private
 
 		def create_cells
-			[].tap do |cells|
-				@courts.each do |court|
-					cells << BookingSlots::Cell.new("Court #{court.number.to_s}")
-				end
-			end
+      @header.collect { |cell| BookingSlots::Cell.new(cell) }
 		end
+
 	end
 
 end

@@ -25,6 +25,10 @@ module BookingSlots
 			@grid.skip(@records.courts.index, by)
 		end
 
+		def current_datetime
+			DateTime.parse("#{@records.date} #{current_slot_time}")
+		end
+
 		def current_slot_valid?
 			@grid.synced?(@records.courts.index) && @records.current_court_open?(self)
 		end

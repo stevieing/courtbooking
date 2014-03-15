@@ -1,111 +1,83 @@
 module Slots
-	class Base
+  class Base
 
-		include Enumerable
+    include IndexManager
+    set_enumerator :slots
 
-		attr_reader :slots, :constraints, :index
+    attr_reader :slots, :constraints
 
-		delegate :empty?, :last, to: :slots
-		delegate :slot_time, to: :constraints
+    delegate :empty?, :last, to: :slots
+    delegate :slot_time, to: :constraints
 
-		def initialize(options = {})
-			@constraints = Slots::Constraints.new(options)
-			@slots = create_slots
-			@frozen = false
-			reset!
-		end
+    def initialize(options = {})
+      @constraints = Slots::Constraints.new(options)
+      @slots = create_slots
+      @frozen = false
+    end
 
-		def each(&block)
-			@slots.each(&block)
-		end
+    def collect_range(slot)
+      Slots::RangeChecker.new(slot, self).collect
+    end
 
-		def current
-			@slots[@index]
-		end
+    def reject_range(slot)
+      Slots::RangeChecker.new(slot, self).reject
+    end
 
-		def up(n=1)
-			@index+=n
-		end
+    def reject_range!(slot)
+      Slots::RangeChecker.new(slot, self).reject!
+    end
 
-		def down(n=1)
-			@index-=n
-		end
+    def valid_slot
+      Slots::Slot.new(@constraints.series.find{ |slot| slot.in_the_future?}, nil, @constraints)
+    end
 
-		def reset!
-			@index = 0
-		end
+    def slots_between(slot)
+      Slots::RangeChecker.new(slot, self).slots_between
+    end
 
-		def collect_range(slot)
-			Slots::RangeChecker.new(slot, self).collect
-		end
+    def freeze
+      @frozen = true
+    end
 
-		def reject_range(slot)
-			Slots::RangeChecker.new(slot, self).reject
-		end
+    def frozen?
+      @frozen
+    end
 
-		def reject_range!(slot)
-			Slots::RangeChecker.new(slot, self).reject!
-		end
+    def current_slot_time
+      current.from
+    end
 
-		def valid_slot
-			Slots::CourtSlot.new(@constraints.series.find{ |slot| slot.in_the_future?}, @constraints)
-		end
+    def current_time
+      current.from.to_datetime
+    end
 
-		def slots_between(slot)
-			Slots::RangeChecker.new(slot, self).slots_between
-		end
+    def inspect
+      "<#{self.class}: @slots=#{@slots.each { |s| s.inspect}}, @frozen=#{@frozen}>"
+    end
 
-		def freeze
-			@frozen = true
-		end
+    alias_method :all, :slots
 
-		def frozen?
-			@frozen
-		end
+    #
+    # When using dup and clone ruby only copies instance variables
+    # so whatever you do using the bang operator will change everything
+    # down the chain.
+    #
 
-		def end?
-			@index >= @slots.count
-		end
+    def initialize_copy(other)
+      @slots = other.frozen? ? other.slots.dup : create_slots
+      reset!
+      super(other)
+    end
 
-		def current_slot_time
-			current.from
-		end
+    def valid?
+      @constraints.valid? && !@slots.empty?
+    end
 
-		def current_time
-			current.from.to_datetime
-		end
+    private
 
-		def inspect
-			"<#{self.class}: @slots=#{@slots.each { |s| s.inspect}}, @frozen=#{@frozen}>"
-		end
-
-		alias_method :all, :slots
-
-		#
-		# When using dup and clone ruby only copies instance variables
-		# so whatever you do using the bang operator will change everything
-		# down the chain.
-		#
-
-		def initialize_copy(other)
-			@slots = other.frozen? ? other.slots.dup : create_slots
-			reset!
-			super(other)
-		end
-
-		def valid?
-			@constraints.valid? && !@slots.empty?
-		end
-
-		private
-
-		def create_slots
-			[].tap do |slots|
-				@constraints.series.each do |slot|
-					slots << Slots::CourtSlot.new(slot, @constraints)
-				end
-			end
-		end
-	end
+    def create_slots
+      @constraints.series.collect { |slot| Slots::Slot.new(slot, nil, @constraints) }
+    end
+  end
 
 end
