@@ -1,7 +1,7 @@
 class Array
-	def wrap(wrapper)
-		self.unshift(wrapper).push(wrapper)
-	end
+  def wrap(wrapper)
+    self.unshift(wrapper).push(wrapper)
+  end
 
   def cap(capper)
     self.unshift(capper)
@@ -10,16 +10,16 @@ end
 
 module BookingSlots
 
-	module Wrapper
-		extend ActiveSupport::Concern
+  module Wrapper
+    extend ActiveSupport::Concern
 
-		included do
-		end
+    included do
+    end
 
-		module ClassMethods
-			def wrap(to_wrap, wrapper)
+    module ClassMethods
+      def wrap(to_wrap, wrapper)
         bind_method :wrap, to_wrap, wrapper
-			end
+      end
 
       def cap(to_cap, capper)
         bind_method :cap, to_cap, capper
@@ -34,8 +34,8 @@ module BookingSlots
           send(original, *args).send(method, send(outer))
         end
       end
-		end
+    end
 
-	end
+  end
 
 end

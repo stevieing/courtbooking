@@ -1,23 +1,23 @@
 module BookingSlots
-	class HtmlKlass
+  class HtmlKlass
 
-		def initialize(object)
-			@object = object
-			@klass 	=	get_klass
-		end
+    def initialize(object)
+      @object = object
+      @klass  = get_klass
+    end
 
-		def value
-			@klass.empty? ? nil : @klass
-		end
-		
-		private
+    def value
+      @klass.empty? ? nil : @klass
+    end
 
-		def get_klass
-			@object.instance_of?(DateTime) ? in_the_past : @object.class.to_s.downcase
-		end
+    private
 
-		def in_the_past
-			@object.in_the_past? ? "past" : ''
-		end
-	end
+    def get_klass
+      @object.instance_of?(DateTime) ? in_the_past : @object.class.to_s.downcase
+    end
+
+    def in_the_past
+      @object.in_the_past? ? "past" : ''
+    end
+  end
 end

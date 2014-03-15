@@ -1,25 +1,25 @@
 module BookingSlots
 
-	class CurrentRecord
+  class CurrentRecord
 
-		attr_accessor :text, :link, :span, :klass
+    attr_accessor :text, :link, :span, :klass
 
-		def initialize(&block)
-			@span = 1
-			yield self if block_given?
-		end
+    def initialize(&block)
+      @span = 1
+      yield self if block_given?
+    end
 
-		def valid?
-			!@span.nil?
-		end
+    def valid?
+      !@span.nil?
+    end
 
-		def inspect
-			"<#{self.class}: @text=#{@text}, @link=#{@link}, @klass=#{@klass}>"
-		end
+    def inspect
+      "<#{self.class}: @text=#{@text}, @link=#{@link}, @klass=#{@klass}>"
+    end
 
-		def self.create(object, &block)
-			new(&block) unless object.nil?
-		end
+    def self.create(object, &block)
+      new(&block) unless object.nil?
+    end
 
-	end
+  end
 end

@@ -1,16 +1,16 @@
 module BookingSlots
-	class Calendar
+  class Calendar
 
     include Enumerable
     include BookingSlots::Wrapper
 
     attr_reader :rows, :dates
 
-		def initialize(date_from, current_date, no_of_days, split=7)
+    def initialize(date_from, current_date, no_of_days, split=7)
       @dates = BookingSlots::Dates.new(date_from, current_date, no_of_days, split)
       reset_cells
       @rows = create_rows
-		end
+    end
 
     def each(&block)
       @rows.each(&block)
@@ -50,5 +50,5 @@ module BookingSlots
     end
 
     cap :create_rows, :header
-	end
+  end
 end
