@@ -1,5 +1,5 @@
 module AdministrationHelpers
-  
+
   def valid_setting_value(setting)
     set_setting_value setting, "1", "10:30"
   end
@@ -15,15 +15,15 @@ module AdministrationHelpers
       else setting.value
     end
   end
-  
+
   def valid_email
     build(:user).email
   end
-  
+
   def invalid_email
-    users.last.email
+    create(:user).email
   end
-  
+
   def fill_in_details(fields)
     fields.each do |field, value|
       fill_in field.to_s.capitalize.gsub('_',' '), with: value
@@ -34,7 +34,7 @@ module AdministrationHelpers
     (1..n.to_i).each do |i|
       click_link "Add #{type.capitalize} Time"
       fill_in_court_time "#{type}_time_#{i}", Date.days_of_week.keys.first, time_from, time_to
-    end  
+    end
   end
 
   def fill_in_court_time(id, day, time_from, time_to)
@@ -44,12 +44,12 @@ module AdministrationHelpers
       select time_to, from: "To"
     end
   end
-  
+
   def has_valid_court_times(court_number, object)
     court = Court.find_by :number => court_number
     court.send(object).should_not be_empty
   end
-  
+
   def valid_user_details
     user = build(:user)
     {username: user.username, full_name: user.full_name, email: user.email, password: user.password, password_confirmation: user.password}
@@ -67,12 +67,13 @@ module AdministrationHelpers
   end
 
   def add_user_permissions
-    AllowedAction.all.each_with_index do |permission, i|
-      click_link "Add permissions"
-      within("#permission_#{i+1}") do
-        select permission.name
-      end
+    AllowedAction.all.each do |allowed_action|
+      check allowed_action.name
     end
+  end
+
+  def remove_permission
+    uncheck AllowedAction.all.last.name
   end
 
   def user_should_have_standard_permissions(email_address)

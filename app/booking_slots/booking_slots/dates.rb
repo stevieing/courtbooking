@@ -5,7 +5,7 @@ module BookingSlots
     include IndexManager
 
     set_enumerator :dates
-    attr_reader :dates, :date_from, :no_of_days, :split
+    attr_reader :dates, :date_from, :current_date, :no_of_days, :split
 
     def initialize(date_from, current_date, no_of_days, split = 7)
       @date_from, @current_date, @no_of_days, @split = date_from, current_date, no_of_days, split
@@ -16,11 +16,19 @@ module BookingSlots
       @date_from.days_of_week(@split - 1)
     end
 
+    ##
+    # purely for testing purposes so I can remove all of that extra code.
+    #
+    #
+    def current_date_to_s
+      @current_date.to_s(:uk)
+    end
+
     def current_record
       BookingSlots::CurrentRecord.create(current) do |record|
         record.text = current.day_of_month
         if current == @current_date
-          record.klass  = "current"
+          record.klass  = "selected"
         else
           record.link   = courts_path(current.to_s)
         end

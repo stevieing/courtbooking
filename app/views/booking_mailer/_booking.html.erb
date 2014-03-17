@@ -1,2 +1,17 @@
-<p>Court <%= @booking.court_number %></p>
-<p><%= @booking.time_and_place_text %></p>
+<table>
+  <tr>
+    <td>
+      <img src="http://www.ingliss.co.uk/assets/logo-acf7ca7e8e3103c47e6d8cfe9cd07721.png" alt="Stamford Squash Club logo">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= @booking.players %>
+    </td>
+  </tr>
+  <tr>
+     <td>
+      Court <%= @booking.court_number %> on <%= @booking.time_and_place_text %>
+    </td>
+  </tr>
+</table>

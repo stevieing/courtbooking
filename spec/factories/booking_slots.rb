@@ -57,8 +57,8 @@ FactoryGirl.define do
 
   factory :dates, :class => BookingSlots::Dates do
     date_from Date.today
-    current_date Date.today+10
-    no_of_days 20
+    current_date Date.today
+    no_of_days 21
     split 7
 
     initialize_with { new(date_from, current_date, no_of_days, split)}

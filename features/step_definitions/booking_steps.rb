@@ -24,7 +24,7 @@ When /^I delete the booking$/ do
 end
 
 When /^the booking is in the past$/ do
-  dates.bookings_in_the_past(dates.in_the_future(7))
+  set_system_datetime((dates.current_date+7).to_s(:uk))
 end
 
 Given /^a booking has been created by another user$/ do
@@ -84,15 +84,11 @@ When(/^I follow the link to (.*) the booking$/) do |modify|
   end
 end
 
-Then(/^the "(.*?)" field should contain "(.*?)"$/) do |field, value|
-  field_labeled(field).value.should =~ /#{value}/
-end
-
 Then(/^I should not be able to select myself as an opponent$/) do
   page.should_not have_xpath "//select[@id = 'Opponent']/option[@value = '#{current_user.username}']"
 end
 
 Given(/^another user has also created a booking$/) do
-  dates.set_current_date(1)
+  set_dates((dates.current_date+1).to_s(:uk), "19:00")
   create_current_booking(create_valid_booking(other_member))
 end

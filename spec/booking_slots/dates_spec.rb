@@ -41,7 +41,7 @@ describe BookingSlots::Dates do
 
       it { expect(subject.current_record).to have_text(Date.today.day_of_month)}
       it { expect(subject.current_record.link).to be_nil }
-      it { expect(subject.current_record.klass).to eq("current")}
+      it { expect(subject.current_record.klass).to eq("selected")}
     end
 
   end

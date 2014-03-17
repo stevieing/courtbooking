@@ -27,7 +27,7 @@
 				<%= f.check_box :mail_me %>
 			</li>
 		</ul>
-		<%= render "permissions", f: f %>
+		<%= render "permissions", f: f, object: @manage_user_form %>
 		<ul class="submit"><li><%= f.submit "Submit user" %></li></ul>
 	</fieldset>
 <% end %>

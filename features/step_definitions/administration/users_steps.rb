@@ -53,8 +53,8 @@ When(/^I edit the user$/) do
 end
 
 When(/^I remove a permission$/) do
-  within("#permission_#{current_user.permissions.count}") do
-    click_link "Remove"
+  within("#permissions") do
+    remove_permission
   end
 end
 

@@ -1,0 +1,12 @@
+<fieldset id="permissions">
+	<h2>Permissions</h2>
+	<ul>
+		<%= hidden_field_tag "#{f.object_name}[allowed_action_ids][]", nil %>
+    <% AllowedAction.all.each do |allowed_action| %>
+      <li>
+      	<%= check_box_tag "#{f.object_name}[allowed_action_ids][]", allowed_action.id, object.include_action?(allowed_action), id: dom_id(allowed_action) %>
+      	<%= label_tag dom_id(allowed_action), allowed_action.name %>
+      </li>
+    <% end %>
+	</ul>
+</fieldset>

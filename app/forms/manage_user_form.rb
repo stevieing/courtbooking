@@ -1,8 +1,11 @@
+##
+# TODO: add some RSpec tests.
+#
 class ManageUserForm
 
 	include ManageForm
 	set_model :user, ACCEPTED_ATTRIBUTES.user
-	set_associated_models :permissions
+	delegate :permissions, to: :user
 
 	validate :verify_user
 
@@ -13,5 +16,9 @@ class ManageUserForm
 			end
 		end
 	end
+
+  def include_action?(allowed_action)
+    permissions.pluck(:allowed_action_id).include?(allowed_action.id)
+  end
 
 end

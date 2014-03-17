@@ -33,6 +33,7 @@ describe Permissions::AdminPermission do
     should allow_param(:user, :password)
     should allow_param(:user, :password_confirmation)
     should allow_param(:user, :mail_me)
+    should allow_param(:user, :allowed_action_ids => [])
     should allow_param(:closure, :description)
     should allow_param(:closure, :date_from)
     should allow_param(:closure, :date_to)

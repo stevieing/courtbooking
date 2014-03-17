@@ -2,7 +2,7 @@
 	<table class="admintable">
 		<caption>Manage Events</caption>
 		<tr>
-			<td colspan="5">
+			<td colspan="6">
 				<%= link_to "Add new event", new_admin_event_path %>
 			</td>
 		</tr>
@@ -12,6 +12,7 @@
 			<th>Date from</th>
 			<th>Time from</th>
 			<th>&nbsp;</th>
+      <th>&nbsp;</th>
 		</tr>
 
 		<% events.each do |event| %>

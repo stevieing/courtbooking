@@ -1,22 +1,22 @@
 module InstanceVariablesHelpers
-  
+
   def setup_instance_variable(name, &block)
-    
+
     var, create_var = "@#{name}", "create_#{name}"
-    
+
     self.class.class_eval do
       define_method name do
         instance_variable_set(var, block.call) if instance_variable_get(var).nil?
         instance_variable_get(var)
       end
-                
+
       define_method create_var do |value|
         instance_variable_set(var, value)
       end
     end
-      
+
   end
-  
+
   def current_variables
     {
       days_bookings_can_be_made_in_advance: lambda { Settings.days_bookings_can_be_made_in_advance },
@@ -27,7 +27,7 @@ module InstanceVariablesHelpers
       courts: lambda { Court.all },
       booking_slots: lambda{ Settings.slots.dup},
       slot_time: lambda { Settings.slot_time},
-      dates: lambda { DateTimeHelpers::Utils.new(Date.today.to_s(:uk), "19:00")},
+      dates: lambda { build(:dates)},
       settings: lambda {Setting.all},
       setting: lambda {Setting.first},
       users: lambda {User.all},
@@ -42,15 +42,15 @@ module InstanceVariablesHelpers
       closure_details: lambda {{}}
     }
   end
-  
+
   def setup_instance_variables
-    
+
     current_variables.each do |key, value|
       setup_instance_variable key, &value
     end
- 
+
   end
-  
+
 end
 
 World(InstanceVariablesHelpers)

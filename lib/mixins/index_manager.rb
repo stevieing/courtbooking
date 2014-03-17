@@ -7,13 +7,13 @@ module IndexManager
 	# 	Everything is based around an enumerator object.
 	# 	The object that is the focus of Enumerable.
 	# 	This object will have an index added.
-	# 	
+	#
 
 	extend ActiveSupport::Concern
 	include Enumerable
 
 	included do
-		delegate :last, to: :enumerator
+		delegate :empty?, :last, to: :enumerator
 	end
 
 	module ClassMethods
@@ -21,7 +21,7 @@ module IndexManager
 		##
 		# 	Defines an enumerator method based on
 		# 	an instance variable of the class
-		# 	This variable will have all of the 
+		# 	This variable will have all of the
 		# 	enumerable methods applied to it
 		# 	example:
 		# 		add_enumerator :attribute
@@ -69,7 +69,7 @@ module IndexManager
 
 	##
 	# Return the index of the current value of the enumerator.
-	# 	
+	#
 	def index
 		@index
 	end
@@ -101,5 +101,5 @@ module IndexManager
 	def end?
 		@index >= enumerator.count
 	end
-	
+
 end

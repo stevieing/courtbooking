@@ -1,17 +1,16 @@
 Courtbooking::Application.routes.draw do
-  
+
   #routes for users and sign_in
   devise_for :users
-  
+
   devise_scope :user do
     get "sign_in", to: "devise/sessions#new"
     delete "sign_out", to: "devise/sessions#destroy"
   end
-  
-  resources :bookings do
-    get :autocomplete_user_username, on: :collection
-  end
-  
+
+  resources :bookings
+  resources :users, only: [:edit, :update]
+
   namespace :admin do
     resources :settings, only: [:index, :edit, :update]
     resources :users, :courts, :events, :emails, :reports, :closures
@@ -73,13 +72,13 @@ Courtbooking::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
-  
+
   root to: "courts#index"
-  
+
   get 'admin' => "admin#index", as: :admin
-  
+
   get '/courts(/:date)'=> "courts#index", as: :courts
-  
+
   get 'bookings/new/:playing_on/:time_from/:time_to/:court_number' => "bookings#new", as: :court_booking
-  
+
 end
