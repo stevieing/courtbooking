@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe AcceptedAttributes, :focus => true do
+describe AcceptedAttributes do
 
   it { should respond_to :models}
   it { should respond_to :nested}

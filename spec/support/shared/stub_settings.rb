@@ -5,13 +5,18 @@ module StubSettings
 	end
 
 	def stub_settings
-		Settings.stub(:days_bookings_can_be_made_in_advance).and_return(21)
-    Settings.stub(:max_peak_hours_bookings_weekly).and_return(3)
-    Settings.stub(:max_peak_hours_bookings_daily).and_return(1)
-    Settings.stub(:slot_time).and_return(40)
-    Settings.stub(:slot_first).and_return(Time.parse(options[:slot_first]))
-    Settings.stub(:slot_last).and_return(Time.parse(options[:slot_last]))
-    Settings.stub(:slots).and_return(CourtSlots.new(options))
+    create_settings_constant
+		AppSettings.const.stub(:days_bookings_can_be_made_in_advance).and_return(21)
+    AppSettings.const.stub(:max_peak_hours_bookings_weekly).and_return(3)
+    AppSettings.const.stub(:max_peak_hours_bookings_daily).and_return(1)
+    AppSettings.const.stub(:slot_time).and_return(40)
+    AppSettings.const.stub(:slot_first).and_return(Time.parse(options[:slot_first]))
+    AppSettings.const.stub(:slot_last).and_return(Time.parse(options[:slot_last]))
+    AppSettings.const.stub(:slots).and_return(CourtSlots.new(options))
 	end
+
+  def create_settings_constant
+    Kernel.const_set(AppSettings.const_name, OpenStruct.new) unless Kernel.const_defined?(AppSettings.const_name)
+  end
 
 end

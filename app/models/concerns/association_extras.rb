@@ -6,10 +6,10 @@ module AssociationExtras
     # form objects
     #
     # == class method association_extras
-    # 
+    #
     # will accept an array of associations
     # This method will add three methods for each association
-    # 
+    #
     # === build_association_name
     #
     # accepts a hash and builds an association object for each key
@@ -22,7 +22,7 @@ module AssociationExtras
     #
     #
     # === update_association_name
-    # 
+    #
     # this method does not save or validate any objects
     #
     # * accepts a hash of keys in the same form as the build method
@@ -36,8 +36,8 @@ module AssociationExtras
         define_method("build_#{association.to_s}") do |params|
           params.each { |k, attrs| self.send(association).build(attrs) }
         end
-      
-        define_method("save_#{association.to_s}") do 
+
+        define_method("save_#{association.to_s}") do
           self.send(association).each { |o| o.save! }
         end
 

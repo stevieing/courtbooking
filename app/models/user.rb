@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 
   validates_presence_of :username, :full_name
 
-  scope :without_user, ->(user) { where.not(id: user.id) }
+  scope :without_user, ->(user) { where.not(id: user.id).order(:full_name) }
 
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup

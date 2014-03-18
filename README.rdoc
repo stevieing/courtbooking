@@ -2,21 +2,21 @@
 
 == Standard Allowed Actions
 
-* View all bookings     bookings,       [index]
-* Create a new booking  bookings,       [new, create]
-* View a booking        bookings,       [show]
-* Admin index           admin,          [index]
+* View all bookings:     bookings,       [index]
+* Create a new booking:  bookings,       [new, create]
+* View a booking:        bookings,       [show]
+* Admin index:           admin,          [index]
 
 === User specific
 
-* Delete a booking      bookings,       [destroy]
-* Edit a booking        bookings,       [edit, update]
-* Edit my details       users,          [edit, update]
+* Delete a booking:      bookings,       [destroy]
+* Edit a booking:        bookings,       [edit, update]
+* Edit my details:       users,          [edit, update]
 
 === Admin
 
-* Manage users          admin/users,    [index, new, create, edit, update, delete]
-* Manage courts         admin/courts,   [index, new, create, edit, update, delete]
-* Manage closures       admin/closures, [index, new, create, edit, update, delete]
-* Manage events         admin/events,   [index, new, create, edit, update, delete]
-* Manage settings       admin/settings, [index, update]
+* Manage users:          admin/users,    [index, new, create, edit, update, delete]
+* Manage courts:         admin/courts,   [index, new, create, edit, update, delete]
+* Manage closures:       admin/closures, [index, new, create, edit, update, delete]
+* Manage events:         admin/events,   [index, new, create, edit, update, delete]
+* Manage settings:       admin/settings, [index, update]

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe AppSettings do
+describe AppSettings, :focus => true do
 
 	after(:all) do
 		AppSettings.reset!
@@ -89,5 +89,10 @@ describe AppSettings do
 		it { expect(TestSettings.dodgy_setting).to eq(1)}
 
 	end
-	
+
+  describe 'const' do
+
+    it { expect(AppSettings.const).to eq(TestSettings) }
+  end
+
 end
