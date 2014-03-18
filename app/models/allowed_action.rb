@@ -21,4 +21,8 @@ class AllowedAction < ActiveRecord::Base
     self.action = @action_text.split(",") if @action_text.present?
   end
 
+  def sanitized_controller
+    controller.to_s.split('/').last.singularize.to_sym
+  end
+
 end

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Permissions::AdminPermission, :focus => true do
+describe Permissions::AdminPermission do
 
   before(:all) do
     load "#{Rails.root}/config/initializers/accepted_attributes.rb"

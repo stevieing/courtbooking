@@ -3,7 +3,7 @@ Before('@allowedactions') do
 end
 
 When(/^I fill in valid allowed action details$/) do
-  add_valid_allowed_action build(:allowed_action)
+  add_valid_allowed_action build(:allowed_action_string)
 end
 
 Then(/^I should see a list of all of the allowed actions$/) do
@@ -11,7 +11,7 @@ Then(/^I should see a list of all of the allowed actions$/) do
 end
 
 Given(/^I have created an allowed action$/) do
-  create_allowed_action create(:allowed_action_array)
+  create_allowed_action create(:allowed_action)
 end
 
 When(/^I edit the allowed action I have created$/) do

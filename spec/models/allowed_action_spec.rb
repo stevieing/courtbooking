@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AllowedAction, :focus => true do
+describe AllowedAction do
 
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:controller) }
@@ -16,5 +16,34 @@ describe AllowedAction, :focus => true do
     it { expect(subject.action_text).to eq("a,b,c,d,e")}
 
   end
+
+  describe '#user_specific?' do
+    subject { create(:allowed_action, user_specific: true)}
+
+    its(:user_specific?) { should be_true }
+  end
+
+  describe '#admin?' do
+    subject { create(:allowed_action, admin: true)}
+
+    its(:admin?) { should be_true }
+  end
+
+  describe '#sanitized_controller' do
+
+    context 'singular' do
+      subject { create(:allowed_action, controller: :bollocks)}
+
+      its(:sanitized_controller) { should eq(:bollock)}
+    end
+
+    context 'multiple' do
+      subject { create(:allowed_action, controller: "dodgy/numbers")}
+
+      its(:sanitized_controller) { should eq(:number)}
+    end
+
+  end
+
 
 end

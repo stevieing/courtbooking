@@ -1,28 +1,28 @@
 <%= form_for @allowed_action, url: resource do |f| %>
-	<fieldset>
-		<legend><%= header %></legend>
-		<ul>
-			<li>
-				<%= f.label :name, "Name" %>
-				<%= f.text_field :name %>
-			</li>
-			<li>
-				<%= f.label :controller, "Controller" %>
-				<%= f.text_field :controller %>
-			</li>
-			<li>
-				<%= f.label :action_text, "Action" %>
-				<%= f.text_field :action_text %>
-			</li>
-			<li>
-				<%= f.label :user_specific, "User specific" %>
-				<%= f.check_box :user_specific %>
-			</li>
-			<li>
-				<%= f.label :admin, "Admin" %>
-				<%= f.check_box :admin %>
-			</li>
-		</ul>
-		<ul class="submit"><li><%= f.submit "Submit allowed action" %></li></ul>
-	</fieldset>
+  <fieldset>
+    <legend><%= header %></legend>
+    <ul>
+      <li>
+        <%= f.label :name, "Name" %>
+        <%= f.text_field :name %>
+      </li>
+      <li>
+        <%= f.label :controller, "Controller" %>
+        <%= f.text_field :controller %>
+      </li>
+      <li>
+        <%= f.label :action_text, "Action" %>
+        <%= f.text_field :action_text %>
+      </li>
+      <li>
+        <%= f.label :user_specific, "User specific" %>
+        <%= f.check_box :user_specific %>
+      </li>
+      <li>
+        <%= f.label :admin, "Admin" %>
+        <%= f.check_box :admin %>
+      </li>
+    </ul>
+    <ul class="submit"><li><%= f.submit "Submit allowed action" %></li></ul>
+  </fieldset>
 <% end %>

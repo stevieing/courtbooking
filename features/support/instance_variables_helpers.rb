@@ -41,7 +41,7 @@ module InstanceVariablesHelpers
       current_count: lambda { 1 },
       closure_details: lambda {{}},
       allowed_action: lambda { create(:allowed_action)},
-      allowed_actions: lambda { create_list(:allowed_action_array, 4) }
+      allowed_actions: lambda { create_list(:allowed_action, 4) }
     }
   end
 

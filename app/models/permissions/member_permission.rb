@@ -1,7 +1,7 @@
 ##
 #
 # TODO: this probably needs to be refactored now
-# move the persmissions out to another class or method.
+# move the permissions out to another class or method.
 #
 
 module Permissions
@@ -18,15 +18,31 @@ module Permissions
     private
 
     def add_user_permissions
-      @user.permissions.each { |permission| add_action(permission) }
+      @user.permissions.each do |permission|
+        add_action(permission)
+        add_params(permission) if permission.admin?
+      end
+    end
+
+    def add_params(permission)
+      allow_param permission.sanitized_controller, ACCEPTED_ATTRIBUTES.send(permission.sanitized_controller)
+      add_nested_params(permission)
+    end
+
+    def add_nested_params(permission)
+      ACCEPTED_ATTRIBUTES.nested.each do |nested|
+        if permission.sanitized_controller == nested.name
+          allow_nested_params nested.name, nested.association, nested.attributes
+        end
+      end
     end
 
     def add_action(permission)
-      allow(permission.allowed_action.controller, permission.allowed_action.action, &add_block(permission))
+      allow(permission.controller, permission.action, &add_block(permission))
     end
 
     def add_block(permission)
-      permission.allowed_action.user_specific ? proc { |object| @user.id == set_id(object) } : nil
+      permission.user_specific? ? proc { |object| @user.id == set_id(object) } : nil
     end
 
     def set_id(object)

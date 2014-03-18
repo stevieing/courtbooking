@@ -58,3 +58,17 @@ Feature: Users can only access permitted areas
     And I have permission to Edit a booking
     When I edit the booking I have created
     Then I should not be able to delete the booking
+
+  @member @adminpermissions
+  Scenario Outline: navigate to each administrative page
+    Given I am signed in as a member
+    When I go to the admin page
+    And I click on the "<heading>" link
+    Then I should see "<heading>"
+
+    Examples:
+      | heading          |
+      | Manage Settings  |
+      | Manage Users     |
+      | Manage Courts    |
+      | Manage Events    |

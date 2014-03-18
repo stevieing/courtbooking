@@ -9,7 +9,7 @@
 }
 
 #calendar{
-	
+
 	float: right;
 	padding:{
 		left: 20px;
@@ -19,9 +19,9 @@
 	font-size: 0.9em;
 
 	table{
-		
+
 		background-color: $light_brown;
-		
+
 		caption{
 			margin-bottom: 10px;
 			color: $dark_green;
@@ -30,19 +30,19 @@
 				size: 1.1em;
 			}
 		}
-		
+
 		tr{
 			.selected{
-				
+
 				background-color: $light_green;
 			}
-			
+
 			td, th{
 				width: 25px;
 				height: 25px;
 				border: 1px solid black;
 			}
-			
+
 			a{
 				color: black;
 			}
@@ -53,12 +53,12 @@
 #bookingslots{
 	table{
 		@include standardcaption;
-		
+
 		tr{
 			td, th{
 				background-color: $mid_brown;
 				border: 1px dotted $dark_brown;
-				
+
 				&:first-child, &:last-child{
 					width: 40px;
 					vertical-align: top;
@@ -66,26 +66,26 @@
 			}
 
 			td{
-				
+
 				height: 50px;
 				width: 25%;
-				
+
 				&:not(:first-child):not(:last-child){
 					font-size: 0.8em;
-					
+
 					&:hover{
 						border-collapse: separate;
 						@include highlight(0px,0px,6px,$dark_brown);
 					}
-					
+
 				}
-				
+
 				a{
 					color: $mid_brown;
 					display: block;
 					height: 100%;
 				}
-				
+
 			}
 
 			.booking{
@@ -101,6 +101,11 @@
 					color: black;
 				}
 			}
+
+      .event, .closure{
+        background-color: $light_red;
+
+      }
 
 
 			th{

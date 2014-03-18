@@ -10,6 +10,10 @@ Before('@member') do
   create_current_user(create_user("joebloggs"))
 end
 
+Before('@adminpermissions') do
+  add_admin_permissions(current_user)
+end
+
 Given /^I am signed in as (.*)$/ do |type|
   sign_in current_user
 end

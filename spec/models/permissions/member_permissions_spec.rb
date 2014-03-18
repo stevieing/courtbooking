@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Permissions::MemberPermission do
+describe Permissions::MemberPermission, :focus => true do
 
   let!(:user)          { create(:user, admin: false) }
   let!(:other_user)    { create(:user, admin: false) }
@@ -55,7 +55,87 @@ describe Permissions::MemberPermission do
     should allow_param(:user, :password)
     should allow_param(:user, :password_confirmation)
     should allow_param(:user, :mail_me)
-    should_not allow_param(:user, :permission_ids => [])
+    should_not allow_param(:user, :allowed_action_ids => [])
+  end
+
+  describe "admin permissions" do
+
+    before(:all) do
+      load "#{Rails.root}/config/initializers/accepted_attributes.rb"
+    end
+
+    before(:each) do
+      add_admin_permissions user
+    end
+
+    it "allows admin index" do
+      should allow_action(:admin, :index)
+    end
+
+    it "allows manage users" do
+      should allow_action("admin/users", :index)
+      should allow_action("admin/users", :new)
+      should allow_action("admin/users", :create)
+      should allow_action("admin/users", :edit)
+      should allow_action("admin/users", :update)
+      should allow_action("admin/users", :delete)
+      should allow_param(:user, :username)
+      should allow_param(:user, :full_name)
+      should allow_param(:user, :email)
+      should allow_param(:user, :password)
+      should allow_param(:user, :password_confirmation)
+      should allow_param(:user, :mail_me)
+      should allow_param(:user, :allowed_action_ids => [])
+    end
+
+    it "allows manage courts" do
+      should allow_action("admin/courts", :index)
+      should allow_action("admin/courts", :new)
+      should allow_action("admin/courts", :create)
+      should allow_action("admin/courts", :edit)
+      should allow_action("admin/courts", :update)
+      should allow_action("admin/courts", :delete)
+      should allow_param(:court, :number)
+      should allow_param(:court, :peak_times => [:day, :time_from, :time_to])
+      should allow_param(:court, :opening_times => [:day, :time_from, :time_to])
+    end
+
+    it "allows manage closures" do
+      should allow_action("admin/closures", :index)
+      should allow_action("admin/closures", :new)
+      should allow_action("admin/closures", :create)
+      should allow_action("admin/closures", :edit)
+      should allow_action("admin/closures", :update)
+      should allow_action("admin/closures", :delete)
+      should allow_param(:closure, :description)
+      should allow_param(:closure, :date_from)
+      should allow_param(:closure, :date_to)
+      should allow_param(:closure, :time_from)
+      should allow_param(:closure, :time_to)
+      should allow_param(:closure, :court_ids => [])
+    end
+
+    it "allows manage events" do
+      should allow_action("admin/events", :index)
+      should allow_action("admin/events", :new)
+      should allow_action("admin/events", :create)
+      should allow_action("admin/events", :edit)
+      should allow_action("admin/events", :update)
+      should allow_action("admin/events", :delete)
+      should allow_param(:event, :description)
+      should allow_param(:event, :date_from)
+      should allow_param(:event, :date_to)
+      should allow_param(:event, :time_from)
+      should allow_param(:event, :time_to)
+      should allow_param(:event, :court_ids => [])
+    end
+
+    it "allows settings" do
+      should allow_action("admin/settings", :index)
+      should allow_action("admin/settings", :update)
+      should allow_param(:setting, :value)
+    end
+
   end
 
 end

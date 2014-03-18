@@ -5,7 +5,6 @@ FactoryGirl.define do
     allowed_action_id 1
     user_id 1
     user
-    allowed_action
   end
 
 end

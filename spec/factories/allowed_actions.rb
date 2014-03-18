@@ -4,12 +4,12 @@ FactoryGirl.define do
   factory :allowed_action do
     name "My action"
     controller "my_controller"
-    action "action1, action2"
+    action ["action1", "action2"]
 
-    factory :allowed_action_array do
+    factory :allowed_action_string do
       name "My action"
       controller "my_controller"
-      action ["action1", "action2"]
+      action "action1, action2"
     end
 
     factory :bookings_index do
@@ -49,6 +49,47 @@ FactoryGirl.define do
       controller :users
       action [:edit, :update]
       user_specific true
+    end
+
+    factory :admin_index do
+      name "Admin index"
+      controller :admin
+      action [:index]
+    end
+
+    factory :manage_users do
+      name "Manage users"
+      controller "admin/users"
+      action [:index, :new, :create, :edit, :update, :delete]
+      admin true
+    end
+
+    factory :manage_courts do
+      name "Manage courts"
+      controller "admin/courts"
+      action [:index, :new, :create, :edit, :update, :delete]
+      admin true
+    end
+
+    factory :manage_closures do
+      name "Manage closures"
+      controller "admin/closures"
+      action [:index, :new, :create, :edit, :update, :delete]
+      admin true
+    end
+
+    factory :manage_events do
+      name "Manage events"
+      controller "admin/events"
+      action [:index, :new, :create, :edit, :update, :delete]
+      admin true
+    end
+
+     factory :manage_settings do
+      name "Manage settings"
+      controller "admin/settings"
+      action [:index, :update]
+      admin true
     end
 
   end

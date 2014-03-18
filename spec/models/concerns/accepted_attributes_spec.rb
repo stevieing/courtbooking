@@ -1,7 +1,7 @@
 require "spec_helper"
 
-describe AcceptedAttributes do
-  
+describe AcceptedAttributes, :focus => true do
+
   it { should respond_to :models}
   it { should respond_to :nested}
 
@@ -38,9 +38,10 @@ describe AcceptedAttributes do
       AcceptedAttributes.setup do |config|
         config.add *accepted_attributes_with_a_hash
       end
-
-      it { expect(described_class.models).to have(1).item }
-      it { described_class.should respond_to accepted_attributes_with_a_hash.first}
     end
+
+    it { expect(described_class.models).to have(1).item }
+    it { described_class.should respond_to accepted_attributes_with_a_hash.first}
   end
+
 end
