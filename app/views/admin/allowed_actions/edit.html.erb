@@ -1,0 +1,5 @@
+<article id="editallowedaction" class="adminform manageallowedaction">
+  <h2><%= header %></h2>
+  <%= render "error_messages", target: @allowed_action %>
+  <%= render "form", resource: admin_allowed_action_path(@allowed_action) %>
+</article>

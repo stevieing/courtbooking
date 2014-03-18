@@ -111,6 +111,18 @@ module AdministrationHelpers
     create_current_count current_activity.courts.count
   end
 
+  def add_valid_allowed_action(allowed_action)
+    fill_in "Name", with: allowed_action.name
+    fill_in "Controller", with: allowed_action.controller
+    fill_in "Action", with: allowed_action.action
+    check "User specific"
+    check "Admin"
+  end
+
+  def modify_allowed_action_name
+    fill_in "Name", with: build(:bookings_index).name
+  end
+
 end
 
 World(AdministrationHelpers)

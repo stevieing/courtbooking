@@ -1,0 +1,29 @@
+<article id="manageallowedactions">
+  <table class="admintable">
+    <caption>Allowed Actions</caption>
+    <tr>
+      <td colspan="6">
+        <%= link_to "Add new allowed action", new_admin_allowed_action_path %>
+      </td>
+    </tr>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Controller</th>
+      <th>Action</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+    </tr>
+
+    <% allowed_actions.each do |allowed_action| %>
+      <tr id="<%= dom_id(allowed_action) %>">
+        <td><%= allowed_action.id %></td>
+        <td><%= allowed_action.name %></td>
+        <td><%= allowed_action.controller %></td>
+        <td><%= allowed_action.action_text %></td>
+        <td><%= link_to "Edit", edit_admin_allowed_action_path(allowed_action) %></td>
+        <td><%= link_to "Delete", admin_allowed_action_path(allowed_action), method: :delete, data: {confirm: "Are you sure?"} %></td>
+      </tr>
+    <% end %>
+  </table>
+</article>

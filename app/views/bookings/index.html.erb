@@ -2,6 +2,7 @@
 	<table class="standardtable">
 		<caption>Bookings</caption>
 		<tr>
+      <th>Players</th>
 			<th>Playing on</th>
 			<th>From</th>
 			<th>To</th>
@@ -11,6 +12,7 @@
 		</tr>
 		<% bookings.each do |booking| %>
 			<tr id="<%= dom_id(booking) %>">
+        <td><%= booking.players %></td>
 				<td><%= booking.playing_on_text %></td>
 				<td><%= booking.time_from %></td>
 				<td><%= booking.time_to %></td>
@@ -33,4 +35,3 @@
 </section>
 <section id="ajaxbooking" title="Booking" style="display:hidden">
 </section>
-	

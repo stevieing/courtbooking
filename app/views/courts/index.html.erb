@@ -2,7 +2,7 @@
 
 <div id="courts">
 	<div id="closure_message"><%= @booking_slots.closure_message %></div>
-	<%= render "table", id: "calendar", object: calendar %>
-	<%= render "table", id: "bookingslots", object: booking_slots %>
+	<%= render "table", id: "calendar", object: calendar, remote: false %>
+	<%= render "table", id: "bookingslots", object: booking_slots, remote: true %>
   <section id="ajaxbooking" title="Booking" style="display:hidden"></section>
 </div>

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Permissions::AdminPermission do
+describe Permissions::AdminPermission, :focus => true do
 
   before(:all) do
     load "#{Rails.root}/config/initializers/accepted_attributes.rb"
@@ -26,7 +26,6 @@ describe Permissions::AdminPermission do
     should allow_param(:user, :password_confirmation)
     should allow_param(:user, :mail_me)
     should allow_param(:court, :number)
-    should allow_param(:user, :permissions => [:allowed_action_id])
     should allow_param(:court, :peak_times => [:day, :time_from, :time_to])
     should allow_param(:court, :opening_times => [:day, :time_from, :time_to])
     should allow_param(:user, :email)
@@ -46,6 +45,9 @@ describe Permissions::AdminPermission do
     should allow_param(:event, :time_from)
     should allow_param(:event, :time_to)
     should allow_param(:event, :court_ids => [])
+    should allow_param(:allowed_action, :name)
+    should allow_param(:allowed_action, :controller)
+    should allow_param(:allowed_action, :action_text)
 
   end
 

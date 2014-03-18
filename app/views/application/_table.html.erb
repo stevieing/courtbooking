@@ -10,7 +10,7 @@
             <% if cell.valid? %>
               <%= content_tag :td, class: cell.klass, rowspan: cell.span do %>
                 <% if cell.link? %>
-                  <%= link_to cell.text, cell.link, class: cell.klass  %>
+                  <%= link_to cell.text, cell.link, class: cell.klass, remote: remote  %>
                 <% else %>
                   <%= cell.text.html_safe %>
                 <% end %>

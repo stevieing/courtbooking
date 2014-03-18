@@ -18,6 +18,7 @@ TimeSetting.create(name: "slot_first", value: "06:20", description: "First slot"
 TimeSetting.create(name: "slot_last", value: "22:20", description: "Last slot")
 
 Court.delete_all
+CourtTime.delete_all
 #courts
 (1..4). each do |i|
   Court.create(number: i)
@@ -41,3 +42,6 @@ AllowedAction.create(name: "Edit my details", controller: :users, action: [:edit
 
 User.delete_all
 Occurrence.delete_all
+Permission.delete_all
+Booking.delete_all
+Activity.delete_all

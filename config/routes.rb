@@ -13,7 +13,7 @@ Courtbooking::Application.routes.draw do
 
   namespace :admin do
     resources :settings, only: [:index, :edit, :update]
-    resources :users, :courts, :events, :emails, :reports, :closures
+    resources :users, :courts, :events, :emails, :reports, :closures, :allowed_actions
   end
 
   # The priority is based upon order of creation:
@@ -78,6 +78,11 @@ Courtbooking::Application.routes.draw do
   get 'admin' => "admin#index", as: :admin
 
   get '/courts(/:date)'=> "courts#index", as: :courts
+
+  ##
+  # TODO: This needs to be tested probably with constraints. Otherwise if bookings changes this could cause a
+  # an error which will be difficult to find.
+  #
 
   get 'bookings/new/:playing_on/:time_from/:time_to/:court_number' => "bookings#new", as: :court_booking
 

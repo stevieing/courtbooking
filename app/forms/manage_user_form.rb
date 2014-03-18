@@ -13,11 +13,6 @@ class ManageUserForm
 
 	def process_params(params)
     persisted? ? process_parameters(params) : params
-		# params.dup.tap do |p|
-		# 	if p[:password].blank? && p[:password_confirmation].blank? && persisted?
-		# 		p.delete_all(:password, :password_confirmation)
-		# 	end
-		# end
 	end
 
   def include_action?(allowed_action)

@@ -7,9 +7,9 @@ AcceptedAttributes.setup do |config|
 	config.add :court, :number
 	config.add :closure, :description, :date_from, :date_to, :time_from, :time_to, :court_ids => []
 	config.add :event, :description, :date_from, :date_to, :time_from, :time_to, :court_ids => []
+  config.add :allowed_action, :name, :controller, :action_text
 	config.add_nested :court, :opening_times, :day, :time_from, :time_to
   config.add_nested :court, :peak_times, :day, :time_from, :time_to
-  config.add_nested :user, :permissions, :allowed_action_id
 
 end
 
