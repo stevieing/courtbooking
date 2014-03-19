@@ -28,11 +28,11 @@ describe Permissions::MemberPermission do
     should_not allow_action(:bookings, :edit, other_booking)
     should_not allow_action(:bookings, :update, other_booking)
     should allow_param(:booking, :time_and_place)
-    should_not allow_param(:booking, :playing_on_text)
+    should_not allow_param(:booking, :date_from_text)
     should_not allow_param(:booking, :court_number)
     should allow_param(:booking, :opponent_id)
     should_not allow_param(:booking, :user_id)
-    should_not allow_param(:booking, :playing_on)
+    should_not allow_param(:booking, :date_from)
     should_not allow_param(:booking, :playing_from)
     should_not allow_param(:booking, :playing_to)
   end

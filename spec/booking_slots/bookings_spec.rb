@@ -14,9 +14,9 @@ describe BookingSlots::Bookings do
 
 	describe '#bookings' do
 
-		let!(:booking1)	 	{ create(:booking, playing_on: Date.today+1, court_number: courts.first.number, user: user, time_from: "17:00", time_to: "17:40") }
-  	let!(:booking2) 	{ create(:booking, playing_on: Date.today+1, court_number: courts.last.number, user: other_user, time_from: "17:00", time_to: "17:40") }
-  	let!(:booking3)   { create(:booking, playing_on: Date.today+2, court_number: courts.first.number, user: user, time_from: "17:00", time_to: "17:40") }
+		let!(:booking1)	 	{ create(:booking, date_from: Date.today+1, court_number: courts.first.number, user: user, time_from: "17:00", time_to: "17:40") }
+  	let!(:booking2) 	{ create(:booking, date_from: Date.today+1, court_number: courts.last.number, user: other_user, time_from: "17:00", time_to: "17:40") }
+  	let!(:booking3)   { create(:booking, date_from: Date.today+2, court_number: courts.first.number, user: user, time_from: "17:00", time_to: "17:40") }
   	let(:bookings)  	{ BookingSlots::Bookings.new(properties) }
 		it 								{ expect(bookings).to be_valid }
 
@@ -46,7 +46,7 @@ describe BookingSlots::Bookings do
 				subject { bookings.current_booking(todays_courts, todays_slots) }
 
 				its(:new_record?) 	{ should be_true }
-				its(:playing_on) 		{ should eq(Date.today+1) }
+				its(:date_from) 		{ should eq(Date.today+1) }
 				its(:time_from) 		{ should eq("17:40") }
 				its(:time_to) 			{ should eq("18:20") }
 
@@ -57,7 +57,7 @@ describe BookingSlots::Bookings do
 	describe '#current_record' do
 
 		let(:todays_slots) 	{ build(:todays_slots)}
-		let!(:booking1)	 		{ create(:booking, playing_on: Date.today+1, court_number: courts.first.number, user: user, time_from: "17:00", time_to: "17:40") }
+		let!(:booking1)	 		{ create(:booking, date_from: Date.today+1, court_number: courts.first.number, user: user, time_from: "17:00", time_to: "17:40") }
 		let(:bookings)  		{ BookingSlots::Bookings.new(properties) }
 
 		context 'previously booked' do
@@ -83,7 +83,7 @@ describe BookingSlots::Bookings do
 				subject 	{ bookings.current_record(todays_courts, todays_slots) }
 
 				its(:link) { should eq(edit_booking_path(booking1)) }
-				
+
 			end
 
 			context 'another user' do
@@ -102,7 +102,7 @@ describe BookingSlots::Bookings do
 
 				before(:each) do
 					allow(properties).to receive(:edit_booking?).and_return(true)
-					DateTime.stub(:now).and_return(DateTime.parse("#{booking1.playing_on.to_s(:uk)} 17:01"))
+					DateTime.stub(:now).and_return(DateTime.parse("#{booking1.date_from.to_s(:uk)} 17:01"))
 				end
 
 				subject 	{ bookings.current_record(todays_courts, todays_slots) }
@@ -115,7 +115,7 @@ describe BookingSlots::Bookings do
 
 		context 'new booking' do
 
-			let(:new_booking)	{ build(:booking, playing_on: Date.today+1, court_number: courts.first.number, time_from: "17:40", time_to: "18:20")}
+			let(:new_booking)	{ build(:booking, date_from: Date.today+1, court_number: courts.first.number, time_from: "17:40", time_to: "18:20")}
 
 			before(:each) do
 				allow(todays_slots).to receive(:current).and_return(Slots::Slot.new("17:40", "18:20"))
@@ -125,21 +125,21 @@ describe BookingSlots::Bookings do
 			subject 		{ bookings.current_record(todays_courts, todays_slots) }
 
 			its(:text)	{ should eq(new_booking.link_text)}
-			its(:link)	{ should eq(court_booking_path(new_booking.playing_on, new_booking.time_from, new_booking.time_to, new_booking.court_number.to_s))}
+			its(:link)	{ should eq(court_booking_path(new_booking.date_from, new_booking.time_from, new_booking.time_to, new_booking.court_number.to_s))}
 
 			context 'in the past' do
 
 				before(:each) do
-					DateTime.stub(:now).and_return(DateTime.parse("#{booking1.playing_on.to_s(:uk)} 17:41"))
+					DateTime.stub(:now).and_return(DateTime.parse("#{booking1.date_from.to_s(:uk)} 17:41"))
 				end
 
 				its(:text)	{ should eq(" ")}
 				its(:link)	{ should be_nil }
-				
+
 			end
-			
+
 		end
-	  
+
 	end
 
 end

@@ -4,7 +4,7 @@ class CourtsController < ApplicationController
   before_filter :days_bookings_can_be_made_in_advance, :current_date, :booking_slots, :calendar, only: [:index]
 
   def index
-    fresh_when etag: [current_user, flash, current_date, booking_slots, calendar, Settings]
+    #fresh_when etag: [current_user, flash, current_date, booking_slots, calendar, Settings]
   end
 
   protected

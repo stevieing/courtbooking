@@ -30,10 +30,14 @@ module BookingSlots
       [].tap do |rows|
         until @dates.end?
           @cells << add_cell
-          add_row(rows) if @cells.count % @dates.split == 0
+          add_row(rows) if new_row?
           @dates.up
         end
       end
+    end
+
+    def new_row?
+      ( @cells.count % @dates.split == 0 ) || @dates.last?
     end
 
     def reset_cells

@@ -17,7 +17,7 @@ Given /^there is a current booking instance variable$/ do
 end
 
 When /^I change the value of the booking instance variable$/ do
-  create_current_booking(create(:booking, playing_on: (Date.today+5).to_s(:uk)))
+  create_current_booking(create(:booking, date_from: (Date.today+5).to_s(:uk)))
   @that_booking_id = current_booking.id
 end
 

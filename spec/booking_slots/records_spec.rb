@@ -3,6 +3,7 @@ require 'spec_helper'
 describe BookingSlots::Records do
 
 	before(:each) do
+    create_settings_constant
 		Date.stub(:today).and_return(Date.parse("24 February 2014"))
 	end
 
@@ -37,7 +38,7 @@ describe BookingSlots::Records do
 		describe '#remove_closed_slots' do
 
 			it { expect{subject.remove_closed_slots!(court_slots)}.to change{court_slots.count}.from(21).to(15) }
-		  
+
 		end
 
 	end
@@ -47,8 +48,8 @@ describe BookingSlots::Records do
 		before(:each) do
 			stub_settings
 		end
-		
-		let!(:booking)		{ create(:booking, playing_on: date+1) }
+
+		let!(:booking)		{ create(:booking, date_from: date+1) }
 		let(:properties)	{ build(:properties, date: date+1) }
 		subject 					{ build(:records, properties: properties)}
 
@@ -83,7 +84,7 @@ describe BookingSlots::Records do
 			end
 
 			it { expect(subject.current_record(todays_slots)).to eq(current_activity)}
-			
+
 		end
 
 		context 'activity' do
@@ -94,7 +95,7 @@ describe BookingSlots::Records do
 			end
 
 			it { expect(subject.current_record(todays_slots)).to eq(current_booking)}
-			
+
 		end
 
 		# this should never happen but we need to test it
@@ -129,7 +130,7 @@ describe BookingSlots::Records do
 			end
 
 			it {expect(subject.current_court_open?(todays_slots)).to be_true }
-			
+
 		end
 
 	end

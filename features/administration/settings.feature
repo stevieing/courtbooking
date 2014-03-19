@@ -3,11 +3,11 @@ Feature: manage settings
   In order to maintain the system
   An admin user
   Should be able to manage the settings
-  
+
   Background:
     Given the courts are setup
     And I am signed in as an administrator
-    
+
   Scenario: Manage settings
     Given I go to the admin settings page
     Then I should see a field for each setting

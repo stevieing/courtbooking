@@ -11,11 +11,11 @@ describe Permissions::AdminPermission do
   it "allows anything" do
     should allow_action(:any, :thing)
     should allow_param(:booking, :time_and_place)
-    should_not allow_param(:booking, :playing_on_text)
+    should_not allow_param(:booking, :date_from_text)
     should_not allow_param(:booking, :court_number)
     should allow_param(:booking, :opponent_id)
     should_not allow_param(:booking, :user_id)
-    should_not allow_param(:booking, :playing_on)
+    should_not allow_param(:booking, :date_from)
     should_not allow_param(:booking, :time_from)
     should_not allow_param(:booking, :time_to)
     should allow_param(:setting, :value)

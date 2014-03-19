@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe IndexManager do
-  
+
   class TestEnumerator
 
   	attr_reader :args
 
     include IndexManager
     set_enumerator :args
-    
+
   	def initialize(*args)
   		@args = args
   	end
@@ -25,9 +25,9 @@ describe IndexManager do
   it { expect{subject.up}.to change{subject.current}.from(1).to(2)}
   it { expect{subject.up(2)}.to change{subject.current}.from(1).to(3)}
   it { expect{subject.up(5)}.to change{subject.end?}.from(false).to(true)}
+  it { expect{subject.up(4)}.to change{subject.last?}.from(false).to(true)}
   it { expect(subject.first).to eq(1)}
   it { expect(subject.last).to eq(5)}
-
 
   describe '#down' do
 
@@ -37,7 +37,7 @@ describe IndexManager do
 
     it { expect{subject.down}.to change{subject.current}.from(4).to(3)}
     it { expect{subject.down(2)}.to change{subject.current}.from(4).to(2)}
-    
+
   end
 
 end

@@ -96,10 +96,18 @@ module IndexManager
 	end
 
 	##
-	# Check whether the current value of the enumerator is the last value.
+	# Check whether the current value of the enumerator is at the end.
+  # Not the last value but 1 above.
 	#
 	def end?
 		@index >= enumerator.count
 	end
+
+  ##
+  # check whether value is the last in the list
+  #
+  def last?
+    current == enumerator.last
+  end
 
 end

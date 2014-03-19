@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe AppSettings, :focus => true do
+describe AppSettings do
 
 	after(:all) do
 		AppSettings.reset!
@@ -22,6 +22,13 @@ describe AppSettings, :focus => true do
 			include AppSettings::ModelTrigger
 		end
 	end
+
+  with_model :BlockTest do
+    table do |t|
+      t.string :title
+      t.timestamps
+    end
+  end
 
 	before(:each) do
 		setup_appsettings test_const_name, test_table_name

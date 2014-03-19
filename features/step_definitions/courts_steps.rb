@@ -25,7 +25,7 @@ When /^there are two bookings one after the other for tomorrow$/ do
 end
 
 When /^it is tomorrow after the first booking has started$/ do
-  set_dates(current_bookings.first.playing_on_text, current_bookings.first.time_from)
+  set_dates(current_bookings.first.date_from_text, current_bookings.first.time_from)
 end
 
 Then /^I should not be able to edit the first booking$/ do

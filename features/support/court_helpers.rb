@@ -1,9 +1,9 @@
 module CourtHelpers
-  
+
   def create_courts(number)
    create_list(court_opening_type, number)
   end
-  
+
   def setup_courts
     create_courts 4
     stub_settings
@@ -16,7 +16,7 @@ module CourtHelpers
   def within_the_calendar_container(&block)
     within('#calendar', &block)
   end
-  
+
   def valid_time_and_place_text(booking)
     "Court: " + courts.first.number.to_s + " " + booking.time_and_place_text
   end
@@ -37,6 +37,11 @@ module CourtHelpers
 
   def create_activity_slot(closure_details)
     build(:activity_slot, from: closure_details[:time_from], to: closure_details[:time_to], constraints: booking_slots.constraints)
+  end
+
+  def set_dates(date, time)
+    stub_dates(date, time)
+    create_dates(build(:dates, date_from: Date.today, current_date: Date.today))
   end
 end
 

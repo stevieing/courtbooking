@@ -20,5 +20,17 @@ describe BookingSlots::Calendar do
 
   its(:heading) { should eq(date_from.calendar_header(subject.dates.last))}
 
+  ##
+  # Bug in the way rows are created. Schoolboy error!
+  #
+
+  describe "different number of days" do
+    subject { BookingSlots::Calendar.new(date_from, Date.today, 20, 7)}
+
+    it { expect(subject.rows).to have(4).items }
+    it { expect(subject.dates).to have(20).items }
+    it { expect(subject.rows[3]).to have(6).items }
+  end
+
 
 end
