@@ -7,9 +7,6 @@ module PermissionsHelpers
     [:bookings_index, :bookings_new, :bookings_show, :bookings_destroy, :bookings_edit, :user_edit]
   end
 
-  def create_admin_permissions
-  end
-
   def admin_permissions
     [:admin_index, :manage_users, :manage_courts, :manage_closures, :manage_events, :manage_settings]
   end
