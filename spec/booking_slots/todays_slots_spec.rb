@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe BookingSlots::TodaysSlots do
 
+  before(:each) do
+    create_settings_constant
+  end
+
   let!(:courts)       { create_list(:court_with_defined_opening_and_peak_times, 4, opening_time_from: "09:00", opening_time_to: "17:00")}
   let(:options)       { { slot_first: "07:00", slot_last: "17:00", slot_time: 30}}
   let(:court_slots)   { build(:court_slots, options: options)}

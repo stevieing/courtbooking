@@ -8,7 +8,7 @@
 			</li>
 			<% if allow_param? :booking, :time_and_place %>
 				<li>
-					<%= f.label :time_and_place, "Court: #{@booking.court_number}" %>
+					<%= f.label :time_and_place, "Court: #{@booking.court.number}" %>
 					<span><%= @booking.time_and_place_text %></span>
 				</li>
 				<%= f.hidden_field :time_and_place, :value => @booking.time_and_place %>

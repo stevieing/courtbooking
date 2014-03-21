@@ -2,6 +2,10 @@ require "spec_helper.rb"
 
 describe Slots::ActiveRecordSlots do
 
+  before(:each) do
+    create_settings_constant
+  end
+
 	describe "#add_slot_method" do
 
 		with_model :TestSlotMethod do
@@ -33,7 +37,7 @@ describe Slots::ActiveRecordSlots do
 		end
 
 		context "activity slot" do
-			
+
 			before(:each) do
 				Settings.stub(:slots).and_return(build(:court_slots))
 			end
@@ -46,5 +50,5 @@ describe Slots::ActiveRecordSlots do
 		end
 
 	end
-  
+
 end

@@ -11,7 +11,7 @@ module BookingSlots
     end
 
     def current_booking(courts, slots)
-      @bookings.where(court_number: courts.current.number, time_from: slots.current.from).first_or_initialize do |booking|
+      @bookings.where(court_id: courts.current.id, time_from: slots.current.from).first_or_initialize do |booking|
         booking.date_from  = @properties.date.to_s(:uk)
         booking.time_to    = slots.current.to
       end
@@ -25,7 +25,7 @@ module BookingSlots
         else
           if booking.new_record?
             record.text   = booking.link_text
-            record.link   = court_booking_path(booking.date_from, booking.time_from, booking.time_to, booking.court_number.to_s)
+            record.link   = court_booking_path(booking.date_from, booking.time_from, booking.time_to, booking.court_id.to_s)
           else
             record.text   = booking.players
             record.link   = edit_booking_path(booking) if @properties.edit_booking?(booking)

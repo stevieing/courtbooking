@@ -14,9 +14,9 @@ describe BookingSlots::Bookings do
 
   describe '#bookings' do
 
-    let!(:booking1)   { create(:booking, date_from: Date.today+1, court_number: courts.first.number, user: user, time_from: "17:00", time_to: "17:40") }
-    let!(:booking2)   { create(:booking, date_from: Date.today+1, court_number: courts.last.number, user: other_user, time_from: "17:00", time_to: "17:40") }
-    let!(:booking3)   { create(:booking, date_from: Date.today+2, court_number: courts.first.number, user: user, time_from: "17:00", time_to: "17:40") }
+    let!(:booking1)   { create(:booking, date_from: Date.today+1, court_id: courts.first.id, user: user, time_from: "17:00", time_to: "17:40") }
+    let!(:booking2)   { create(:booking, date_from: Date.today+1, court_id: courts.last.id, user: other_user, time_from: "17:00", time_to: "17:40") }
+    let!(:booking3)   { create(:booking, date_from: Date.today+2, court_id: courts.first.id, user: user, time_from: "17:00", time_to: "17:40") }
     let(:bookings)    { BookingSlots::Bookings.new(properties) }
     it                { expect(bookings).to be_valid }
 
@@ -57,7 +57,7 @@ describe BookingSlots::Bookings do
   describe '#current_record' do
 
     let(:todays_slots)  { build(:todays_slots)}
-    let!(:booking1)     { create(:booking, date_from: Date.today+1, court_number: courts.first.number, user: user, time_from: "17:00", time_to: "17:40") }
+    let!(:booking1)     { create(:booking, date_from: Date.today+1, court_id: courts.first.id, user: user, time_from: "17:00", time_to: "17:40") }
     let(:bookings)      { BookingSlots::Bookings.new(properties) }
 
     context 'previously booked' do
@@ -115,7 +115,7 @@ describe BookingSlots::Bookings do
 
     context 'new booking' do
 
-      let(:new_booking) { build(:booking, date_from: Date.today+1, court_number: courts.first.number, time_from: "17:40", time_to: "18:20")}
+      let(:new_booking) { build(:booking, date_from: Date.today+1, court_id: courts.first.id, time_from: "17:40", time_to: "18:20")}
 
       before(:each) do
         allow(todays_slots).to receive(:current).and_return(Slots::Slot.new("17:40", "18:20"))
@@ -125,7 +125,7 @@ describe BookingSlots::Bookings do
       subject     { bookings.current_record(todays_courts, todays_slots) }
 
       its(:text)  { should eq(new_booking.link_text)}
-      its(:link)  { should eq(court_booking_path(new_booking.date_from, new_booking.time_from, new_booking.time_to, new_booking.court_number.to_s))}
+      its(:link)  { should eq(court_booking_path(new_booking.date_from, new_booking.time_from, new_booking.time_to, new_booking.court_id.to_s))}
 
       context 'in the past' do
 

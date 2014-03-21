@@ -8,24 +8,24 @@ describe Court do
   it { should have_many(:events).through(:occurrences)}
   it { should validate_presence_of(:number) }
   it { should validate_uniqueness_of(:number) }
-  
+
   describe "peak_times" do
-    
+
     let!(:courts) { create_list(:court_with_opening_and_peak_times, 4)}
-    
+
     it { courts.first.peak_time?(1,"09:40").should be_false}
     it { courts.first.peak_time?(1,"19:00").should be_true}
     it { courts.first.peak_time?(2,"19:00").should be_true}
-    it { Court.peak_time?(courts.first.number, 1,"19:00").should be_true}
-    it { Court.peak_time?(courts.first.number, 1,"09:40").should be_false}
+    it { Court.peak_time?(courts.first.id, 1,"19:00").should be_true}
+    it { Court.peak_time?(courts.first.id, 1,"09:40").should be_false}
   end
-  
+
   describe "next court number" do
 
     it { expect(Court.next_court_number).to eq(1)}
-  
+
     context "with multiple records" do
-      
+
       let!(:courts) { create_list(:court,3)}
 
       it {expect(Court.next_court_number).to eq(Court.last.number+1)}
@@ -62,7 +62,7 @@ describe Court do
       it { expect(Court.closures_for_all_courts(date)).to be_empty }
     end
 
-    
+
   end
 
 end

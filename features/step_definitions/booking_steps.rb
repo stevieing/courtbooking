@@ -25,7 +25,6 @@ end
 
 When /^the booking is in the past$/ do
   stub_dates(dates.current_date+7)
-  #set_system_datetime((dates.current_date+7).to_s(:uk))
 end
 
 Given /^a booking has been created by another user$/ do

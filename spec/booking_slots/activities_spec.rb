@@ -11,6 +11,10 @@ describe BookingSlots::Activities do
     let(:todays_slots)    { build(:todays_slots)}
     let(:todays_courts)   { build(:courts)}
 
+    before(:each) do
+      create_settings_constant
+    end
+
     subject               { BookingSlots::Activities.new(properties) }
 
     it { expect(subject.events.count).to eq(1) }

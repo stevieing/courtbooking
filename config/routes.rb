@@ -84,6 +84,6 @@ Courtbooking::Application.routes.draw do
   # an error which will be difficult to find.
   #
 
-  get 'bookings/new/:date_from/:time_from/:time_to/:court_number' => "bookings#new", as: :court_booking
+  get 'bookings/new/:date_from/:time_from/:time_to/:court_id' => "bookings#new", as: :court_booking
 
 end

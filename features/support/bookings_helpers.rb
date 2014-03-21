@@ -2,7 +2,7 @@ module BookingsHelpers
 
   def valid_booking_attributes
     FactoryGirl.attributes_for(:booking).merge(
-      court_number: courts.first.number, date_from: dates.current_date_to_s,
+      court: courts.first, date_from: dates.current_date_to_s,
       time_from: booking_slots.valid_slot.from, time_to: booking_slots.valid_slot.to)
   end
 
@@ -20,7 +20,7 @@ module BookingsHelpers
 
   def create_subsequent_bookings(user, date, slots, no_of_bookings = 2)
     1.upto(no_of_bookings).each do |i|
-      attrs = {court_number: courts.first.number, date_from: (date+1).to_s(:uk), time_from: slots[i].from, time_to: slots[i].to}
+      attrs = {court: courts.first, date_from: (date+1).to_s(:uk), time_from: slots[i].from, time_to: slots[i].to}
       create_booking(user, FactoryGirl.attributes_for(:booking).merge(attrs))
     end
     Booking.all
@@ -41,7 +41,7 @@ module BookingsHelpers
   end
 
   def valid_booking_details(booking)
-    page.should have_content booking.court_number
+    page.should have_content booking.court.number
     page.should have_content booking.date_from_text
     page.should have_content booking.time_from
     page.should have_content booking.time_to

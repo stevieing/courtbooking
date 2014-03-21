@@ -33,7 +33,7 @@ module IndexManager
 		end
 
 		##
-		# 	Add the reset! method to the clase
+		# 	Add the reset! method to the class
 		# 	once initialize has been added.
 		# 	If we didn't wait then initialize could
 		# 	be rewritten or we would have to include the

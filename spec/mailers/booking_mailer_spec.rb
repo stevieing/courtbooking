@@ -5,7 +5,7 @@ describe BookingMailer do
   before(:each) do
     stub_settings
   end
-  
+
   describe "booking_confirmation" do
     let(:booking) { create(:booking)}
     let(:mail) { BookingMailer.booking_confirmation(booking) }
@@ -17,11 +17,11 @@ describe BookingMailer do
     end
 
     it "renders the body" do
-      mail.body.encoded.should include("Court #{booking.court_number}")
+      mail.body.encoded.should include("Court #{booking.court.number}")
       mail.body.encoded.should include("#{booking.time_and_place_text}")
     end
   end
-  
+
   describe "booking_deletion" do
     let(:booking) { create(:booking)}
     let(:mail) { BookingMailer.booking_cancellation(booking) }
@@ -33,7 +33,7 @@ describe BookingMailer do
     end
 
     it "renders the body" do
-      mail.body.encoded.should include("Court #{booking.court_number}")
+      mail.body.encoded.should include("Court #{booking.court.number}")
       mail.body.encoded.should include("#{booking.time_and_place_text}")
     end
   end

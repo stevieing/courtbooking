@@ -8,7 +8,7 @@ class BookingsController < ApplicationController
 
   def new
     @booking = Booking.new
-    set_params :date_from,:court_number,:time_from,:time_to
+    set_params :date_from,:court_id,:time_from,:time_to
     @header = "New Booking"
     respond_to do |format|
       format.html

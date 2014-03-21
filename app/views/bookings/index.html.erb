@@ -16,7 +16,7 @@
         <td><%= booking.date_from_text %></td>
         <td><%= booking.time_from %></td>
         <td><%= booking.time_to %></td>
-        <td><%= booking.court_number %></td>
+        <td><%= booking.court.number %></td>
         <% unless booking.in_the_past? %>
           <td>
             <% if allow? :bookings, :edit, booking %>

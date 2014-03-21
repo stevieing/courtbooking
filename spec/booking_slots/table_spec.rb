@@ -117,14 +117,14 @@ describe BookingSlots::Table do
 
   describe "complete table" do
 
-    let!(:booking1) { create(:booking, user: user, opponent: nil, date_from: Date.today+1, time_from: "08:00", time_to: "08:30", court_number: courts.first.number)}
-    let!(:booking2) { create(:booking, user: user, opponent: nil, date_from: Date.today+1, time_from: "11:00", time_to: "11:30", court_number: courts[2].number)}
-    let!(:booking3) { create(:booking, user: user, opponent: opponent, date_from: Date.today+1, time_from: "15:00", time_to: "15:30", court_number: courts[1].number)}
-    let!(:booking4) { create(:booking, user: opponent, date_from: Date.today+1, time_from: "15:30", time_to: "16:00", court_number: courts[3].number)}
-    let!(:booking5) { create(:booking, user: other_user, date_from: Date.today+1, time_from: "16:30", time_to: "17:00", court_number: courts[2].number)}
+    let!(:booking1) { create(:booking, user: user, opponent: nil, date_from: Date.today+1, time_from: "08:00", time_to: "08:30", court_id: courts.first.id)}
+    let!(:booking2) { create(:booking, user: user, opponent: nil, date_from: Date.today+1, time_from: "11:00", time_to: "11:30", court_id: courts[2].id)}
+    let!(:booking3) { create(:booking, user: user, opponent: opponent, date_from: Date.today+1, time_from: "15:00", time_to: "15:30", court_id: courts[1].id)}
+    let!(:booking4) { create(:booking, user: opponent, date_from: Date.today+1, time_from: "15:30", time_to: "16:00", court_id: courts[3].id)}
+    let!(:booking5) { create(:booking, user: other_user, date_from: Date.today+1, time_from: "16:30", time_to: "17:00", court_id: courts[2].id)}
 
-    let(:booking6)  { build(:booking, date_from: Date.today+1, time_from: "09:00", time_to: "09:30", court_number: courts[2].number) }
-    let(:booking7)  { build(:booking, date_from: Date.today+1, time_from: "17:00", time_to: "17:30", court_number: courts.last.number) }
+    let(:booking6)  { build(:booking, date_from: Date.today+1, time_from: "09:00", time_to: "09:30", court_id: courts[2].id) }
+    let(:booking7)  { build(:booking, date_from: Date.today+1, time_from: "17:00", time_to: "17:30", court_id: courts.last.id) }
 
     let!(:event1)   { create(:event, description: "event1", date_from: Date.today+1, date_to: Date.today+2, time_from: "09:00", time_to: "10:30", court_ids: [courts.first.id,courts[1].id])}
     let!(:event2)   { create(:event, description: "event2", date_from: Date.today+1, date_to: Date.today+2, time_from: "11:30", time_to: "12:30", court_ids: [courts[2].id,courts.last.id])}

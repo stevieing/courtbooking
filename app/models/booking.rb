@@ -1,14 +1,15 @@
 class Booking < ActiveRecord::Base
 
   belongs_to :user
+  belongs_to :court
   belongs_to :opponent, class_name: "User"
 
   attr_writer :date_from_text, :time_and_place
 
   before_validation :save_date_from_text, :save_time_and_place
 
-  validates_presence_of :court_number, :user_id, :date_from, :time_from, :time_to
-  attr_readonly :court_number, :date_from, :time_from, :time_to
+  validates_presence_of :court_id, :user_id, :date_from, :time_from, :time_to
+  attr_readonly :court_id, :date_from, :time_from, :time_to
 
   validates_date :date_from, on_or_after: lambda {Date.today},
                       before: lambda {Date.today + Settings.days_bookings_can_be_made_in_advance}
@@ -20,7 +21,7 @@ class Booking < ActiveRecord::Base
   validates_with PeakHoursValidator, DuplicateBookingsValidator, :on => :create
 
   scope :by_day,    lambda{|day| where(date_from: day) }
-  scope :by_court,  lambda{|court| where(court_number: court)}
+  scope :by_court,  lambda{|court| where(court_id: court)}
   scope :by_time,   lambda{|time| where(time_from: time)}
 
   include Slots::ActiveRecordSlots
@@ -42,7 +43,7 @@ class Booking < ActiveRecord::Base
   end
 
   def time_and_place
-    @time_and_place || [date_from.try(:to_s, :uk),time_from,time_to,court_number].join(',')
+    @time_and_place || [date_from.try(:to_s, :uk),time_from,time_to,court_id].join(',')
   end
 
   def time_and_place_text
@@ -53,22 +54,22 @@ class Booking < ActiveRecord::Base
 
   def save_time_and_place
     if @time_and_place.present? && @time_and_place.split(',').length == 4
-      self.date_from, self.time_from, self.time_to, self.court_number = @time_and_place.split(',')
+      self.date_from, self.time_from, self.time_to, self.court_id = @time_and_place.split(',')
     end
   end
 
   def link_text
-    "#{court_number.to_s} - #{date_from_text} #{time_from}"
+    "#{court.number.to_s} - #{date_from_text} #{time_from}"
   end
 
   class << self
 
     def ordered
-      order("date_from desc, time_from desc, court_number")
+      order("date_from desc, time_from desc, court_id")
     end
 
-    def by_slot(time_from, court_number)
-      find_by(time_from: time_from, court_number: court_number)
+    def by_slot(time_from, court_id)
+      find_by(time_from: time_from, court_id: court_id)
     end
   end
 

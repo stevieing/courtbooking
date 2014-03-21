@@ -16,7 +16,7 @@ Then(/^I should see an appropriate message in the subject$/) do
 end
 
 Then(/^I should see the date, time and court number for the booking in the email body$/) do
-  current_email.default_part_body.to_s.should include("Court #{current_booking.court_number}")
+  current_email.default_part_body.to_s.should include("Court #{current_booking.court.number}")
   current_email.default_part_body.to_s.should include(current_booking.time_and_place_text)
 end
 

@@ -5,7 +5,7 @@
 module ManageForm
 
   # = ManageForm module
-  # 
+  #
   # Add standard form object behaviour to a form object
   #
   # * Will include ActiveModel::Model
@@ -22,7 +22,7 @@ module ManageForm
   #  * delegate - if attributes present all calls to these attributes will be delegated to the model
   #    and accepted_attributes method created.
   #  * submit - add top level attributes to object and build associations.
-  #    If the object is valid it will be saved. If the parameters need any processing this processing 
+  #    If the object is valid it will be saved. If the parameters need any processing this processing
   #    needs to be placed in a process_params method. Care needs to be taken that this doesn't delete
   #    any required parameters.
   #  * initialize - if new will check if any attributes need to be initialized. If an object is passed
@@ -45,7 +45,7 @@ module ManageForm
       object.errors.each do |key, value|
         errors.add key, value
       end
-    end  
+    end
   end
 
   def submit(params)
@@ -123,7 +123,7 @@ module ManageForm
   		define_method "verify_#{model.to_s}" do
   			check_for_errors send(model)
   		end
-  		
+
   	end
 
   	def set_associated_models(*associations)
