@@ -10,7 +10,7 @@ module Permissions
       @user = user
       allow :courts, [:index]
       allow "devise/sessions", [:create, :destroy]
-      allow_param :booking, [:time_and_place, :opponent_id]
+      allow_param :booking, ACCEPTED_ATTRIBUTES.booking
       allow_param :user, ACCEPTED_ATTRIBUTES.current_user
       add_user_permissions
     end

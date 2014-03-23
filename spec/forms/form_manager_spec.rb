@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe FormManager, :focus => true do
+describe FormManager do
 
   let(:params) { { "attr_a" => "a", "attr_b" => "b", "attr_c" => "c", "attr_d" => 1}.with_indifferent_access }
   let(:nested_params) { {"nested_models" => { "1" => {"attr_f" => "f", "attr_g" => "g"}, "2" => { "attr_f" => "f", "attr_g" => "g" }}}}
@@ -208,6 +208,19 @@ describe FormManager, :focus => true do
       it { expect(subject.nested_models.last.attr_g).to eq("k")}
 
     end
+
+
   end
+
+  describe '#new with parameters' do
+    subject { MyModelForm.new(params)}
+
+    it { expect(subject.attr_a).to eq("a")}
+    it { expect(subject.attr_b).to eq("b")}
+    it { expect(subject.attr_c).to eq("c")}
+    it { expect(subject.attr_d).to eq(1)}
+  end
+
+
 
 end

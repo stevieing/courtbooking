@@ -1,19 +1,19 @@
 module Permissions
   class BasePermission
-  
+
     def allow?(controller, action, resource = nil)
       allowed = @allow_all || @allowed_actions[[controller.to_s, action.to_s]]
       allowed && (allowed == true || resource && allowed.call(resource))
     end
-  
+
     def allow_all
       @allow_all = true
     end
-    
+
     def allow_all_params
        @allow_all_params = true
     end
-  
+
     def allow(controllers, actions, &block)
       @allowed_actions ||= {}
       Array(controllers).each do |controller|
@@ -22,7 +22,7 @@ module Permissions
         end
       end
     end
-    
+
     def allow_param(resources, attributes)
       @allowed_params ||= {}
       Array(resources).each do |resource|
@@ -60,7 +60,7 @@ module Permissions
         end
       end
     end
-    
+
   end
-  
+
 end

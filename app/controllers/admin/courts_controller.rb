@@ -1,17 +1,17 @@
 class Admin::CourtsController < ApplicationController
-  
+
   before_filter :courts, only: [:index]
-  
+
   def index
   end
-  
+
   def new
-    @manage_court_form = ManageCourtForm.new
+    @admin_court_form = AdminCourtForm.new
   end
-  
+
   def create
-    @manage_court_form = ManageCourtForm.new
-    if @manage_court_form.submit(params[:court])
+    @admin_court_form = AdminCourtForm.new
+    if @admin_court_form.submit(params[:court])
       redirect_to admin_courts_path, notice: "Court successfully created."
     else
       render :new
@@ -19,12 +19,12 @@ class Admin::CourtsController < ApplicationController
   end
 
   def edit
-    @manage_court_form = ManageCourtForm.new(current_resource)
+    @admin_court_form = AdminCourtForm.new(current_resource)
   end
 
   def update
-    @manage_court_form = ManageCourtForm.new(current_resource)
-    if @manage_court_form.submit(params[:court])
+    @admin_court_form = AdminCourtForm.new(current_resource)
+    if @admin_court_form.submit(params[:court])
       redirect_to admin_courts_path, notice: "Court successfully updated."
     else
       render :edit
@@ -40,17 +40,17 @@ class Admin::CourtsController < ApplicationController
     end
     redirect_to admin_courts_path, notice: notice
   end
-  
+
   private
-  
+
   def courts
     @courts ||= Court.all
   end
-  
+
   helper_method :courts
 
   def current_resource
     @current_resource ||= Court.find(params[:id]) if params[:id]
   end
-  
+
 end

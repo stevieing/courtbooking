@@ -4,11 +4,11 @@ describe BookingSlots::Courts do
 
   let!(:courts)       { create_list(:court, 4)}
   let(:properties)    { build(:properties)}
+  subject             { BookingSlots::Courts.new(properties) }
 
-  let(:enum_attribute)  { :@courts }
-  subject               { BookingSlots::Courts.new(properties) }
-
-  it_behaves_like IndexManager
+  it_behaves_like IndexManager do
+    let(:enum_attribute)  { :@courts }
+  end
 
   it { should be_valid}
   it { expect(subject.all.count).to eq(4)}

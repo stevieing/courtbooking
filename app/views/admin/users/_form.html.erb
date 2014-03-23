@@ -1,4 +1,4 @@
-<%= form_for @manage_user_form, url: resource do |f| %>
+<%= form_for @admin_user_form, url: resource do |f| %>
 	<fieldset>
 		<legend><%= header %></legend>
 		<ul>
@@ -27,7 +27,7 @@
 				<%= f.check_box :mail_me %>
 			</li>
 		</ul>
-		<%= render "permissions", f: f, object: @manage_user_form %>
+		<%= render "permissions", f: f, object: @admin_user_form %>
 		<ul class="submit"><li><%= f.submit "Submit user" %></li></ul>
 	</fieldset>
 <% end %>

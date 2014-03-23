@@ -13,6 +13,7 @@ module FormManager
   #
   extend ActiveSupport::Concern
   include ActiveModel::Model
+  include ParametersProcessor
 
   included do
     setup
@@ -65,7 +66,7 @@ module FormManager
 
     def set_model(model, attributes)
       accepted_attributes = attributes.dup.extract_hash_keys
-      attributes.push(:id).each do |attribute|
+      accepted_attributes.push(:id).each do |attribute|
         delegate attribute, to: :model
       end
 
@@ -83,12 +84,12 @@ module FormManager
         model.to_s.classify.constantize
       end
 
-      define_method :initialize do |_model=nil|
-        if _model.nil?
-          instance_variable_set(instance_name, self.class.model_const.new)
-          call_initializers
+      define_method :initialize do |object=nil|
+        if object.instance_of?(self.class.model_const)
+          instance_variable_set(instance_name, object)
         else
-          instance_variable_set(instance_name, _model)
+          instance_variable_set(instance_name, self.class.model_const.new(object))
+          call_initializers
         end
       end
 

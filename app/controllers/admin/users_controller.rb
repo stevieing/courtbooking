@@ -1,37 +1,37 @@
 class Admin::UsersController < ApplicationController
-  
+
   before_filter :users, only: [:index]
-  
+
   def index
   end
-  
+
   def new
-    @manage_user_form = ManageUserForm.new
+    @admin_user_form = AdminUserForm.new
   end
-  
+
   def create
 
-    @manage_user_form = ManageUserForm.new
-     if @manage_user_form.submit(params[:user])
+    @admin_user_form = AdminUserForm.new
+     if @admin_user_form.submit(params[:user])
        redirect_to admin_users_path, notice: "User successfully created."
      else
        render :new
      end
   end
-  
+
   def edit
-    @manage_user_form = ManageUserForm.new(current_resource)
+    @admin_user_form = AdminUserForm.new(current_resource)
   end
-  
+
   def update
-    @manage_user_form = ManageUserForm.new(current_resource)
-    if @manage_user_form.submit(params[:user])
+    @admin_user_form = AdminUserForm.new(current_resource)
+    if @admin_user_form.submit(params[:user])
       redirect_to admin_users_path, notice: "User successfully updated."
     else
       render :edit
     end
   end
-  
+
   def destroy
     @user = current_resource
     if @user.destroy
@@ -43,13 +43,13 @@ class Admin::UsersController < ApplicationController
   end
 
 private
-  
+
   def users
     @users ||= User.all
   end
-  
+
   helper_method :users
-  
+
   def current_resource
     @current_resource ||= User.find(params[:id]) if params[:id]
   end

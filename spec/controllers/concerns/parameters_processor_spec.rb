@@ -6,35 +6,47 @@ describe ParametersProcessor do
     include ParametersProcessor
   end
 
-  subject { PasswordChecker.new }
+  describe '#process_password' do
 
-  context 'all ok' do
+    subject { PasswordChecker.new }
 
-    let(:parameters) { { :other_attribute => "dummy", :password => "password", :password_confirmation => "password" } }
+    context 'all ok' do
 
-    it { expect(subject.process_parameters(parameters)).to eq(parameters) }
+      let(:parameters) { { :other_attribute => "dummy", :password => "password", :password_confirmation => "password" } }
+
+      it { expect(subject.process_password(parameters)).to eq(parameters) }
+
+    end
+
+    context 'password blank' do
+
+      let(:parameters) { { :other_attribute => "dummy", :password => "", :password_confirmation => "password" } }
+
+      it { expect(subject.process_password(parameters)).to eq(parameters) }
+    end
+
+    context 'password confirmation blank' do
+
+      let(:parameters) { { :other_attribute => "dummy", :password => "password", :password_confirmation => "" } }
+
+      it { expect(subject.process_password(parameters)).to eq(parameters) }
+    end
+
+    context 'password and password confirmation blank' do
+
+      let(:parameters) { { :other_attribute => "dummy", :password => "", :password_confirmation => "" } }
+
+      it { expect(subject.process_password(parameters)).to eq({ :other_attribute => "dummy" }) }
+    end
 
   end
 
-  context 'password blank' do
+  describe '#permit_parameters' do
+    let(:parameters) { ActionController::Parameters.new(attr_a: "a",attr_b: "b", attr_c: "c")}
+    subject { PasswordChecker.new.permit_parameters(parameters, [:attr_a, :attr_b, :attr_c])}
 
-    let(:parameters) { { :other_attribute => "dummy", :password => "", :password_confirmation => "password" } }
+    it { expect(subject).to be_permitted }
 
-    it { expect(subject.process_parameters(parameters)).to eq(parameters) }
-  end
-
-  context 'password confirmation blank' do
-
-    let(:parameters) { { :other_attribute => "dummy", :password => "password", :password_confirmation => "" } }
-
-    it { expect(subject.process_parameters(parameters)).to eq(parameters) }
-  end
-
-  context 'password and password confirmation blank' do
-
-    let(:parameters) { { :other_attribute => "dummy", :password => "", :password_confirmation => "" } }
-
-    it { expect(subject.process_parameters(parameters)).to eq({ :other_attribute => "dummy" }) }
   end
 
 end

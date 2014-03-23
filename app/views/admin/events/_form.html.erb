@@ -1,4 +1,4 @@
-<%= form_for @manage_event_form, url: resource do |f| %>
+<%= form_for @admin_event_form, url: resource do |f| %>
 	<fieldset>
 		<legend><%= header %></legend>
 		<ul>
@@ -19,7 +19,7 @@
 				<%= f.select :time_to, list_of_slots %>
 			</li>
 		</ul>
-		<%= render "courts", f: f, object: @manage_event_form %>
+		<%= render "courts", f: f, object: @admin_event_form %>
 		<ul class="submit"><li><%= f.submit "Submit event" %></li></ul>
 	</fieldset>
 <% end %>

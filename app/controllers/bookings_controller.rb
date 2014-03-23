@@ -7,8 +7,7 @@ class BookingsController < ApplicationController
   end
 
   def new
-    @booking = Booking.new
-    set_params :date_from,:court_id,:time_from,:time_to
+    @booking = Booking.new(booking_params)
     @header = "New Booking"
     respond_to do |format|
       format.html
@@ -88,10 +87,11 @@ class BookingsController < ApplicationController
     @current_resource ||= Booking.find(params[:id]) if params[:id]
   end
 
-  def set_params(*attributes)
-    attributes.each do |attribute|
-      @booking.send("#{attribute}=", params[attribute]) unless params[attribute].nil?
-    end
+  ##
+  # TODO: Interesting one. Rails by default does not allow params for new action. Understandably!
+  #
+  def booking_params
+    params.permit(ACCEPTED_ATTRIBUTES.booking)
   end
 
   def flash_keep(message)

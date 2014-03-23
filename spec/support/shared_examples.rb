@@ -22,7 +22,7 @@ shared_examples "time formats" do |*attributes|
   	it { should_not allow_value("10:63").for(attribute) }
 
 	end
-	
+
 end
 
 shared_examples "AppSettings" do
@@ -60,4 +60,27 @@ shared_examples IndexManager do
   it { expect(subject).to respond_to(:each)}
   it { expect(subject.current).to eq(subject.instance_variable_get(enum_attribute).first)}
 
+end
+
+shared_examples FormManager do
+  it { expect(described_class).to include(FormManager) }
+  it { expect(described_class).to include(ActiveModel::Model) }
+  it { expect(described_class).to include(ParametersProcessor) }
+
+  it { expect(described_class).to respond_to(:set_model)}
+  it { expect(described_class).to respond_to(:add_initializer)}
+  it { expect(described_class).to respond_to(:set_associated_models)}
+
+end
+
+shared_examples "password processed" do
+  let(:attributes)  { attributes_for(model).merge(password: "", password_confirmation: "")}
+  subject           { described_class.new(create(model))}
+
+   before(:each) do
+    subject.submit(attributes)
+   end
+
+  it { expect(model.to_s.classify.constantize.all).to have(1).item }
+  it { expect(subject).to be_valid }
 end

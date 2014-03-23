@@ -9,9 +9,10 @@ describe BookingSlots::Dates do
   end
 
   subject { BookingSlots::Dates.new(date_from, Date.today, 20)}
-  let(:enum_attribute) { :@dates }
 
-  it_behaves_like IndexManager
+  it_behaves_like IndexManager do
+    let(:enum_attribute) { :@dates }
+  end
 
   describe '#dates' do
 

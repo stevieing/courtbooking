@@ -25,17 +25,17 @@ describe Slots::Base do
 	it { expect(subject.first.from).to eq(all_slots.first)}
 	it { expect(subject.current.from).to eq(all_slots.first)}
 
-	let(:enum_attribute)  { :@slots }
+  it_behaves_like IndexManager do
+    let(:enum_attribute)  { :@slots }
+  end
 
-  it_behaves_like IndexManager
-
-	describe 'manipulation' do	
+	describe 'manipulation' do
 
 		context 'ranges' do
 			it { expect(subject.collect_range(slot_range).count).to eq(collection.count)}
 			it { expect(subject.reject_range(slot_range).count).to eq(rejection.count)}
 			it { expect{subject.reject_range!(slot_range)}.to change{subject.all.count}.from(all_slots.count).to(rejection.count)}
-			
+
 		end
 
 	end
@@ -63,7 +63,7 @@ describe Slots::Base do
 			it { expect{@copycopy.up}.not_to change{copy.current.from}.from(all_slots.first).to(all_slots.last)}
 
 		end
-	  
+
 	end
 
 	describe '#valid_slot_times' do
@@ -80,7 +80,7 @@ describe Slots::Base do
 			end
 
 			it { expect(subject.valid_slot).to be_valid}
-			
+
 		end
 
 		context 'invalid' do
@@ -90,20 +90,20 @@ describe Slots::Base do
 
 			it { expect(subject.valid_slot).not_to be_valid}
 		end
-		
+
 	end
 
 	describe '#slots_between' do
 		let(:slot_between)		{ build(:slot, from: all_slots.first, to: all_slots.last, constraints: build(:constraints, options: options))}
 		it { expect(subject.slots_between(slot_between)).to eq(4)}
-	  
+
 	end
 
 	describe '#current_slot_time' do
 
 		it { expect(subject.current_slot_time).to eq("06:20")}
 		it { expect{subject.up(3)}.to change{subject.current_slot_time}.from("06:20").to("08:20")}
-	  
+
 	end
 
 	describe '#current_time' do
@@ -116,5 +116,5 @@ describe Slots::Base do
 
 		it { should be_kind_of(Slots::Base)}
 	end
-	
+
 end
