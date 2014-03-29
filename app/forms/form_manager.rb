@@ -132,6 +132,17 @@ module FormManager
         association_extras *associations
       end
     end
+
+    #
+    # Allows you to call a method after the form is submitted.
+    #
+    def after_submit(method_name)
+      original_method = instance_method(:submit)
+      define_method :submit do |*args|
+        original_method.bind(self).call(*args)
+        send method_name
+      end
+    end
   end
 
   ##

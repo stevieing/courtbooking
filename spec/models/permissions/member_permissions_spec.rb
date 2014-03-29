@@ -113,6 +113,7 @@ describe Permissions::MemberPermission do
       should allow_param(:closure, :time_from)
       should allow_param(:closure, :time_to)
       should allow_param(:closure, :court_ids => [])
+      should allow_param(:event, :allow_removal)
     end
 
     it "allows manage events" do
@@ -128,6 +129,7 @@ describe Permissions::MemberPermission do
       should allow_param(:event, :time_from)
       should allow_param(:event, :time_to)
       should allow_param(:event, :court_ids => [])
+      should allow_param(:event, :allow_removal)
     end
 
     it "allows settings" do

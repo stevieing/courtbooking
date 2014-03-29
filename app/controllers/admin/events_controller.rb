@@ -33,11 +33,7 @@ class Admin::EventsController < ApplicationController
 
   def destroy
     @event = current_resource
-    if @event.destroy
-      notice = "Event successfully deleted"
-    else
-      notice = "Unable to delete event"
-    end
+    notice = @event.destroy ? "Event successfully deleted" : "Unable to delete event"
     redirect_to admin_events_path, notice: notice
   end
 

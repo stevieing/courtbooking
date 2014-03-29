@@ -23,7 +23,7 @@ class OverlappingRecords
     end
 
     def time_string
-      '(:time_from >= time_from and :time_from < time_to) OR (:time_to > time_from and :time_to <= time_to)'
+      '(:time_from >= time_from AND :time_from < time_to) OR (:time_to > time_from AND :time_to <= time_to) OR (:time_from < time_from AND :time_to > time_to)'
     end
 
     def date_hash
@@ -70,7 +70,7 @@ class OverlappingRecords
   end
 
   def find_activities
-    Activity.joins(:courts).where(courts: {id: parameters.court_ids})
+    Activity.joins(:courts).without(@object).where(courts: {id: parameters.court_ids})
     .where(parameters.date_string, parameters.date_hash)
     .where(parameters.time_string, parameters.time_hash)
   end

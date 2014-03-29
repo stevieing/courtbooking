@@ -21,13 +21,27 @@ describe Activity do
     let!(:closures_in)  { create_list(:closure, 3, date_from: Date.today, date_to: Date.today+5) }
     let!(:closures_out) { create_list(:closure, 2, date_from: Date.today+6, date_to: Date.today+8) }
     let!(:events_in)  { create_list(:event,3, date_from: Date.today) }
-    let!(:events_out) { create_list(:event,2, date_from: Date.today+1) } 
-    
+    let!(:events_out) { create_list(:event,2, date_from: Date.today+1) }
+
     it { expect(Closure.by_day(Date.today).count).to eq(closures_in.count)}
     it { expect(Closure.by_day(Date.today+5).count).to eq(closures_in.count)}
     it { expect(Closure.by_day(Date.today+2).count).to eq(closures_in.count)}
     it { expect(Event.by_day(Date.today).count).to eq(events_in.count) }
-      
+
+  end
+
+  describe '#without' do
+    let!(:closures) { create_list(:closure, 4)}
+    let!(:events)   { create_list(:event, 4)}
+
+    it { expect(Closure.without(closures.first)).to have(3).items}
+    it { expect(Closure.without(closures.first)).to_not include(closures.first)}
+
+    it { expect(Event.without(events.first)).to have(3).items}
+    it { expect(Event.without(events.first)).to_not include(events.first)}
+
+    it { expect(Activity.without(closures.first)).to have(7).items}
+    it { expect(Activity.without(closures.first)).to_not include(closures.first)}
   end
 
 end

@@ -33,11 +33,7 @@ class Admin::ClosuresController < ApplicationController
 
   def destroy
     @closure = current_resource
-    if @closure.destroy
-      notice = "Closure successfully deleted"
-    else
-      notice = "Unable to delete closure"
-    end
+    notice = @closure.destroy ? "Closure successfully deleted" : "Unable to delete closure"
     redirect_to admin_closures_path, notice: notice
   end
 

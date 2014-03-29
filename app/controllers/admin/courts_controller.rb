@@ -33,11 +33,7 @@ class Admin::CourtsController < ApplicationController
 
   def destroy
     @court = current_resource
-    if @court.destroy
-      notice = "Court successfully deleted"
-    else
-      notice = "Unable to delete court"
-    end
+    notice = @court.destroy ? "Court successfully deleted" : "Unable to delete court"
     redirect_to admin_courts_path, notice: notice
   end
 

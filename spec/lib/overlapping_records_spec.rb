@@ -115,7 +115,7 @@ describe OverlappingRecords do
     end
 
     context 'activities' do
-      let!(:booking1) { create(:booking, date_from: Date.today+1, time_from: "19:00", time_to: "19:40", court: courts.first, user: users.first)}
+      let!(:booking1) { create(:booking, date_from: Date.today+1, time_from: "07:00", time_to: "07:40", court: courts.first, user: users.first)}
       let!(:closure)  { create(:closure, date_from: Date.today+1, date_to: Date.today+5, time_from: "12:00", time_to: "19:00", courts: [courts.first, courts[1], courts[2]])}
       let!(:event)    { create(:event, date_from: Date.today+2, time_from: "19:00", time_to: "20:20", courts: [courts.first])}
 
@@ -124,13 +124,21 @@ describe OverlappingRecords do
       it { expect(OverlappingRecords.new(build(:closure, date_from: Date.today+6, date_to: Date.today+10, time_from: "12:00", time_to: "19:00", courts: [courts.first, courts[1], courts[2]]))).to be_empty}
       it { expect(OverlappingRecords.new(build(:event, date_from: Date.today+1, time_from: "19:40", time_to: "20:20", courts: [courts.first, courts[1], courts[2]]))).to be_empty}
       it { expect(OverlappingRecords.new(build(:closure, date_from: Date.today+1, date_to: Date.today+2, time_from: "09:00", time_to: "17:00", courts: [courts.first]))).to_not be_empty}
-      it { expect(OverlappingRecords.new(build(:closure, date_from: Date.today+1, date_to: Date.today+2, time_from: "19:00", time_to: "21:00", courts: [courts.first, courts.last]))).to_not be_empty}
+      it { expect(OverlappingRecords.new(build(:closure, date_from: Date.today+1, date_to: Date.today+2, time_from: "13:00", time_to: "18:00", courts: [courts.first, courts.last]))).to_not be_empty}
       it { expect(OverlappingRecords.new(build(:event, date_from: Date.today+1, time_from: "13:00", time_to: "14:00", courts: [courts.first]))).to_not be_empty}
       it { expect(OverlappingRecords.new(build(:closure, date_from: Date.today+5, date_to: Date.today+7, time_from: "18:59", time_to: "21:00", courts: [courts.first, courts.last]))).to_not be_empty}
 
+      it { expect(OverlappingRecords.new(closure)).to be_empty}
 
     end
 
+    # this is an edge case which needs some sorting
+    context 'specific bug' do
+
+      let!(:booking1) { create(:booking, date_from: Date.today+1, time_from: "07:40", time_to: "08:20", court: courts.first, user: users.first)}
+
+      it { expect(OverlappingRecords.new(build(:closure, date_from: Date.today+1, date_to: Date.today+1, time_from: "06:00", time_to: "09:00", courts: [courts.first]))).to_not be_empty}
+    end
 
   end
 

@@ -10,4 +10,6 @@ class Activity < ActiveRecord::Base
 
 	include Slots::ActiveRecordSlots
 
+  scope :without, ->(activity) { where.not(id: activity.id) }
+
 end

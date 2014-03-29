@@ -1,3 +1,9 @@
+#
+# TODO: This is no longer fit for purpose so needs to be refactored.
+# It needs to be able to deal better with nested attributes.
+# It also needs support for virtual attributes.
+#
+
 class AcceptedAttributes
 
   #

@@ -11,4 +11,15 @@ module ParametersProcessor
   def permit_parameters(params, attributes)
     params.permit(*attributes)
   end
+
+  def process_allow_removal(params)
+    self.allow_removal = to_boolean(params[:allow_removal])
+    params.slice!(:allow_removal)
+  end
+
+private
+
+  def to_boolean(value)
+    ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
+  end
 end

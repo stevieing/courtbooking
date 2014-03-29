@@ -84,3 +84,51 @@ shared_examples "password processed" do
   it { expect(model.to_s.classify.constantize.all).to have(1).item }
   it { expect(subject).to be_valid }
 end
+
+shared_examples OverlappingRecordsManager do
+
+  it { expect(described_class).to include(OverlappingRecordsManager)}
+  it { expect(described_class).to respond_to(:overlapping_object)}
+
+end
+
+shared_examples "Removes overlapping records" do
+
+  subject { described_class.new}
+
+  before(:each) do
+    stub_settings
+  end
+
+  let!(:booking)    { create(:booking) }
+  let!(:closure)    { create(:closure) }
+  let!(:event)      { create(:event) }
+
+  before(:each) do
+    allow_any_instance_of(OverlappingRecords).to receive(:get_records).and_return(Booking.all+Activity.all)
+    subject.submit(attributes.merge(allow_removal: true))
+  end
+
+  it { expect(Booking.all).to be_empty }
+  it { expect(Activity.all).to_not include(closure) }
+  it { expect(Activity.all).to_not include(event) }
+
+end
+
+shared_examples "Verifies removal of overlapping records" do
+
+  subject { described_class.new}
+
+  let!(:closure)    { create(:closure) }
+  let!(:event)      { create(:event) }
+
+  before(:each) do
+    allow_any_instance_of(OverlappingRecords).to receive(:get_records).and_return(Booking.all+Activity.all)
+    subject.submit(attributes.merge(allow_removal: false))
+  end
+
+  it { expect(subject).to_not be_valid }
+  it { expect(Activity.all).to include(closure) }
+  it { expect(Activity.all).to include(event) }
+
+end

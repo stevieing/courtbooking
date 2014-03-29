@@ -34,11 +34,7 @@ class Admin::UsersController < ApplicationController
 
   def destroy
     @user = current_resource
-    if @user.destroy
-      notice = "User successfully deleted"
-    else
-      notice = "Unable to delete user"
-    end
+    notice = @user.destroy ? "User successfully deleted" : "Unable to delete user"
     redirect_to admin_users_path, notice: notice
   end
 

@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe AdminEventForm do
   it_behaves_like FormManager
+  it_behaves_like OverlappingRecordsManager
 
 
   let!(:courts)             { create_list(:court, 4)}
@@ -29,5 +30,13 @@ describe AdminEventForm do
       it { expect(Event.all).to have(0).items }
       it { expect(subject).to_not be_valid }
     end
+  end
+
+  it_behaves_like "Removes overlapping records" do
+    let(:attributes) { attributes_valid }
+  end
+
+  it_behaves_like "Verifies removal of overlapping records" do
+    let(:attributes) { attributes_valid }
   end
 end

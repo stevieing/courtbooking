@@ -6,6 +6,11 @@ describe ParametersProcessor do
     include ParametersProcessor
   end
 
+  class AllowRemovalChecker
+    include ParametersProcessor
+    attr_accessor :allow_removal, :attr_a, :attr_b
+  end
+
   describe '#process_password' do
 
     subject { PasswordChecker.new }
@@ -46,6 +51,24 @@ describe ParametersProcessor do
     subject { PasswordChecker.new.permit_parameters(parameters, [:attr_a, :attr_b, :attr_c])}
 
     it { expect(subject).to be_permitted }
+
+  end
+
+  describe '#process_allow_removal' do
+
+    subject           { AllowRemovalChecker.new }
+
+    context 'true' do
+      let(:parameters)  { { attr_a: "a", attr_b: "b", allow_removal: "1" }}
+      it { expect(subject.process_allow_removal(parameters)).to eq({ attr_a: "a", attr_b: "b"})}
+      it { expect{subject.process_allow_removal(parameters)}.to change{subject.allow_removal}.from(nil).to(true)}
+    end
+
+    context 'false' do
+      let(:parameters)  { { attr_a: "a", attr_b: "b", allow_removal: "0" }}
+      it { expect(subject.process_allow_removal(parameters)).to eq({ attr_a: "a", attr_b: "b"})}
+      it { expect{subject.process_allow_removal(parameters)}.to change{subject.allow_removal}.from(nil).to(false)}
+    end
 
   end
 

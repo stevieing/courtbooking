@@ -45,3 +45,22 @@ Feature: manage events
     When I go to the admin events page
     And I delete the event I have created
     Then I should see a message with the text Event successfully deleted
+
+  Scenario: Add an event with an overlapping booking
+    Given I go to the admin events page
+    When I follow the link to add a new event
+    And I fill in valid event details
+    And I add a list of courts to be closed
+    But there is an overlapping booking
+    And I check allow removal of of overlapping bookings/closures/event
+    And I submit the event
+    Then I should see a message with the text Event successfully created
+
+  Scenario: Add an event with an overlapping booking unsuccessfully
+    Given I go to the admin events page
+    When I follow the link to add a new event
+    And I fill in valid event details
+    And I add a list of courts to be closed
+    But there is an overlapping booking
+    And I submit the event
+    Then I should see a message with the text error prohibited this record from being saved

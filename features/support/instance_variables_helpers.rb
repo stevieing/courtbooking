@@ -37,6 +37,7 @@ module InstanceVariablesHelpers
       current_court: lambda { Court.first },
       standard_email_address: lambda { build(:user).email },
       current_closure: lambda { build(:closure)},
+      current_event: lambda { build(:event)},
       current_activity: lambda { build(:activity)},
       current_count: lambda { 1 },
       closure_details: lambda {{}},

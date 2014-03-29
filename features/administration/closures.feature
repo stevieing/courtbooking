@@ -45,3 +45,22 @@ Feature: manage closures
     When I go to the admin closures page
     And I delete the closure I have created
     Then I should see a message with the text Closure successfully deleted
+
+  Scenario: Add a closure with an overlapping booking
+    Given I go to the admin closures page
+    When I follow the link to add a new closure
+    And I fill in valid closure details
+    And I add a list of courts to be closed
+    But there is an overlapping booking
+    And I check allow removal of of overlapping bookings/closures/event
+    And I submit the closure
+    Then I should see a message with the text Closure successfully created
+
+  Scenario: Add a closure with an overlapping booking unsuccessfully
+    Given I go to the admin closures page
+    When I follow the link to add a new closure
+    And I fill in valid closure details
+    And I add a list of courts to be closed
+    But there is an overlapping booking
+    And I submit the closure
+    Then I should see a message with the text error prohibited this record from being saved

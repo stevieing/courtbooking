@@ -123,6 +123,10 @@ module AdministrationHelpers
     fill_in "Name", with: build(:bookings_index).name
   end
 
+  def create_overlapping_booking(activity, court_id)
+    create(:booking, date_from: activity.date_from, time_from: activity.time_from, time_to: activity.time_from.time_step(slot_time), court_id: court_id)
+  end
+
 end
 
 World(AdministrationHelpers)

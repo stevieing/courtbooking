@@ -45,3 +45,9 @@ RSpec::Matchers.define :be_a_heading do
    expect(row.heading?).to be_true
   end
 end
+
+RSpec::Matchers.define :open_on do |*args|
+  match do |court|
+    expect(court.open?(*args)).to be_true
+  end
+end

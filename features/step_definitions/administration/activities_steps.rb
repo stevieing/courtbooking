@@ -3,11 +3,11 @@ Given(/^I follow the link to closures$/) do
 end
 
 When(/^I fill in valid closure details$/) do
-  add_valid_activity_details build(:closure)
+  add_valid_activity_details current_closure
 end
 
 When(/^I fill in valid event details$/) do
-  add_valid_activity_details build(:event)
+  add_valid_activity_details current_event
 end
 
 When(/^I add a list of courts (.*)$/) do |arg1|
@@ -44,4 +44,12 @@ When(/^I delete the (closure|event) I have created$/) do |activity|
   within("##{activity}_#{current_activity.id}") do
    	click_link "Delete"
   end
+end
+
+When(/^there is an overlapping booking$/) do
+  create_overlapping_booking current_activity, courts.first.id
+end
+
+When(/^I check allow removal of of overlapping bookings\/closures\/event$/) do
+  check "allow removal of overlapping bookings/closures/events"
 end
