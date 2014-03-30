@@ -70,7 +70,7 @@ class OverlappingRecords
   end
 
   def find_activities
-    Activity.joins(:courts).without(@object).where(courts: {id: parameters.court_ids})
+    Activity.without(@object).joins(:courts).where(courts: {id: parameters.court_ids})
     .where(parameters.date_string, parameters.date_hash)
     .where(parameters.time_string, parameters.time_hash)
   end

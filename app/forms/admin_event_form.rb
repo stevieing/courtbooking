@@ -6,7 +6,7 @@ class AdminEventForm
   set_model :event, ACCEPTED_ATTRIBUTES.event - [:allow_removal]
   overlapping_object :model
 
-  after_submit :remove_overlapping
+  before_save :remove_overlapping
 
   validate :verify_event
   validate :verify_overlapping_records_removal

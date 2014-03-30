@@ -8,7 +8,7 @@
 			</li>
 			<li>
 				<%= f.label :date_from, "Date from" %>
-				<%= f.date_field :date_from %>
+				<%= f.date_field :date_from, class: 'datepicker'  %>
 			</li>
 			<li>
 				<%= f.label :time_from, "Time from" %>
@@ -19,7 +19,7 @@
 				<%= f.select :time_to, list_of_slots %>
 			</li>
        <li>
-        <%= f.label :allow_removal, "allow removal of overlapping bookings/closures/events" %>
+        <%= f.label :allow_removal, "allow removal of overlapping bookings/closures/events", class: 'widelabel' %>
         <%= f.check_box :allow_removal %>
       </li>
 		</ul>

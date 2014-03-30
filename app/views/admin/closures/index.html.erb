@@ -2,7 +2,7 @@
 	<table class="admintable">
 		<caption>Court Closures</caption>
 		<tr>
-			<td colspan="5">
+			<td colspan="9">
 				<%= link_to "Add new closure", new_admin_closure_path %>
 			</td>
 		</tr>
@@ -10,6 +10,10 @@
 			<th>id</th>
 			<th>Reason</th>
 			<th>Date from</th>
+      <th>Date to</th>
+      <th>Time from</th>
+      <th>Time to</th>
+      <th>Court Numbers</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 		</tr>
@@ -19,6 +23,10 @@
 				<td><%= closure.id %></td>
 				<td><%= closure.description %></td>
 				<td><%= closure.date_from %></td>
+        <td><%= closure.date_to %></td>
+        <td><%= closure.time_from %></td>
+        <td><%= closure.time_to %></td>
+        <td><%= closure.court_numbers %></td>
 				<td><%= link_to "Edit", edit_admin_closure_path(closure) %></td>
 				<td><%= link_to "Delete", admin_closure_path(closure), method: :delete, data: {confirm: "Are you sure?"} %></td>
 			</tr>

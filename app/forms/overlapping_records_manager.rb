@@ -22,14 +22,19 @@ module OverlappingRecordsManager
   end
 
   def overlapping_records
-    @overlapping_records ||= OverlappingRecords.new(overlapping_object)
+    @overlapping_records = OverlappingRecords.new(overlapping_object)
   end
 
+  #
+  # TODO: This should be a destroy but seems to throw an error.
+  # The worst thing is I don't know why.
+  # Need to drive it out with tests.
+  #
   def remove_overlapping
     if valid?
       overlapping_records.records.each do |record|
         BookingMailer.booking_cancellation(record).deliver if record.is_a?(Booking)
-        record.destroy
+        record.class.delete(record.id)
       end
     end
   end

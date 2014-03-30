@@ -21,7 +21,7 @@ html, body{
 a{
 	text-decoration: none;
 	color: $dark_green;
-	
+
 	&:hover{
 		text-decoration: underline;
 	}
@@ -46,22 +46,22 @@ header{
 	color: white;
 	height: 50px;
 	background-color: $dark_red;
-	
+
 	@include gradient($dark_red, $dark_red_grad);
-	
+
 	#logo {
 		padding-left: 3px;
 		background-color: white;
 		width: 140px;
 		float: left;
 	}
-	
+
 	font:{
 		size: 1.1em;
 	}
 
 	nav{
-		
+
 		ul{
 			margin-left: 200px;
 			padding-top: 15px;
@@ -74,7 +74,7 @@ header{
 
 			a{
 				color: white;
-				
+
 				&:hover{
 					color: $light_brown;
 				}
@@ -94,7 +94,7 @@ footer{
 	border-top: 2px solid $dark_red;
 	margin-top: 50px;
 	height: 40px;
-	
+
 	#copyright{
 		padding-top: 10px;
 	}
@@ -129,11 +129,11 @@ td{
 	.notice{
 		@include flash($dark_green,"notice.png");
 	}
-	
+
 	.alert{
 		@include flash($dark_red,"alert.png");
 	}
-	
+
 }
 
 #errors{
@@ -145,7 +145,7 @@ td{
 		bottom: 20px;
 	}
 	padding-left: 20px;
-	
+
 	h3{
 		font:{
 			size: 1.4em;
@@ -153,10 +153,10 @@ td{
 
 		color: $dark_red;
 	}
-	
+
 	ul{
 		margin-left: 20px;
-		
+
 		li{
 			list-style-type: disc;
 		}
@@ -173,4 +173,19 @@ td{
     input{
     	border: 3px solid $dark_red;
     }
+}
+
+.biglink{
+  position: relative;
+  top: 10px;
+  font-size: 1.2em;
+  text-decoration: underline;
+}
+
+.wideinput{
+  width: 200px;
+}
+
+.widelabel{
+  width: 400px;
 }

@@ -226,13 +226,13 @@ describe FormManager do
     it { expect(subject.attr_d).to eq(1)}
   end
 
-  describe '#after_save' do
+  describe '#before_save' do
     before(:each) do
       class CascadedModelForm
         include FormManager
         set_model :my_model, [:attr_a, :attr_b, :attr_c, :attr_d, :attr_e, :attr_f]
         validate :verify_my_model
-        after_submit :create_cascaded_model
+        before_save :create_cascaded_model
         def create_cascaded_model
           mod = CascadedModel.create(attr_i: "i")
         end

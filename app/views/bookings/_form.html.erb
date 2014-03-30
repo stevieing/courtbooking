@@ -15,7 +15,7 @@
 			<% end %>
 			<li>
 				<%= f.label :opponent_id, "Opponent" %>
-				<%= f.collection_select :opponent_id, User.without_user(current_user), :id, :full_name, include_blank: true %>
+				<%= f.collection_select :opponent_id, User.without_user(current_user), :id, :full_name, { include_blank: true}, {class: 'wideinput'} %>
 			</li>
 		<%= f.submit "Submit booking" %>
 		</ul>

@@ -2,7 +2,7 @@
 	<table class="admintable">
 		<caption>Manage Events</caption>
 		<tr>
-			<td colspan="6">
+			<td colspan="8">
 				<%= link_to "Add new event", new_admin_event_path %>
 			</td>
 		</tr>
@@ -11,6 +11,8 @@
 			<th>Description</th>
 			<th>Date from</th>
 			<th>Time from</th>
+      <th>Time to</th>
+      <th>Court Numbers</th>
 			<th>&nbsp;</th>
       <th>&nbsp;</th>
 		</tr>
@@ -21,6 +23,8 @@
 				<td><%= event.description %></td>
 				<td><%= event.date_from %></td>
 				<td><%= event.time_from %></td>
+        <td><%= event.time_to %></td>
+        <td><%= event.court_numbers %></td>
 				<td><%= link_to "Edit", edit_admin_event_path(event) %></td>
 				<td><%= link_to "Delete", admin_event_path(event), method: :delete, data: {confirm: "Are you sure?"} %></td>
 			</tr>

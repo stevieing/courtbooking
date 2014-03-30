@@ -44,4 +44,11 @@ describe Activity do
     it { expect(Activity.without(closures.first)).to_not include(closures.first)}
   end
 
+  describe '#court_numbers' do
+    let!(:courts)   { create_list(:court, 2)}
+    subject         { create(:closure, courts: courts)}
+
+    it { expect(subject.court_numbers).to eq("#{courts.first.number},#{courts.last.number}")}
+  end
+
 end

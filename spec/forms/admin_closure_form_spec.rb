@@ -38,4 +38,5 @@ describe AdminClosureForm do
    it_behaves_like "Verifies removal of overlapping records" do
     let(:attributes) { attributes_valid }
   end
+
 end

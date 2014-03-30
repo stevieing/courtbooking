@@ -3,8 +3,8 @@ class Court < ActiveRecord::Base
   has_many :opening_times, class_name: 'OpeningTime', dependent: :destroy
   has_many :peak_times, class_name: 'PeakTime', dependent: :destroy
   has_many :occurrences
-  has_many :closures, through: :occurrences, source: :activity
-  has_many :events, through: :occurrences, source: :activity
+  has_many :closures, through: :occurrences, source: :activity, dependent: :destroy
+  has_many :events, through: :occurrences, source: :activity, dependent: :destroy
 
   validates :number, presence: true, uniqueness: true
 

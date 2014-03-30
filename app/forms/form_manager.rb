@@ -136,9 +136,9 @@ module FormManager
     #
     # Allows you to call a method after the form is submitted.
     #
-    def after_submit(method_name)
-      original_method = instance_method(:submit)
-      define_method :submit do |*args|
+    def before_save(method_name)
+      original_method = instance_method(:save_objects)
+      define_method :save_objects do |*args|
         original_method.bind(self).call(*args)
         send method_name
       end
@@ -177,7 +177,7 @@ module FormManager
   def save_objects
      begin
       ActiveRecord::Base.transaction do
-        model.save!
+        model.save
         self.class.associated_models.each do |association|
           model.send("save_#{association.to_s}")
         end

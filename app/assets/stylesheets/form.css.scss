@@ -1,21 +1,21 @@
 @import "shared";
 
 fieldset{
-	
+
 	legend{
 		display: none;
 	}
-	
+
 	ul{
 		margin: 5% auto 5% auto;
 		width: 80%;
-			
+
 		li{
 			margin: 0 0 0 10px;
 		    padding: 10px 0 0 0;
 		}
 	}
-		
+
 	label{
 		float: left;
 		width: 120px;
@@ -41,7 +41,7 @@ input[type="submit"]{
 	font:{
 		size: 1.2em;
 	}
-	
+
 	@include rounded_corners(5px);
 	@include gradient($dark_red, $dark_red_grad);
 }
@@ -57,25 +57,25 @@ input[type="submit"]{
 	margin: 0 auto;
 
 	fieldset{
-		
+
 		margin-bottom: 10px;
-			
+
 		input[type="submit"]
 		{
 			position: relative;
 			left: 70%;
-		}  
+		}
 	}
 }
 
-#newbooking, #editbooking{
+#newbooking, #editbooking , #mydetails, #forgottenpassword, #changepassword{
 	width: 60%;
 	margin: 0 auto;
 }
 
 #ajaxbooking{
 	font-size: 0.8em;
-	
+
 }
 
 #newbooking, #editbooking, #ajaxbooking{
@@ -87,4 +87,23 @@ input[type="submit"]{
 			top: 20px;
 		}
 	}
+}
+
+#mydetails, #changepassword{
+  label{
+    width: 200px;
+  }
+  input[type="submit"]
+  {
+    position: relative;
+    left: 55%;
+  }
+}
+
+#forgottenpassword{
+  input[type="submit"]
+    {
+      position: relative;
+      left: 25%;
+    }
 }

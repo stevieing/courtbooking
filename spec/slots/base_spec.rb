@@ -107,7 +107,7 @@ describe Slots::Base do
 	end
 
 	describe '#current_time' do
-		it { expect(subject.current_time).to eq("06:20".to_time)}
+		it { expect(subject.current_time).to eq("06:20".to_datetime)}
 	end
 
 	describe 'inherited' do

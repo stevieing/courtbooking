@@ -9,7 +9,7 @@ class AdminClosureForm
   #
   set_model :closure, ACCEPTED_ATTRIBUTES.closure - [:allow_removal]
   overlapping_object :model
-  after_submit :remove_overlapping
+  before_save :remove_overlapping
 
   validate :verify_closure
   validate :verify_overlapping_records_removal

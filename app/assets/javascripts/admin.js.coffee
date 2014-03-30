@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
-nextID = (association) -> 
+nextID = (association) ->
 	$("ul[id^=" + association + "_]").length+1
 
 jQuery ->
@@ -14,3 +14,7 @@ jQuery ->
 	$('form').on 'click', '.remove_fields', (event) ->
 		$(this).parent().parent().remove()
 		event.preventDefault()
+
+jQuery ->
+  $(".datepicker").datepicker
+    dateFormat: 'dd-mm-yy'

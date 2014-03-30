@@ -4,7 +4,7 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
+  config.mailer_sender = Rails.env.production? ? Rails.configuration.mailer['sendmail']['from'] : Rails.configuration.mailer['smtp']['user_name']
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
@@ -24,7 +24,7 @@ Devise.setup do |config|
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
   # config.authentication_keys = [ :email ]
-  
+
   config.secret_key = '3b499c50f0ccac94af75efbdbfa5083d08bfb91763c65008083682732a719cc21197d600d8520ba7f0517b21a7cbeb54d952ed6fce3141a27162dbe5f45611ae'
 
   # Configure parameters from the request object used for authentication. Each entry
@@ -239,12 +239,12 @@ Devise.setup do |config|
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
-  
+
   config.authentication_keys = [:login]
-  
+
   config.warden do |manager|
     manager.failure_app = CustomAuthenticationFailure
   end
-  
+
 
 end
