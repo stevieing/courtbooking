@@ -4,8 +4,18 @@
 
 @import "shared";
 
-#calendar, #bookingslots{
+#courts{
 	text-align: center;
+
+  #closure_message{
+    color: $dark_green;
+    font-size: 1.1em;
+    border: 3px solid $dark_green;
+    margin: 0 auto;
+    width: 70%;
+    padding: 5px;
+    background-color: $light_brown;
+  }
 }
 
 #calendar{

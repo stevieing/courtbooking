@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe OverlappingRecords do
+describe OverlappingRecords, focus: true do
 
   describe "parameters" do
 
@@ -138,6 +138,12 @@ describe OverlappingRecords do
       let!(:booking1) { create(:booking, date_from: Date.today+1, time_from: "07:40", time_to: "08:20", court: courts.first, user: users.first)}
 
       it { expect(OverlappingRecords.new(build(:closure, date_from: Date.today+1, date_to: Date.today+1, time_from: "06:00", time_to: "09:00", courts: [courts.first]))).to_not be_empty}
+    end
+
+    context 'distinct' do
+      let!(:closure)  { create(:closure, date_from: Date.today+1, date_to: Date.today+5, time_from: "12:00", time_to: "19:00", courts: [courts.first, courts[1], courts[2]])}
+
+      it { expect(OverlappingRecords.new(build(:closure, date_from: Date.today+1, date_to: Date.today+2, time_from: "13:00", time_to: "18:00", courts: [courts.first, courts.last])).records).to have(1).item}
     end
 
   end
