@@ -22,7 +22,7 @@ module OverlappingRecordsManager
   end
 
   def overlapping_records
-    @overlapping_records = OverlappingRecords.new(overlapping_object)
+    @overlapping_records ||= OverlappingRecords.new(overlapping_object)
   end
 
   #
