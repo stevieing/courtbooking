@@ -2,6 +2,8 @@
 
 == Standard Allowed Actions
 
+Added via /admin/allowed_actions
+
 * View all bookings:     bookings,       [index]
 * Create a new booking:  bookings,       [new, create]
 * View a booking:        bookings,       [show]
