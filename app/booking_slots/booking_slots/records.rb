@@ -35,8 +35,9 @@ module BookingSlots
       "<#{self.class}: @courts=#{@courts.inspect}, @unavailable=#{@unavailable.inspect}, @bookings=#{@bookings.inspect}, @activities=#{@activities.inspect}>"
     end
 
+    #TODO: This is a performance blackspot. Use select and slot.
     def current_court_open?(slots)
-      @courts.current.open?(@properties.wday, slots.current_slot_time)
+      @courts.current_open?(slots.current_slot_time)
     end
 
     private

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe BookingSlots::Activities do
 
-    let!(:courts)         { create_list(:court, 4)}
+    let!(:courts)         { create_list(:court_with_opening_and_peak_times, 4) }
     let(:date)            { Date.today }
     let(:options)         { { slot_first: "07:00", slot_last: "17:00", slot_time: 30}}
     let!(:event)          { create(:event, date_from: date+1, date_to: date+1) }

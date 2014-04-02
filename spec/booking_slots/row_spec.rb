@@ -12,7 +12,7 @@ describe BookingSlots::Row do
 
     context 'courts' do
 
-      let!(:courts)        { create_list(:court, 4) }
+      let!(:courts)        { create_list(:court_with_opening_and_peak_times, 4) }
       let(:todays_courts)  { BookingSlots::Courts.new(build(:properties)) }
       subject              { BookingSlots::HeaderRow.new(todays_courts.header)}
 
@@ -41,7 +41,7 @@ describe BookingSlots::Row do
 
   describe BookingSlots::SlotRow do
 
-    let!(:courts)       { create_list(:court, 4) }
+    let!(:courts)       { create_list(:court_with_opening_and_peak_times, 4) }
     let(:records)       { build(:records) }
     let(:todays_slots)  { build(:todays_slots, records: records) }
 

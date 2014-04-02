@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe OverlappingRecords, focus: true do
+describe OverlappingRecords do
 
   describe "parameters" do
 

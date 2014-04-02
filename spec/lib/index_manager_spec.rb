@@ -40,4 +40,14 @@ describe IndexManager do
 
   end
 
+  describe '#reset_count' do
+
+    it { expect{subject.enumerator.pop}.to_not change{subject.count}}
+    it "reset" do
+      subject.enumerator.pop
+      subject.reset_count
+      expect(subject.count).to eq(4)
+    end
+  end
+
 end

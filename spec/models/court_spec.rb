@@ -65,4 +65,25 @@ describe Court do
 
   end
 
+  describe '#by_day' do
+
+    context 'no opening times' do
+      let!(:court) { create(:court)}
+
+      subject { Court.by_day(Date.today)}
+
+      it { expect(subject).to be_empty}
+
+    end
+
+    context 'opening times' do
+      let!(:court) { create(:court_with_defined_opening_and_peak_times)}
+
+      subject { Court.by_day(Date.today)}
+
+      it { expect(subject.first.opening_times).to_not be_empty}
+    end
+  end
+
+
 end

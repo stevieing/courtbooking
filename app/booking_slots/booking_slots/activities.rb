@@ -30,8 +30,8 @@ module BookingSlots
       @properties.valid?
     end
 
-    def get_activity(activity, court, slots)
-      activity.joins(:courts).where(courts: {id: [court.id]}).find_by(time_from: slots.current.from)
+    def get_activity(activities, court, slots)
+      activities.select { |activity| activity.court_ids.include?(court.id) && activity.time_from == slots.current.from }.first
     end
 
   end

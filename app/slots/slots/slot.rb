@@ -3,7 +3,7 @@ module Slots
     include Comparable
 
     attr_reader :from, :to, :series
-    delegate :all, to: :series
+    delegate :all, :cover?, to: :series
 
     def initialize(from, to, constraints = NullObject.new)
       @from, @to, @constraints = from, to, constraints

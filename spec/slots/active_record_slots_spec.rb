@@ -49,6 +49,16 @@ describe Slots::ActiveRecordSlots do
 			it { expect(subject.slot.to).to eq("12:00") }
 		end
 
+    context "opening time with slot" do
+
+      subject { build(:opening_time, time_from: "08:00", time_to: "12:00") }
+      its(:slot) { should be_instance_of(Slots::Slot) }
+      it { expect(subject.slot).to be_valid }
+      it { expect(subject.slot.from).to eq("08:00") }
+      it { expect(subject.slot.to).to eq("12:00") }
+
+    end
+
 	end
 
 end

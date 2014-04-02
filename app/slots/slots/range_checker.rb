@@ -14,6 +14,7 @@ module Slots
 
     def reject!
       @slots.all.reject! { |slot| superset_of? slot}
+      @slots.reset_count
     end
 
     def slots_between

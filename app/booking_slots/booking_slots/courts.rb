@@ -9,7 +9,7 @@ module BookingSlots
 
     def initialize(properties)
       @properties = properties
-      @courts = Court.includes(:opening_times)
+      @courts = Court.by_day(@properties.date)
     end
 
     def valid?
@@ -21,11 +21,15 @@ module BookingSlots
     end
 
     def header
-      Court.pluck(:number).collect { |n| "Court #{n.to_s}" }
+      @courts.select(:number).collect { |court| "Court #{court.number.to_s}" }
     end
 
     def wrapper
       "&nbsp;"
+    end
+
+    def current_open?(time)
+      current.opening_times.select { |court| court.slot.cover?(time) }.any?
     end
 
     wrap :header, :wrapper

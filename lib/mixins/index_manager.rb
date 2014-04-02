@@ -100,7 +100,7 @@ module IndexManager
   # Not the last value but 1 above.
 	#
 	def end?
-		@index >= enumerator.count
+		@index >= count
 	end
 
   ##
@@ -108,6 +108,20 @@ module IndexManager
   #
   def last?
     current == enumerator.last
+  end
+
+  #
+  # cache the count. Especially where the object is an active record object.
+  #
+  def count
+    @count ||= enumerator.count
+  end
+
+  #
+  # Reset the enumerator count. Neccessary when enumerator is changed.
+  #
+  def reset_count
+    @count = enumerator.count
   end
 
 end

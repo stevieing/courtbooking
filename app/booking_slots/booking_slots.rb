@@ -19,6 +19,14 @@
 #   There would also be ways to find the current record.
 #   I think it is best to tackle this once the app is in testing.
 #
+#
+#   TODO: Needs some serious performance improvements.
+#   DONE: replaced calls to check whether courts are open with select.
+#   DONE: replaced calls to ActiveRecord count with a cached count.
+#   DONE: Replaced joins and where for Activity with a select.
+#   TODO: create a select_or_initialize_by method for bookings.
+#   TODO: reduce number of objects by adding mixins.
+#
 module BookingSlots
 
   extend ActiveSupport::Autoload

@@ -9,7 +9,7 @@ describe BookingSlots::Bookings do
   let(:properties)    { build(:properties, date: Date.today+1) }
   let!(:user)         { create(:user) }
   let!(:other_user)   { create(:user) }
-  let!(:courts)       { create_list(:court, 4) }
+  let!(:courts)       { create_list(:court_with_opening_and_peak_times, 4) }
   let(:todays_courts) { build(:courts) }
 
   describe '#bookings' do
