@@ -12,11 +12,11 @@
 #admin{
 	width: 100%;
 	margin-top: 20px;
-	
+
 	ul{
 		margin-top: 20px;
 		text-align: center;
-		
+
 		h2{
 			padding:{
 				top: 120px;
@@ -24,7 +24,7 @@
 			}
 			color: $dark_green;
 		}
-		
+
 		p{
 			font-size: 1.1em;
 		}
@@ -34,7 +34,7 @@
 				@include adminicon("#{$admin}.png");
 			}
 		}
-		
+
 		li{
 			width: 32%;
 			height: 270px;
@@ -46,7 +46,7 @@
 				left: 5px;
 				right: 5px;
 			}
-			
+
 			background-color: $light_brown;
 		}
 	}
@@ -57,16 +57,16 @@
 	fieldset{
 		border: none;
 	}
-	
+
 	label{
 		margin-top: 5px;
 		width: 60%;
 	}
-	
+
 	input[type="text"]{
 		width: 50px;
 	}
-	
+
 	input[type="submit"]
 	{
 		position: relative;
@@ -106,7 +106,7 @@
 			}
 		}
 	}
-	
+
 	.add_fields{
 		margin-left: 60px;
 		text-decoration: underline;
@@ -163,7 +163,7 @@
 		ul{
 			margin: 0;
 			float: left;
-			width: 50%;	
+			width: 50%;
 			padding: 10px;
 
 		}
@@ -204,7 +204,7 @@
 		ul{
 			margin: 0;
 			float: left;
-			width: 45%;	
+			width: 45%;
 			padding: 10px;
 
 		}
