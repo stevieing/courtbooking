@@ -10,13 +10,9 @@ module BookingSlots
       @bookings = Booking.by_day(@properties.date)
     end
 
-    #TODO: This is an interim solution to speed things up.
-    # This needs to be moved into ActiveRecord::Relation
-    def current_booking(courts, slots)
-      first_or_initialize(@bookings.select { |booking| booking.court_id == courts.current.id && booking.time_from == slots.current.from }) do |booking|
-        booking.court_id   = courts.current.id
+     def current_booking(courts, slots)
+      @bookings.select_first_or_initialize(court_id: courts.current.id, time_from: slots.current.from) do |booking|
         booking.date_from  = @properties.date.to_s(:uk)
-        booking.time_from  = slots.current.from
         booking.time_to    = slots.current.to
       end
     end
@@ -47,12 +43,6 @@ module BookingSlots
 
     def inspect
       "<#{self.class}: @bookings=#{@bookings.inspect}>"
-    end
-
-private
-
-    def first_or_initialize(selection, &block)
-      selection.first || Booking.new(&block)
     end
 
   end

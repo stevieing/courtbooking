@@ -1,8 +1,6 @@
 class BookingMailer < ActionMailer::Base
 
-  @default_from = Rails.env.production? ? Rails.configuration.mailer['sendmail']['from'] : Rails.configuration.mailer['smtp']['user_name']
-
-  default from: @default_from
+  default from: DefaultFrom.email
 
   after_action :mail_me
 
