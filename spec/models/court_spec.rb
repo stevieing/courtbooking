@@ -4,6 +4,7 @@ describe Court do
 
   it { should have_many(:opening_times)}
   it { should have_many(:peak_times)}
+  it { should have_many(:bookings)}
   it { should have_many(:closures).through(:occurrences)}
   it { should have_many(:events).through(:occurrences)}
   it { should validate_presence_of(:number) }

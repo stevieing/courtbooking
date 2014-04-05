@@ -26,8 +26,15 @@ class Booking < ActiveRecord::Base
 
   include Slots::ActiveRecordSlots
 
+  #There was some really wierd stuff going on with players being added.
   def players
-    user.nil? ? ' ' : user.full_name << (opponent.nil? ? "" : " V " + opponent.full_name)
+    if user.nil?
+      ' '
+    elsif opponent.nil?
+      user.full_name
+    else
+      "#{user.full_name} V #{opponent.full_name}"
+    end
   end
 
   def in_the_past?

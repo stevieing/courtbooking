@@ -20,11 +20,13 @@
         <% unless booking.in_the_past? %>
           <td>
             <% if allow? :bookings, :edit, booking %>
-              <%= link_to "Edit Booking", edit_booking_path(booking), remote: true %>
+              <%= link_to "Edit", edit_booking_path(booking), remote: true %>
             <% end %>
           </td>
           <td>
-            <%= render 'delete', link_text: "Delete Booking", booking: booking %>
+            <% if allow? :bookings, :destroy, booking %>
+              <%= link_to "Delete", booking_path(booking), method: :delete, data: {confirm: "Are you sure?"} %>
+            <% end %>
           </td>
         <% else %>
           <td>&nbsp;</td><td>&nbsp;</td>

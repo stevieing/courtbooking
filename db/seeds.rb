@@ -19,20 +19,7 @@ TimeSetting.create(name: "slot_last", value: "22:20", description: "Last slot")
 
 Court.delete_all
 CourtTime.delete_all
-#courts
-(1..4). each do |i|
-  Court.create(number: i)
-end
-
-Court.all.each do |c|
-  (0..6).each do |day|
-    c.opening_times.build(day: day, time_from: "06:20", time_to: "22:20").save
-    c.peak_times.build(day: day, time_from: "17:40", time_to: "20:20").save if day < 5
-  end
-end
-
 AllowedAction.delete_all
-
 User.delete_all
 Occurrence.delete_all
 Permission.delete_all

@@ -5,6 +5,7 @@ class Court < ActiveRecord::Base
   has_many :occurrences
   has_many :closures, through: :occurrences, source: :activity, dependent: :destroy
   has_many :events, through: :occurrences, source: :activity, dependent: :destroy
+  has_many :bookings, dependent: :destroy
 
   validates :number, presence: true, uniqueness: true
 
