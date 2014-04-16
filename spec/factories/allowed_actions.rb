@@ -51,6 +51,12 @@ FactoryGirl.define do
       user_specific true
     end
 
+    factory :users_index do
+      name "Add an opponent"
+      controller :users
+      action [:index]
+    end
+
     factory :admin_index do
       name "Admin index"
       controller :admin
@@ -85,11 +91,17 @@ FactoryGirl.define do
       admin true
     end
 
-     factory :manage_settings do
+    factory :manage_settings do
       name "Manage settings"
       controller "admin/settings"
       action [:index, :update]
       admin true
+    end
+
+    factory :edit_all_bookings do
+      name "Edit all bookings"
+      controller "bookings"
+      action [:edit, :update, :destroy]
     end
 
   end

@@ -14,8 +14,8 @@
 				<%= f.hidden_field :time_and_place, :value => @booking.time_and_place %>
 			<% end %>
 			<li>
-				<%= f.label :opponent_id, "Opponent" %>
-				<%= f.collection_select :opponent_id, User.without_user(current_user), :id, :full_name, { include_blank: true}, {class: 'wideinput'} %>
+				<%= f.label :opponent_name, "Opponent" %>
+        <%= f.text_field :opponent_name, data: {autocomplete_source: users_path} %>
 			</li>
 		<%= f.submit "Submit booking" %>
 		</ul>

@@ -7,7 +7,7 @@ $(document).ajaxError (e, XHR, options) ->
 		$("#flash").show()
 		$("#flash").append("<div class='alert'><p>"+ XHR.responseText + "</p></div>")
 		$(".alert").fade(15000)
-		
+
 $.fn.addDialog = (partial, title) ->
 	this.dialog
 		autoOpen: true
@@ -18,3 +18,6 @@ $.fn.addDialog = (partial, title) ->
 		buttons:
 			Cancel: -> $(this).dialog("close")
 
+$.fn.addAutocomplete = () ->
+  this.autocomplete
+    source: this.data('autocomplete-source')

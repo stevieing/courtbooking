@@ -18,6 +18,7 @@ describe Permissions::AdminPermission do
     should allow_param(:booking, :time_from)
     should allow_param(:booking, :time_to)
     should allow_param(:booking, :court_id)
+    should allow_param(:booking, :opponent_name)
     should allow_param(:setting, :value)
     should allow_param(:user, :username)
     should allow_param(:user, :full_name)

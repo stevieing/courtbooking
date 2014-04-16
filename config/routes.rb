@@ -9,7 +9,7 @@ Courtbooking::Application.routes.draw do
   end
 
   resources :bookings
-  resources :users, only: [:edit, :update]
+  resources :users, only: [:index, :edit, :update]
 
   namespace :admin do
     resources :settings, only: [:index, :edit, :update]

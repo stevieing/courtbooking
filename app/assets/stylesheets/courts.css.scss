@@ -8,13 +8,13 @@
 	text-align: center;
 
   #closure_message{
-    color: $dark_green;
+    color: $dark-green;
     font-size: 1.1em;
-    border: 3px solid $dark_green;
+    border: 3px solid $dark-green;
     margin: 0 auto;
     width: 70%;
     padding: 5px;
-    background-color: $light_brown;
+    background-color: $light-brown;
   }
 }
 
@@ -30,11 +30,11 @@
 
 	table{
 
-		background-color: $light_brown;
+		background-color: $light-brown;
 
 		caption{
 			margin-bottom: 10px;
-			color: $dark_green;
+			color: $dark-green;
 			font:{
 				weight: bold;
 				size: 1.1em;
@@ -44,7 +44,7 @@
 		tr{
 			.selected{
 
-				background-color: $light_green;
+				background-color: $light-green;
 			}
 
 			td, th{
@@ -62,12 +62,12 @@
 
 #bookingslots{
 	table{
-		@include standardcaption;
+		@include standard-caption;
 
 		tr{
 			td, th{
-				background-color: $mid_brown;
-				border: 1px dotted $dark_brown;
+				background-color: $mid-brown;
+				border: 1px dotted $dark-brown;
 
 				&:first-child, &:last-child{
 					width: 40px;
@@ -85,13 +85,13 @@
 
 					&:hover{
 						border-collapse: separate;
-						@include highlight(0px,0px,6px,$dark_brown);
+						@include highlight(0px,0px,6px,$dark-brown);
 					}
 
 				}
 
 				a{
-					color: $mid_brown;
+					color: $mid-brown;
 					display: block;
 					height: 100%;
 				}
@@ -105,7 +105,7 @@
 				}
 				vertical-align: center;
 				text-align: center;
-				background-color: $light_green;
+				background-color: $light-green;
 
 				a{
 					color: black;
@@ -113,7 +113,7 @@
 			}
 
       .event, .closure{
-        background-color: $light_red;
+        background-color: $light-red;
 
       }
 
@@ -127,16 +127,16 @@
 		.past{
 			td{
 				&:not(:first-child):not(:last-child){
-					background-color: $light_grey;
+					background-color: $light-grey;
 				}
 
 				a{
-					color: $light_grey;
+					color: $light-grey;
 				}
 			}
 
 			.booking{
-				background-color: $light_grey;
+				background-color: $light-grey;
 				color: black;
 			}
 		}

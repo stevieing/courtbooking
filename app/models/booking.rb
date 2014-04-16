@@ -17,7 +17,7 @@ class Booking < ActiveRecord::Base
   validates :time_from, :time_to, time: true
   validates :time_from, time_past: true, if: :date_from_today?
 
-  before_destroy :in_the_future?
+  before_destroy :destroyable?
   validates_with PeakHoursValidator, DuplicateBookingsValidator, :on => :create
 
   scope :by_day,    lambda{|day| where(date_from: day) }
@@ -69,6 +69,22 @@ class Booking < ActiveRecord::Base
     "#{court.number.to_s} - #{date_from_text} #{time_from}"
   end
 
+  def in_the_future?
+    !in_the_past?
+  end
+
+  def new_attributes
+    attributes.with_indifferent_access.extract!(:date_from, :time_from, :time_to, :court_id)
+  end
+
+  def opponent_name
+    opponent.try(:full_name)
+  end
+
+  def opponent_name=(opponent_name)
+    self.opponent = User.find_by(full_name: opponent_name) if opponent_name.present?
+  end
+
   class << self
 
     def ordered
@@ -82,7 +98,7 @@ class Booking < ActiveRecord::Base
 
   private
 
-  def in_the_future?
+  def destroyable?
     if to_datetime.in_the_past?
       errors[:base] << "Unable to delete a booking that is in the past"
       return false

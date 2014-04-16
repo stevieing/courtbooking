@@ -150,6 +150,21 @@ describe Booking do
 
    end
 
+    describe "#in_the_future?" do
+     let!(:booking1) { create(:booking, date_from: "17 Sep 2013", time_from: "17:40") }
+     let!(:booking2) { create(:booking, date_from: "17 Sep 2013", time_from: "19:40") }
+
+     before(:each) do
+      stub_dates("17 Sep 2013", "19:00")
+     end
+
+     it { expect(booking1.in_the_future?).to be_false}
+     it { expect(booking2.in_the_future?).to be_true}
+
+   end
+
+
+
    describe "#date_from_text" do
      let!(:booking) {create(:booking, date_from_text: "17 September 2013")}
      let!(:booking_invalid) {build(:booking, date_from_text: "32 September 2013")}
@@ -177,6 +192,23 @@ describe Booking do
      subject { build(:booking, court_id: court.id, date_from: "17 September 2013", time_from: "19:00")}
 
      its(:link_text) { should == "#{court.number} - 17 September 2013 19:00" }
+   end
+
+   describe 'new_attributes' do
+    let!(:court) { create(:court)}
+    subject { build(:booking, court_id: court.id, date_from: "17 September 2013", time_from: "19:00", time_to: "19:30")}
+
+    it { expect(subject.new_attributes).to eq({"date_from" => Date.parse("17 September 2013"), "time_from" =>"19:00", "time_to" => "19:30", "court_id" => court.id})}
+
+   end
+
+   describe 'opponent' do
+    let!(:user)     { create(:user)}
+    let(:booking)   { create(:booking, date_from: Date.today+1, opponent_name: user.full_name)}
+
+    it { expect(booking).to be_valid}
+    it { expect(booking.opponent).to eq(user)}
+    it { expect(booking.opponent_name).to eq(user.full_name)}
    end
 
 end

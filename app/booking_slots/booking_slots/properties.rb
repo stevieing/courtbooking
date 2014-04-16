@@ -1,15 +1,11 @@
 module BookingSlots
   class Properties
-    attr_reader :user, :date
+    attr_reader :user, :date, :policy
     delegate :wday, to: :date
 
     def initialize(date, user)
       @date, @user = date, user
-      @permissions = Permissions.permission_for(@user)
-    end
-
-    def edit_booking?(booking)
-      @permissions.allow?(:bookings, :edit, booking)
+      @policy = Permissions::BookingsPolicy.new(@user)
     end
 
     def valid?

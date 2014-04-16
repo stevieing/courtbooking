@@ -1,7 +1,9 @@
+//TODO: time to clear up CSS. Split files. Abstract out styling. Standardise coding style.
+
 @import "shared";
 
 *{
-    padding: 0;
+  padding: 0;
 	margin: 0;
 }
 
@@ -20,7 +22,7 @@ html, body{
 
 a{
 	text-decoration: none;
-	color: $dark_green;
+	color: $dark-green;
 
 	&:hover{
 		text-decoration: underline;
@@ -28,7 +30,7 @@ a{
 }
 
 h2,h3,h4,h5,h6{
-	color: $dark_green;
+	color: $dark-green;
 }
 
 header, footer{
@@ -45,9 +47,9 @@ header{
 	margin-top: 10px;
 	color: white;
 	height: 50px;
-	background-color: $dark_red;
+	background-color: $dark-red;
 
-	@include gradient($dark_red, $dark_red_grad);
+	@include gradient($dark-red, $dark-red-grad);
 
 	#logo {
 		padding-left: 3px;
@@ -76,7 +78,7 @@ header{
 				color: white;
 
 				&:hover{
-					color: $light_brown;
+					color: $light-brown;
 				}
 			}
 		}
@@ -91,7 +93,7 @@ header{
 }
 
 footer{
-	border-top: 2px solid $dark_red;
+	border-top: 2px solid $dark-red;
 	margin-top: 50px;
 	height: 40px;
 
@@ -127,19 +129,19 @@ td{
 	}
 
 	.notice{
-		@include flash($dark_green,"notice.png");
+		@include flash($dark-green,"notice.png");
 	}
 
 	.alert{
-		@include flash($dark_red,"alert.png");
+		@include flash($dark-red,"alert.png");
 	}
 
 }
 
 #errors{
-	color: $dark_red;
-	border: 1px solid $dark_red;
-	border-top: 3px solid $dark_red;
+	color: $dark-red;
+	border: 1px solid $dark-red;
+	border-top: 3px solid $dark-red;
 	margin:{
 		top: 20px;
 		bottom: 20px;
@@ -151,7 +153,7 @@ td{
 			size: 1.4em;
 		};
 
-		color: $dark_red;
+		color: $dark-red;
 	}
 
 	ul{
@@ -163,15 +165,15 @@ td{
 	}
 }
 
-.standardtable{
-	@include standardtable(1);
+.standard-table{
+	@include standard-table(1);
 }
 
 .field_with_errors {
     display: inline-block;
 
     input{
-    	border: 3px solid $dark_red;
+    	border: 3px solid $dark-red;
     }
 }
 

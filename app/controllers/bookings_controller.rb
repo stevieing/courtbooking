@@ -1,5 +1,6 @@
 class BookingsController < ApplicationController
 
+  before_filter :policy, only: [:index, :edit]
   before_filter :bookings, only: [:index]
   before_filter :store_location, only: [:index, :edit]
 
@@ -7,7 +8,7 @@ class BookingsController < ApplicationController
   end
 
   def new
-    @booking = Booking.new(booking_params)
+    @booking = Booking.new(policy.params(params))
     @header = "New Booking"
     respond_to do |format|
       format.html
@@ -78,7 +79,7 @@ class BookingsController < ApplicationController
   protected
 
   def bookings
-    @bookings ||= (current_user.admin? ? Booking.ordered.load : current_user.bookings.ordered.load)
+    @bookings ||= policy.bookings
   end
 
   private
@@ -87,11 +88,8 @@ class BookingsController < ApplicationController
     @current_resource ||= Booking.find(params[:id]) if params[:id]
   end
 
-  ##
-  # TODO: Interesting one. Rails by default does not allow params for new action. Understandably!
-  #
-  def booking_params
-    params.permit(ACCEPTED_ATTRIBUTES.booking)
+  def policy
+    @policy ||= Permissions::BookingsPolicy.new(current_user)
   end
 
   def flash_keep(message)
@@ -103,6 +101,6 @@ class BookingsController < ApplicationController
     render js: %(window.location.href='#{path}')
   end
 
-  helper_method :bookings
+  helper_method :bookings, :policy
 
 end

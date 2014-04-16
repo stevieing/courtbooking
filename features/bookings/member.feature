@@ -16,36 +16,16 @@ Feature: Members should be able to book a court
     Then I should not be able to delete the booking
 
   @opponent
-  Scenario: editing an existing booking
-    Given I have created a booking
-    When I edit the booking I have created
-    And I should see "Edit booking"
-    And I should see my Full name
-    And I select an opponent
-    And I submit the booking
-    Then I should see a message with the text Booking successfully updated
-
-  @opponent
   Scenario: Not selecting myself as an opponent
     When I go to the courts page
     And I follow a link to create a new booking
     Then I should see valid booking details
     But I should not be able to select myself as an opponent
 
-
   Scenario: Making a new booking
     When I go to the courts page
     And I follow a link to create a new booking
     Then I should see valid booking details
-    And I submit the booking
-    Then I should see a message with the text Booking successfully created
-
-  @opponent
-  Scenario: Making a new booking against an opponent
-    When I go to the courts page
-    And I follow a link to create a new booking
-    Then I should see valid booking details
-    And I select an opponent
     And I submit the booking
     Then I should see a message with the text Booking successfully created
 
@@ -91,3 +71,12 @@ Feature: Members should be able to book a court
     When I go to the bookings page
     Then I should see a list of the bookings I have created
     But I should not see a list of the bookings they have created
+
+  @opponent, @other_member
+  Scenario: Viewing bookings for another user with admin permissions
+    Given I have created a booking
+    And another user has also created a booking
+    And I have administrative privileges
+    When I go to the bookings page
+    Then I should see a list of the bookings I have created
+    And I should see a list of the bookings they have created

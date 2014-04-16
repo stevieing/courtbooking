@@ -1,3 +1,8 @@
+#
+# TODO: This has now become a hotch potch. Needs to be turned into a more coherent module.
+# with a single entry point.
+#
+#
 module Permissions
   class BasePermission
 

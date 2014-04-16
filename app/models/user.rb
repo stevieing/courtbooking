@@ -15,6 +15,11 @@ class User < ActiveRecord::Base
   validates_presence_of :username, :full_name
 
   scope :without_user, ->(user) { where.not(id: user.id).order(:full_name) }
+  scope :by_term, ->(term) { where("full_name like ?", "%#{term}%")}
+
+  def self.names_from_term_except_user(user, term)
+    without_user(user).by_term(term).pluck(:full_name)
+  end
 
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup

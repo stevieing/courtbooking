@@ -4,9 +4,9 @@
 
 @import "shared";
 
-.admintable{
-	@include standardtable(2);
-	@include admintable;
+.admin-table{
+	@include standard-table(2);
+	@include admin-table;
 }
 
 #admin{
@@ -22,7 +22,7 @@
 				top: 120px;
 				bottom: 10px;
 			}
-			color: $dark_green;
+			color: $dark-green;
 		}
 
 		p{
@@ -31,7 +31,7 @@
 
 		@each $admin in settings, members, courts, events, emails, reports{
 			.#{$admin}{
-				@include adminicon("#{$admin}.png");
+				@include admin-icon("#{$admin}.png");
 			}
 		}
 
@@ -47,7 +47,7 @@
 				right: 5px;
 			}
 
-			background-color: $light_brown;
+			background-color: $light-brown;
 		}
 	}
 }
@@ -78,8 +78,8 @@
 .adminform{
 
 	fieldset{
-		background-color: $light_brown;
-		border: 2px solid $dark_brown;
+		background-color: $light-brown;
+		border: 2px solid $dark-brown;
 
 		label{
 			padding-top: 2px;
@@ -92,7 +92,7 @@
 		}
 
 		fieldset{
-			border: 2px dotted $dark_brown;
+			border: 2px dotted $dark-brown;
 
 			ul{
 				clear: both;

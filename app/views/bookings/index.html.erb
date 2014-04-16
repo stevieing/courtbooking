@@ -1,5 +1,5 @@
 <section id="bookings">
-  <table class="standardtable">
+  <table class="standard-table">
     <caption>Bookings</caption>
     <tr>
       <th>Players</th>
@@ -17,20 +17,20 @@
         <td><%= booking.time_from %></td>
         <td><%= booking.time_to %></td>
         <td><%= booking.court.number %></td>
-        <% unless booking.in_the_past? %>
-          <td>
-            <% if allow? :bookings, :edit, booking %>
-              <%= link_to "Edit", edit_booking_path(booking), remote: true %>
-            <% end %>
-          </td>
-          <td>
-            <% if allow? :bookings, :destroy, booking %>
-              <%= link_to "Delete", booking_path(booking), method: :delete, data: {confirm: "Are you sure?"} %>
-            <% end %>
-          </td>
-        <% else %>
-          <td>&nbsp;</td><td>&nbsp;</td>
-        <% end %>
+        <td>
+          <% if policy.edit? booking %>
+            <%= link_to "Edit", edit_booking_path(booking), remote: true %>
+          <% else %>
+            &nbsp;
+          <% end %>
+        </td>
+        <td>
+          <% if policy.delete? booking %>
+            <%= link_to "Delete", booking_path(booking), method: :delete, data: {confirm: "Are you sure?"} %>
+          <% else %>
+            &nbsp;
+          <% end %>
+        </td>
       <tr>
     <% end %>
   </table>

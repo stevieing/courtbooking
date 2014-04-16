@@ -92,3 +92,7 @@ Given(/^another user has also created a booking$/) do
   set_dates((dates.current_date+1).to_s(:uk), "19:00")
   create_current_booking(create_valid_booking(other_member))
 end
+
+Given(/^I have administrative privileges$/) do
+  add_admin_permissions current_user
+end

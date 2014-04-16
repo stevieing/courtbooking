@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Permissions::MemberPermission do
+describe Permissions::MemberPermission, focus: true  do
 
   let!(:user)          { create(:user, admin: false) }
   let!(:other_user)    { create(:user, admin: false) }
@@ -35,6 +35,7 @@ describe Permissions::MemberPermission do
     should allow_param(:booking, :time_from)
     should allow_param(:booking, :time_to)
     should allow_param(:booking, :court_id)
+    should allow_param(:booking, :opponent_name)
   end
 
   it "allows sessions" do
@@ -56,6 +57,10 @@ describe Permissions::MemberPermission do
     should allow_param(:user, :password_confirmation)
     should allow_param(:user, :mail_me)
     should_not allow_param(:user, :allowed_action_ids => [])
+  end
+
+  it "allows add an opponent" do
+    should allow_action(:users, :index)
   end
 
   describe "admin permissions" do
@@ -136,6 +141,15 @@ describe Permissions::MemberPermission do
       should allow_action("admin/settings", :index)
       should allow_action("admin/settings", :update)
       should allow_param(:setting, :value)
+    end
+
+    it "allows edit all bookings" do
+      should allow_action(:bookings, :destroy, user_booking)
+      should allow_action(:bookings, :edit, user_booking)
+      should allow_action(:bookings, :update, user_booking)
+      should allow_action(:bookings, :destroy, other_booking)
+      should allow_action(:bookings, :edit, other_booking)
+      should allow_action(:bookings, :update, other_booking)
     end
 
   end

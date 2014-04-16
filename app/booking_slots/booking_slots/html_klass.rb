@@ -1,3 +1,7 @@
+#
+# TODO: This needs to be expanded to cover all eventualities.
+#
+
 module BookingSlots
   class HtmlKlass
 

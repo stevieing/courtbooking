@@ -34,7 +34,7 @@ legend{
 input[type="submit"]{
 	width: auto;
 	height: 35px;
-	background-color: $dark_red;
+	background-color: $dark-red;
 	padding: 5px;
 	color: white;
 	border: none;
@@ -42,13 +42,13 @@ input[type="submit"]{
 		size: 1.2em;
 	}
 
-	@include rounded_corners(5px);
-	@include gradient($dark_red, $dark_red_grad);
+	@include rounded-corners(5px);
+	@include gradient($dark-red, $dark-red-grad);
 }
 
 .jazzyform{
 	fieldset{
-		@include jazzyform;
+		@include jazzy-form;
 	}
 }
 
@@ -68,9 +68,9 @@ input[type="submit"]{
 	}
 }
 
-#newbooking, #editbooking , #mydetails, #forgottenpassword, #changepassword{
-	width: 60%;
-	margin: 0 auto;
+.center-60{
+  width: 60%;
+  margin: 0 auto;
 }
 
 #ajaxbooking{

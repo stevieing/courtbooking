@@ -1,8 +1,6 @@
 module BookingSlots
   class Bookings
 
-    include Rails.application.routes.url_helpers
-
     attr_reader :bookings
 
     def initialize(properties)
@@ -17,21 +15,16 @@ module BookingSlots
       end
     end
 
+    #
+    # TODO: Again this is interim.
+    # There needs to be a full refactor of the users/permissions/policies.
+    #
     def current_record(courts, slots)
-      booking = current_booking(courts, slots)
-      BookingSlots::CurrentRecord.create(booking) do |record|
-        if booking.in_the_past?
-          record.text = booking.players
-        else
-          if booking.new_record?
-            record.text   = booking.link_text
-            record.link   = court_booking_path(booking.date_from, booking.time_from, booking.time_to, booking.court_id.to_s)
-          else
-            record.text   = booking.players
-            record.link   = edit_booking_path(booking) if @properties.edit_booking?(booking)
-            record.klass  = BookingSlots::HtmlKlass.new(booking).value
-          end
-        end
+      booking_policy = Permissions::BookingPolicy.new(current_booking(courts, slots), @properties.policy)
+      BookingSlots::CurrentRecord.create(booking_policy.booking) do |record|
+        record.text = booking_policy.text
+        record.link = booking_policy.link
+        record.klass  = BookingSlots::HtmlKlass.new(booking_policy.booking).value unless booking_policy.new_record?
       end
     end
 

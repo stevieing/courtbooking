@@ -21,7 +21,7 @@ module AdministrationHelpers
   end
 
   def invalid_email
-    create(:user).email
+    "dodgyemailaddress.co.uk"
   end
 
   def fill_in_details(fields)
