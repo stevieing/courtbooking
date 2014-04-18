@@ -9,7 +9,7 @@ Added via /admin/allowed_actions
 * View a booking:        bookings,       [show]
 * Add an Opponent:       users,          [index]
 * Admin index:           admin,          [index]
-* Edit all bookings:     bookings,       [edit, update, delete]
+* Edit all bookings:     bookings,       [edit, update, destroy]
 
 === User specific
 
