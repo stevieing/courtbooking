@@ -39,6 +39,12 @@ describe User do
       it {expect(User.by_term("lu")).to have(2).items}
       it {expect(User.by_term("h")).to have(1).item}
       it {expect(User.by_term("dx")).to be_empty}
+
+      context 'case insensitive' do
+
+        it {expect(User.by_term("Lu")).to have(2).items}
+
+      end
     end
 
     describe '#names_from_term_except_user' do

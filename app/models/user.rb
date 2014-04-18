@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   validates_presence_of :username, :full_name
 
   scope :without_user, ->(user) { where.not(id: user.id).order(:full_name) }
-  scope :by_term, ->(term) { where("full_name like ?", "%#{term}%")}
+  scope :by_term, ->(term) { where(User.arel_table[:full_name].matches("%#{term}%")) }
 
   def self.names_from_term_except_user(user, term)
     without_user(user).by_term(term).pluck(:full_name)
