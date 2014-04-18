@@ -1,3 +1,8 @@
+#
+# TODO: This needs to be improved.
+# to wait for a response rather than waiting for 2 seconds.
+#
+
 @autocomplete
 Feature: Members should be able to select an opponent when they make a booking
   In order to make it easy to select an opponent
@@ -11,7 +16,7 @@ Feature: Members should be able to select an opponent when they make a booking
 
   @javascript
   Scenario: Successfully select an opponent
-    Given the following members exist:
+    Given the following list of members exist:
       | Mark Francis    |
       | Marcus Smith    |
       | Mary Berry      |
@@ -26,6 +31,7 @@ Feature: Members should be able to select an opponent when they make a booking
       | Mary Berry      |
       | Marianne Douche |
     And I follow "Mark Francis"
+    And I wait for 2 seconds
     Then the field "Opponent" should have the value "Mark Francis"
 
   Scenario: Add a dodgy opponent name

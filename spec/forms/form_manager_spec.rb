@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe FormManager do
 
-  let(:params) { { "attr_a" => "a", "attr_b" => "b", "attr_c" => "c", "attr_d" => 1}.with_indifferent_access }
-  let(:nested_params) { {"nested_models" => { "1" => {"attr_g" => "g", "attr_h" => "h"}, "2" => { "attr_g" => "g", "attr_h" => "h" }}}}
-  let(:nested_params_invalid) { {"nested_models" => { "1" => {"attr_h" => "h"}, "2" => { "attr_g" => "g", "attr_h" => "h" }}}}
-  let(:nested_params_update) { {"nested_models" => { "1" => {"attr_g" => "h", "attr_h" => "i"}, "2" => { "attr_g" => "j", "attr_h" => "k" }}}}
+  let(:params) { { attr_a: "a", attr_b: "b", attr_c: "c", attr_d: 1}.with_indifferent_access }
+  let(:nested_params) { {nested_models: { "1" => {attr_g: "g", attr_h: "h"}, "2" => { attr_g: "g", attr_h: "h" }}}}
+  let(:nested_params_invalid) { {nested_models: { "1" => {attr_h: "h"}, "2" => { attr_g: "g", attr_h: "h" }}}}
+  let(:nested_params_update) { {nested_models: { "1" => {attr_g: "h", attr_h: "i"}, "2" => { attr_g: "j", attr_h: "k" }}}}
 
   with_model :NestedModel do
     table do |t|

@@ -4,7 +4,7 @@ Before('@opponent') do
 end
 
 When /^I select an opponent$/ do
-  select opponent.username, from: "Opponent"
+  fill_in "Opponent", with: opponent.full_name
 end
 
 Given /^I have created a booking$/ do

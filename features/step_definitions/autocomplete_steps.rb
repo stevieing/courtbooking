@@ -1,4 +1,4 @@
-Given(/^the following members exist:$/) do |table|
+Given(/^the following list of members exist:$/) do |table|
   table.raw.each do |row|
     create(:user, full_name: row[0])
   end

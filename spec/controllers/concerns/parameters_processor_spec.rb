@@ -13,11 +13,11 @@ describe ParametersProcessor do
 
   describe '#process_password' do
 
+    let(:parameters) { { other_attribute: "dummy", password: "password", password_confirmation: "password" } }
+
     subject { PasswordChecker.new }
 
     context 'all ok' do
-
-      let(:parameters) { { :other_attribute => "dummy", :password => "password", :password_confirmation => "password" } }
 
       it { expect(subject.process_password(parameters)).to eq(parameters) }
 
@@ -25,23 +25,23 @@ describe ParametersProcessor do
 
     context 'password blank' do
 
-      let(:parameters) { { :other_attribute => "dummy", :password => "", :password_confirmation => "password" } }
+      let(:parameters_no_password) { parameters.merge(password: "") }
 
-      it { expect(subject.process_password(parameters)).to eq(parameters) }
+      it { expect(subject.process_password(parameters_no_password)).to eq(parameters_no_password) }
     end
 
     context 'password confirmation blank' do
 
-      let(:parameters) { { :other_attribute => "dummy", :password => "password", :password_confirmation => "" } }
+      let(:parameters_no_confirmation) { parameters.merge(password_confirmation: "") }
 
-      it { expect(subject.process_password(parameters)).to eq(parameters) }
+      it { expect(subject.process_password(parameters_no_confirmation)).to eq(parameters_no_confirmation) }
     end
 
     context 'password and password confirmation blank' do
 
-      let(:parameters) { { :other_attribute => "dummy", :password => "", :password_confirmation => "" } }
+      let(:parameters_attribute_only) { parameters.merge(password: "", password_confirmation: "")}
 
-      it { expect(subject.process_password(parameters)).to eq({ :other_attribute => "dummy" }) }
+      it { expect(subject.process_password(parameters_attribute_only)).to eq({ :other_attribute => "dummy" }) }
     end
 
   end

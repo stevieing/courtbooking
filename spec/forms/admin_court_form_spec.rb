@@ -6,13 +6,14 @@ describe AdminCourtForm do
 
   let(:court)                          { attributes_for(:court)}
   let(:opening_time)                   { attributes_for(:opening_time)}
-  let(:bad_opening_time)               { opening_time.merge(:day => "")}
+  let(:bad_opening_time)               { opening_time.merge(day: "")}
   let(:peak_time)                      { attributes_for(:peak_time)}
-  let(:bad_peak_time)                  { peak_time.merge(:day => "")}
-  let(:attributes_valid)               { court.merge("peak_times" => { "1" => opening_time}).merge("opening_times" => { "1" => peak_time})}
-  let(:attributes_bad_court)           { attributes_valid.merge(:number => nil)}
-  let(:attributes_bad_opening_time)    { court.merge("peak_times" => { "1" => bad_opening_time}).merge("opening_times" => { "1" => peak_time})}
-  let(:attributes_bad_peak_time)       { court.merge("peak_times" => { "1" => opening_time}).merge("opening_times" => { "1" => bad_peak_time})}
+  let(:bad_peak_time)                  { peak_time.merge(day: "")}
+  let(:court_times)                    { {peak_times: { "1" => opening_time}, opening_times: { "1" => peak_time}}.with_indifferent_access }
+  let(:attributes_valid)               { court.merge(court_times)}
+  let(:attributes_bad_court)           { attributes_valid.merge(number: nil)}
+  let(:attributes_bad_opening_time)    { court.merge(court_times.merge(peak_times: { "1" => bad_opening_time}))}
+  let(:attributes_bad_peak_time)       { court.merge(court_times.merge(opening_times: { "1" => bad_peak_time}))}
 
   subject { AdminCourtForm.new}
 

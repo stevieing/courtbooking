@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140406110745) do
+ActiveRecord::Schema.define(version: 20140417062103) do
 
   create_table "activities", force: true do |t|
     t.string   "description"
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(version: 20140406110745) do
     t.boolean  "admin",                  default: false
     t.boolean  "mail_me",                default: true
     t.string   "full_name"
+    t.string   "type"
   end
 
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

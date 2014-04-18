@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Guest, focus: true  do
+describe Guest do
 
   describe '#all_bookings' do
 

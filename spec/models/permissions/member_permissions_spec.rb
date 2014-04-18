@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Permissions::MemberPermission, focus: true  do
+describe Permissions::MemberPermission do
 
   let!(:user)          { create(:user, admin: false) }
   let!(:other_user)    { create(:user, admin: false) }

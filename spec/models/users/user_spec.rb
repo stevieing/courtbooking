@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe User, focus: true do
+describe User do
 
   it "should not be able to register new users" do
     User.devise_modules.should_not include(:registerable)
@@ -52,8 +52,6 @@ describe User, focus: true do
     end
 
   end
-
-
 
   describe "duplicated email" do
 

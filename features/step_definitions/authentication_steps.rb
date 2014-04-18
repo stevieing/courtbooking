@@ -37,3 +37,11 @@ end
 Then /^I should see a signed out message$/ do
   page.should have_content "Signed out successfully"
 end
+
+When(/^I complete the email address$/) do
+  fill_in "Email", with: current_user.email
+end
+
+When(/^I press the Send me reset password instructions button$/) do
+  click_button "Send me reset password instructions"
+end

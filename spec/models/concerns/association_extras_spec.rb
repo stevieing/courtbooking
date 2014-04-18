@@ -39,8 +39,8 @@ describe AssociationExtras do
   	it { should respond_to :save_comments }
   	it {should respond_to :update_comments }
 
-  	let(:comments) {{"1" => {"text" => "Comment 1"}, "2" => {"text" => "Comment 2"}}}
-  	let(:comments_update) {{"3" => {"text" => "Comment 3"}, "4" => {"text" => "Comment 4"}, "5" => {"text" => "Comment 5"}}}
+  	let(:comments) {{"1" => {text: "Comment 1"}, "2" => {text: "Comment 2"}}}
+  	let(:comments_update) {{"3" => {text: "Comment 3"}, "4" => {text: "Comment 4"}, "5" => {text: "Comment 5"}}}
 
   	subject { BlogPost.create(title: "A blog post")}
 
@@ -70,8 +70,8 @@ describe AssociationExtras do
   				end
 
   				it { expect(subject.comments).to have(comments_update.length).items}
-  				it { expect(subject.comments.find_by("text" => "Comment 1")).to be_nil}
-  				it { expect(subject.comments.find_by("text" => "Comment 3")).to be_instance_of(Comment)}
+  				it { expect(subject.comments.find_by(text: "Comment 1")).to be_nil}
+  				it { expect(subject.comments.find_by(text: "Comment 3")).to be_instance_of(Comment)}
   			end
   		end
   	end
@@ -79,5 +79,5 @@ describe AssociationExtras do
   end
 
 
- 
+
 end

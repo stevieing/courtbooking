@@ -38,7 +38,7 @@ describe OverlappingRecordsManager do
   end
 
   let(:attributes)  { { date_from: Date.today+1, time_from: "19:00", time_to: "20:00", court_id: 1}}
-  let!(:booking)    { create(:booking) }
+  let!(:booking)    { create(:booking, date_from: Date.today+2) }
   let!(:closure)    { create(:closure) }
   let!(:event)      { create(:event) }
 
@@ -61,7 +61,8 @@ describe OverlappingRecordsManager do
     it { expect{MyModel.new(attributes).remove_overlapping}.to change{Activity.all.empty?}.from(false).to(true) }
 
     it "should send an email if it removes a booking" do
-      expect(BookingMailer).to receive(:booking_cancellation).with(booking).and_return(BookingMailer.booking_cancellation(booking))
+      expect(BookingMailer).to receive(:booking_cancellation)
+        .with(booking).and_return(BookingMailer.booking_cancellation(booking))
       MyModel.new(attributes).remove_overlapping
     end
 

@@ -6,5 +6,11 @@ FactoryGirl.define do
     full_name { "Full #{username}" }
     password 'password'
     email { "#{username}@example.com" }
+
+    factory :member, class: "Member" do
+    end
+
+    factory :admin, class: "Admin" do
+    end
   end
 end

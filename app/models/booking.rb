@@ -113,6 +113,4 @@ class Booking < ActiveRecord::Base
     date_from == Date.today
   end
 
-
-
 end

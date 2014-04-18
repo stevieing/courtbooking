@@ -7,7 +7,7 @@ FactoryGirl.define do
     description "my description"
   end
 
-  factory :number_setting, :class => "NumberSetting" do
+  factory :number_setting, class: "NumberSetting" do
     name "number_setting"
     value "1"
     description "number setting"
@@ -29,7 +29,7 @@ FactoryGirl.define do
       value "1"
       description "Maximum number of bookings that can be made during peak hours in a single day"
     end
-    
+
     factory :slot_time do
       name "slot_time"
       value "40"
@@ -37,18 +37,18 @@ FactoryGirl.define do
     end
   end
 
-  factory :time_setting, :class => "TimeSetting" do
+  factory :time_setting, class: "TimeSetting" do
     name "time_setting"
     value "10:30"
     description "time setting"
 
-    factory :slot_first, :class => "TimeSetting" do
+    factory :slot_first, class: "TimeSetting" do
       name "slot_first"
       value "06:20"
       description "First slot"
     end
 
-    factory :slot_last, :class => "TimeSetting" do
+    factory :slot_last, class: "TimeSetting" do
       name "slot_last"
       value "22:20"
       description "Last slot"
