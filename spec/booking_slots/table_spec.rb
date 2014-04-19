@@ -12,9 +12,9 @@ describe BookingSlots::Table do
   let(:court_slots)     { build(:court_slots, options: options) }
   let!(:courts)         { create_list(:court_with_defined_opening_and_peak_times, 4, opening_time_from: "07:00", opening_time_to: "17:00") }
   let!(:edit_bookings)  { create(:bookings_edit)}
-  let!(:user)           { create(:user) }
-  let!(:other_user)     { create(:user) }
-  let!(:opponent)       { create(:user) }
+  let!(:user)           { create(:member) }
+  let!(:other_user)     { create(:member) }
+  let!(:opponent)       { create(:member) }
 
   subject { BookingSlots::Table.new(Date.today+1, user, court_slots) }
 

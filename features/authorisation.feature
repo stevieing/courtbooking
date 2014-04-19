@@ -69,6 +69,6 @@ Feature: Users can only access permitted areas
     Examples:
       | heading          |
       | Manage Settings  |
-      | Manage Users     |
+      | Manage Members   |
       | Manage Courts    |
       | Manage Events    |

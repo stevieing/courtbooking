@@ -8,7 +8,7 @@ module PermissionsHelpers
   end
 
   def admin_permissions
-    [:admin_index, :manage_users, :manage_courts, :manage_closures, :manage_events, :manage_settings, :edit_all_bookings]
+    [:admin_index, :manage_members, :manage_courts, :manage_closures, :manage_events, :manage_settings, :edit_all_bookings]
   end
 
   def create_permissions(permissions)

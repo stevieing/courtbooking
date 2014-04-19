@@ -63,9 +63,9 @@ FactoryGirl.define do
       action [:index]
     end
 
-    factory :manage_users do
-      name "Manage users"
-      controller "admin/users"
+    factory :manage_members do
+      name "Manage members"
+      controller "admin/members"
       action [:index, :new, :create, :edit, :update, :delete]
       admin true
     end

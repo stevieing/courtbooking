@@ -13,7 +13,7 @@ Courtbooking::Application.routes.draw do
 
   namespace :admin do
     resources :settings, only: [:index, :edit, :update]
-    resources :users, :courts, :events, :emails, :reports, :closures, :allowed_actions
+    resources :members, :courts, :events, :emails, :reports, :closures, :allowed_actions
   end
 
   # The priority is based upon order of creation:

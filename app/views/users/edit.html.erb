@@ -1,7 +1,7 @@
 <section id="my-details" class="center-60 jazzyform">
   <h2><%= header %></h2>
   <%= render "error_messages", target: @user %>
-  <%= form_for @user do |f| %>
+  <%= form_for(@user, as: :user, url: user_path(@user), method: :patch)  do |f| %>
     <fieldset>
       <%= render "user", f: f %>
       <ul class="submit"><li><%= f.submit "Submit user" %></li></ul>

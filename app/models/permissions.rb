@@ -1,11 +1,9 @@
 module Permissions
   def self.permission_for(user)
     if user.nil?
-      GuestPermission.new
-    elsif user.admin?
-      AdminPermission.new(user)
+      GuestPermission.new(nil)
     else
-      MemberPermission.new(user)
+      "Permissions::#{user.class}Permission".constantize.new(user)
     end
   end
 end

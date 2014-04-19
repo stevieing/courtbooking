@@ -6,7 +6,7 @@ describe Permissions::BookingPolicy do
     stub_settings
   end
 
-  let(:bookings_policy) { Permissions::BookingsPolicy.new(create(:user))}
+  let(:bookings_policy) { Permissions::BookingsPolicy.new(create(:member))}
   let!(:booking)        { create(:booking)}
 
   subject { Permissions::BookingPolicy.new(booking, bookings_policy)}

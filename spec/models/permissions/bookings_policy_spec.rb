@@ -6,11 +6,11 @@ describe Permissions::BookingsPolicy do
     stub_settings
   end
 
-  let!(:user)           { create(:user)}
-  let!(:standard_user)  { create(:user)}
-  let!(:super_user)     { create(:user, admin: true)}
-  let!(:admin_user)     { create(:user)}
-  let!(:other_user)     { create(:user)}
+  let!(:user)           { create(:member)}
+  let!(:standard_user)  { create(:member)}
+  let!(:super_user)     { create(:admin)}
+  let!(:admin_user)     { create(:member)}
+  let!(:other_user)     { create(:member)}
 
   let!(:booking1)       {create(:booking, date_from: Date.today+1, time_from: "19:00", time_to: "19:30", user: standard_user)}
   let!(:booking2)       {create(:booking, date_from: Date.today+1, time_from: "19:30", time_to: "20:00", user: other_user)}
@@ -110,7 +110,7 @@ describe Permissions::BookingsPolicy do
   end
 
   describe 'guest user' do
-    subject { Permissions::BookingsPolicy.new(nil) }
+    subject { Permissions::BookingsPolicy.new(build(:guest)) }
 
     it { expect(subject.allow_all?).to be_false }
     it { expect(subject.bookings).to be_empty}

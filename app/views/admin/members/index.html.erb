@@ -1,0 +1,26 @@
+<article id="manageusers">
+	<table class="admin-table">
+		<caption>Manage Members</caption>
+		<tr>
+			<td colspan="6"><%= link_to "Add new member", new_admin_member_path %></td>
+		</tr>
+		<tr>
+			<th>id</th>
+			<th>Username</th>
+      <th>Full Name</th>
+			<th>Email</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+		</tr>
+		<% members.each do |member| %>
+			<tr id="<%= dom_id(member) %>">
+				<td><%= member.id %></td>
+				<td><%= member.username %></td>
+        <td><%= member.full_name %></td>
+				<td><%= member.email %></td>
+				<td><%= link_to "Edit", edit_admin_member_path(member) %></td>
+				<td><%= link_to "Delete", admin_member_path(member), method: :delete, data: {confirm: "Are you sure?"} %></td>
+			</tr>
+		<% end%>
+	</table>
+</article>

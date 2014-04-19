@@ -2,8 +2,8 @@ require "spec_helper"
 
 describe Permissions::MemberPermission do
 
-  let!(:user)          { create(:user, admin: false) }
-  let!(:other_user)    { create(:user, admin: false) }
+  let!(:user)          { create(:member) }
+  let!(:other_user)    { create(:member) }
   let(:user_booking)   { build(:booking, user: user) }
   let(:other_booking)  { build(:booking, user: other_user) }
   subject              { Permissions.permission_for(user) }
@@ -78,19 +78,19 @@ describe Permissions::MemberPermission do
     end
 
     it "allows manage users" do
-      should allow_action("admin/users", :index)
-      should allow_action("admin/users", :new)
-      should allow_action("admin/users", :create)
-      should allow_action("admin/users", :edit)
-      should allow_action("admin/users", :update)
-      should allow_action("admin/users", :delete)
-      should allow_param(:user, :username)
-      should allow_param(:user, :full_name)
-      should allow_param(:user, :email)
-      should allow_param(:user, :password)
-      should allow_param(:user, :password_confirmation)
-      should allow_param(:user, :mail_me)
-      should allow_param(:user, :allowed_action_ids => [])
+      should allow_action("admin/members", :index)
+      should allow_action("admin/members", :new)
+      should allow_action("admin/members", :create)
+      should allow_action("admin/members", :edit)
+      should allow_action("admin/members", :update)
+      should allow_action("admin/members", :delete)
+      should allow_param(:member, :username)
+      should allow_param(:member, :full_name)
+      should allow_param(:member, :email)
+      should allow_param(:member, :password)
+      should allow_param(:member, :password_confirmation)
+      should allow_param(:member, :mail_me)
+      should allow_param(:member, :allowed_action_ids => [])
     end
 
     it "allows manage courts" do

@@ -1,17 +1,17 @@
 require 'spec_helper'
 
-describe AdminUserForm do
+describe AdminMemberForm do
   it_behaves_like FormManager
 
   it_behaves_like "password processed" do
-    let(:model) { :user }
+    let(:model) { :member }
   end
 
   let!(:allowed_actions)    { create_list(:allowed_action, 4)}
-  let(:attributes_valid)    { attributes_for(:user).merge(allowed_action_ids: AllowedAction.pluck(:id))}
-  let(:attributes_invalid)  { attributes_for(:user).merge(email: "")}
+  let(:attributes_valid)    { attributes_for(:member).merge(allowed_action_ids: AllowedAction.pluck(:id))}
+  let(:attributes_invalid)  { attributes_for(:member).merge(email: "")}
 
-  subject           { AdminUserForm.new}
+  subject           { AdminMemberForm.new}
 
   describe 'submit' do
 

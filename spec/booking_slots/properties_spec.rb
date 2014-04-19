@@ -6,8 +6,8 @@ describe BookingSlots::Properties do
     stub_settings
   end
 
-  let!(:user)         { create(:user)}
-  let!(:other_user)   { create(:user)}
+  let!(:user)         { create(:member)}
+  let!(:other_user)   { create(:member)}
   let!(:edit_action)  { create(:bookings_edit)}
   let(:date)          { Date.today}
 

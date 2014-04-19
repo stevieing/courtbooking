@@ -11,7 +11,7 @@ describe BookingSlots::Records do
   let(:court_slots)   { build(:court_slots, options: options) }
   let!(:courts)       { create_list(:court, 4)}
   let!(:courts)       { create_list(:court_with_defined_opening_and_peak_times, 4, opening_time_from: "08:00", opening_time_to: "17:00" )}
-  let!(:user)         { create(:user) }
+  let!(:user)         { create(:member) }
   let(:date)          { Date.today }
   let(:properties)    { build(:properties, date: date, user: user)}
 

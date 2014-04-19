@@ -1,9 +1,9 @@
-class AdminUserForm
+class AdminMemberForm
   include FormManager
 
-  set_model :user, ACCEPTED_ATTRIBUTES.user
+  set_model :member, ACCEPTED_ATTRIBUTES.member
   delegate :permissions, to: :model
-  validate :verify_user
+  validate :verify_member
 
   def process_parameters(params)
     persisted? ? process_password(params) : params

@@ -13,4 +13,7 @@ FactoryGirl.define do
     factory :admin, class: "Admin" do
     end
   end
+
+  factory :guest, class: "Guest" do
+  end
 end

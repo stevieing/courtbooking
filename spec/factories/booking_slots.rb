@@ -3,7 +3,7 @@ FactoryGirl.define do
   factory :properties, :class => BookingSlots::Properties do
 
     date Date.today
-    user { FactoryGirl.create(:user) }
+    user { FactoryGirl.create(:member) }
 
     initialize_with { new(date, user)}
   end

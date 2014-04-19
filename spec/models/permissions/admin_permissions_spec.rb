@@ -6,7 +6,7 @@ describe Permissions::AdminPermission do
     load "#{Rails.root}/config/initializers/accepted_attributes.rb"
   end
 
-  subject { Permissions.permission_for(build(:user, admin: true)) }
+  subject { Permissions.permission_for(build(:admin)) }
 
   it "allows anything" do
     should allow_action(:any, :thing)
@@ -20,20 +20,15 @@ describe Permissions::AdminPermission do
     should allow_param(:booking, :court_id)
     should allow_param(:booking, :opponent_name)
     should allow_param(:setting, :value)
-    should allow_param(:user, :username)
-    should allow_param(:user, :full_name)
-    should allow_param(:user, :email)
-    should allow_param(:user, :password)
-    should allow_param(:user, :password_confirmation)
-    should allow_param(:user, :mail_me)
+    should allow_param(:member, :username)
+    should allow_param(:member, :full_name)
+    should allow_param(:member, :email)
+    should allow_param(:member, :password)
+    should allow_param(:member, :password_confirmation)
+    should allow_param(:member, :allowed_action_ids => [])
     should allow_param(:court, :number)
     should allow_param(:court, :peak_times => [:day, :time_from, :time_to])
     should allow_param(:court, :opening_times => [:day, :time_from, :time_to])
-    should allow_param(:user, :email)
-    should allow_param(:user, :password)
-    should allow_param(:user, :password_confirmation)
-    should allow_param(:user, :mail_me)
-    should allow_param(:user, :allowed_action_ids => [])
     should allow_param(:closure, :description)
     should allow_param(:closure, :date_from)
     should allow_param(:closure, :date_to)
