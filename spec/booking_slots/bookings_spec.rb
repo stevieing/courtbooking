@@ -6,9 +6,9 @@ describe BookingSlots::Bookings do
     stub_settings
   end
 
-  let(:properties)    { build(:properties, date: Date.today+1) }
-  let!(:user)         { create(:user) }
-  let!(:other_user)   { create(:user) }
+  let!(:user)         { create(:member) }
+  let(:properties)    { build(:properties, date: Date.today+1, user: user) }
+  let!(:other_user)   { create(:member) }
   let!(:courts)       { create_list(:court_with_opening_and_peak_times, 4) }
   let(:todays_courts) { build(:courts) }
 
@@ -77,7 +77,7 @@ describe BookingSlots::Bookings do
       context 'current user' do
 
         before(:each) do
-          allow_any_instance_of(Permissions::BookingsPolicy).to receive(:edit?).and_return(true)
+          allow(user).to receive(:allow?).and_return(true)
         end
 
         subject   { bookings.current_record(todays_courts, todays_slots) }
@@ -89,7 +89,7 @@ describe BookingSlots::Bookings do
       context 'another user' do
 
         before(:each) do
-          allow_any_instance_of(Permissions::BookingsPolicy).to receive(:edit?).and_return(false)
+          allow(user).to receive(:allow?).and_return(false)
         end
 
         subject   { bookings.current_record(todays_courts, todays_slots) }
@@ -101,7 +101,7 @@ describe BookingSlots::Bookings do
       context 'in the past' do
 
         before(:each) do
-          allow_any_instance_of(Permissions::BookingsPolicy).to receive(:edit?).and_return(true)
+          allow(user).to receive(:allow?).and_return(false)
           DateTime.stub(:now).and_return(DateTime.parse("#{booking1.date_from.to_s(:uk)} 17:01"))
         end
 
@@ -126,7 +126,7 @@ describe BookingSlots::Bookings do
 
       its(:text)  { should eq(new_booking.link_text)}
       its(:link)  { should eq(court_booking_path(new_booking.new_attributes))}
-      its(:klass) { should be_nil }
+      its(:klass) { should eq("free") }
 
       context 'in the past' do
 

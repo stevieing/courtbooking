@@ -1,6 +1,5 @@
 class BookingsController < ApplicationController
 
-  before_filter :policy, only: [:index, :edit]
   before_filter :bookings, only: [:index]
   before_filter :store_location, only: [:index, :edit]
 
@@ -8,8 +7,7 @@ class BookingsController < ApplicationController
   end
 
   def new
-    @booking = Booking.new(policy.params(params))
-    @header = "New Booking"
+    @booking = Booking.new(permit_new!(:booking, params))
     respond_to do |format|
       format.html
       format.js
@@ -36,7 +34,6 @@ class BookingsController < ApplicationController
   end
 
   def edit
-    @header = "Edit booking"
     @booking = current_resource
     respond_to do |format|
       format.html
@@ -79,17 +76,13 @@ class BookingsController < ApplicationController
   protected
 
   def bookings
-    @bookings ||= policy.bookings
+    @bookings ||= current_user.all_bookings
   end
 
   private
 
   def current_resource
     @current_resource ||= Booking.find(params[:id]) if params[:id]
-  end
-
-  def policy
-    @policy ||= Permissions::BookingsPolicy.new(current_user)
   end
 
   def flash_keep(message)

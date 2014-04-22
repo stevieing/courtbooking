@@ -16,7 +16,6 @@ describe User do
   it { should have_many(:permissions)}
   it { should have_many(:allowed_actions).through(:permissions)}
 
-  it {should have_db_column(:admin).of_type(:boolean).with_options(default: false)}
   it {should have_db_column(:mail_me).of_type(:boolean).with_options(default: true)}
 
   describe '#without_user' do

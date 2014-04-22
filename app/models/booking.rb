@@ -66,7 +66,11 @@ class Booking < ActiveRecord::Base
   end
 
   def link_text
-    "#{court.number.to_s} - #{date_from_text} #{time_from}"
+    if in_the_future? && new_record?
+      "#{court.number.to_s} - #{date_from_text} #{time_from}"
+    else
+      players
+    end
   end
 
   def in_the_future?

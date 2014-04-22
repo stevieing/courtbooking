@@ -14,7 +14,7 @@ class CourtsController < ApplicationController
   end
 
   def booking_slots
-    @booking_slots ||= BookingSlots::Table.new(current_date, current_user, Settings.slots)
+    @booking_slots ||= BookingSlots::Table.new(current_date, current_or_guest_user, Settings.slots)
   end
 
   def calendar

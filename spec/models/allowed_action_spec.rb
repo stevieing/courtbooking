@@ -45,5 +45,21 @@ describe AllowedAction do
 
   end
 
+  describe '#non_user_specific?' do
+
+    context 'true' do
+      subject { build(:allowed_action, user_specific: true)}
+
+      its(:non_user_specific?) { should be_false}
+    end
+
+    context 'false' do
+      subject { build(:allowed_action, user_specific: false)}
+
+      its(:non_user_specific?) { should be_true}
+    end
+
+  end
+
 
 end

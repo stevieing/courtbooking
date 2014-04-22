@@ -46,14 +46,6 @@ describe ParametersProcessor do
 
   end
 
-  describe '#permit_parameters' do
-    let(:parameters) { ActionController::Parameters.new(attr_a: "a",attr_b: "b", attr_c: "c")}
-    subject { PasswordChecker.new.permit_parameters(parameters, [:attr_a, :attr_b, :attr_c])}
-
-    it { expect(subject).to be_permitted }
-
-  end
-
   describe '#process_allow_removal' do
 
     subject           { AllowRemovalChecker.new }

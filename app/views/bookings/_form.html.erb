@@ -6,13 +6,11 @@
 				<%= f.label :username, "Member" %>
 				<span><%= current_user.full_name %></span>
 			</li>
-			<% if allow_param? :booking, :time_and_place %>
-				<li>
-					<%= f.label :time_and_place, "Court: #{@booking.court.number}" %>
-					<span><%= @booking.time_and_place_text %></span>
-				</li>
-				<%= f.hidden_field :time_and_place, :value => @booking.time_and_place %>
-			<% end %>
+			<li>
+				<%= f.label :time_and_place, "Court: #{@booking.court.number}" %>
+				<span><%= @booking.time_and_place_text %></span>
+			</li>
+			<%= f.hidden_field :time_and_place, :value => @booking.time_and_place %>
 			<li>
 				<%= f.label :opponent_name, "Opponent" %>
         <%= f.text_field :opponent_name, data: {autocomplete_source: users_path} %>

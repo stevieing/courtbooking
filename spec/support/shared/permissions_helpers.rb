@@ -11,6 +11,10 @@ module PermissionsHelpers
     [:admin_index, :manage_members, :manage_courts, :manage_closures, :manage_events, :manage_settings, :edit_all_bookings]
   end
 
+  def bookings_permissions
+    [:edit_all_bookings, :bookings_destroy, :bookings_edit]
+  end
+
   def create_permissions(permissions)
     permissions.each do |permission|
       create(permission)
@@ -23,6 +27,10 @@ module PermissionsHelpers
 
   def add_admin_permissions(user)
     add_permissions(admin_permissions, user)
+  end
+
+  def add_bookings_permissions(user)
+    add_permissions(bookings_permissions, user)
   end
 
   def add_permissions(permissions, user)

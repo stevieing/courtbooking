@@ -3,15 +3,19 @@ module Permissions
   class AdminPermission < BasePermission
     def initialize(user)
       allow_all
+      allow_all_params
+    end
 
-      ACCEPTED_ATTRIBUTES.models.each do |model|
-        allow_param model.name, model.attributes
-      end
+    def edit_all?(resource)
+      true
+    end
 
-      ACCEPTED_ATTRIBUTES.nested.each do |nested|
-        allow_nested_params nested.name, nested.association, nested.attributes
-      end
+    def can_edit?(resource, object)
+      true
+    end
 
+    def can_destroy?(resource, object)
+      true
     end
   end
 end

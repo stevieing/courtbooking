@@ -4,31 +4,37 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user!, :authorise
   after_filter :store_location
 
-  delegate :allow?, :allow_param?, to: :current_permission
+  delegate :allow?, to: :current_or_guest_user
+  delegate :permit_new!, to: :current_user
+
 
   def current_year
     @current_year ||= Date.today.year
+  end
+
+  def current_or_guest_user
+    current_user || guest_user
+  end
+
+  def guest_user
+    @guest_user ||= Guest.new
   end
 
   def header
     @header ||= "#{params[:action].capitalize} #{params[:controller].split('/').last.capitalize.singularize}"
   end
 
-  helper_method :allow?, :allow_param?, :current_year, :header
+  helper_method :allow?, :can_edit?, :can_destroy?, :current_year, :header, :current_or_guest_user
 
   private
-
-  def current_permission
-    @current_permission ||= Permissions.permission_for(current_user)
-  end
 
   def current_resource
     nil
   end
 
   def authorise
-    if current_permission.allow?(params[:controller], params[:action], current_resource)
-      current_permission.permit_params! params
+    if current_or_guest_user.allow?(params[:controller], params[:action], current_resource)
+      current_or_guest_user.permit_params! params
     else
       redirect_to root_url, alert: "Not authorised."
     end

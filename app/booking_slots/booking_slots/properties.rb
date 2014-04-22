@@ -1,11 +1,10 @@
 module BookingSlots
   class Properties
-    attr_reader :user, :date, :policy
+    attr_reader :user, :date
     delegate :wday, to: :date
 
     def initialize(date, user)
       @date, @user = date, user
-      @policy = Permissions::BookingsPolicy.new(@user)
     end
 
     def valid?

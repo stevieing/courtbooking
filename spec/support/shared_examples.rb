@@ -132,3 +132,15 @@ shared_examples "Verifies removal of overlapping records" do
   it { expect(Activity.all).to include(event) }
 
 end
+
+shared_examples "Current permissions" do
+
+  it { expect(described_class).to include(Permissions)}
+
+  subject { described_class.new }
+
+  it { expect(subject.current_permissions).to be_instance_of("Permissions::#{subject.class}Permission".constantize)}
+  it { expect(subject).to respond_to(:allow?) }
+  it { expect(subject).to respond_to(:permit_params!) }
+
+end

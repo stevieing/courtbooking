@@ -25,4 +25,8 @@ class AllowedAction < ActiveRecord::Base
     controller.to_s.split('/').last.singularize.to_sym
   end
 
+  def non_user_specific?
+    !user_specific?
+  end
+
 end

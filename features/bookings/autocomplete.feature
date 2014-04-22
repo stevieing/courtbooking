@@ -1,8 +1,3 @@
-#
-# TODO: This needs to be improved.
-# to wait for a response rather than waiting for 2 seconds.
-#
-
 @autocomplete
 Feature: Members should be able to select an opponent when they make a booking
   In order to make it easy to select an opponent
@@ -10,8 +5,7 @@ Feature: Members should be able to select an opponent when they make a booking
   Should be able to type in the first few characters of a name
 
   Background:
-    Given todays date is "01 September 2013" and the time is "17:00"
-    And the courts are setup
+    Given the courts are setup
     And I am signed in as a member
 
   @javascript
@@ -22,7 +16,7 @@ Feature: Members should be able to select an opponent when they make a booking
       | Mary Berry      |
       | Marianne Douche |
     When I go to the courts page
-    And I follow a link to create a new booking
+    And I book a court for sometime tomorrow
     And I fill in "Opponent" with "Mar"
     And I wait for 2 seconds
     Then I should see the following autocomplete options:
@@ -31,12 +25,11 @@ Feature: Members should be able to select an opponent when they make a booking
       | Mary Berry      |
       | Marianne Douche |
     And I follow "Mark Francis"
-    And I wait for 2 seconds
     Then the field "Opponent" should have the value "Mark Francis"
 
   Scenario: Add a dodgy opponent name
     When I go to the courts page
-    And I follow a link to create a new booking
+    And I book a court for sometime tomorrow
     Then I should see valid booking details
     And I fill in "Opponent" with some gobbledyegook
     And I submit the booking

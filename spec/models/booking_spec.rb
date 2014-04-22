@@ -191,7 +191,26 @@ describe Booking do
     let!(:court) { create(:court)}
      subject { build(:booking, court_id: court.id, date_from: "17 September 2013", time_from: "19:00")}
 
-     its(:link_text) { should == "#{court.number} - 17 September 2013 19:00" }
+     context 'in the past' do
+      before(:each) do
+        allow(subject).to receive(:in_the_future?).and_return(false)
+      end
+
+      its(:link_text) { should eq(subject.players) }
+     end
+
+     context 'existing record' do
+      before(:each) do
+        allow(subject).to receive(:new_record?).and_return(false)
+      end
+
+      its(:link_text) { should eq(subject.players) }
+     end
+
+     context 'new record/in the future' do
+      its(:link_text) { should == "#{court.number} - 17 September 2013 19:00" }
+     end
+
    end
 
    describe 'new_attributes' do

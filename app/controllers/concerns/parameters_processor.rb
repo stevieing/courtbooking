@@ -8,10 +8,6 @@ module ParametersProcessor
     end
   end
 
-  def permit_parameters(params, attributes)
-    params.permit(*attributes)
-  end
-
   def process_allow_removal(params)
     self.allow_removal = to_boolean(params[:allow_removal])
     params.slice!(:allow_removal)

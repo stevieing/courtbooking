@@ -47,6 +47,12 @@ module BookingsHelpers
     page.should have_content booking.time_to
   end
 
+  def first_available_booking(date)
+    current_user.bookings.build(FactoryGirl.attributes_for(:booking).merge(
+      court: courts.first, date_from: date.to_s(:uk),
+      time_from: booking_slots.first.from, time_to: booking_slots.first.to))
+  end
+
 end
 
 World(BookingsHelpers)

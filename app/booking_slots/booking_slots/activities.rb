@@ -14,7 +14,7 @@ module BookingSlots
       BookingSlots::CurrentRecord.create(activity) do |record|
         record.text   = activity.description
         record.span   = activity.slot.between
-        record.klass  = BookingSlots::HtmlKlass.new(activity).value
+        record.klass  = html_klass(activity)
       end
     end
 
@@ -28,6 +28,12 @@ module BookingSlots
 
     def valid?
       @properties.valid?
+    end
+
+  private
+
+    def html_klass(activity)
+      activity.class.to_s.downcase
     end
 
     def get_activity(activities, court, slots)

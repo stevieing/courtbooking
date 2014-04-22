@@ -8,17 +8,24 @@ module Permissions
   class MemberPermission < BasePermission
     def initialize(user)
       @user = user
-      allow :courts, [:index]
-      allow "devise/sessions", [:create, :destroy]
+      allow_basic_permissions
       allow_param :booking, ACCEPTED_ATTRIBUTES.booking
       allow_param :user, ACCEPTED_ATTRIBUTES.current_user
       add_user_permissions
     end
 
+    def allow_all?(controller, action)
+      @user.permissions.includes(:allowed_action).select do |permission|
+        permission.controller.to_s == controller.to_s &&
+        permission.action.map(&:to_s).include?(action.to_s) &&
+        permission.non_user_specific?
+      end.any?
+    end
+
     private
 
     def add_user_permissions
-      @user.permissions.each do |permission|
+      @user.permissions.includes(:allowed_action).each do |permission|
         add_action(permission)
         add_params(permission) if permission.admin?
       end

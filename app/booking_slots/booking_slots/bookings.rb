@@ -1,10 +1,13 @@
 module BookingSlots
   class Bookings
 
+    include Rails.application.routes.url_helpers
+
     attr_reader :bookings
 
     def initialize(properties)
       @properties = properties
+      @user = @properties.user
       @bookings = Booking.by_day(@properties.date)
     end
 
@@ -15,16 +18,12 @@ module BookingSlots
       end
     end
 
-    #
-    # TODO: Again this is interim.
-    # There needs to be a full refactor of the users/permissions/policies.
-    #
     def current_record(courts, slots)
-      booking_policy = Permissions::BookingPolicy.new(current_booking(courts, slots), @properties.policy)
-      BookingSlots::CurrentRecord.create(booking_policy.booking) do |record|
-        record.text = booking_policy.text
-        record.link = booking_policy.link
-        record.klass  = BookingSlots::HtmlKlass.new(booking_policy.booking).value unless booking_policy.new_record?
+      booking = current_booking(courts, slots)
+      BookingSlots::CurrentRecord.create(booking) do |record|
+        record.text = booking.link_text
+        record.link = link_for(booking)
+        record.klass  = html_klass(booking)
       end
     end
 
@@ -36,6 +35,25 @@ module BookingSlots
 
     def inspect
       "<#{self.class}: @bookings=#{@bookings.inspect}>"
+    end
+
+  private
+
+    def html_klass(booking)
+      booking.new_record? ? "free" : "booking"
+    end
+
+    #
+    # TODO: This is better but still needs some more work.
+    #
+    def link_for(booking)
+       if booking.in_the_future?
+        if booking.new_record?
+          court_booking_path(booking.new_attributes)
+        elsif @user.allow?(:bookings, :edit, booking)
+          edit_booking_path(booking)
+        end
+      end
     end
 
   end

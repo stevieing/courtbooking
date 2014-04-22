@@ -18,14 +18,14 @@
         <td><%= booking.time_to %></td>
         <td><%= booking.court.number %></td>
         <td>
-          <% if policy.edit? booking %>
+          <% if allow? :bookings, :edit, booking %>
             <%= link_to "Edit", edit_booking_path(booking), remote: true %>
           <% else %>
             &nbsp;
           <% end %>
         </td>
         <td>
-          <% if policy.delete? booking %>
+          <% if allow? :bookings, :destroy, booking %>
             <%= link_to "Delete", booking_path(booking), method: :delete, data: {confirm: "Are you sure?"} %>
           <% else %>
             &nbsp;

@@ -25,3 +25,9 @@ end
 Then(/^I fill in "(.*?)" with some gobbledyegook$/) do |field|
   fill_in field, with: "weiofhjwioehfwweofhw"
 end
+
+When(/^I book a court for sometime tomorrow$/) do
+  click_link (Date.today+1).day_of_month
+  create_current_booking(first_available_booking(Date.today+1))
+  click_link current_booking.link_text
+end

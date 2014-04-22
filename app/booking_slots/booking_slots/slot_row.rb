@@ -11,10 +11,14 @@ module BookingSlots
     def initialize(slots, records)
       @slots, @records = slots, records
       @cells = create_cells
-      @klass = BookingSlots::HtmlKlass.new(@slots.current_datetime).value
+      @klass = html_klass
     end
 
     private
+
+    def html_klass
+      @slots.current_datetime.in_the_past? ? "past" : nil
+    end
 
     def wrapper
       BookingSlots::Cell.new(@slots.current_slot_time)
