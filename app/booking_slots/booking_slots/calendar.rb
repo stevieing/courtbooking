@@ -5,8 +5,8 @@ module BookingSlots
 
     attr_reader :rows, :dates
 
-    def initialize(date_from, current_date, no_of_days, split=7)
-      @dates = BookingSlots::Dates.new(date_from, current_date, no_of_days, split)
+    def initialize(attributes)
+      @dates = BookingSlots::Dates.new(attributes)
       reset_cells
       @rows = create_rows
     end

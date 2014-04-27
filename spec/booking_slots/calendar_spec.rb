@@ -8,8 +8,8 @@ describe BookingSlots::Calendar do
     allow(Date).to receive(:today).and_return(Date.parse("Sat 30 March"))
   end
 
-  let(:attributes) { { date_from: date_from, current_date: date_today, no_of_days: 21, split: 7 } }
-  subject { BookingSlots::Calendar.new(date_from, Date.today, 21, 7)}
+  let(:attributes) { { date_from: date_from, current_date: Date.today, no_of_days: 21, split: 7 } }
+  subject { BookingSlots::Calendar.new(attributes)}
 
   it { expect(subject.rows.first).to be_a_heading }
   it { expect(subject.rows).to have(4).items }
@@ -23,7 +23,7 @@ describe BookingSlots::Calendar do
 
   describe "different number of days" do
     let(:new_attributes) { attributes.merge(no_of_days: 20)}
-    subject { BookingSlots::Calendar.new(date_from, Date.today, 20, 7)}
+    subject { BookingSlots::Calendar.new(new_attributes)}
 
     it { expect(subject.rows).to have(4).items }
     it { expect(subject.dates).to have(20).items }

@@ -3,12 +3,15 @@ module BookingSlots
 
     include Rails.application.routes.url_helpers
     include IndexManager
+    include HashAttributes
 
     set_enumerator :dates
-    attr_reader :dates, :date_from, :current_date, :no_of_days, :split
+    attr_reader :dates
+    hash_attributes :date_from, :current_date, :no_of_days, :split
 
-    def initialize(date_from, current_date, no_of_days, split = 7)
-      @date_from, @current_date, @no_of_days, @split = date_from, current_date, no_of_days, split
+
+    def initialize(attributes)
+      set_attributes(attributes)
       @dates = set_dates
     end
 
@@ -29,6 +32,10 @@ module BookingSlots
     end
 
     alias_method :all, :dates
+
+    def default_attributes
+      { date_from: Date.today, split: 7}
+    end
 
   private
 

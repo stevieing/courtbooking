@@ -18,7 +18,7 @@ class CourtsController < ApplicationController
   end
 
   def calendar
-    @calendar ||= BookingSlots::Calendar.new(Date.today, current_date, Settings.days_bookings_can_be_made_in_advance)
+    @calendar ||= BookingSlots::Calendar.new(current_date: current_date, no_of_days: Settings.days_bookings_can_be_made_in_advance)
   end
 
   helper_method :current_date, :booking_slots, :calendar

@@ -9,9 +9,9 @@ describe BookingSlots::Dates do
     Date.stub(:today).and_return(Date.parse("14 March 2014"))
   end
 
-  let(:attributes) { { date_from: date_from, current_date: date_today, no_of_days: 20} }
+  let(:attributes) { { date_from: date_from, current_date: Date.today, no_of_days: 20} }
 
-  subject { BookingSlots::Dates.new(date_from, Date.today, 20)}
+  subject { BookingSlots::Dates.new(attributes)}
 
   it_behaves_like IndexManager do
     let(:enum_attribute) { :@dates }

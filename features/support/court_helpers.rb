@@ -41,7 +41,7 @@ module CourtHelpers
 
   def set_dates(date, time)
     stub_dates(date, time)
-    create_dates(build(:dates, date_from: Date.today, current_date: Date.today))
+    create_dates(build(:dates, attrs: attributes_for(:dates)[:attrs].merge(date_from: Date.today, current_date: Date.today)))
   end
 end
 
