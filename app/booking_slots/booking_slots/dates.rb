@@ -16,10 +16,6 @@ module BookingSlots
       @date_from.days_of_week(@split - 1)
     end
 
-    ##
-    # purely for testing purposes so I can remove all of that extra code.
-    #
-    #
     def current_date_to_s
       @current_date.to_s(:uk)
     end
