@@ -28,7 +28,7 @@ module BookingSlots
     end
 
     def valid?
-      !@dates.empty?
+      @dates.any?
     end
 
     alias_method :all, :dates
