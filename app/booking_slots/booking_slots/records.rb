@@ -39,7 +39,7 @@ module BookingSlots
       @courts.current_open?(slots.current_slot_time)
     end
 
-    private
+  private
 
     def create_records
       Records.models.each do |model|
