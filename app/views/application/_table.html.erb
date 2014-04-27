@@ -8,7 +8,7 @@
           <% if row.heading? %>
             <%= content_tag(:th, cell.text.html_safe) %>
           <% else %>
-            <% if cell.valid? %>
+            <% unless cell.blank? %>
               <%= content_tag :td, class: cell.klass, rowspan: cell.span do %>
                 <% if cell.link? %>
                   <%= link_to cell.text, cell.link, class: cell.klass, remote: remote  %>

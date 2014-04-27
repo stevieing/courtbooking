@@ -33,6 +33,20 @@ module BookingSlots
       @grid.synced?(@records.courts.index) && @records.current_court_open?(self)
     end
 
+    def grid_synced?
+      @grid.synced?(@records.courts.index)
+    end
+
+    def current_court_open?
+      @records.current_court_open?(self)
+    end
+
+    def slot_type
+      return :blank unless grid_synced?
+      return :closed unless current_court_open?
+      return :open
+    end
+
     def inspect
       "<#{self.class}: @grid=#{@grid.inspect}>"
     end

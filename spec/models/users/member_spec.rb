@@ -14,6 +14,7 @@ describe User::Member do
 
     before(:each) do
       stub_settings
+      add_standard_permissions subject
     end
 
     let!(:booking1) { create(:booking, date_from: Date.today+1)}
@@ -22,17 +23,13 @@ describe User::Member do
 
     context 'no permission' do
 
-      before(:each) do
-        allow(subject.current_permissions).to receive(:allow_all?).with(:bookings, :edit).and_return(false)
-      end
-
       it { expect(subject.all_bookings).to have(1).item}
     end
 
     context 'permission' do
 
       before(:each) do
-        allow(subject.current_permissions).to receive(:allow_all?).with(:bookings, :edit).and_return(true)
+        add_admin_permissions subject
       end
 
       it { expect(subject.all_bookings).to have(3).items}

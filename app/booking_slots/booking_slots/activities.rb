@@ -10,6 +10,10 @@ module BookingSlots
     end
 
     def current_record(courts, slots)
+      get_activity(@closures, courts.current, slots) || get_activity(@events, courts.current, slots)
+    end
+
+    def current_record_temp(courts, slots)
       activity = current_activity(courts, slots)
       BookingSlots::CurrentRecord.create(activity) do |record|
         record.text   = activity.description

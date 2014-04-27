@@ -21,6 +21,10 @@ class User < ActiveRecord::Base
     without_user(user).by_term(term).pluck(:full_name)
   end
 
+  def allow?(*args)
+    false
+  end
+
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
       if login = conditions.delete(:login)

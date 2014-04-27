@@ -6,8 +6,8 @@ module BookingSlots
     attr_reader :cells, :klass
     delegate :last, to: :cells
 
-    def initialize(cells = [])
-      @cells, @heading = cells, false
+    def initialize(cells = [], klass = nil)
+      @cells, @klass = cells, klass
     end
 
     def each(&block)
@@ -15,7 +15,7 @@ module BookingSlots
     end
 
     def heading?
-      @heading
+      false
     end
 
     def inspect
@@ -29,7 +29,6 @@ module BookingSlots
     def valid?
       !@cells.nil?
     end
-
   end
 
 end

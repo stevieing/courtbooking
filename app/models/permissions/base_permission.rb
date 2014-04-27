@@ -1,13 +1,8 @@
-#
-# TODO: This has now become a hotch potch. Needs to be turned into a more coherent module.
-# with a single entry point.
-#
-#
 module Permissions
   class BasePermission
 
     def allow?(controller, action, resource = nil)
-      allowed = @allow_all || allow_all?(controller, action) || @allowed_actions[[controller.to_s, action.to_s]]
+      allowed = @allow_all || allow_all?(controller.to_s, action.to_s) || @allowed_actions[[controller.to_s, action.to_s]]
       allowed && (allowed == true || resource && allowed.call(resource))
     end
 
@@ -28,19 +23,11 @@ module Permissions
       end
     end
 
-    def allow_param(resources, attributes)
+    def allow_param(resources, attributes, nested_attributes = nil)
       @allowed_params ||= {}
       Array(resources).each do |resource|
         @allowed_params[resource] ||= []
-        @allowed_params[resource] += Array(attributes)
-      end
-    end
-
-    def allow_nested_params(resources, attribute, nested_attributes)
-      @allowed_params ||= {}
-        Array(resources).each do |resource|
-        @allowed_params[resource] ||= []
-        @allowed_params[resource] += [{ attribute => Array(nested_attributes)}]
+        @allowed_params[resource] += add_param(attributes, nested_attributes)
       end
     end
 
@@ -65,7 +52,7 @@ module Permissions
     end
 
     def allow_basic_permissions
-      Permissions::basic_permissions.each do |k, permission|
+      basic_permissions.each do |k, permission|
         allow permission[:controller], permission[:action]
       end
     end
@@ -76,6 +63,32 @@ module Permissions
 
     def permit_new!(resource, params)
       params.permit(ACCEPTED_ATTRIBUTES.send(resource))
+    end
+
+  private
+
+    def basic_permissions
+      {
+        sign_in_out: {
+          name: "Sign in",
+          controller: "devise/sessions",
+          action: [:new, :create, :destroy]
+        },
+        forgotten_password: {
+          name: "Forgotten password",
+          controller: "devise/passwords",
+          action: [:new, :create, :edit, :update]
+        },
+        courts: {
+          name: "Courts",
+          controller: "courts",
+          action: [:index]
+        }
+      }
+    end
+
+    def add_param(attributes, nested_attributes)
+      nested_attributes.nil? ? Array(attributes) : [{ attributes => Array(nested_attributes)}]
     end
 
   end

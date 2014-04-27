@@ -3,15 +3,6 @@ module Permissions
     "Permissions::#{user.class}Permission".constantize.new(user)
   end
 
-  #TODO: this method is interim while the permissions are refactored.
-  def self.basic_permissions
-    {
-      sign_in_out: { name: "Sign in", controller: "devise/sessions", action: [:new, :create, :destroy] },
-      forgotten_password: { name: "Forgotten password", controller: "devise/passwords", action: [:new, :create, :edit, :update] },
-      courts: { name: "Courts", controller: "courts", action: [:index] }
-    }
-  end
-
   extend ActiveSupport::Concern
 
   included do

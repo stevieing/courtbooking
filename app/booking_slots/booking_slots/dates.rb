@@ -25,14 +25,7 @@ module BookingSlots
     end
 
     def current_record
-      BookingSlots::CurrentRecord.create(current) do |record|
-        record.text = current.day_of_month
-        if current == @current_date
-          record.klass  = "selected"
-        else
-          record.link   = courts_path(current.to_s)
-        end
-      end
+      current
     end
 
     def valid?
@@ -41,7 +34,7 @@ module BookingSlots
 
     alias_method :all, :dates
 
-    private
+  private
 
     def set_dates
       @date_from.to(@no_of_days)

@@ -29,7 +29,7 @@ describe BookingSlots::Table do
         if row == subject.rows.first || row == subject.rows.last
           expect(row).to be_instance_of(BookingSlots::HeaderRow)
         else
-          expect(row).to be_instance_of(BookingSlots::SlotRow)
+          expect(row).to be_instance_of(BookingSlots::Row)
         end
       end
     end
@@ -111,7 +111,7 @@ describe BookingSlots::Table do
   #
   # This might seem excessive and not very DRY however I think it is necessary to check that the table works correctly.
   # There will be no need for extensive cucumber tests.
-  # It highlighed a bug in my logice elsewhere
+  # It highlighed a bug in my logic elsewhere
   # and gives me complete confidence in my module.
   #
 
@@ -143,6 +143,8 @@ describe BookingSlots::Table do
     it { expect(Event.count).to eq(2) }
     it { expect(Closure.count).to eq(1)}
 
+    it { expect(subject.rows[1].klass).to eq("past")}
+
     it { expect(cell(1,1)).to have_text(' ') }
     it { expect(cell(1,1)).to_not be_a_link }
     it { expect(cell(3,1)).to have_text(booking1.players) }
@@ -155,25 +157,25 @@ describe BookingSlots::Table do
     it { expect(cell(5,3)).to have_text(booking6.link_text) }
     it { expect(cell(5,3)).to be_a_link }
     it { expect(cell(5,2)).to have_text(event1.description) }
-    it { expect(cell(6,1)).not_to be_valid }
-    it { expect(cell(6,2)).not_to be_valid }
-    it { expect(cell(7,1)).not_to be_valid }
-    it { expect(cell(7,2)).not_to be_valid }
-    it { expect(cell(8,1)).to be_valid }
+    it { expect(cell(6,1)).to be_blank }
+    it { expect(cell(6,2)).to be_blank }
+    it { expect(cell(7,1)).to be_blank }
+    it { expect(cell(7,2)).to be_blank }
+    it { expect(cell(8,1)).to be_active }
     it { expect(cell(9,3)).to have_text(booking2.players) }
     it { expect(cell(9,3)).to be_a_link }
     it { expect(cell(10,3)).to have_text(event2.description) }
     it { expect(cell(10,3)).to have_a_span_of(2) }
     it { expect(cell(10,4)).to have_text(event2.description) }
     it { expect(cell(10,4)).to have_a_span_of(2) }
-    it { expect(cell(11,3)).to_not be_valid }
-    it { expect(cell(11,3)).to_not be_valid }
+    it { expect(cell(11,3)).to be_blank }
+    it { expect(cell(11,3)).to be_blank }
     it { expect(cell(14,1)).to have_text(closure1.description) }
     it { expect(cell(14,2)).to have_text(closure1.description) }
     it { expect(cell(14,3)).to have_text(closure1.description) }
-    it { expect(cell(15,1)).to_not be_valid }
-    it { expect(cell(15,2)).to_not be_valid }
-    it { expect(cell(15,3)).to_not be_valid }
+    it { expect(cell(15,1)).to be_blank }
+    it { expect(cell(15,2)).to be_blank }
+    it { expect(cell(15,3)).to be_blank }
     it { expect(cell(17,2)).to have_text(booking3.players) }
     it { expect(cell(17,2)).to be_a_link }
     it { expect(cell(18,4)).to have_text(booking4.players) }

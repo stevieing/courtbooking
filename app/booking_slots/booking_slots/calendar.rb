@@ -2,7 +2,6 @@ module BookingSlots
   class Calendar
 
     include Enumerable
-    include BookingSlots::Wrapper
 
     attr_reader :rows, :dates
 
@@ -24,7 +23,7 @@ module BookingSlots
       @dates.date_from.calendar_header(@dates.last)
     end
 
-    private
+  private
 
     def create_rows
       [].tap do |rows|
@@ -33,7 +32,7 @@ module BookingSlots
           add_row(rows) if new_row?
           @dates.up
         end
-      end
+      end.cap(header)
     end
 
     def new_row?
@@ -45,7 +44,7 @@ module BookingSlots
     end
 
     def add_cell
-      BookingSlots::Cell.new.tap { |cell| cell.add(@dates.current_record) }
+      BookingSlots::Cell::CalendarDate.new(@dates.current_record, @dates.current_date)
     end
 
     def add_row(rows)
@@ -53,6 +52,5 @@ module BookingSlots
       reset_cells
     end
 
-    cap :create_rows, :header
   end
 end

@@ -8,6 +8,7 @@ describe BookingSlots::Calendar do
     allow(Date).to receive(:today).and_return(Date.parse("Sat 30 March"))
   end
 
+  let(:attributes) { { date_from: date_from, current_date: date_today, no_of_days: 21, split: 7 } }
   subject { BookingSlots::Calendar.new(date_from, Date.today, 21, 7)}
 
   it { expect(subject.rows.first).to be_a_heading }
@@ -20,11 +21,8 @@ describe BookingSlots::Calendar do
 
   its(:heading) { should eq(date_from.calendar_header(subject.dates.last))}
 
-  ##
-  # Bug in the way rows are created. Schoolboy error!
-  #
-
   describe "different number of days" do
+    let(:new_attributes) { attributes.merge(no_of_days: 20)}
     subject { BookingSlots::Calendar.new(date_from, Date.today, 20, 7)}
 
     it { expect(subject.rows).to have(4).items }

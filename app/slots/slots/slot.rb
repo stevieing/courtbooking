@@ -30,7 +30,7 @@ module Slots
       "<#{self.class}: @from=#{@from}, @to=#{@to} @series=#{@series.inspect}>"
     end
 
-    private
+  private
 
     def save
       @to = set_to if @to.nil?

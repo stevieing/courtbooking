@@ -10,15 +10,6 @@ describe Guest do
     its(:all_bookings) { should be_empty }
   end
 
-  describe '#permissions' do
-
-    subject { Guest.new.permissions }
-
-    it { expect(subject).to have(3).items}
-    it { expect(subject.all? { |permission| permission.instance_of?(AllowedAction)}).to be_true}
-
-  end
-
   it_behaves_like "Current permissions"
 
 end

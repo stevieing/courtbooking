@@ -1,7 +1,6 @@
 module BookingSlots
   class Courts
 
-    include BookingSlots::Wrapper
     include IndexManager
     set_enumerator :courts
 
@@ -21,18 +20,12 @@ module BookingSlots
     end
 
     def header
-      @courts.select(:number).collect { |court| "Court #{court.number.to_s}" }
-    end
-
-    def wrapper
-      "&nbsp;"
+      @courts.select(:number).collect { |court| "Court #{court.number.to_s}" }.wrap("&nbsp;")
     end
 
     def current_open?(time)
       current.opening_times.select { |court| court.slot.cover?(time) }.any?
     end
-
-    wrap :header, :wrapper
 
     alias_method :all, :courts
   end

@@ -6,8 +6,6 @@ describe User::Admin do
 
   it_behaves_like "an STI class"
 
-  its(:admin?) { should be_true}
-
   it_behaves_like "Current permissions"
 
   describe '#all_bookings' do

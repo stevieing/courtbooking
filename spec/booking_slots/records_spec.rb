@@ -74,16 +74,14 @@ describe BookingSlots::Records do
     let(:activity)          { build(:activity) }
     let(:booking)           { build(:booking) }
     let(:todays_slots)      { build(:todays_slots) }
-    let(:current_activity)  { build(:current_record) }
-    let(:current_booking)   { build(:current_record) }
 
     context 'activity' do
 
       before(:each) do
-        allow(subject.activities).to receive(:current_record).with(subject.courts, todays_slots).and_return(current_activity)
+        allow(subject.activities).to receive(:current_record).with(subject.courts, todays_slots).and_return(activity)
       end
 
-      it { expect(subject.current_record(todays_slots)).to eq(current_activity)}
+      it { expect(subject.current_record(todays_slots)).to eq(activity)}
 
     end
 
@@ -91,10 +89,10 @@ describe BookingSlots::Records do
 
       before(:each) do
         allow(subject.activities).to receive(:current_record).with(subject.courts, todays_slots).and_return(nil)
-        allow(subject.bookings).to receive(:current_record).with(subject.courts, todays_slots).and_return(current_booking)
+        allow(subject.bookings).to receive(:current_record).with(subject.courts, todays_slots).and_return(booking)
       end
 
-      it { expect(subject.current_record(todays_slots)).to eq(current_booking)}
+      it { expect(subject.current_record(todays_slots)).to eq(booking)}
 
     end
 
@@ -133,6 +131,35 @@ describe BookingSlots::Records do
 
     end
 
+  end
+
+  describe '#inactive_slot' do
+    let(:todays_slots)      { build(:todays_slots) }
+
+    context 'active' do
+      before(:each) do
+        allow(todays_slots).to receive(:current_court_open?).and_return(true)
+        allow(todays_slots).to receive(:grid_synced?).and_return(true)
+      end
+
+      it { expect(todays_slots.slot_type).to eq(:open)}
+    end
+
+    context 'blank' do
+      before(:each) do
+        allow(todays_slots).to receive(:grid_synced?).and_return(false)
+      end
+
+      it { expect(todays_slots.slot_type).to eq(:blank)}
+    end
+
+    context 'closed' do
+      before(:each) do
+        allow(todays_slots).to receive(:current_court_open?).and_return(false)
+      end
+
+      it { expect(todays_slots.slot_type).to eq(:closed)}
+    end
   end
 
 end

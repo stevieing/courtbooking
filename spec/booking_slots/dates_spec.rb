@@ -4,9 +4,12 @@ describe BookingSlots::Dates do
 
   let(:date_from) { Date.parse("10 March 2014")}
 
+
   before(:each) do
     Date.stub(:today).and_return(Date.parse("14 March 2014"))
   end
+
+  let(:attributes) { { date_from: date_from, current_date: date_today, no_of_days: 20} }
 
   subject { BookingSlots::Dates.new(date_from, Date.today, 20)}
 
@@ -31,19 +34,13 @@ describe BookingSlots::Dates do
 
   describe '#current record' do
 
-    it { expect(subject.current_record).to have_text(subject.first.day_of_month)}
-    it { expect(subject.current_record).to be_a_link_to(courts_path(subject.first.to_s))}
+    it { expect(subject.current_record).to eq(subject.first)}
 
-    context 'today' do
+  end
 
-      before(:each) do
-        subject.up(4)
-      end
+  describe '#current_date' do
 
-      it { expect(subject.current_record).to have_text(Date.today.day_of_month)}
-      it { expect(subject.current_record.link).to be_nil }
-      it { expect(subject.current_record.klass).to eq("selected")}
-    end
+    it { expect(subject.current_date).to eq(Date.today)}
 
   end
 

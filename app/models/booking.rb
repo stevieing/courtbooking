@@ -65,12 +65,17 @@ class Booking < ActiveRecord::Base
     end
   end
 
-  def link_text
+  #TODO: this can be removed once BookingSlots has been refactored.
+  def link_text_temp
     if in_the_future? && new_record?
-      "#{court.number.to_s} - #{date_from_text} #{time_from}"
+      "#{court.number} - #{date_from_text} #{time_from}"
     else
       players
     end
+  end
+
+   def link_text
+    "#{court.number} - #{date_from_text} #{time_from}"
   end
 
   def in_the_future?

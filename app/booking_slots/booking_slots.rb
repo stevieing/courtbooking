@@ -28,7 +28,7 @@ module BookingSlots
 
   autoload :Properties
   autoload :Records
-  autoload :CurrentRecord
+  #autoload :CurrentRecord
   autoload :TodaysSlots
   autoload :Bookings
   autoload :Unavailable
@@ -36,10 +36,8 @@ module BookingSlots
   autoload :Courts
   autoload :Table
   autoload :Cell
-  autoload :NullCell
-  autoload :CellBuilder
+  #autoload :NullCell
   autoload :HtmlKlass
-  autoload :Wrapper
   autoload :Calendar
   autoload :Dates
 
@@ -47,7 +45,6 @@ module BookingSlots
 
     autoload :Row
     autoload :HeaderRow
-    autoload :SlotRow
 
   end
 

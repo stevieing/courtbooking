@@ -3,14 +3,18 @@ module BookingSlots
   class HeaderRow < BookingSlots::Row
 
     def initialize(header)
-      @header, @heading = header, true
+      @header = header
       @cells = create_cells
     end
 
-    private
+    def heading?
+      true
+    end
+
+  private
 
     def create_cells
-      @header.collect { |cell| BookingSlots::Cell.new(cell) }
+      @header.collect { |cell| BookingSlots::Cell::Text.new(cell) }
     end
 
   end

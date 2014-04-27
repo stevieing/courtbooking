@@ -2,13 +2,8 @@ class Member < User
 
   include Permissions
 
-  # TODO: remove this once permissions/policies have been removed
-  def admin?
-    false
-  end
-
   def all_bookings
-    if current_permissions.allow_all?(:bookings, :edit)
+    if allow?(:bookings, :edit)
       Booking.includes(:user, :court).ordered.load
     else
       bookings.includes(:court).ordered.load
