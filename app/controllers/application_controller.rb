@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
     @header ||= "#{params[:action].capitalize} #{params[:controller].split('/').last.capitalize.singularize}"
   end
 
-  helper_method :allow?, :can_edit?, :can_destroy?, :current_year, :header, :current_or_guest_user
+  helper_method :allow?, :current_year, :header, :current_or_guest_user
 
   private
 

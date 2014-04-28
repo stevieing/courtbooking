@@ -26,14 +26,15 @@ module BookingSlots
       @properties.valid?
     end
 
-    private
+  private
 
     def create_message
-      String.new.tap do |message|
-        @closures.each do |closure|
-          message << closure.message
-        end
-      end
+      @closures.inject(String.new) { |message, closure| message << closure.message }
+      # String.new.tap do |message|
+      #   @closures.each do |closure|
+      #     message << closure.message
+      #   end
+      # end
     end
 
   end

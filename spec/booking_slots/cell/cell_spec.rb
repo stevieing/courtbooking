@@ -37,10 +37,36 @@ module BookingSlots::Cell
         it { expect(subject).to be_instance_of(BookingSlots::Cell::Blank)}
       end
 
-       context 'closed' do
+      context 'closed' do
         subject { BookingSlots::Cell.build(:closed) }
 
         it { expect(subject).to be_instance_of(BookingSlots::Cell::Closed)}
+      end
+
+      context 'BookingSlots::Table' do
+
+        subject {build(:booking_slots_table)}
+
+        context 'booking' do
+          before(:each) do
+            allow(subject).to receive(:current_record).and_return(build(:booking))
+          end
+
+          it { expect(BookingSlots::Cell.build(subject)).to be_instance_of(BookingSlots::Cell::Booking)}
+        end
+
+        context 'activity' do
+          before(:each) do
+            allow(subject).to receive(:current_record).and_return(build(:activity))
+          end
+
+          it { expect(BookingSlots::Cell.build(subject)).to be_instance_of(BookingSlots::Cell::Activity)}
+        end
+      end
+
+      context 'Calendar' do
+
+        it { expect(BookingSlots::Cell.build(Date.today, Date.today)).to be_instance_of(BookingSlots::Cell::CalendarDate)}
       end
     end
 

@@ -44,7 +44,7 @@ module BookingSlots
     end
 
     def add_cell
-      BookingSlots::Cell::CalendarDate.new(@dates.current_record, @dates.current_date)
+      BookingSlots::Cell.build(@dates.current_record, @dates.current_date)
     end
 
     def add_row(rows)
