@@ -1,10 +1,17 @@
+<%# an if statement in a view. Needs to be refactored. Presenters are calling! %>
 <%= form_for @booking, remote: remote  do |f| %>
 	<fieldset>
 		<legend><%= header %></legend>
 		<ul>
 			<li>
-				<%= f.label :username, "Member" %>
-				<span><%= current_user.full_name %></span>
+				<%= f.label :username, "Players" %>
+				<span>
+          <%if @booking.new_record? %>
+            <%= current_user.full_name %>
+          <% else %>
+            <%= @booking.players %>
+          <% end %>
+        </span>
 			</li>
 			<li>
 				<%= f.label :time_and_place, "Court: #{@booking.court.number}" %>
