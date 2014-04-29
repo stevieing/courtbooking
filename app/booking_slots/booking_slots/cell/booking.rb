@@ -6,19 +6,9 @@ module BookingSlots
 
       def initialize(booking, user)
         @booking, @user = booking, user
-        add_constraints
-      end
-
-      def link
-        @link ||= link_for
-      end
-
-      def text
-         @text ||= text_for
-      end
-
-      def klass
-        @klass ||= klass_for
+        @link = link_for
+        @text = text_for
+        @klass = klass_for
       end
 
       def active?
@@ -27,18 +17,12 @@ module BookingSlots
 
     private
 
-      def add_constraints
-        @new_record     = @booking.new_record?
-        @in_the_future  = @booking.in_the_future?
-        @editable       = @user.allow?(:bookings, :edit, @booking)
-      end
-
       def new_record?
-        @new_record
+        @new_record ||= @booking.new_record?
       end
 
       def in_the_future?
-        @in_the_future
+        @in_the_future ||= @booking.in_the_future?
       end
 
       def new_and_ahead?
@@ -46,7 +30,7 @@ module BookingSlots
       end
 
       def editable?
-        @editable
+        @user.allow?(:bookings, :edit, @booking)
       end
 
       def link_for

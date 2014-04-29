@@ -30,11 +30,6 @@ module BookingSlots
 
     def create_message
       @closures.inject(String.new) { |message, closure| message << closure.message }
-      # String.new.tap do |message|
-      #   @closures.each do |closure|
-      #     message << closure.message
-      #   end
-      # end
     end
 
   end
