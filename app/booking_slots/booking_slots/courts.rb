@@ -4,8 +4,6 @@ module BookingSlots
     include IndexManager
     set_enumerator :courts
 
-    attr_reader :courts
-
     def initialize(properties)
       @properties = properties
       @courts = Court.by_day(@properties.date)

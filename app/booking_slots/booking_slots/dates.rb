@@ -6,7 +6,6 @@ module BookingSlots
     include HashAttributes
 
     set_enumerator :dates
-    attr_reader :dates
     hash_attributes :date_from, :current_date, :no_of_days, :split
 
 

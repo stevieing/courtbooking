@@ -96,7 +96,6 @@ describe BookingSlots::Records do
 
     end
 
-    # this should never happen but we need to test it
     context 'nil' do
 
       before(:each) do
@@ -105,30 +104,6 @@ describe BookingSlots::Records do
       end
 
       it { expect(subject.current_record(todays_slots)).to eq(nil)}
-    end
-
-  end
-
-  describe '#current_court_open?' do
-
-    let(:todays_slots)      { build(:todays_slots) }
-
-    context 'court closed' do
-      before(:each) do
-        allow(todays_slots).to receive(:current_slot_time).and_return("07:00")
-      end
-
-      it {expect(subject.current_court_open?(todays_slots)).to be_false }
-
-    end
-
-    context 'court open' do
-      before(:each) do
-        allow(todays_slots).to receive(:current_slot_time).and_return("12:00")
-      end
-
-      it {expect(subject.current_court_open?(todays_slots)).to be_true }
-
     end
 
   end

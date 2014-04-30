@@ -1,6 +1,7 @@
 module HashAttributes
 
   extend ActiveSupport::Concern
+  include Slots::Helpers
 
   included do
   end
@@ -19,6 +20,12 @@ module HashAttributes
   def set_attributes(attributes)
     default_attributes.merge(attributes).each do |k,v|
       instance_variable_set "@#{k.to_s}", v
+    end
+  end
+
+   def set_attributes_with_time(attributes)
+    default_attributes.merge(attributes).each do |k,v|
+      instance_variable_set "@#{k.to_s}", to_time(v)
     end
   end
 end

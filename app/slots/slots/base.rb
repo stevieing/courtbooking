@@ -11,7 +11,7 @@ module Slots
     include IndexManager
     set_enumerator :slots
 
-    attr_reader :slots, :constraints
+    attr_reader :constraints
     delegate :slot_time, to: :constraints
 
     def initialize(options = {})
@@ -94,7 +94,7 @@ module Slots
     end
 
     def valid?
-      @constraints.valid? && !@slots.empty?
+      @constraints.valid? && @slots.any?
     end
 
     private

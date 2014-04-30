@@ -12,11 +12,10 @@ module AppSetup
   def load_constants!
     AppSettings.load!
 
-    Slots::Constraints.setup do |config|
-      config.slot_first   = AppSettings.const.slot_first
-      config.slot_last    = AppSettings.const.slot_last
-      config.slot_time    = AppSettings.const.slot_time
-    end
-    AppSettings.const.slots = CourtSlots.new
+    AppSettings.const.slots = CourtSlots.new(
+      slot_first: AppSettings.const.slot_first,
+      slot_last: AppSettings.const.slot_last,
+      slot_time:  AppSettings.const.slot_time
+    )
   end
 end

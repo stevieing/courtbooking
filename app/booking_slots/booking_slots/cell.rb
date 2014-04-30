@@ -1,9 +1,7 @@
 module BookingSlots
   module Cell
 
-    def self.build(*args)
-      cell_type_for(*args)
-    end
+
 
     extend ActiveSupport::Autoload
 
@@ -17,10 +15,13 @@ module BookingSlots
 
     #
     # TODO: this is already right for refactoring.
-    # Cell needs to know too much about BookingSlots
     #
 
     class << self
+
+      def build(*args)
+        cell_type_for(*args)
+      end
 
       def cell_type_for(*args)
         return if args.first.nil?
@@ -31,7 +32,7 @@ module BookingSlots
 
     private
 
-      def cell_type_for_record(table)
+      def cell_type_for_record(table, &block)
         record = table.current_record
         "BookingSlots::Cell::#{get_klass(record)}".constantize.build(record, table.user)
       end

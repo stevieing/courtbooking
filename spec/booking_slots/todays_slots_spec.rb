@@ -34,35 +34,6 @@ describe BookingSlots::TodaysSlots do
     it { expect(subject[0]).to have(15).items}
   end
 
-  describe '#current_slot_valid?' do
-
-    subject { BookingSlots::TodaysSlots.new(court_slots, records)}
-
-    context 'court closed' do
-
-      it { expect(subject.current_slot_valid?).to be_false}
-    end
-
-    context 'slots not synced' do
-      before(:each) do
-        subject.up(4)
-        subject.skip(5)
-      end
-
-      it { expect(subject.current_slot_valid?).to be_false}
-    end
-
-    context 'court open and slots synced' do
-      before(:each) do
-        subject.up(4)
-        subject.skip(4)
-      end
-
-      it { expect(subject.current_slot_valid?).to be_true}
-    end
-
-  end
-
   describe '#current_datetime' do
 
     subject { BookingSlots::TodaysSlots.new(court_slots, records)}

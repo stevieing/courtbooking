@@ -27,7 +27,7 @@ module BookingSlots
     end
 
     def valid?
-      !@cells.nil?
+      @cells.any?
     end
   end
 

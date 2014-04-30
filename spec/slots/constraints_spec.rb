@@ -7,22 +7,6 @@ describe Slots::Constraints do
 	let(:time_step)		 	{ 30 }
 	let(:options)				{ {slot_first: time_first, slot_last: time_last, slot_time: time_step} }
 
-	describe '#setup' do
-		before(:each) do
-			Slots::Constraints.setup do |config|
-				config.slot_first 	= time_first.to_time
-				config.slot_last 		= time_last.to_time
-				config.slot_time 		= time_step
-			end
-		end
-
-		it { expect(Slots::Constraints.slot_first).to eq(time_first.to_time) }
-		it { expect(Slots::Constraints.slot_last).to eq(time_last.to_time) }
-		it { expect(Slots::Constraints.slot_time).to eq(time_step) }
-		it { expect(Slots::Constraints.new.slot_first).to eq(time_first.to_time) }
-		
-	end
-
 	subject { Slots::Constraints.new(options)}
 
 	describe '#new' do
@@ -33,7 +17,7 @@ describe Slots::Constraints do
 
 		it { expect(subject.slot).to be_valid}
 		it { expect(subject.series).to be_instance_of(Slots::Series)}
-	  
+
 	end
 
 	describe '#cover?' do
@@ -58,20 +42,20 @@ describe Slots::Constraints do
 
 	end
 
-	describe '#new_constraint' do
+	# describe '#new_constraint' do
 
-		subject { Slots::Constraints.new_constraint(time_first, time_last, time_step)}
+	# 	subject { Slots::Constraints.new_constraint(time_first, time_last, time_step)}
 
-		it { expect(subject.instance_of?(Slots::Constraints)).to be_true}
-	end
+	# 	it { expect(subject.instance_of?(Slots::Constraints)).to be_true}
+	# end
 
-	describe '#valid' do
-		it { expect(subject).to be_valid }
-		it { expect(Slots::Constraints.new(options.except(:slot_time))).to_not be_valid  }
-		it { expect(Slots::Constraints.new(options.except(:slot_first))).to_not be_valid }
-		it { expect(Slots::Constraints.new(options.except(:slot_last))).to_not be_valid  }
+	# describe '#valid' do
+	# 	it { expect(subject).to be_valid }
+	# 	it { expect(Slots::Constraints.new(options.except(:slot_time))).to_not be_valid  }
+	# 	it { expect(Slots::Constraints.new(options.except(:slot_first))).to_not be_valid }
+	# 	it { expect(Slots::Constraints.new(options.except(:slot_last))).to_not be_valid  }
 
 
-	end
+	# end
 
 end

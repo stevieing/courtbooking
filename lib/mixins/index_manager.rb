@@ -30,6 +30,7 @@ module IndexManager
       define_method :enumerator do
         instance_variable_get("@#{enumerator.to_s}")
       end
+      attr_reader enumerator
     end
 
     ##
