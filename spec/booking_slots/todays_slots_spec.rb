@@ -39,7 +39,7 @@ describe BookingSlots::TodaysSlots do
     subject { BookingSlots::TodaysSlots.new(court_slots, records)}
 
     before(:each) do
-      allow(subject).to receive(:current_slot_time).and_return("14:00")
+      allow(subject.master).to receive(:current_slot_time).and_return("14:00")
     end
 
     it { expect(subject.current_datetime).to eq(DateTime.parse("#{Date.today.to_s(:uk)} 14:00"))}

@@ -1,6 +1,7 @@
 module BookingSlots
   module Cell
-    class Activity < Base
+    class Activity
+      include Record
 
       def self.build(*args)
         new(args.first)
@@ -22,9 +23,6 @@ module BookingSlots
         @klass ||= @activity.class.to_s.downcase
       end
 
-      def active?
-        true
-      end
     end
   end
 end

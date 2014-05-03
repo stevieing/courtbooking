@@ -1,7 +1,5 @@
 $.fn.fade = (time) -> this.fadeOut time
 
-$.fn.parentColor = () -> this.parent().css 'background-color', this.css 'background-color'
-
 $(document).ajaxError (e, XHR, options) ->
 	if(XHR.status == 401)
 		$("#flash").show()

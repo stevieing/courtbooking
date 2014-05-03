@@ -30,17 +30,10 @@ FactoryGirl.define do
       action ["show"]
     end
 
-    factory :bookings_destroy do
-      name "Delete a booking"
-      controller "bookings"
-      action ["destroy"]
-      user_specific true
-    end
-
     factory :bookings_edit do
-      name "Edit a booking"
+      name "Modify a booking"
       controller "bookings"
-      action ["edit", "update"]
+      action ["edit", "update", "destroy"]
       user_specific true
     end
 

@@ -4,7 +4,7 @@ module PermissionsHelpers
   end
 
   def standard_permissions
-    [:bookings_index, :bookings_new, :bookings_show, :bookings_destroy, :bookings_edit, :user_edit, :users_index]
+    [:bookings_index, :bookings_new, :bookings_show, :bookings_edit, :user_edit, :users_index]
   end
 
   def admin_permissions
@@ -12,7 +12,7 @@ module PermissionsHelpers
   end
 
   def bookings_permissions
-    [:edit_all_bookings, :bookings_destroy, :bookings_edit]
+    [:edit_all_bookings, :bookings_edit]
   end
 
   def create_permissions(permissions)

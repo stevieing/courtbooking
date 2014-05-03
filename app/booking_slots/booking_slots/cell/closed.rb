@@ -1,6 +1,7 @@
 module BookingSlots
   module Cell
-    class Closed < Base
+    class Closed
+      include Base
 
       def self.build(*args)
         new

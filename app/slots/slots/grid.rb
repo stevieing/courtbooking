@@ -5,7 +5,7 @@ module Slots
 
     attr_accessor :objects
     attr_reader :original
-    delegate :frozen?, :up, :current_slot_time, :current_time, :current, :end?, to: :original
+    delegate :current, :frozen?, to: :original
 
     def initialize(number, original)
       @number, @original = number, original
@@ -36,7 +36,9 @@ module Slots
       @objects[index].up(by)
     end
 
-    private
+    alias_method :master, :original
+
+  private
 
     def create_objects
       (1..@number).collect { |i| @original.dup }

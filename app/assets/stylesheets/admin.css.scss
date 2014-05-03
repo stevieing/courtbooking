@@ -52,7 +52,7 @@
 	}
 }
 
-#managesettings{
+#manage-settings{
 
 	fieldset{
 		border: none;
@@ -75,7 +75,7 @@
 	}
 }
 
-.adminform{
+.admin-form{
 
 	fieldset{
 		background-color: $light-brown;
@@ -114,12 +114,12 @@
 	}
 
 	.submit{
-		width: 100%;
+		width: 97%;
 	}
 
 }
 
-.managecourt{
+.manage-court{
 
 	ul ul li{
 		&:first-child{
@@ -151,7 +151,7 @@
 
 }
 
-.manageuser{
+.manage-user{
 	input[type="text"], input[type="email"], input[type="password"]{
 		min-width: 250px;
 	}
@@ -188,7 +188,7 @@
 	}
 }
 
-.manageactivity{
+.manage-activity{
 	#courts{
 		width: 50%;
 		float: right;

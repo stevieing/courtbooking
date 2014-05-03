@@ -1,6 +1,7 @@
 module BookingSlots
   module Cell
-    class Text < Base
+    class Text
+      include Base
 
       def initialize(text = "&nbsp;")
         @text = text

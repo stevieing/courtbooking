@@ -32,7 +32,7 @@ module BookingSlots
 
     private
 
-      def cell_type_for_record(table, &block)
+      def cell_type_for_record(table)
         record = table.current_record
         "BookingSlots::Cell::#{get_klass(record)}".constantize.build(record, table.user)
       end

@@ -1,9 +1,16 @@
 module BookingSlots
   module Cell
-    class Base
+    module Base
 
-      def self.build(*args)
-        new(*args)
+      extend ActiveSupport::Concern
+
+      included do
+      end
+
+      module ClassMethods
+        def build(*args)
+          new(*args)
+        end
       end
 
       attr_accessor :text, :link, :klass, :span

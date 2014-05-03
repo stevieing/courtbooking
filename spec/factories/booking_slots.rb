@@ -45,9 +45,6 @@ FactoryGirl.define do
     initialize_with { new(properties)}
   end
 
-  factory :cell, class: BookingSlots::Cell::Base do
-  end
-
   factory :dates, class: BookingSlots::Dates do
     attrs { {date_from: Date.today, current_date: Date.today, no_of_days: 21, split: 7} }
 

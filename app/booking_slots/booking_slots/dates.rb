@@ -2,10 +2,10 @@ module BookingSlots
   class Dates
 
     include Rails.application.routes.url_helpers
-    include IndexManager
+    include IndexSplitter
     include HashAttributes
 
-    set_enumerator :dates
+    set_enumerator_with_split :dates, :split
     hash_attributes :date_from, :current_date, :no_of_days, :split
 
 

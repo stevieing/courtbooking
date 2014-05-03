@@ -17,20 +17,16 @@
         <td><%= booking.time_from %></td>
         <td><%= booking.time_to %></td>
         <td><%= booking.court.number %></td>
-        <td>
-          <% if allow? :bookings, :edit, booking %>
+        <% if allow? :bookings, :edit, booking %>
+          <td>
             <%= link_to "Edit", edit_booking_path(booking), remote: true %>
-          <% else %>
-            &nbsp;
-          <% end %>
-        </td>
-        <td>
-          <% if allow? :bookings, :destroy, booking %>
+          </td>
+          <td>
             <%= link_to "Delete", booking_path(booking), method: :delete, data: {confirm: "Are you sure?"} %>
-          <% else %>
-            &nbsp;
-          <% end %>
-        </td>
+          </td>
+        <% else %>
+          <td>&nbsp;</td><td>&nbsp;</td>
+        <% end %>
       <tr>
     <% end %>
   </table>

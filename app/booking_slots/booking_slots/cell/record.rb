@@ -1,13 +1,13 @@
 module BookingSlots
   module Cell
-    class Blank
+    module Record
+      extend ActiveSupport::Concern
       include Base
 
-      def self.build(*args)
-        new
+      included do
       end
 
-      def blank?
+      def active?
         true
       end
     end

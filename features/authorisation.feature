@@ -50,15 +50,6 @@ Feature: Users can only access permitted areas
     When I edit the booking I have created
     Then I should not be authorised
 
-  @member
-  Scenario: Deleting a booking without permissions
-    Given I am signed in as a member
-    And I have permission to Create a new booking
-    And I have created a booking
-    And I have permission to Edit a booking
-    When I edit the booking I have created
-    Then I should not be able to delete the booking
-
   @member @adminpermissions
   Scenario Outline: navigate to each administrative page
     Given I am signed in as a member

@@ -73,7 +73,11 @@ module BookingSlots::Cell
 
     describe Base do
 
-      let(:cell)    { BookingSlots::Cell::Base.new }
+      class TestCell
+        include BookingSlots::Cell::Base
+      end
+
+      subject   { TestCell.new }
 
       its(:text)    { should be_nil }
       its(:klass)   { should be_nil }
@@ -86,7 +90,7 @@ module BookingSlots::Cell
       it            { should be_valid }
 
       describe '#build' do
-        it { expect(Base.build).to be_instance_of(BookingSlots::Cell::Base)}
+        it { expect(TestCell.build).to be_instance_of(TestCell)}
       end
     end
 

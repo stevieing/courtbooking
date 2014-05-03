@@ -1,6 +1,7 @@
 module BookingSlots
   module Cell
-    class CalendarDate < Base
+    class CalendarDate
+      include Base
 
       include Rails.application.routes.url_helpers
 

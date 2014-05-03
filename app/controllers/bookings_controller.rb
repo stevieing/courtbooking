@@ -66,7 +66,7 @@ class BookingsController < ApplicationController
        end
        flash_keep notice
        #quick fix to cope with where destroy request comes from.
-       if request.referrer.include?("bookings")
+       if referrer_booking_path?
          redirect_to bookings_path
        else
          redirect_to courts_path(@booking.date_from)
@@ -80,6 +80,10 @@ class BookingsController < ApplicationController
   end
 
   private
+
+  def referrer_booking_path?
+    Rails.application.routes.recognize_path(request.referrer)[:controller] == "bookings"
+  end
 
   def current_resource
     @current_resource ||= Booking.find(params[:id]) if params[:id]

@@ -1,6 +1,7 @@
 module BookingSlots
   module Cell
-    class Booking < Base
+    class Booking
+      include Record
 
       include Rails.application.routes.url_helpers
 
@@ -9,10 +10,6 @@ module BookingSlots
         @link = link_for
         @text = text_for
         @klass = klass_for
-      end
-
-      def active?
-        true
       end
 
     private

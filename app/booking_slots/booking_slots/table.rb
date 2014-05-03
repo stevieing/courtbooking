@@ -9,16 +9,17 @@ module BookingSlots
 
     include Enumerable
 
-    attr_reader :rows, :records
+    attr_reader :rows, :records, :properties
     delegate :last, to: :rows
     delegate :closure_message, to: :records
+    delegate :user, to: :properties
 
     def initialize(date, user, slots)
       @date, @slots = date, slots
       @properties = Properties.new(date, user)
       @records = Records.new(@properties)
       @todays_slots = TodaysSlots.new(slots.dup, @records)
-      @rows = create_rows
+      @rows = create_rows.wrap(header)
     end
 
     def each(&block)
@@ -41,23 +42,24 @@ module BookingSlots
       @records.current_record(@todays_slots)
     end
 
-    def user
-      @properties.user
-    end
-
-    private
+  private
 
     def header
       HeaderRow.new(@records.courts.header)
     end
 
     def create_rows
-      [].tap do |rows|
-        until @todays_slots.end?
-          rows << BookingSlots::Row.new(create_cells, row_klass)
-          @todays_slots.up
+      build_cells(@todays_slots.master) do
+        BookingSlots::Row.new(create_cells.wrap(wrapper), row_klass)
+      end
+    end
+
+    def create_cells
+      build_cells(@records.courts) do
+        BookingSlots::Cell.build(@todays_slots.slot_type, self).tap do |cell|
+          @todays_slots.skip(cell.span) if cell.active?
         end
-      end.wrap(header)
+      end
     end
 
     def row_klass
@@ -65,22 +67,16 @@ module BookingSlots
     end
 
     def wrapper
-      BookingSlots::Cell::Text.new(@todays_slots.current_slot_time)
+      BookingSlots::Cell::Text.new(@todays_slots.master.current_slot_time)
     end
 
-    def create_cells
+    def build_cells(enumerator, &block)
       [].tap do |cells|
-        until @records.courts.end?
-          cells << add_cell
-          @records.courts.up
+        until enumerator.end?
+          cells << block.call
+          enumerator.up
         end
-        @records.courts.reset!
-      end.wrap(wrapper)
-    end
-
-    def add_cell
-      BookingSlots::Cell.build(@todays_slots.slot_type, self).tap do |cell|
-        @todays_slots.skip(cell.span) if cell.active?
+        enumerator.reset!
       end
     end
 

@@ -36,7 +36,7 @@ module BookingSlots
     end
 
     def current_court_open?(slots)
-      @courts.current_open?(slots.current_slot_time)
+      @courts.current_open?(slots.master.current_slot_time)
     end
 
   private

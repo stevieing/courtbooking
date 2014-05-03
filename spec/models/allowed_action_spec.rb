@@ -8,6 +8,8 @@ describe AllowedAction do
   it { should have_db_column(:user_specific).of_type(:boolean).with_options(default: false)}
   it { should have_db_column(:admin).of_type(:boolean).with_options(default: false)}
 
+  it { should have_many(:permissions)}
+
   describe '#action_text' do
     subject { create(:allowed_action, action_text: "a,b,c,d,e")}
 

@@ -18,11 +18,13 @@
 				<span><%= @booking.time_and_place_text %></span>
 			</li>
 			<%= f.hidden_field :time_and_place, :value => @booking.time_and_place %>
-			<li>
-				<%= f.label :opponent_name, "Opponent" %>
-        <%= f.text_field :opponent_name, data: {autocomplete_source: users_path} %>
-			</li>
-		<%= f.submit "Submit booking" %>
+      <% if allow? :users, :index %>
+  			<li>
+  				<%= f.label :opponent_name, "Opponent" %>
+          <%= f.text_field :opponent_name, data: {autocomplete_source: users_path} %>
+  			</li>
+      <% end %>
+		<%= f.submit "Submit booking", class: "submit-55-right" %>
 		</ul>
 
 	</fieldset>

@@ -1,3 +1,9 @@
+#
+# TODO: This has also undergone a partial refactor.
+# I think it is now possible to start extracting the behaviour from the calendar and table
+# into a separate module.
+#
+
 module BookingSlots
   class Calendar
 
@@ -7,8 +13,7 @@ module BookingSlots
 
     def initialize(attributes)
       @dates = BookingSlots::Dates.new(attributes)
-      reset_cells
-      @rows = create_rows
+      @rows = create_rows.cap(header)
     end
 
     def each(&block)
@@ -28,28 +33,20 @@ module BookingSlots
     def create_rows
       [].tap do |rows|
         until @dates.end?
-          @cells << add_cell
-          add_row(rows) if new_row?
-          @dates.up
+          rows << BookingSlots::Row.new(create_cells)
         end
-      end.cap(header)
+        @dates.reset!
+      end
     end
 
-    def new_row?
-      ( @cells.count % @dates.split == 0 ) || @dates.last?
-    end
-
-    def reset_cells
-      @cells = []
-    end
-
-    def add_cell
-      BookingSlots::Cell.build(@dates.current_record, @dates.current_date)
-    end
-
-    def add_row(rows)
-      rows << BookingSlots::Row.new(@cells)
-      reset_cells
+    def create_cells
+      [].tap do |cells|
+        loop do
+          cells << BookingSlots::Cell.build(@dates.current_record, @dates.current_date)
+          @dates.up
+          break if @dates.split?
+        end
+      end
     end
 
   end

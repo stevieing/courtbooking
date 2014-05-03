@@ -4,7 +4,7 @@ module BookingSlots
     include Enumerable
 
     attr_reader :grid
-    delegate [], :up, :current_slot_time, :current_time, :current, :end?, to: :grid
+    delegate [], :current, :master, to: :grid
 
     def initialize(slots, records)
       @records = records
@@ -26,7 +26,7 @@ module BookingSlots
     end
 
     def current_datetime
-      DateTime.parse("#{@records.date} #{current_slot_time}")
+      DateTime.parse("#{@records.date} #{master.current_slot_time}")
     end
 
     def grid_synced?
