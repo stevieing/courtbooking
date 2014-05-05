@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe BookingSlots::Table do
+describe BookingSlots::BookingsGrid do
 
   before(:each) do
     stub_settings
@@ -16,9 +16,9 @@ describe BookingSlots::Table do
   let!(:other_user)     { create(:member) }
   let!(:opponent)       { create(:member) }
 
-  subject { BookingSlots::Table.new(Date.today+1, user, court_slots) }
+  subject { BookingSlots::BookingsGrid.new(Date.today+1, user, court_slots) }
 
-  it            { should be_instance_of(BookingSlots::Table) }
+  it            { should be_instance_of(BookingSlots::BookingsGrid) }
   it            { expect(subject.rows).to have(23).items }
   its(:heading) { should eq((Date.today+1).to_s(:uk))}
 
@@ -27,7 +27,7 @@ describe BookingSlots::Table do
     it "should be of correct type" do
       subject.rows.each do |row|
         if row == subject.rows.first || row == subject.rows.last
-          expect(row).to be_instance_of(BookingSlots::HeaderRow)
+          expect(row).to be_a_heading
         else
           expect(row).to be_instance_of(BookingSlots::Row)
         end
@@ -38,8 +38,8 @@ describe BookingSlots::Table do
 
   describe "two tables" do
     before(:each) do
-      @table1 = BookingSlots::Table.new(Date.today+1, user, court_slots)
-      @table2 = BookingSlots::Table.new(Date.today+1, user, court_slots)
+      @table1 = BookingSlots::BookingsGrid.new(Date.today+1, user, court_slots)
+      @table2 = BookingSlots::BookingsGrid.new(Date.today+1, user, court_slots)
     end
 
     it { expect(@table2.rows.count).to eq(23) }
@@ -47,12 +47,13 @@ describe BookingSlots::Table do
 
   describe "closures" do
 
+    let!(:unavailable) {create(:closure, date_from: Date.today+1, court_ids: Court.pluck(:id), date_to: Date.today+2, time_from: "12:00", time_to: "15:00")}
+
     before(:each) do
       allow(Settings).to receive(:slots).and_return(CourtSlots.new(options))
-      BookingSlots::Unavailable.any_instance.stub(:get_closures).and_return([create(:closure, date_from: Date.today+1, court_ids: Court.pluck(:id), date_to: Date.today+2, time_from: "12:00", time_to: "15:00")])
     end
 
-    subject { BookingSlots::Table.new(Date.today+1, user, court_slots)}
+    subject { BookingSlots::BookingsGrid.new(Date.today+1, user, court_slots)}
 
     it { expect(subject.rows).to have(17).items}
     it { expect(subject.closure_message).to_not be_empty}
@@ -137,7 +138,7 @@ describe BookingSlots::Table do
       user.permissions.create(allowed_action: edit_bookings)
     end
 
-    subject { BookingSlots::Table.new(Date.today+1, user, court_slots) }
+    subject { BookingSlots::BookingsGrid.new(Date.today+1, user, court_slots) }
 
     it { expect(Booking.count).to eq(5) }
     it { expect(Event.count).to eq(2) }

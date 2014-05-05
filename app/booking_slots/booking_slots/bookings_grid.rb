@@ -5,25 +5,24 @@
 #
 
 module BookingSlots
-  class Table
+  class BookingsGrid
 
-    include Enumerable
-
-    attr_reader :rows, :records, :properties
+    attr_reader :rows, :records, :properties, :todays_slots
     delegate :last, to: :rows
     delegate :closure_message, to: :records
     delegate :user, to: :properties
+    delegate :skip, to: :todays_slots
+
+    class Rows
+      include BookingSlots::Container
+    end
 
     def initialize(date, user, slots)
       @date, @slots = date, slots
       @properties = Properties.new(date, user)
       @records = Records.new(@properties)
       @todays_slots = TodaysSlots.new(slots.dup, @records)
-      @rows = create_rows.wrap(header)
-    end
-
-    def each(&block)
-      @rows.each(&block)
+      @rows = create_rows
     end
 
     def heading
@@ -45,20 +44,34 @@ module BookingSlots
   private
 
     def header
-      HeaderRow.new(@records.courts.header)
-    end
-
-    def create_rows
-      build_cells(@todays_slots.master) do
-        BookingSlots::Row.new(create_cells.wrap(wrapper), row_klass)
+      Row.new(heading: true) do |row|
+        @records.courts.header.each do |cell|
+          row.add Cell::Text.new(cell)
+        end
       end
     end
 
-    def create_cells
-      build_cells(@records.courts) do
-        BookingSlots::Cell.build(@todays_slots.slot_type, self).tap do |cell|
-          @todays_slots.skip(cell.span) if cell.active?
+    def create_rows
+      build_cells(Rows, {}, header, @todays_slots.master) do
+        new_row
+      end
+    end
+
+    def new_row
+      build_cells(Row, {klass: row_klass}, wrapper, @records.courts) do
+        Cell.build(@todays_slots.slot_type, self)
+      end
+    end
+
+    def build_cells(model, args, wrapper, enumerator, &block)
+      model.new(args) do |cells|
+        cells.add wrapper
+        until enumerator.end?
+          cells.add block.call
+          enumerator.up
         end
+        cells.add wrapper
+        enumerator.reset!
       end
     end
 
@@ -67,17 +80,7 @@ module BookingSlots
     end
 
     def wrapper
-      BookingSlots::Cell::Text.new(@todays_slots.master.current_slot_time)
-    end
-
-    def build_cells(enumerator, &block)
-      [].tap do |cells|
-        until enumerator.end?
-          cells << block.call
-          enumerator.up
-        end
-        enumerator.reset!
-      end
+      Cell::Text.new(@todays_slots.master.current_slot_time)
     end
 
   end

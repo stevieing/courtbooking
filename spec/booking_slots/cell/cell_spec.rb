@@ -3,11 +3,17 @@ require "spec_helper"
 module BookingSlots::Cell
   describe "Cell" do
 
+    before(:each) do
+      create_settings_constant
+      allow(Settings).to receive(:slots).and_return(build(:court_slots))
+    end
+
+    let!(:courts)             { create_list(:court_with_defined_opening_and_peak_times, 4)}
+    let(:booking_slots_table) { build(:booking_slots_table)}
+
     describe '#build' do
 
       context 'open' do
-
-        let(:booking_slots_table) { build(:booking_slots_table)}
 
         context 'booking' do
           before(:each) do

@@ -51,7 +51,7 @@ FactoryGirl.define do
     initialize_with { new(attrs)}
   end
 
-  factory :booking_slots_table, class: BookingSlots::Table do
+  factory :booking_slots_table, class: BookingSlots::BookingsGrid do
     date Date.today
     user { FactoryGirl.build(:user)}
     slots { FactoryGirl.build(:court_slots) }

@@ -3,14 +3,6 @@ module BookingSlots
     class Activity
       include Record
 
-      def self.build(*args)
-        new(args.first)
-      end
-
-      def initialize(activity)
-        @activity = activity
-      end
-
       def text
         @text ||= @activity.description
       end
@@ -21,6 +13,12 @@ module BookingSlots
 
       def klass
         @klass ||= @activity.class.to_s.downcase
+      end
+
+    private
+
+      def build_record(record, user)
+        @activity = record
       end
 
     end

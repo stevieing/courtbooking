@@ -7,21 +7,23 @@
 module BookingSlots
   class Calendar
 
-    include Enumerable
-
     attr_reader :rows, :dates
 
-    def initialize(attributes)
-      @dates = BookingSlots::Dates.new(attributes)
-      @rows = create_rows.cap(header)
+    class Rows
+      include BookingSlots::Container
     end
 
-    def each(&block)
-      @rows.each(&block)
+    def initialize(attributes)
+      @dates = Dates.new(attributes)
+      @rows = create_rows
     end
 
     def header
-      BookingSlots::HeaderRow.new(@dates.header)
+      Row.new(heading: true) do |row|
+        @dates.header.each do |cell|
+          row.add Cell::Text.new(cell)
+        end
+      end
     end
 
     def heading
@@ -31,18 +33,19 @@ module BookingSlots
   private
 
     def create_rows
-      [].tap do |rows|
+      Rows.new do |rows|
+        rows.add header
         until @dates.end?
-          rows << BookingSlots::Row.new(create_cells)
+          rows.add new_row
         end
         @dates.reset!
       end
     end
 
-    def create_cells
-      [].tap do |cells|
+    def new_row
+      Row.new do |row|
         loop do
-          cells << BookingSlots::Cell.build(@dates.current_record, @dates.current_date)
+          row.add Cell.build(@dates.current_record, @dates.current_date)
           @dates.up
           break if @dates.split?
         end

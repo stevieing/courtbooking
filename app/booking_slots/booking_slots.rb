@@ -14,16 +14,14 @@ module BookingSlots
   autoload :Unavailable
   autoload :Activities
   autoload :Courts
-  autoload :Table
+  autoload :BookingsGrid
   autoload :Cell
-  autoload :HtmlKlass
   autoload :Calendar
   autoload :Dates
 
   eager_autoload do
 
     autoload :Row
-    autoload :HeaderRow
 
   end
 

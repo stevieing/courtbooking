@@ -13,7 +13,7 @@ describe BookingMailer do
     it "renders the headers" do
       mail.subject.should eq("Booking Confirmation - Stamford Squash Club")
       mail.to.should eq([booking.user.email, booking.opponent.email])
-      mail.from.should eq(["courtbooking@stamfordsquashclub.org.uk"])
+      mail.from.should eq(["bookings@stamfordsquashclub.org.uk"])
     end
 
     it "renders the body" do
@@ -29,7 +29,7 @@ describe BookingMailer do
     it "renders the headers" do
       mail.subject.should eq("Booking Cancelled - Stamford Squash Club")
       mail.to.should eq([booking.user.email, booking.opponent.email])
-      mail.from.should eq(["courtbooking@stamfordsquashclub.org.uk"])
+      mail.from.should eq(["bookings@stamfordsquashclub.org.uk"])
     end
 
     it "renders the body" do

@@ -9,6 +9,7 @@ module BookingSlots::Cell
         stub_settings
       end
 
+      let!(:courts)             { create_list(:court_with_defined_opening_and_peak_times, 4)}
       let!(:user)         { create(:member)}
       let!(:booking)      { create(:booking, date_from: Date.today+1, time_from: "19:00", time_to: "19:30")}
       let!(:new_booking)  { build(:booking, date_from: Date.today+2, time_from: "19:00", time_to: "19:30")}
@@ -79,7 +80,10 @@ module BookingSlots::Cell
 
       describe '#build' do
 
-        it { expect(BookingSlots::Cell::Booking.build(booking, user)).to be_instance_of(BookingSlots::Cell::Booking)}
+        let(:booking_slots_table) { build(:booking_slots_table)}
+
+
+        it { expect(BookingSlots::Cell::Booking.build(booking, booking_slots_table)).to be_instance_of(BookingSlots::Cell::Booking)}
 
       end
 

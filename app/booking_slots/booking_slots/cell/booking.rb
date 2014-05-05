@@ -5,14 +5,14 @@ module BookingSlots
 
       include Rails.application.routes.url_helpers
 
-      def initialize(booking, user)
-        @booking, @user = booking, user
+    private
+
+      def build_record(record, user)
+        @booking, @user = record, user
         @link = link_for
         @text = text_for
         @klass = klass_for
       end
-
-    private
 
       def new_record?
         @new_record ||= @booking.new_record?

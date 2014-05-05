@@ -1,33 +1,22 @@
 module BookingSlots
 
   class Row
-    include Enumerable
+    include Container
 
-    attr_reader :cells, :klass
-    delegate :last, to: :cells
-
-    def initialize(cells = [], klass = nil)
-      @cells, @klass = cells, klass
-    end
-
-    def each(&block)
-      @cells.each(&block)
-    end
+    hash_attributes :heading, :klass
 
     def heading?
-      false
+      @heading
     end
 
     def inspect
-      "<#{self.class}: @heading=#{@heading}, @cells=#{@cells.each {|cell| cell.inspect}}>"
+      "<#{self.class}: @heading=#{@heading},  @klass=#{@klass}, @cells=#{@cells.each {|cell| cell.inspect}}>"
     end
 
-    def [](index)
-      @cells[index]
-    end
+  private
 
-    def valid?
-      @cells.any?
+    def default_attributes
+      super.merge(klass: nil, heading: false)
     end
   end
 
