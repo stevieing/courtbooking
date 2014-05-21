@@ -31,6 +31,10 @@ module BookingSlots
         false
       end
 
+      def blank?
+        false
+      end
+
       def span
         @span ||= 1
       end

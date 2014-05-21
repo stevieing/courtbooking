@@ -1,3 +1,8 @@
+##
+#
+#
+#
+
 module Slots
   class RangeChecker
     def initialize(slot, slots)

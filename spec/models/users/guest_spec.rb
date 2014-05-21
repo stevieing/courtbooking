@@ -10,6 +10,4 @@ describe Guest do
     its(:all_bookings) { should be_empty }
   end
 
-  it_behaves_like "Current permissions"
-
 end

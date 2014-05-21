@@ -20,14 +20,14 @@ module BookingSlots
 
     def header
       Row.new(heading: true) do |row|
-        @dates.header.each do |cell|
+        dates.header.each do |cell|
           row.add Cell::Text.new(cell)
         end
       end
     end
 
     def heading
-      @dates.date_from.calendar_header(@dates.last)
+      dates.date_from.calendar_header(dates.last)
     end
 
   private
@@ -35,21 +35,26 @@ module BookingSlots
     def create_rows
       Rows.new do |rows|
         rows.add header
-        until @dates.end?
+        loop do
           rows.add new_row
+          break if dates.end?
         end
-        @dates.reset!
+        dates.reset!
       end
     end
 
     def new_row
       Row.new do |row|
         loop do
-          row.add Cell.build(@dates.current_record, @dates.current_date)
-          @dates.up
-          break if @dates.split?
+          row.add new_cell
+          dates.up
+          break if dates.split?
         end
       end
+    end
+
+    def new_cell
+      Cell.build(dates.current_record, dates.current_date)
     end
 
   end

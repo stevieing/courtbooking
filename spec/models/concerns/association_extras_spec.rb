@@ -78,6 +78,4 @@ describe AssociationExtras do
 
   end
 
-
-
 end

@@ -50,29 +50,6 @@ shared_examples "AppSettings" do
   end
 end
 
-#TODO: improve way variables are passed.
-shared_examples IndexManager do
-
-  it { expect(described_class).to include(IndexManager) }
-  it { expect(described_class).to include(Enumerable) }
-  it { expect(subject.index).to eq(0) }
-  it { expect(subject.enumerator).to eq(subject.instance_variable_get(enum_attribute))}
-  it { expect(subject).to respond_to(:each)}
-  it { expect(subject.current).to eq(subject.instance_variable_get(enum_attribute).first)}
-
-end
-
-shared_examples FormManager do
-  it { expect(described_class).to include(FormManager) }
-  it { expect(described_class).to include(ActiveModel::Model) }
-  it { expect(described_class).to include(ParametersProcessor) }
-
-  it { expect(described_class).to respond_to(:set_model)}
-  it { expect(described_class).to respond_to(:add_initializer)}
-  it { expect(described_class).to respond_to(:set_associated_models)}
-
-end
-
 shared_examples "password processed" do
   let(:attributes)  { attributes_for(model).merge(password: "", password_confirmation: "")}
   subject           { described_class.new(create(model))}
@@ -83,13 +60,6 @@ shared_examples "password processed" do
 
   it { expect(model.to_s.classify.constantize.all).to have(1).item }
   it { expect(subject).to be_valid }
-end
-
-shared_examples OverlappingRecordsManager do
-
-  it { expect(described_class).to include(OverlappingRecordsManager)}
-  it { expect(described_class).to respond_to(:overlapping_object)}
-
 end
 
 shared_examples "Removes overlapping records" do
@@ -130,17 +100,5 @@ shared_examples "Verifies removal of overlapping records" do
   it { expect(subject).to_not be_valid }
   it { expect(Activity.all).to include(closure) }
   it { expect(Activity.all).to include(event) }
-
-end
-
-shared_examples "Current permissions" do
-
-  it { expect(described_class).to include(Permissions)}
-
-  subject { described_class.new }
-
-  it { expect(subject.current_permissions).to be_instance_of("Permissions::#{subject.class}Permission".constantize)}
-  it { expect(subject).to respond_to(:allow?) }
-  it { expect(subject).to respond_to(:permit_params!) }
 
 end

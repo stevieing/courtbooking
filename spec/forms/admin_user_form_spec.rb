@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe AdminMemberForm do
-  it_behaves_like FormManager
 
   it_behaves_like "password processed" do
     let(:model) { :member }

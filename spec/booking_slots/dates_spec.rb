@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe BookingSlots::Dates do
 
   let(:date_from) { Date.parse("10 March 2014")}
@@ -12,10 +10,6 @@ describe BookingSlots::Dates do
   let(:attributes) { { date_from: date_from, current_date: Date.today, no_of_days: 20} }
 
   subject { BookingSlots::Dates.new(attributes)}
-
-  it_behaves_like IndexManager do
-    let(:enum_attribute) { :@dates }
-  end
 
   describe '#dates' do
 

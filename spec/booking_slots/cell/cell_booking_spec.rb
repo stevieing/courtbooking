@@ -9,7 +9,7 @@ module BookingSlots::Cell
         stub_settings
       end
 
-      let!(:courts)             { create_list(:court_with_defined_opening_and_peak_times, 4)}
+      let!(:courts)       { create_list(:court_with_defined_opening_and_peak_times, 4)}
       let!(:user)         { create(:member)}
       let!(:booking)      { create(:booking, date_from: Date.today+1, time_from: "19:00", time_to: "19:30")}
       let!(:new_booking)  { build(:booking, date_from: Date.today+2, time_from: "19:00", time_to: "19:30")}
@@ -20,7 +20,6 @@ module BookingSlots::Cell
           subject { BookingSlots::Cell::Booking.new(new_booking, user)}
 
           it { expect(subject).to have_text(new_booking.link_text)}
-          it { expect(subject).to be_a_link}
           it { expect(subject).to be_a_link_to(court_booking_path(new_booking.new_attributes))}
           it { expect(subject).to have_klass("free")}
           it { expect(subject).to be_active}
@@ -68,7 +67,6 @@ module BookingSlots::Cell
             end
 
             it { expect(subject).to have_text(booking.players)}
-            it { expect(subject).to be_a_link}
             it { expect(subject).to be_a_link_to(edit_booking_path(booking))}
             it { expect(subject).to have_klass("booking")}
 

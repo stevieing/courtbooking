@@ -1,4 +1,4 @@
-require "spec_helper"
+#require "spec_helper"
 
 describe BookingSlots::BookingsGrid do
 
@@ -18,32 +18,8 @@ describe BookingSlots::BookingsGrid do
 
   subject { BookingSlots::BookingsGrid.new(Date.today+1, user, court_slots) }
 
-  it            { should be_instance_of(BookingSlots::BookingsGrid) }
   it            { expect(subject.rows).to have(23).items }
   its(:heading) { should eq((Date.today+1).to_s(:uk))}
-
-  describe "each row" do
-
-    it "should be of correct type" do
-      subject.rows.each do |row|
-        if row == subject.rows.first || row == subject.rows.last
-          expect(row).to be_a_heading
-        else
-          expect(row).to be_instance_of(BookingSlots::Row)
-        end
-      end
-    end
-
-  end
-
-  describe "two tables" do
-    before(:each) do
-      @table1 = BookingSlots::BookingsGrid.new(Date.today+1, user, court_slots)
-      @table2 = BookingSlots::BookingsGrid.new(Date.today+1, user, court_slots)
-    end
-
-    it { expect(@table2.rows.count).to eq(23) }
-  end
 
   describe "closures" do
 
@@ -109,13 +85,6 @@ describe BookingSlots::BookingsGrid do
   # 22          Court ?     Court ?       Court ?     Court ?
   #
 
-  #
-  # This might seem excessive and not very DRY however I think it is necessary to check that the table works correctly.
-  # There will be no need for extensive cucumber tests.
-  # It highlighed a bug in my logic elsewhere
-  # and gives me complete confidence in my module.
-  #
-
   describe "complete table" do
 
     let!(:booking1) { create(:booking, user: user, opponent: nil, date_from: Date.today+1, time_from: "08:00", time_to: "08:30", court_id: courts.first.id)}
@@ -140,51 +109,53 @@ describe BookingSlots::BookingsGrid do
 
     subject { BookingSlots::BookingsGrid.new(Date.today+1, user, court_slots) }
 
-    it { expect(Booking.count).to eq(5) }
-    it { expect(Event.count).to eq(2) }
-    it { expect(Closure.count).to eq(1)}
-
     it { expect(subject.rows[1].klass).to eq("past")}
 
-    it { expect(cell(1,1)).to have_text(' ') }
-    it { expect(cell(1,1)).to_not be_a_link }
-    it { expect(cell(3,1)).to have_text(booking1.players) }
-    it { expect(cell(3,1)).to_not be_a_link }
-    it { expect(cell(5,1)).to have_text(event1.description) }
-    it { expect(cell(5,1)).to_not be_a_link }
-    it { expect(cell(5,1)).to have_a_span_of(3) }
-    it { expect(cell(5,2)).to have_text(event1.description) }
-    it { expect(cell(5,2)).to have_a_span_of(3) }
-    it { expect(cell(5,3)).to have_text(booking6.link_text) }
-    it { expect(cell(5,3)).to be_a_link }
-    it { expect(cell(5,2)).to have_text(event1.description) }
-    it { expect(cell(6,1)).to be_blank }
-    it { expect(cell(6,2)).to be_blank }
-    it { expect(cell(7,1)).to be_blank }
-    it { expect(cell(7,2)).to be_blank }
-    it { expect(cell(8,1)).to be_active }
-    it { expect(cell(9,3)).to have_text(booking2.players) }
-    it { expect(cell(9,3)).to be_a_link }
-    it { expect(cell(10,3)).to have_text(event2.description) }
-    it { expect(cell(10,3)).to have_a_span_of(2) }
-    it { expect(cell(10,4)).to have_text(event2.description) }
-    it { expect(cell(10,4)).to have_a_span_of(2) }
-    it { expect(cell(11,3)).to be_blank }
-    it { expect(cell(11,3)).to be_blank }
-    it { expect(cell(14,1)).to have_text(closure1.description) }
-    it { expect(cell(14,2)).to have_text(closure1.description) }
-    it { expect(cell(14,3)).to have_text(closure1.description) }
-    it { expect(cell(15,1)).to be_blank }
-    it { expect(cell(15,2)).to be_blank }
-    it { expect(cell(15,3)).to be_blank }
-    it { expect(cell(17,2)).to have_text(booking3.players) }
-    it { expect(cell(17,2)).to be_a_link }
-    it { expect(cell(18,4)).to have_text(booking4.players) }
-    it { expect(cell(18,4)).not_to be_a_link }
-    it { expect(cell(20,3)).to have_text(booking5.players) }
-    it { expect(cell(20,3)).to_not be_a_link }
-    it { expect(cell(21,4)).to have_text(booking7.link_text) }
-    it { expect(cell(21,4)).to be_a_link }
+    it "everyting should be in its rightful place" do
+      expect(cell(0,1)).to have_text("Court #{courts.first.number}")
+      expect(cell(0,4)).to have_text("Court #{courts.last.number}")
+      expect(cell(1,1)).to have_text(' ')
+      expect(cell(1,1)).to have_text(' ')
+      expect(cell(1,1)).to_not be_a_link
+      expect(cell(3,1)).to have_text(booking1.players)
+      expect(cell(3,1)).to_not be_a_link
+      expect(cell(5,1)).to have_text(event1.description)
+      expect(cell(5,1)).to_not be_a_link
+      expect(cell(5,1)).to have_a_span_of(3)
+      expect(cell(5,2)).to have_text(event1.description)
+      expect(cell(5,2)).to have_a_span_of(3)
+      expect(cell(5,3)).to have_text(booking6.link_text)
+      expect(cell(5,3)).to be_a_link
+      expect(cell(5,2)).to have_text(event1.description)
+      expect(cell(6,1)).to be_blank
+      expect(cell(6,2)).to be_blank
+      expect(cell(7,1)).to be_blank
+      expect(cell(7,2)).to be_blank
+      expect(cell(8,1)).to be_active
+      expect(cell(9,3)).to have_text(booking2.players)
+      expect(cell(9,3)).to be_a_link
+      expect(cell(10,3)).to have_text(event2.description)
+      expect(cell(10,3)).to have_a_span_of(2)
+      expect(cell(10,4)).to have_text(event2.description)
+      expect(cell(10,4)).to have_a_span_of(2)
+      expect(cell(11,3)).to be_blank
+      expect(cell(11,3)).to be_blank
+      expect(cell(14,1)).to have_text(closure1.description)
+      expect(cell(14,2)).to have_text(closure1.description)
+      expect(cell(14,3)).to have_text(closure1.description)
+      expect(cell(15,1)).to be_blank
+      expect(cell(15,2)).to be_blank
+      expect(cell(15,3)).to be_blank
+      expect(cell(17,2)).to have_text(booking3.players)
+      expect(cell(17,2)).to be_a_link
+      expect(cell(18,4)).to have_text(booking4.players)
+      expect(cell(18,4)).not_to be_a_link
+      expect(cell(20,3)).to have_text(booking5.players)
+      expect(cell(20,3)).to_not be_a_link
+      expect(cell(21,4)).to have_text(booking7.link_text)
+      expect(cell(21,4)).to be_a_link
+    end
+
 
   end
 

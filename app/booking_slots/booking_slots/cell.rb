@@ -11,9 +11,6 @@ module BookingSlots
     autoload :Booking
     autoload :Activity
 
-    #
-    # TODO: this is already right for refactoring.
-    #
 
     class << self
 
