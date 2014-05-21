@@ -7,15 +7,14 @@
 module BookingSlots
   class BookingsGrid
 
-    attr_reader :rows, :records, :properties, :todays_slots
-    delegate :last, to: :rows
-    delegate :closure_message, to: :records
-    delegate :user, to: :properties
-    delegate :skip, to: :todays_slots
-
     class Rows
       include BookingSlots::Container
     end
+
+    attr_reader :rows, :records, :properties, :todays_slots
+    delegate :closure_message, :courts, to: :records
+    delegate :user, to: :properties
+    delegate :skip, to: :todays_slots
 
     def initialize(date, user, slots)
       @date, @slots = date, slots
@@ -38,29 +37,29 @@ module BookingSlots
     end
 
     def current_record
-      @records.current_record(@todays_slots)
+      records.current_record(todays_slots)
     end
 
   private
 
     def header
       Row.new(heading: true) do |row|
-        @records.courts.header.each do |cell|
+        courts.header.each do |cell|
           row.add Cell::Text.new(cell)
         end
       end
     end
 
     def create_rows
-      build_cells(Rows, {}, header, @todays_slots.master) do
-        new_row
-      end
+      build_cells(Rows, {}, header, todays_slots.master) { new_row }
     end
 
     def new_row
-      build_cells(Row, {klass: row_klass}, wrapper, @records.courts) do
-        Cell.build(@todays_slots.slot_type, self)
-      end
+      build_cells(Row, {klass: row_klass}, wrapper, courts) { new_cell }
+    end
+
+    def new_cell
+      Cell.build(todays_slots.slot_type, self)
     end
 
     def build_cells(model, args, wrapper, enumerator, &block)
@@ -76,11 +75,11 @@ module BookingSlots
     end
 
     def row_klass
-      @todays_slots.current_datetime.in_the_past? ? "past" : nil
+      todays_slots.current_datetime.in_the_past? ? "past" : nil
     end
 
     def wrapper
-      Cell::Text.new(@todays_slots.master.current_slot_time)
+      Cell::Text.new(todays_slots.master.current_slot_time)
     end
 
   end

@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 describe AdminEventForm do
-  it_behaves_like FormManager
-  it_behaves_like OverlappingRecordsManager
-
 
   let!(:courts)             { create_list(:court, 4)}
   let(:attributes_valid)    { attributes_for(:event).merge(:court_ids => Court.pluck(:id))}

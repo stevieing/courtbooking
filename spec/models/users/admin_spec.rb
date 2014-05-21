@@ -6,8 +6,6 @@ describe User::Admin do
 
   it_behaves_like "an STI class"
 
-  it_behaves_like "Current permissions"
-
   describe '#all_bookings' do
 
     subject { create(:admin)}

@@ -6,10 +6,6 @@ describe BookingSlots::Courts do
   let(:properties)    { build(:properties)}
   subject             { BookingSlots::Courts.new(properties) }
 
-  it_behaves_like IndexManager do
-    let(:enum_attribute)  { :@courts }
-  end
-
   it { should be_valid}
   it { expect(subject.all.count).to eq(4)}
 

@@ -6,8 +6,6 @@ describe User::Member do
     subject { build(:member)}
   end
 
-  it_behaves_like "Current permissions"
-
   describe '#all_bookings' do
 
     subject { create(:member)}

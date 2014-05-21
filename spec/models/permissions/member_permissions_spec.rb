@@ -159,11 +159,6 @@ describe Permissions::MemberPermission do
     end
   end
 
-  #
-  # This is to recreate a specific bug where a user has access to edit their bookings
-  # and edit all bookings. If they are added in a particular order the edit all bookings
-  # does not work.
-  #
   describe 'bookings permissions' do
     before(:each) do
       add_bookings_permissions user

@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe AdminCourtForm do
 
-  it_behaves_like FormManager
-
   let(:court)                          { attributes_for(:court)}
   let(:opening_time)                   { attributes_for(:opening_time)}
   let(:bad_opening_time)               { opening_time.merge(day: "")}

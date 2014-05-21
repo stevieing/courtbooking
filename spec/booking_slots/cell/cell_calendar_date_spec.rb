@@ -11,7 +11,6 @@ module BookingSlots::Cell
       subject { CalendarDate.new(date, current_date)}
 
       it { expect(subject.text).to eq(date.day_of_month)}
-      it { expect(subject).to be_a_link }
       it { expect(subject).to be_a_link_to(courts_path(date.to_s))}
       it { expect(subject).to have_klass(nil)}
     end

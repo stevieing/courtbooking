@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.1.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -12,8 +12,8 @@ gem 'sidekiq'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 4.0.1'
-  gem 'coffee-rails', '~> 4.0.1'
+  gem 'sass-rails', "~> 4.0.3"
+  gem 'coffee-rails', "~> 4.0.1"
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
@@ -25,6 +25,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'devise'
 gem 'roadie'
+gem 'sprockets', '<= 2.11.0', '~> 2.8'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -47,7 +48,8 @@ gem 'rails-perftest'
 
 gem 'faye'
 gem 'thin'
-gem 'validates_timeliness', '~> 3.0.14'
+#TODO: Remove this once branch has been merged.
+gem 'validates_timeliness', github: 'johncarney/validates_timeliness', branch: 'remove-deprecated-setup-method'
 
 gem 'rspec-rails', :group => [:test, :development]
 

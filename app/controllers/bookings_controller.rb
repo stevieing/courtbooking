@@ -98,6 +98,6 @@ class BookingsController < ApplicationController
     render js: %(window.location.href='#{path}')
   end
 
-  helper_method :bookings, :policy
+  helper_method :bookings
 
 end

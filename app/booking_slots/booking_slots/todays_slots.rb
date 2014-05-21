@@ -1,3 +1,18 @@
+##
+# It is necessary to wrap the slots in another class as they need some preprocessing.
+# 1. Any slots that are unavailable through closures need to be removed.
+# So they don't appear unnecessarily on the page.
+# 2. Once superfluous slots are removed they are frozen
+# 3. The slots need to be duplicated for each court that is open.
+# As they are frozen they will not be recreated preventing unavailable slots being
+# added back in.
+# The class also provides some helper methods.
+#
+#
+#
+#
+
+
 module BookingSlots
   class TodaysSlots
 

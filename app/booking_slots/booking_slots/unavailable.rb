@@ -1,3 +1,10 @@
+##
+# Returns an ActiveRecord::Relation of closures which affect all of the courts
+# for the specified day.
+# Creates a combined message for all of the closures which
+# can be output as a string.
+#
+
 module BookingSlots
   class Unavailable
     include Enumerable

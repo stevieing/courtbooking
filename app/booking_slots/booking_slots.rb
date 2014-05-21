@@ -21,6 +21,7 @@ module BookingSlots
 
   eager_autoload do
 
+    autoload :Container
     autoload :Row
 
   end
