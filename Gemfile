@@ -13,6 +13,7 @@ gem 'capistrano-sidekiq'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
+  gem 'sprockets', '<= 2.11.0', '~> 2.8'
   gem 'sass-rails', "~> 4.0.3"
   gem 'coffee-rails', "~> 4.0.1"
 
@@ -26,7 +27,6 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'devise'
 gem 'roadie'
-gem 'sprockets', '<= 2.11.0', '~> 2.8'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
