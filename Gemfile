@@ -9,12 +9,12 @@ gem 'sqlite3'
 gem 'pg'
 gem 'sidekiq'
 gem 'capistrano-sidekiq'
-gem 'sprockets', '<= 2.11.0', '~> 2.8'
+
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-
+  gem 'sprockets', '~> 2.8', '<= 2.11.0'
   gem 'sass-rails', "~> 4.0.3"
   gem 'coffee-rails', "~> 4.0.1"
 
