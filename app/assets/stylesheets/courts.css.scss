@@ -7,7 +7,7 @@
 #courts{
 	text-align: center;
 
-  #closure_message{
+  #closure-message{
     color: $dark-green;
     font-size: 1.1em;
     border: 3px solid $dark-green;
@@ -60,7 +60,7 @@
 	}
 }
 
-#bookingslots{
+#booking-slots{
 	table{
 		@include standard-caption;
 

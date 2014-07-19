@@ -1,53 +1,53 @@
 <article id="admin">
-	<h2>System Administration</h2>
-	<ul>
-		<%= link_to(admin_settings_path) do %>
-			<li class="settings">
-				<h2>
-					Manage Settings
-				</h2>
-				<p>Proceed with caution! Change system wide settings including court opening times, slot time and number of days courts can be booked in advance.</p>
-			</li>
-		<% end %>
-		<%= link_to(admin_members_path) do %>
-			<li class="members">
-				<h2>
-					Manage Members
-				</h2>
-				<p>Add new members, delete old members, modify existing members including permissions, email addresses and passwords.</p>
-			</li>
-		<% end %>
-		<%= link_to(admin_courts_path) do %>
-			<li class="courts">
-				<h2>
-					Manage Courts
-				</h2>
-				<p>Add a new court. Change the opening times and peak hours. Close courts for maintenance or school use. </p>
-			</li>
-		<% end %>
-		<%= link_to(admin_events_path) do %>
-			<li class="events">
-				<h2>
-					Manage Events
-				</h2>
-				<p>Including Club nights, league matches, tournaments and coaching.</p>
-			</li>
-		<% end %>
-		<%= link_to(admin_emails_path) do %>
-			<li class="emails">
-				<h2>
-					Send Emails
-				</h2>
-				<p>Schedule messages to individuals, groups or the whole memberships.</p>
-			</li>
-		<% end %>
-		<%= link_to(admin_reports_path) do %>
-			<li class="reports">
-				<h2>
-					Run Reports
-				</h2>
-				<p>Find out how the courts are being used or who is abusing their privileges.</p>
-			</li>
-		<% end %>
-	</ul>
+  <h2>System Administration</h2>
+  <ul>
+    <%= link_to(admin_settings_path) do %>
+      <li class="settings">
+        <h2>
+          Manage Settings
+        </h2>
+        <p>Proceed with caution! Change system wide settings including court opening times, slot time and number of days courts can be booked in advance.</p>
+      </li>
+    <% end %>
+    <%= link_to(admin_members_path) do %>
+      <li class="members">
+        <h2>
+          Manage Members
+        </h2>
+        <p>Add new members, delete old members, modify existing members including permissions, email addresses and passwords.</p>
+      </li>
+    <% end %>
+    <%= link_to(admin_courts_path) do %>
+      <li class="courts">
+        <h2>
+          Manage Courts
+        </h2>
+        <p>Add a new court. Change the opening times and peak hours. Close courts for maintenance or school use. </p>
+      </li>
+    <% end %>
+    <%= link_to(admin_events_path) do %>
+      <li class="events">
+        <h2>
+          Manage Events
+        </h2>
+        <p>Including Club nights, league matches, tournaments and coaching.</p>
+      </li>
+    <% end %>
+    <%= link_to(admin_emails_path) do %>
+      <li class="emails">
+        <h2>
+          Send Emails
+        </h2>
+        <p>Schedule messages to individuals, groups or the whole memberships.</p>
+      </li>
+    <% end %>
+    <%= link_to(admin_reports_path) do %>
+      <li class="reports">
+        <h2>
+          Run Reports
+        </h2>
+        <p>Find out how the courts are being used or who is abusing their privileges.</p>
+      </li>
+    <% end %>
+  </ul>
 </article>

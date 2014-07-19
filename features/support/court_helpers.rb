@@ -10,7 +10,7 @@ module CourtHelpers
   end
 
   def within_the_bookingslots_container(&block)
-    within('#bookingslots', &block)
+    within('#booking-slots', &block)
   end
 
   def within_the_calendar_container(&block)

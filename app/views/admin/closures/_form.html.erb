@@ -1,33 +1,33 @@
 <%= form_for @admin_closure_form, url: resource do |f| %>
-	<fieldset>
-		<legend><%= header %></legend>
-		<ul>
-			<li >
-				<%= f.label :description, "Reason" %>
-				<%= f.text_area :description %>
-			</li>
-			<li>
-				<%= f.label :date_from, "Date from" %>
-				<%= f.text_field :date_from, class: 'datepicker' %>
-			</li>
-			<li>
-				<%= f.label :date_to, "Date to" %>
-				<%= f.text_field :date_to, class: 'datepicker' %>
-			</li>
-			<li>
-				<%= f.label :time_from, "Time from" %>
-				<%= f.select :time_from, list_of_slots %>
-			</li>
-			<li>
-				<%= f.label :time_to, "Time to" %>
-				<%= f.select :time_to, list_of_slots %>
-			</li>
+  <fieldset>
+    <legend><%= header %></legend>
+    <ul>
+      <li >
+        <%= f.label :description, "Reason" %>
+        <%= f.text_area :description %>
+      </li>
+      <li>
+        <%= f.label :date_from, "Date from" %>
+        <%= f.text_field :date_from, class: 'datepicker' %>
+      </li>
+      <li>
+        <%= f.label :date_to, "Date to" %>
+        <%= f.text_field :date_to, class: 'datepicker' %>
+      </li>
+      <li>
+        <%= f.label :time_from, "Time from" %>
+        <%= f.select :time_from, list_of_slots %>
+      </li>
+      <li>
+        <%= f.label :time_to, "Time to" %>
+        <%= f.select :time_to, list_of_slots %>
+      </li>
       <li>
         <%= f.check_box :allow_removal %>
-        <%= f.label :allow_removal, "allow removal of overlapping bookings/closures/events", class: 'widelabel' %>
+        <%= f.label :allow_removal, "allow removal of overlapping bookings/closures/events", class: 'wide-label' %>
       </li>
-		</ul>
-		<%= render "courts", f: f, object: @admin_closure_form %>
-		<ul class="submit"><li><%= f.submit "Submit closure" %></li></ul>
-	</fieldset>
+    </ul>
+    <%= render "courts", f: f, object: @admin_closure_form %>
+    <ul class="submit"><li><%= f.submit "Submit closure" %></li></ul>
+  </fieldset>
 <% end %>

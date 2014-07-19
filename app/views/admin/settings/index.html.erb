@@ -1,20 +1,20 @@
 <article id="manage-settings">
-	<table class="standard-table">
-		<caption>Manage Settings</caption>
-		<tr><td>&nbsp;</td></tr>
-		<% settings.each do |setting| %>
-			<tr id="setting_<%= setting.id %>">
-				<td>
-					<%= form_for setting, as: :setting, url: admin_setting_path(setting) do |f| %>
-						<fieldset>
-							<legend>setting_<%= setting.id %></legend>
-							<%= f.label :value, setting.description %>
-							<%= f.text_field :value %>
-							<%= f.submit "Update" %>
-						</fieldset>
-					<% end %>
-				</td>
-		</tr>
-	<% end%>
-	</table>
+  <table class="standard-table">
+    <caption>Manage Settings</caption>
+    <tr><td>&nbsp;</td></tr>
+    <% settings.each do |setting| %>
+      <tr id="setting_<%= setting.id %>">
+        <td>
+          <%= form_for setting, as: :setting, url: admin_setting_path(setting) do |f| %>
+            <fieldset>
+              <legend>setting_<%= setting.id %></legend>
+              <%= f.label :value, setting.description %>
+              <%= f.text_field :value %>
+              <%= f.submit "Update" %>
+            </fieldset>
+          <% end %>
+        </td>
+    </tr>
+  <% end%>
+  </table>
 </article>

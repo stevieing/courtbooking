@@ -6,12 +6,12 @@ nextID = (association) ->
 	$("ul[id^=" + association + "_]").length+1
 
 jQuery ->
-	$('form').on 'click', '.add_fields', (event) ->
+	$('form').on 'click', '.add-fields', (event) ->
 		regexp = new RegExp($(this).data('id'), 'g')
 		$(this).parent().parent().before($(this).data('fields').replace(regexp, nextID($(this).data('association'))))
 		event.preventDefault()
 
-	$('form').on 'click', '.remove_fields', (event) ->
+	$('form').on 'click', '.remove-fields', (event) ->
 		$(this).parent().parent().remove()
 		event.preventDefault()
 

@@ -1,0 +1,33 @@
+development:
+    smtp:
+        address: smtp.tools.example.com
+        port: 587
+        domain: development.courtbooking
+        authentication: plain
+        enable_starttls_auto: true
+        user_name: user@example.com
+        password: password
+        from: user@example.com
+
+staging:
+    smtp:
+        address: smtp.tools.example.com
+        port: 587
+        domain: staging.courtbooking
+        authentication: plain
+        enable_starttls_auto: true
+        user_name: user@example.com
+        password: password
+
+production:
+    smtp:
+        domain: bookings.stamfordsquashclub.org.uk
+    sendmail:
+        location: /usr/sbin/sendmail
+        arguments: -i
+        from: bookings@stamfordsquashclub.org.uk
+
+test:
+    smtp:
+        domain: local.courtbooking
+        user_name: bookings@stamfordsquashclub.org.uk

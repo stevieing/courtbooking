@@ -1,17 +1,17 @@
 <nav id="nav">
-	<ul>
-	<% if allow? "bookings", "index" %>
-		<li><%= link_to "BOOKINGS", bookings_path %></li>
-	<% end %>
-		<li><%= link_to "COURTS", courts_path %></li>
-	<% if allow? "admin", "index" %>
-		<li><%= link_to "ADMIN", admin_path %></li>
-	<% end %>
-	<% if user_signed_in? %>
+  <ul>
+  <% if allow? "bookings", "index" %>
+    <li><%= link_to "BOOKINGS", bookings_path %></li>
+  <% end %>
+    <li><%= link_to "COURTS", courts_path %></li>
+  <% if allow? "admin", "index" %>
+    <li><%= link_to "ADMIN", admin_path %></li>
+  <% end %>
+  <% if user_signed_in? %>
     <li><%= link_to "MY DETAILS", edit_user_path(current_user) %></li>
     <li><%= link_to "SIGN OUT", sign_out_path, :method => :delete %></li></ul>
-		<div class="username">Signed in as: <%= current_user.full_name %></div>
-	<% else%>
-		<li><%= link_to "SIGN IN", sign_in_path %></li></ul>
-	<% end %>
+    <div class="username">Signed in as: <%= current_user.full_name %></div>
+  <% else%>
+    <li><%= link_to "SIGN IN", sign_in_path %></li></ul>
+  <% end %>
 </nav>

@@ -1,10 +1,10 @@
 <section id="booking">
-	<ul>
-		<li>User id: <%= @booking.user_id %></li>
-		<li>Court number: <%= @booking.court.number %></li>
-		<li>Playing on: <%= @booking.date_from_text %></li>
-		<li>Playing from: <%= @booking.time_from %></li>
-		<li>Playing to: <%= @booking.time_to %></li>
-	</ul>
-	<%= render 'delete', link_text: "Delete Booking", booking: @booking %>
+  <ul>
+    <li>User id: <%= @booking.user_id %></li>
+    <li>Court number: <%= @booking.court.number %></li>
+    <li>Playing on: <%= @booking.date_from_text %></li>
+    <li>Playing from: <%= @booking.time_from %></li>
+    <li>Playing to: <%= @booking.time_to %></li>
+  </ul>
+  <%= render 'delete', link_text: "Delete Booking", booking: @booking %>
 </section>

@@ -1,14 +1,14 @@
 <%= form_for @admin_court_form, url: resource do |f| %>
-	<fieldset>
-		<legend><%= header %></legend>
-		<ul>
-			<li>
-				<%= f.label :number, "Court number" %>
-				<%= f.text_field :number %>
-			</li>
-			<%= render "court_times", f: f, court_times: :opening_times, objects: @admin_court_form.opening_times %>
-			<%= render "court_times", f: f, court_times: :peak_times, objects: @admin_court_form.peak_times %>
-			<li class="submit"><%= f.submit "Submit court" %></li>
-		</ul>
-	</fieldset>
+  <fieldset>
+    <legend><%= header %></legend>
+    <ul>
+      <li>
+        <%= f.label :number, "Court number" %>
+        <%= f.text_field :number %>
+      </li>
+      <%= render "court_times", f: f, court_times: :opening_times, objects: @admin_court_form.opening_times %>
+      <%= render "court_times", f: f, court_times: :peak_times, objects: @admin_court_form.peak_times %>
+      <li class="submit"><%= f.submit "Submit court" %></li>
+    </ul>
+  </fieldset>
 <% end %>
