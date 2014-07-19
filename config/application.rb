@@ -16,8 +16,8 @@ module Courtbooking
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %W(#{config.root}/extras #{config.root}/lib/validators #{config.root}/lib/mixins)
-    
+    config.autoload_paths += %W(#{config.root}/extras #{config.root}/lib/validators #{config.root}/lib/mixins #{config.root}/lib/setup)
+
     config.mailer = YAML.load_file("#{Rails.root}/config/mailer.yml")[Rails.env]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
@@ -53,9 +53,9 @@ module Courtbooking
     # This will create an empty whitelist of attributes available for mass-assignment for all models
     # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
     # parameters by using an attr_accessible or attr_protected declaration.
-    
+
     config.i18n.enforce_available_locales = false
-    
+
     #convert dates and times to correct time zone
     config.time_zone = 'London'
     config.active_record.default_timezone = :local
@@ -63,13 +63,13 @@ module Courtbooking
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    
+
     config.generators do |g|
       g.test_framework :rspec, :fixture => true, :views => false
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
-    
+
     config.action_mailer.default_url_options = {host: Rails.configuration.mailer['smtp']['domain']}
-    
+
   end
 end
