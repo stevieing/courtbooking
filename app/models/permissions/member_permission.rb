@@ -4,8 +4,7 @@ module Permissions
       @user = user
       @permissions = @user.permissions.includes(:allowed_action)
       allow_basic_permissions
-      allow_param :booking, ACCEPTED_ATTRIBUTES.booking
-      allow_param :user, ACCEPTED_ATTRIBUTES.current_user
+      add_params :booking, :user
       add_user_permissions
     end
 
@@ -22,19 +21,18 @@ module Permissions
     def add_user_permissions
      @permissions.each do |permission|
         add_action(permission)
-        add_params(permission) if permission.admin?
+        add_params(permission.sanitized_controller) if permission.admin?
       end
     end
 
-    def add_params(permission)
-      allow_param permission.sanitized_controller, ACCEPTED_ATTRIBUTES.send(permission.sanitized_controller)
-      add_nested_params(permission)
-    end
-
-    def add_nested_params(permission)
-      ACCEPTED_ATTRIBUTES.nested.each do |nested|
-        if permission.sanitized_controller == nested.name
-          allow_param nested.name, nested.association, nested.attributes
+    def add_params(*permissions)
+      permissions.each do |permission|
+        PERMITTED_ATTRIBUTES.send(permission).all.each do |p|
+          if p.is_a?(Hash)
+            p.each { |k, v| allow_param permission, k, v }
+          else
+            allow_param permission, p
+          end
         end
       end
     end

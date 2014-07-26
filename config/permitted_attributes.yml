@@ -1,0 +1,67 @@
+booking:
+  whitelist:
+    - :time_and_place
+    - :opponent_id
+    - :court_id
+    - :date_from
+    - :time_from
+    - :time_to
+    - :opponent_name
+
+setting:
+  whitelist:
+    - :value
+
+member:
+  whitelist:
+    - :username
+    - :full_name
+    - :email
+    - :password
+    - :password_confirmation
+    - :mail_me
+    - :allowed_action_ids: []
+
+user:
+  whitelist:
+    - :username
+    - :full_name
+    - :email
+    - :password
+    - :password_confirmation
+    - :mail_me
+
+court:
+  whitelist:
+    - :number
+  nested:
+    :opening_times:
+      - :day
+      - :time_from
+      - :time_to
+    :peak_times:
+      - :day
+      - :time_from
+      - :time_to
+
+closure:
+  whitelist:
+    - :description
+    - :date_from
+    - :date_to
+    - :time_from
+    - :time_to
+    - :court_ids: []
+  virtual:
+    - :allow_removal
+
+event:
+  whitelist:
+    - :description
+    - :date_from
+    - :date_to
+    - :time_from
+    - :time_to
+    - :court_ids: []
+  virtual:
+    - :allow_removal

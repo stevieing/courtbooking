@@ -19,4 +19,5 @@ class CourtsPageTest < ActionDispatch::PerformanceTest
   def teardown
     Setting.delete_all
   end
+
 end

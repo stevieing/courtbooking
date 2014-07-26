@@ -1,7 +1,7 @@
 class AdminCourtForm
   include FormManager
 
-  set_model :court, ACCEPTED_ATTRIBUTES.court
+  set_model :court, PERMITTED_ATTRIBUTES.court.whitelist
   set_associated_models :opening_times, :peak_times
 
   validate :verify_court

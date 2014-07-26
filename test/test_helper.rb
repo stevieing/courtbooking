@@ -3,6 +3,8 @@ require File.expand_path('../../spec/support/shared/manage_settings',__FILE__)
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
+Dir[Rails.root.join("test/support/**/*.rb")].each { |f| require f }
+
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
 
@@ -16,4 +18,10 @@ class ActiveSupport::TestCase
 
   include FactoryGirl::Syntax::Methods
   include ManageSettings
+
+  Dir[Rails.root.join('test/support/**/*.rb')].each do |f|
+    include f.split("/").last.gsub(".rb","").camelize.constantize
+  end
 end
+
+require "mocha/mini_test"
