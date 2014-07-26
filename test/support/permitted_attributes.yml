@@ -1,0 +1,19 @@
+model_a:
+  whitelist:
+    - :attr_a
+    - :attr_b
+    - :attr_c
+    - :attr_d: []
+  nested:
+    :model_b:
+      - :attr_d
+      - :attr_e
+      - :attr_f
+  virtual:
+    - :attr_g
+    - :attr_h
+
+model_b:
+  whitelist:
+    - :attr_a
+    - :attr_b

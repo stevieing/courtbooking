@@ -62,7 +62,7 @@ module Permissions
     end
 
     def permit_new!(resource, params)
-      params.permit(ACCEPTED_ATTRIBUTES.send(resource))
+      params.permit(PERMITTED_ATTRIBUTES.send(resource).whitelist)
     end
 
   private

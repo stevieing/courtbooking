@@ -1,7 +1,7 @@
 class AdminMemberForm
   include FormManager
 
-  set_model :member, ACCEPTED_ATTRIBUTES.member
+  set_model :member, PERMITTED_ATTRIBUTES.member.whitelist
   delegate :permissions, to: :model
   validate :verify_member
 

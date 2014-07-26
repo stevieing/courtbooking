@@ -16,7 +16,7 @@ module Courtbooking
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %W(#{config.root}/extras #{config.root}/lib/validators #{config.root}/lib/mixins #{config.root}/lib/setup)
+    config.autoload_paths += %W(#{config.root}/lib/extensions #{config.root}/lib/validators #{config.root}/lib/mixins #{config.root}/lib/setup)
 
     config.mailer = YAML.load_file("#{Rails.root}/config/mailer.yml")[Rails.env]
 

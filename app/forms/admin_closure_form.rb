@@ -3,11 +3,7 @@ class AdminClosureForm
   include FormManager
   include OverlappingRecordsManager
 
-  #
-  # TODO: this is a hack. Virtual attributes that are not delegated to the model
-  # need to be dealt with differently.
-  #
-  set_model :closure, ACCEPTED_ATTRIBUTES.closure - [:allow_removal]
+  set_model :closure, PERMITTED_ATTRIBUTES.closure.whitelist
   overlapping_object :model
   before_save :remove_overlapping
 

@@ -2,10 +2,6 @@ require "spec_helper"
 
 describe Permissions::MemberPermission do
 
-  before(:all) do
-    load "#{Rails.root}/config/initializers/accepted_attributes.rb"
-  end
-
   before(:each) do
     stub_settings
   end

@@ -65,6 +65,7 @@ group :test do
   gem 'ruby-prof'
   gem 'selenium-webdriver'
   gem 'with_model'
+  gem 'mocha'
 end
 
 group :test, :darwin do

@@ -3,7 +3,7 @@ class AdminEventForm
   include FormManager
   include OverlappingRecordsManager
 
-  set_model :event, ACCEPTED_ATTRIBUTES.event - [:allow_removal]
+  set_model :event, PERMITTED_ATTRIBUTES.event.whitelist
   overlapping_object :model
 
   before_save :remove_overlapping
