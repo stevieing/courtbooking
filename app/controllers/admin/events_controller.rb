@@ -6,12 +6,12 @@ class Admin::EventsController < ApplicationController
   end
 
   def new
-    @admin_event_form = AdminEventForm.new
+    @events_form = EventsForm.new
   end
 
   def create
-    @admin_event_form = AdminEventForm.new
-    if @admin_event_form.submit(params[:event])
+    @events_form = EventsForm.new
+    if @events_form.submit(params[:event])
       redirect_to admin_events_path, notice: "Event successfully created."
     else
       render :new
@@ -19,12 +19,12 @@ class Admin::EventsController < ApplicationController
   end
 
   def edit
-    @admin_event_form = AdminEventForm.new(current_resource)
+    @events_form = EventsForm.new(current_resource)
   end
 
   def update
-    @admin_event_form = AdminEventForm.new(current_resource)
-    if @admin_event_form.submit(params[:event])
+    @events_form = EventsForm.new(current_resource)
+    if @events_form.submit(params[:event])
       redirect_to admin_events_path, notice: "Event successfully updated."
     else
       render :edit

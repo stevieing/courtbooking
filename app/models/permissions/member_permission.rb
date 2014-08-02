@@ -1,10 +1,10 @@
 module Permissions
   class MemberPermission < BasePermission
     def initialize(user)
+      super
       @user = user
       @permissions = @user.permissions.includes(:allowed_action)
       allow_basic_permissions
-      add_params :booking, :user
       add_user_permissions
     end
 
@@ -21,7 +21,7 @@ module Permissions
     def add_user_permissions
      @permissions.each do |permission|
         add_action(permission)
-        add_params(permission.sanitized_controller) if permission.admin?
+        add_params(permission.sanitized_controller) if add_params?(permission)
       end
     end
 
@@ -34,6 +34,12 @@ module Permissions
             allow_param permission, p
           end
         end
+      end
+    end
+
+    def add_params?(permission)
+      unless @allowed_params.include?(permission.sanitized_controller) || permission.action == [:index] || permission.action == ["index"]
+        permission.admin? || PERMITTED_ATTRIBUTES.respond_to?(permission.sanitized_controller)
       end
     end
 

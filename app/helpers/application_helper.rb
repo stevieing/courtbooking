@@ -10,8 +10,7 @@ module ApplicationHelper
     assoc = association.to_s.singularize
     id = new_object.object_id
     fields = f.fields_for(association, new_object, index: id) do |builder|
-    	partial = (association.superclass == ActiveRecord::Base ? assoc : association.superclass.to_s.underscore)
-      render(partial, f: builder, id: "#{assoc}_#{id}")
+      render(association.superclass.to_s.underscore, f: builder, id: "#{assoc}_#{id}")
     end
     link_to(name, '#', class: "add-fields", data: {id: id, association: assoc, fields: fields.gsub("\n", "")})
   end

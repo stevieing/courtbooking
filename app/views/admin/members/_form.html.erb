@@ -1,8 +1,8 @@
-<%= form_for @admin_member_form, url: resource do |f| %>
+<%= form_for @members_form, url: resource do |f| %>
   <fieldset>
     <legend><%= header %></legend>
     <%= render "user", f: f %>
-    <%= render "permissions", f: f, object: @admin_member_form %>
+    <%= render "permissions", f: f, object: @members_form %>
     <ul class="submit"><li><%= f.submit "Submit member" %></li></ul>
   </fieldset>
 <% end %>

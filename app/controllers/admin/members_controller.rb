@@ -6,13 +6,13 @@ class Admin::MembersController < ApplicationController
   end
 
   def new
-    @admin_member_form = AdminMemberForm.new
+    @members_form = MembersForm.new
   end
 
   def create
 
-    @admin_member_form = AdminMemberForm.new
-     if @admin_member_form.submit(params[:member])
+    @members_form = MembersForm.new
+     if @members_form.submit(params[:member])
        redirect_to admin_members_path, notice: "Member successfully created."
      else
        render :new
@@ -20,12 +20,12 @@ class Admin::MembersController < ApplicationController
   end
 
   def edit
-    @admin_member_form = AdminMemberForm.new(current_resource)
+    @members_form = MembersForm.new(current_resource)
   end
 
   def update
-    @admin_member_form = AdminMemberForm.new(current_resource)
-    if @admin_member_form.submit(params[:member])
+    @members_form = MembersForm.new(current_resource)
+    if @members_form.submit(params[:member])
       redirect_to admin_members_path, notice: "Member successfully updated."
     else
       render :edit
