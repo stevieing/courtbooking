@@ -44,7 +44,7 @@ module BookingSlots::Cell
       end
 
       context 'closed' do
-        subject { BookingSlots::Cell.build(:closed) }
+        subject { BookingSlots::Cell.build(:closed, booking_slots_table) }
 
         it { expect(subject).to be_instance_of(BookingSlots::Cell::Closed)}
       end
@@ -105,7 +105,7 @@ module BookingSlots::Cell
       context "no text" do
         subject { BookingSlots::Cell::Text.new }
 
-        its(:text)    { should eq("&nbsp;")}
+        its(:text)    { should eq(" ")}
         its(:klass)   { nil }
         its(:link)    { nil }
         its(:link?)   { should be_false }
@@ -130,17 +130,17 @@ module BookingSlots::Cell
     end
 
     describe Closed do
-      subject { BookingSlots::Cell::Closed.new }
+      subject { BookingSlots::Cell::Closed.new(booking_slots_table) }
 
       its(:closed?) { should be_true}
       its(:klass)   { should eq("closed")}
 
       describe '#build' do
 
-        subject { BookingSlots::Cell::Closed.build(build(:booking)) }
+        subject { BookingSlots::Cell::Closed.build(booking_slots_table) }
 
         it { expect(subject).to be_instance_of(BookingSlots::Cell::Closed)}
-        it { expect(subject).to have_text(nil)}
+        it { expect(subject).to have_text(" ")}
       end
     end
 

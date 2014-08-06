@@ -1,0 +1,119 @@
+
+view_all_bookings:
+  name: "View all bookings"
+  controller: :bookings
+  action:
+    - :index
+
+create_a_new_booking:
+  name: "Create a new booking"
+  controller: :bookings
+  action:
+    - :new
+    - :create
+
+view_a_booking:
+  name: "View a booking"
+  controller: :bookings
+  action:
+    - :show
+
+add_an_opponent:
+  name: "Add an opponent"
+  controller: :users
+  action:
+    - :index
+
+admin_index:
+  name: "Admin index"
+  controller: :admin
+  action:
+    - :index
+
+edit_all_bookings:
+  name: "Edit all bookings"
+  controller: :bookings
+  action:
+    - :edit
+    - :update
+    - :destroy
+
+delete_a_booking:
+  name: "Delete a booking"
+  controller: :bookings
+  action:
+    - :destroy
+  user_specific: true
+
+edit_a_booking:
+  name: "Edit a booking"
+  controller: :bookings
+  action:
+    - :edit
+    - :update
+  user_specific: true
+
+edit_my_details:
+  name: "Edit my details"
+  controller: :users
+  action:
+    - :edit
+    - :update
+  user_specific: true
+
+manage_users:
+  name: "Manage users"
+  controller: "admin/users"
+  action:
+    - :index
+    - :new
+    - :create
+    - :edit
+    - :update
+    - :delete
+  admin: true
+
+manage_courts:
+  name: "Manage courts"
+  controller: "admin/courts"
+  action:
+    - :index
+    - :new
+    - :create
+    - :edit
+    - :update
+    - :delete
+  admin: true
+
+manage_closures:
+  name: "Manage closures"
+  controller: "admin/closures"
+  action:
+    - :index
+    - :new
+    - :create
+    - :edit
+    - :update
+    - :delete
+  admin: true
+
+manage_events:
+  name: "Manage events"
+  controller: "admin/events"
+  action:
+    - :index
+    - :new
+    - :create
+    - :edit
+    - :update
+    - :delete
+  admin: true
+
+manage_settings:
+  name: "Manage settings"
+  controller: "admin/settings"
+  action:
+    - :index
+    - :edit
+    - :update
+  admin: true

@@ -4,10 +4,11 @@ class ClosuresForm
 
   WHITELIST = PERMITTED_ATTRIBUTES.closure.whitelist.dup.extract_hash_keys.push(:id)
 
+  attr_reader :closure
   delegate *WHITELIST, to: :closure
   overlapping_object :closure
 
-  validate :check_for_errors
+  validate :verify_closure
   validate :verify_overlapping_records_removal
 
   def self.model_name
@@ -18,13 +19,11 @@ class ClosuresForm
     !closure.id.nil?
   end
 
-  def closure
-    @closure ||= Closure.new
-  end
-
   def initialize(closure=nil)
     if closure.instance_of?(Closure)
       @closure = closure
+    else
+      @closure = Closure.new
     end
   end
 
@@ -35,6 +34,10 @@ class ClosuresForm
   end
 
 private
+
+  def verify_closure
+    check_for_errors closure
+  end
 
   def save_objects
     begin
@@ -48,9 +51,9 @@ private
     end
   end
 
-  def check_for_errors
-    unless closure.valid?
-      closure.errors.each do |key, value|
+  def check_for_errors(object)
+    unless object.valid?
+      object.errors.each do |key, value|
         errors.add key, value
       end
     end

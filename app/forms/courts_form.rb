@@ -9,6 +9,7 @@ class CourtsForm
     association_extras *ASSOCIATIONS
   end
 
+  attr_reader :court
   delegate *WHITELIST, to: :court
   delegate *ASSOCIATIONS, to: :court
 
@@ -23,21 +24,18 @@ class CourtsForm
     !court.id.nil?
   end
 
-  def court
-    @court ||= Court.new
-  end
-
   def initialize(object=nil)
     if object.instance_of?(Court)
       @court = object
     else
+      @court = Court.new
       court.number = Court.next_court_number
     end
   end
 
   def submit(params)
-    court.attributes = params.slice(*WHITELIST)
     build_associations(params)
+    court.attributes = params.slice(*WHITELIST)
     valid? ? save_objects : false
   end
 

@@ -46,9 +46,4 @@ namespace :deploy do
     put (File.read("config/mailer.yml")), "#{shared_path}/config/mailer.yml"
   end
 
-  desc "clear and reload the database with seed data"
-  task :clear_and_seed do
-    run "cd #{current_path}; rake db:reset RAILS_ENV=#{rails_env}; rake db:seed RAILS_ENV=#{rails_env}"
-  end
-
 end

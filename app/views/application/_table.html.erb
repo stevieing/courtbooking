@@ -6,14 +6,14 @@
       <%= content_tag :tr, class: row.klass do %>
         <% row.cells.each do |cell| %>
           <% if row.heading? %>
-            <%= content_tag(:th, cell.text.html_safe) %>
+            <%= content_tag(:th, cell.text) %>
           <% else %>
             <% unless cell.blank? %>
               <%= content_tag :td, class: cell.klass, rowspan: cell.span do %>
                 <% if cell.link? %>
                   <%= link_to cell.text, cell.link, class: cell.klass, remote: remote  %>
                 <% else %>
-                  <%= cell.text.html_safe %>
+                  <%= cell.text %>
                 <% end %>
               <% end %>
             <% end %>

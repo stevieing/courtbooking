@@ -3,9 +3,10 @@ class MembersForm
 
   WHITELIST = PERMITTED_ATTRIBUTES.member.whitelist.dup.extract_hash_keys.push(:id)
 
+  attr_reader :member
   delegate *WHITELIST, to: :member
 
-  validate :check_for_errors
+  validate :verify_member
 
   def self.model_name
     ActiveModel::Name.new(self, nil, "Member")
@@ -15,13 +16,11 @@ class MembersForm
     !member.id.nil?
   end
 
-  def member
-    @member ||= Member.new
-  end
-
   def initialize(member=nil)
     if member.instance_of?(Member)
       @member = member
+    else
+      @member = Member.new
     end
   end
 
@@ -55,9 +54,13 @@ private
     end
   end
 
-  def check_for_errors
-    unless member.valid?
-      member.errors.each do |key, value|
+  def verify_member
+    check_for_errors member
+  end
+
+  def check_for_errors(object)
+    unless object.valid?
+      object.errors.each do |key, value|
         errors.add key, value
       end
     end

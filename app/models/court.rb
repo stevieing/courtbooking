@@ -12,7 +12,7 @@ class Court < ActiveRecord::Base
   delegate :peak_time?, to: :peak_times
   delegate :open?, to: :opening_times
 
-  scope :by_day, lambda{ |day| includes(:opening_times).where(court_times: { day: day.wday}).order(number: :asc)}
+  scope :by_day, lambda{ |day| includes(:opening_times).where(court_times: { day: day.cwday-1}).order(number: :asc)}
 
   class << self
 
