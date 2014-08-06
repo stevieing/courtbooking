@@ -28,8 +28,6 @@ Example configuration files are as follows:
 * config/database.yml.example
 * config/mailer.yml.example
 
-The
-
 
 When the application is first started all initial settings will be loaded. The initializer files will detect whether any settings exist.
 

@@ -70,6 +70,7 @@ module Courtbooking
     end
 
     config.action_mailer.default_url_options = {host: Rails.configuration.mailer['smtp']['domain']}
+    config.action_mailer.asset_host = Rails.configuration.mailer['smtp']['domain']
 
   end
 end
