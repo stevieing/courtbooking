@@ -11,8 +11,8 @@ describe BookingSlots::Courts do
 
   describe '#header' do
     it { expect(subject.header).to have(6).items }
-    it { expect(subject.header.first).to eq("&nbsp;") }
-    it { expect(subject.header.last).to eq("&nbsp;") }
+    it { expect(subject.header.first).to eq(" ") }
+    it { expect(subject.header.last).to eq(" ") }
     it { expect(courts.any? { |court| subject.header.each { |cell| cell == "Court #{court.number}" } } ).to be_true}
   end
 

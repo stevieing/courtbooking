@@ -4,10 +4,11 @@ class EventsForm
 
   WHITELIST = PERMITTED_ATTRIBUTES.event.whitelist.dup.extract_hash_keys.push(:id)
 
+  attr_reader :event
   delegate *WHITELIST, to: :event
   overlapping_object :event
 
-  validate :check_for_errors
+  validate :verify_event
   validate :verify_overlapping_records_removal
 
   def self.model_name
@@ -18,13 +19,11 @@ class EventsForm
     !event.id.nil?
   end
 
-  def event
-    @event ||= Event.new
-  end
-
   def initialize(event=nil)
     if event.instance_of?(Event)
       @event = event
+    else
+      @event = Event.new
     end
   end
 
@@ -48,9 +47,13 @@ private
     end
   end
 
-  def check_for_errors
-    unless event.valid?
-      event.errors.each do |key, value|
+  def verify_event
+    check_for_errors event
+  end
+
+  def check_for_errors(object)
+    unless object.valid?
+      object.errors.each do |key, value|
         errors.add key, value
       end
     end

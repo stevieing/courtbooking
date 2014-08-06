@@ -1,26 +1,56 @@
 = Court Booking
 
-== Standard Allowed Actions
+A System which will allow Squash clubs to manage their bookings.
 
-Added via /admin/allowed_actions
+== Versions
 
-* View all bookings:     bookings,       [index]
-* Create a new booking:  bookings,       [new,create]
-* View a booking:        bookings,       [show]
-* Add an Opponent:       users,          [index]
-* Admin index:           admin,          [index]
-* Edit all bookings:     bookings,       [edit, update, destroy]
+Ruby - see .ruby-version
+Rails - see .ruby-gemset
 
-=== User specific
+== Dependencies
 
-* Delete a booking:      bookings,       [destroy]
-* Edit a booking:        bookings,       [edit,update]
-* Edit my details:       users,          [edit,update]
+* SQLite
+* Postgres (unless removed from the gemfile)
+* Redis
 
-=== Admin
 
-* Manage users:          admin/users,    [index,new,create,edit,update,delete]
-* Manage courts:         admin/courts,   [index,new,create,edit,update,delete]
-* Manage closures:       admin/closures, [index,new,create,edit,update,delete]
-* Manage events:         admin/events,   [index,new,create,edit,update,delete]
-* Manage settings:       admin/settings, [index,update]
+== Authentication
+
+Uses Devise with some additional configuration:
+* username is the primary login.
+* emails are not unique - some users including families may use the same email address.
+
+
+
+== Setup
+
+Example configuration files are as follows:
+* config/database.yml.example
+* config/mailer.yml.example
+
+The
+
+
+When the application is first started all initial settings will be loaded. The initializer files will detect whether any settings exist.
+
+=== user management
+
+A single user will be created:
+
+* username: adminuser
+* password: password
+
+It is strongly recommended that you change the username and password for this user. The email address will also need to be changed. This user has full access rights.
+
+Admin users can only be added via the rails console using Admin.create(...). This should be limited to one user.
+
+=== Mail
+
+The system will need a working mail server.
+
+In development and staging I have used my own providers SMTP server and in production I have used Exim4.
+The following options are a minimum requirement for SMTP to work:
+* address
+* username
+* password
+* from email address

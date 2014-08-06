@@ -18,7 +18,7 @@ module BookingSlots
     end
 
     def header
-      @courts.select(:number).collect { |court| "Court #{court.number.to_s}" }.wrap("&nbsp;")
+      @courts.select(:number).collect { |court| "Court #{court.number.to_s}" }.wrap(" ")
     end
 
     def current_open?(time)

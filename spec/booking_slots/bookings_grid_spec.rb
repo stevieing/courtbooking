@@ -15,6 +15,7 @@ describe BookingSlots::BookingsGrid do
   let!(:user)           { create(:member) }
   let!(:other_user)     { create(:member) }
   let!(:opponent)       { create(:member) }
+  let!(:partial_court)  { create(:court, opening_times: [create(:opening_time, day: (Date.today+1).cwday-1, time_from: "07:00", time_to: "15:00")])}
 
   subject { BookingSlots::BookingsGrid.new(Date.today+1, user, court_slots) }
 
@@ -154,6 +155,15 @@ describe BookingSlots::BookingsGrid do
       expect(cell(20,3)).to_not be_a_link
       expect(cell(21,4)).to have_text(booking7.link_text)
       expect(cell(21,4)).to be_a_link
+    end
+
+    it "partially closed court should be closed" do
+      expect(cell(0,5)).to have_text("Court #{partial_court.number}")
+      expect(cell(18,5)).to be_closed
+      expect(cell(18,5)).to have_text(" ")
+      expect(cell(19,5)).to be_closed
+      expect(cell(20,5)).to be_closed
+      expect(cell(21,5)).to be_closed
     end
 
 

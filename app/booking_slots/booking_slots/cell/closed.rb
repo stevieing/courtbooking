@@ -4,7 +4,12 @@ module BookingSlots
       include Base
 
       def self.build(*args)
-        new
+        new(*args)
+      end
+
+      def initialize(table)
+        @text, @span = " ", 1
+        table.skip(@span)
       end
 
       def closed?

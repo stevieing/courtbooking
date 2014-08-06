@@ -3,7 +3,7 @@ module BookingSlots
     class Text
       include Base
 
-      def initialize(text = "&nbsp;")
+      def initialize(text = " ")
         @text = text
       end
 
