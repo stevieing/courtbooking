@@ -10,7 +10,7 @@ Rails - see .ruby-gemset
 == Dependencies
 
 * SQLite
-* Postgres (unless removed from the gemfile)
+* Postgres (unless removed from the gemfile and database.yml)
 * Redis
 
 
@@ -20,14 +20,11 @@ Uses Devise with some additional configuration:
 * username is the primary login.
 * emails are not unique - some users including families may use the same email address.
 
-
-
 == Setup
 
 Example configuration files are as follows:
 * config/database.yml.example
 * config/mailer.yml.example
-
 
 When the application is first started all initial settings will be loaded. The initializer files will detect whether any settings exist.
 
@@ -38,17 +35,68 @@ A single user will be created:
 * username: adminuser
 * password: password
 
-It is strongly recommended that you change the username and password for this user. The email address will also need to be changed. This user has full access rights.
-
 Admin users can only be added via the rails console using Admin.create(...). This should be limited to one user.
+
+On initial start go to admin/users. Select adminuser. Change the username, full name and email.
 
 === Mail
 
 The system will need a working mail server.
 
-In development and staging I have used my own providers SMTP server and in production I have used Exim4.
+In developmentI have used my own providers SMTP server and staging and production I have used Exim4.
 The following options are a minimum requirement for SMTP to work:
 * address
 * username
 * password
 * from email address
+* SMTP domain
+
+The SMTMP domain is required for the default url options and the asset host in any emails that are sent out. See mailer for more details.
+
+=== Settings
+
+The following system wide settings are available (with default values):
+
+*Number of days that courts can be booked in advance - 21
+*Number of courts that can be booked during peak hours in a week - 3
+*Number of courts that can be booked during peak hours in a day - 1
+*Courts opening time - 06:20
+*Courts closing time - 22:20
+*Slot time - 40 minutes
+
+When the application is first loaded in any environment the default settings will be loaded into the settings table.
+If you want to change these settings before first load use the settings.rb file in config.
+If you want to change these settings after first load use admin/settings.
+When the system is restarted the settings are loaded from the database table.
+When the settings are changed from the admin system a restart is required. This is fired automatically in the controller.
+
+=== Permitted attributes
+
+
+== Functionality
+
+=== Sign in
+
+=== Bookings
+
+=== Admin
+
+==== Settings
+
+==== Members
+
+==== Courts
+
+==== Events
+
+==== Reports
+
+Not yet enabled.
+
+==== Emails
+
+Not yet enabled.
+
+
+
+
