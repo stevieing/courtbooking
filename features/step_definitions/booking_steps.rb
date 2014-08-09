@@ -7,6 +7,10 @@ When /^I select an opponent$/ do
   fill_in "Opponent", with: opponent.full_name
 end
 
+Given(/^any session should be current$/) do
+  allow_any_instance_of(User).to receive(:timedout?).and_return(false)
+end
+
 Given /^I have created a booking$/ do
   create_current_booking(create_valid_booking(current_user))
 end

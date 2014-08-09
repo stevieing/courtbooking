@@ -40,7 +40,7 @@ class Admin::ClosuresController < ApplicationController
   private
 
   def closures
-    @closures ||= Closure.all
+    @closures ||= Closure.ordered
   end
 
   helper_method :closures

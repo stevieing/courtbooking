@@ -40,7 +40,7 @@ class Admin::EventsController < ApplicationController
   private
 
   def events
-    @events ||= Event.all
+    @events ||= Event.ordered
   end
 
   helper_method :events

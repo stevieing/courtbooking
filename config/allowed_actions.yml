@@ -61,16 +61,16 @@ edit_my_details:
     - :update
   user_specific: true
 
-manage_users:
-  name: "Manage users"
-  controller: "admin/users"
+manage_members:
+  name: "Manage members"
+  controller: "admin/members"
   action:
     - :index
     - :new
     - :create
     - :edit
     - :update
-    - :delete
+    - :destroy
   admin: true
 
 manage_courts:
@@ -82,7 +82,7 @@ manage_courts:
     - :create
     - :edit
     - :update
-    - :delete
+    - :destroy
   admin: true
 
 manage_closures:
@@ -94,7 +94,7 @@ manage_closures:
     - :create
     - :edit
     - :update
-    - :delete
+    - :destroy
   admin: true
 
 manage_events:
@@ -106,7 +106,7 @@ manage_events:
     - :create
     - :edit
     - :update
-    - :delete
+    - :destroy
   admin: true
 
 manage_settings:

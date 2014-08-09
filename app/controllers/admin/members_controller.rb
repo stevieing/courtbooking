@@ -33,15 +33,15 @@ class Admin::MembersController < ApplicationController
   end
 
   def destroy
-    @members = current_resource
-    notice = @members.destroy ? "Member successfully deleted" : "Unable to delete member"
+    @member = current_resource
+    notice = @member.destroy ? "Member successfully deleted" : "Unable to delete member"
     redirect_to admin_members_path, notice: notice
   end
 
 private
 
   def members
-    @members ||= Member.all
+    @members ||= Member.ordered
   end
 
   helper_method :members

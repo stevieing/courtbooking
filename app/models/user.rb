@@ -1,13 +1,13 @@
 class User < ActiveRecord::Base
 
-  has_many :bookings, dependent: :destroy
+  has_many :bookings
   has_many :permissions, dependent: :destroy
   has_many :allowed_actions, through: :permissions
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable,
+  devise :database_authenticatable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable, authentication_keys: [:login]
 
   attr_accessor :login
@@ -32,5 +32,9 @@ class User < ActiveRecord::Base
       else
         where(conditions).first
       end
+  end
+
+  def self.ordered
+    order(:username)
   end
 end

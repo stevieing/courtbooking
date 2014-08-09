@@ -16,9 +16,9 @@ Feature: Users should be able to browse the status of courts
     And I should see the correct date
 
   Scenario: Bookings in the past
-    Given I am signed in
-    When there are two bookings one after the other for tomorrow
-    And it is tomorrow after the first booking has started
+    Given there are two bookings one after the other for tomorrow
+    When it is tomorrow after the first booking has started
+    And I am signed in
     And I go to the courts page
     Then I should not be able to edit the first booking
     But I should be able to edit the second booking
