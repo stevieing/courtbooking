@@ -65,4 +65,24 @@ describe User do
     it { expect(build(:user, email: "joebloggs@example.com")).to be_valid }
   end
 
+  describe '#ordered' do
+
+    let!(:user1) {create(:user, username: "suzann")}
+    let!(:user2) {create(:user, username: "delia")}
+    let!(:user3) {create(:user, username: "brandy")}
+    let!(:user4) {create(:user, username: "annette")}
+    let!(:user5) {create(:user, username: "aarron")}
+
+    subject { User.ordered}
+
+    it { expect(subject.first).to eq(user5)}
+    it { expect(subject[1]).to eq(user4)}
+    it { expect(subject[2]).to eq(user3)}
+    it { expect(subject[3]).to eq(user2)}
+    it { expect(subject.last).to eq(user1)}
+
+
+
+  end
+
 end

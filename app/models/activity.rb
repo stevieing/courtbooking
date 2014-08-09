@@ -16,4 +16,8 @@ class Activity < ActiveRecord::Base
     courts.pluck(:number).join(',')
   end
 
+  def self.ordered
+    order(date_from: :desc, time_from: :desc)
+  end
+
 end

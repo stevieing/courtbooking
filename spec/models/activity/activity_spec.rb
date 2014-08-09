@@ -51,4 +51,18 @@ describe Activity do
     it { expect(subject.court_numbers).to eq("#{courts.first.number},#{courts.last.number}")}
   end
 
+  describe "#ordered" do
+    let!(:activity1) { create(:activity, date_from: Date.today, time_from: "09:00")}
+    let!(:activity2) { create(:activity, date_from: Date.today+1, time_from: "09:00")}
+    let!(:activity3) { create(:activity, date_from: Date.today+1, time_from: "09:40")}
+    subject { Activity.ordered}
+
+    it { expect(subject.first).to eq(activity3)}
+    it { expect(subject[1]).to eq(activity2)}
+    it { expect(subject.last).to eq(activity1)}
+
+
+
+  end
+
 end

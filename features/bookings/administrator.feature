@@ -8,6 +8,7 @@ Feature: Administrative users should be able to book a court
     Given todays date is "01 September 2013" and the time is "17:00"
     And the courts are setup
     And I am signed in as an administrator
+    And any session should be current
 
   @opponent
   Scenario: editing an existing booking

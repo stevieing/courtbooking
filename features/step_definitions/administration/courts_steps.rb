@@ -21,13 +21,13 @@ end
 When(/^I add (\d+) valid (.*) times?$/) do |n, type|
    within("##{type}times") do
     add_court_time n, type, booking_slots.first.from, booking_slots.last.from
-  end  
+  end
 end
 
 When(/^I add (\d+) invalid (.*) time$/) do |n, type|
   within("##{type}times") do
     add_court_time n, type, booking_slots.last.from, booking_slots.first.from
-  end  
+  end
 end
 
 Then(/^the court should have (\w+) times$/) do |type|
