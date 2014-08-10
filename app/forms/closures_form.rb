@@ -1,36 +1,23 @@
 class ClosuresForm
-  include ActiveModel::Model
+  include BasicForm
   include OverlappingRecordsManager
 
-  WHITELIST = PERMITTED_ATTRIBUTES.closure.whitelist.dup.extract_hash_keys.push(:id)
-
-  attr_reader :closure
-  delegate *WHITELIST, to: :closure
+  set_model :closure, PERMITTED_ATTRIBUTES.closure.whitelist
   overlapping_object :closure
 
   validate :verify_closure
   validate :verify_overlapping_records_removal
 
-  def self.model_name
-    ActiveModel::Name.new(self, nil, "Closure")
-  end
-
-  def persisted?
-    !closure.id.nil?
-  end
-
-  def initialize(closure=nil)
-    if closure.instance_of?(Closure)
-      @closure = closure
-    else
-      @closure = Closure.new
-    end
-  end
-
   def submit(params)
     self.allow_removal = to_boolean(params[:allow_removal])
-    closure.attributes = params.slice(*WHITELIST)
-    valid? ? save_objects : false
+    save(params)
+  end
+
+  def save_objects
+    run_transaction do
+      remove_overlapping
+      closure.save
+    end
   end
 
 private
@@ -39,27 +26,4 @@ private
     check_for_errors closure
   end
 
-  def save_objects
-    begin
-      ActiveRecord::Base.transaction do
-        remove_overlapping
-        closure.save
-      end
-      true
-    rescue
-      false
-    end
-  end
-
-  def check_for_errors(object)
-    unless object.valid?
-      object.errors.each do |key, value|
-        errors.add key, value
-      end
-    end
-  end
-
-  def to_boolean(value)
-    ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
-  end
 end

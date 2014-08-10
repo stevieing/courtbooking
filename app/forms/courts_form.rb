@@ -1,7 +1,8 @@
 class CourtsForm
-  include ActiveModel::Model
+  include BasicForm
 
-  WHITELIST = PERMITTED_ATTRIBUTES.court.whitelist.dup.extract_hash_keys.push(:id)
+  set_model :court, PERMITTED_ATTRIBUTES.court.whitelist
+
   ASSOCIATIONS = [:opening_times, :peak_times]
 
   Court.class_eval do
@@ -9,34 +10,20 @@ class CourtsForm
     association_extras *ASSOCIATIONS
   end
 
-  attr_reader :court
-  delegate *WHITELIST, to: :court
   delegate *ASSOCIATIONS, to: :court
 
   validate :verify_court
   validate :verify_associated_models
 
-  def self.model_name
-    ActiveModel::Name.new(self, nil, "Court")
-  end
-
-  def persisted?
-    !court.id.nil?
-  end
-
   def initialize(object=nil)
-    if object.instance_of?(Court)
-      @court = object
-    else
-      @court = Court.new
+    build(object) do
       court.number = Court.next_court_number
     end
   end
 
   def submit(params)
     build_associations(params)
-    court.attributes = params.slice(*WHITELIST)
-    valid? ? save_objects : false
+    save(params)
   end
 
 private
@@ -46,23 +33,10 @@ private
   end
 
   def save_objects
-    begin
-      ActiveRecord::Base.transaction do
-        court.save
-        ASSOCIATIONS.each do |association|
-          court.send("save_#{association.to_s}")
-        end
-      end
-      true
-    rescue
-      false
-    end
-  end
-
-  def check_for_errors(object)
-    unless object.valid?
-      object.errors.each do |key, value|
-        errors.add key, value
+    run_transaction do
+      court.save
+      ASSOCIATIONS.each do |association|
+        court.send("save_#{association.to_s}")
       end
     end
   end
