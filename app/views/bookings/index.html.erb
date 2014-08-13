@@ -13,7 +13,7 @@
     <% bookings.each do |booking| %>
       <tr id="<%= dom_id(booking) %>">
         <td><%= booking.players %></td>
-        <td><%= booking.date_from_text %></td>
+        <td><%= booking.date_from.to_s(:uk) %></td>
         <td><%= booking.time_from %></td>
         <td><%= booking.time_to %></td>
         <td><%= booking.court.number %></td>

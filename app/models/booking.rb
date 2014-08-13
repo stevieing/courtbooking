@@ -4,9 +4,9 @@ class Booking < ActiveRecord::Base
   belongs_to :court
   belongs_to :opponent, class_name: "User"
 
-  attr_writer :date_from_text, :time_and_place
+  attr_writer :time_and_place
 
-  before_validation :save_date_from_text, :save_time_and_place
+  before_validation :save_time_and_place
 
   validates_presence_of :court_id, :user_id, :date_from, :time_from, :time_to
   attr_readonly :court_id, :date_from, :time_from, :time_to
@@ -41,14 +41,6 @@ class Booking < ActiveRecord::Base
     to_datetime.in_the_past?
   end
 
-  def date_from_text
-    @date_from_text || date_from.try(:to_s, :uk)
-  end
-
-  def save_date_from_text
-    self.date_from = @date_from_text if @date_from_text.present?
-  end
-
   def time_and_place
     @time_and_place || [date_from.try(:to_s, :uk),time_from,time_to,court_id].join(',')
   end
@@ -65,8 +57,8 @@ class Booking < ActiveRecord::Base
     end
   end
 
-   def link_text
-    "#{court.number} - #{date_from_text} #{time_from}"
+  def link_text
+    "#{court.number} - #{date_from.to_s(:uk)} #{time_from}"
   end
 
   def in_the_future?

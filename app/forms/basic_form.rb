@@ -3,6 +3,7 @@
 # adds a number of common methods and behaviours to form objects
 # Version 2. Much better than the original but still needs some work
 # More flexible. Allows for a wider range of form objects.
+# Example usage:
 #
 module BasicForm
   extend ActiveSupport::Concern
@@ -16,12 +17,7 @@ module BasicForm
     #
     # All of the attributes will be delegated to the model to allow for saving and validation
     # The ActiveModel model_name will be set
-    # an initialize method will be added which
-    # * if nothing is passed a new object is created
-    # * if an object is passed it wiil be assigned to the instance.
-    # A submit method will be created which will assign all attributes to the object
-    # and save them if they are valid.
-    #
+
     def set_model(model, attributes)
       const_set(:WHITELIST, attributes.dup.extract_hash_keys.push(:id))
       attr_reader model
@@ -39,9 +35,12 @@ module BasicForm
       model_const = model.to_s.classify.constantize
 
       ##
+      # # an initialize method will be added which
+      # * if nothing is passed a new object is created
+      # * if an object is passed it wiil be assigned to the instance.
       # if an initializer is added when this module is included.
       # even super would not call this so you need to call the
-      # build_object method.
+      # build method.
       #
       define_method :build do |object=nil, &block|
         if object.instance_of?(model_const)
@@ -54,13 +53,17 @@ module BasicForm
 
       alias_method :initialize, :build
 
+
+      # A submit method will be created which will assign all attributes to the object
+      # and save them if they are valid.
+      #
       define_method :submit do |params, &block|
         block.call unless block.nil?
         send(model).attributes = params.slice(*self.class.const_get(:WHITELIST))
-        valid? ? save_objects : false
+        save
       end
 
-      alias_method :save, :submit
+      alias_method :push_and_save, :submit
     end
   end
 
@@ -88,6 +91,10 @@ private
         errors.add key, value
       end
     end
+  end
+
+  def save
+    valid? ? save_objects : false
   end
 
   #

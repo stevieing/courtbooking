@@ -2,87 +2,14 @@ require 'spec_helper'
 
 describe OverlappingRecords do
 
-  describe "parameters" do
-
-    context 'booking' do
-      let(:booking) { build(:booking)}
-
-      subject { OverlappingRecords.new(booking) }
-
-      it { expect(subject.parameters.date_from).to eq(booking.date_from)}
-      it { expect(subject.parameters.date_to).to eq(booking.date_from)}
-      it { expect(subject.parameters.time_from).to eq(booking.time_from)}
-      it { expect(subject.parameters.time_to).to eq(booking.time_to)}
-      it { expect(subject.parameters.court_ids).to eq([booking.court_id])}
-
-    end
-
-    context 'closure' do
-      let(:closure) { build(:closure)}
-
-      subject { OverlappingRecords.new(closure) }
-
-      it { expect(subject.parameters.date_from).to eq(closure.date_from)}
-      it { expect(subject.parameters.date_to).to eq(closure.date_to)}
-      it { expect(subject.parameters.time_from).to eq(closure.time_from)}
-      it { expect(subject.parameters.time_to).to eq(closure.time_to)}
-      it { expect(subject.parameters.court_ids).to eq(closure.court_ids)}
-
-    end
-
-    context 'event' do
-      let(:event) { build(:event)}
-
-      subject { OverlappingRecords.new(event) }
-
-      it { expect(subject.parameters.date_from).to eq(event.date_from)}
-      it { expect(subject.parameters.date_to).to eq(event.date_from)}
-      it { expect(subject.parameters.time_from).to eq(event.time_from)}
-      it { expect(subject.parameters.time_to).to eq(event.time_to)}
-      it { expect(subject.parameters.court_ids).to eq(event.court_ids)}
-
-    end
-
-  end
-
   describe 'valid' do
 
-    context 'date_from' do
-      it { expect(OverlappingRecords.new(build(:booking, date_from: nil))).not_to be_valid }
       it { expect(OverlappingRecords.new(build(:booking, date_from: ""))).not_to be_valid }
-    end
-
-    context 'time_from' do
-      it { expect(OverlappingRecords.new(build(:booking, time_from: nil))).not_to be_valid }
       it { expect(OverlappingRecords.new(build(:booking, time_from: ""))).not_to be_valid }
-    end
-
-    context 'time_to' do
-      it { expect(OverlappingRecords.new(build(:booking, time_to: nil))).not_to be_valid }
       it { expect(OverlappingRecords.new(build(:booking, time_to: ""))).not_to be_valid }
-    end
-
-    context 'court_ids' do
-      it { expect(OverlappingRecords.new(build(:booking, court_id: nil))).not_to be_valid }
       it { expect(OverlappingRecords.new(build(:booking, court_id: ""))).not_to be_valid }
-    end
-  end
-
-  describe 'records' do
-
-    context 'valid' do
-      subject { OverlappingRecords.new(build(:booking)) }
-
-      it { expect(subject).to be_empty }
-      it { expect(subject).to have(0).items }
-    end
-
-    context 'invalid' do
-      subject { OverlappingRecords.new(build(:booking, date_from: nil)) }
-
-      it { expect(subject).to be_empty }
-      it { expect(subject).to have(0).items }
-    end
+      it { expect(OverlappingRecords.new(build(:booking))).to be_empty }
+      it { expect(OverlappingRecords.new(build(:booking))).to be_valid }
 
   end
 

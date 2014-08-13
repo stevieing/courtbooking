@@ -11,7 +11,6 @@ Then /^I should see the correct date$/ do
   page.should have_content(dates.current_date_to_s)
 end
 
-
 Then /^I should be redirected to the courts page for that day$/ do
   current_path.should == courts_path(dates.current_date)
 end
@@ -25,7 +24,7 @@ When /^there are two bookings one after the other for tomorrow$/ do
 end
 
 When /^it is tomorrow after the first booking has started$/ do
-  set_dates(current_bookings.first.date_from_text, current_bookings.first.time_from)
+  set_dates(current_bookings.first.date_from.to_s(:uk), current_bookings.first.time_from)
 end
 
 Then /^I should not be able to edit the first booking$/ do

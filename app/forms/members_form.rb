@@ -7,7 +7,7 @@ class MembersForm
   validate :verify_member
 
   def submit(params)
-    save( persisted? ? process_password(params) : params)
+    push_and_save( persisted? ? process_password(params) : params)
   end
 
   def include_action?(allowed_action)

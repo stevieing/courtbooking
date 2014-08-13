@@ -11,8 +11,8 @@ module BookingSlots
 
     def current_record(courts, slots)
       @bookings.select_first_or_initialize(court: courts.current, time_from: slots.current.from) do |booking|
-        booking.date_from_text  = @properties.date.to_s(:uk)
-        booking.time_to         = slots.current.to
+        booking.date_from = @properties.date
+        booking.time_to   = slots.current.to
       end
     end
 
