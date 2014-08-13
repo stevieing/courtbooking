@@ -6,11 +6,11 @@
       <ul>
         <li>
           <%= f.label :login, "Username" %>
-          <%= f.text_field :login, :autofocus => true %>
+          <%= f.text_field :login, autofocus: true, autocapitalize: "off",  autocorrect: "off" %>
         </li>
         <li>
           <%= f.label :password %>
-          <%= f.password_field :password %>
+          <%= f.password_field :password, autocapitalize: "off",  autocorrect: "off" %>
         </li>
         <% if devise_mapping.rememberable? -%>
           <li>

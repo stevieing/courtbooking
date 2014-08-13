@@ -23,7 +23,7 @@ class CourtsForm
 
   def submit(params)
     build_associations(params)
-    save(params)
+    push_and_save(params)
   end
 
 private

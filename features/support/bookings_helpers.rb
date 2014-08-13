@@ -42,7 +42,6 @@ module BookingsHelpers
 
   def valid_booking_details(booking)
     page.should have_content booking.court.number
-    page.should have_content booking.date_from_text
     page.should have_content booking.time_from
     page.should have_content booking.time_to
   end

@@ -18,7 +18,7 @@ class BasicFormTest < ActiveSupport::TestCase
       end
     end
     def submit(params)
-      save(params.merge(attr_a: "aaa"))
+      push_and_save(params.merge(attr_a: "aaa"))
     end
     def verify_basic_model
       check_for_errors basic_model
@@ -49,11 +49,6 @@ class BasicFormTest < ActiveSupport::TestCase
 
   test "should run initializer block" do
     assert_equal "a", @basic_model_form.attr_a
-  end
-
-  test "test attribute" do
-    @basic_model_form.basic_model.attr_a = "a"
-    assert_equal "a", @basic_model_form.basic_model.attr_a
   end
 
   test "submitting valid parameters should create a new record" do

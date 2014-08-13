@@ -163,24 +163,12 @@ describe Booking do
 
    end
 
-
-
-   describe "#date_from_text" do
-     let!(:booking) {create(:booking, date_from_text: "17 September 2013")}
-     let!(:booking_invalid) {build(:booking, date_from_text: "32 September 2013")}
-
-     it { expect(booking.date_from_text).to eq("17 September 2013")}
-     it { expect(booking_invalid).to_not be_valid }
-
-   end
-
    describe "#time_and_place" do
 
      subject {create(:booking, time_and_place: "17 September 2013,17:40,19:40,2")}
 
      it {should be_valid}
      its(:court_id) {should eq(2)}
-     its(:date_from_text) {should eq("17 September 2013")}
      its(:time_from) {should eq("17:40")}
      its(:time_to) {should eq("19:40")}
      its(:time_and_place_text) {should eq("17 September 2013 at 5.40pm to 7.40pm")}

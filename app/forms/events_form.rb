@@ -10,7 +10,7 @@ class EventsForm
 
   def submit(params)
     self.allow_removal = to_boolean(params[:allow_removal])
-    save(params)
+    push_and_save(params)
   end
 
 private

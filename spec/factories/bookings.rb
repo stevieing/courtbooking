@@ -4,7 +4,6 @@ FactoryGirl.define do
   factory :booking do
     user_id 1
     court_id 1
-    date_from_text nil
     opponent_id nil
     date_from (Date.today+2)
     time_from "19:00"

@@ -18,6 +18,10 @@
         <span><%= @booking.time_and_place_text %></span>
       </li>
       <%= f.hidden_field :time_and_place, :value => @booking.time_and_place %>
+      <%= f.hidden_field :court_id %>
+      <%= f.hidden_field :date_from %>
+      <%= f.hidden_field :time_from %>
+      <%= f.hidden_field :time_to %>
       <% if allow? :users, :index %>
         <li>
           <%= f.label :opponent_name, "Opponent" %>
