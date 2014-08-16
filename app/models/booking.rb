@@ -24,13 +24,9 @@ class Booking < ActiveRecord::Base
 
   #There was some really wierd stuff going on with players being added.
   def players
-    if user.nil?
-      ' '
-    elsif opponent.nil?
-      user.full_name
-    else
-      "#{user.full_name} V #{opponent.full_name}"
-    end
+    return unless user
+    return user.full_name unless opponent
+    "#{user.full_name} v #{opponent.full_name}"
   end
 
   def in_the_past?
@@ -62,18 +58,15 @@ class Booking < ActiveRecord::Base
     self.opponent = User.find_by(full_name: opponent_name) if opponent_name.present?
   end
 
-  class << self
-
-    def ordered
-      order("date_from desc, time_from desc, court_id")
-    end
-
-    def by_slot(time_from, court_id)
-      find_by(time_from: time_from, court_id: court_id)
-    end
+  def self.ordered
+    order("date_from desc, time_from desc, court_id")
   end
 
-  private
+  def self.by_slot(time_from, court_id)
+    find_by(time_from: time_from, court_id: court_id)
+  end
+
+private
 
   def destroyable?
     if to_datetime.in_the_past?

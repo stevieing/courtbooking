@@ -7,7 +7,8 @@ module Permissions
 
     def allow?(controller, action, resource = nil)
       allowed = @allow_all || allow_all?(controller.to_s, action.to_s) || @allowed_actions[[controller.to_s, action.to_s]]
-      allowed && (allowed == true || resource && allowed.call(resource))
+      allow = allowed && (allowed == true || resource && allowed.call(resource))
+      block_given? && allow ? yield : allow
     end
 
     def allow_all
