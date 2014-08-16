@@ -4,176 +4,176 @@
 
 *{
   padding: 0;
-	margin: 0;
+  margin: 0;
 }
 
 ul, ol{
-	list-style-type: none;
+  list-style-type: none;
 }
 
 html, body{
-	height: 100%;
-	width: 100%;
-	text-decoration: none;
-	font: {
-		family: 'Helvetica Neue', helvetica, arial, sans-serif;
-	}
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  font: {
+    family: 'Helvetica Neue', helvetica, arial, sans-serif;
+  }
 }
 
 a{
-	text-decoration: none;
-	color: $dark-green;
+  text-decoration: none;
+  color: $dark-green;
 
-	&:hover{
-		text-decoration: underline;
-	}
+  &:hover{
+    text-decoration: underline;
+  }
 }
 
 h2,h3,h4,h5,h6{
-	color: $dark-green;
+  color: $dark-green;
 }
 
 header, footer{
-	float: left;
-	min-width: 100%;
+  float: left;
+  min-width: 100%;
 }
 
 .wrap{
-	margin: 0 auto;
-	width: 1060px;
+  margin: 0 auto;
+  width: 1060px;
 }
 
 header{
-	margin-top: 10px;
-	color: white;
-	height: 50px;
-	background-color: $dark-red;
+  margin-top: 10px;
+  color: white;
+  height: 50px;
+  background-color: $dark-red;
 
-	@include gradient($dark-red, $dark-red-grad);
+  @include gradient($dark-red, $dark-red-grad);
 
-	#logo {
-		padding-left: 3px;
-		background-color: white;
-		width: 140px;
-		float: left;
-	}
+  #logo {
+    padding-left: 3px;
+    background-color: white;
+    width: 140px;
+    float: left;
+  }
 
-	font:{
-		size: 1.1em;
-	}
+  font:{
+    size: 1.1em;
+  }
 
-	nav{
+  nav{
 
-		ul{
-			margin-left: 200px;
-			padding-top: 15px;
-			padding-bottom: 10px;
+    ul{
+      margin-left: 200px;
+      padding-top: 15px;
+      padding-bottom: 10px;
 
-			li{
-				float: left;
-				padding-right: 30px;
-			}
+      li{
+        float: left;
+        padding-right: 30px;
+      }
 
-			a{
-				color: white;
+      a{
+        color: white;
 
-				&:hover{
-					color: $light-brown;
-				}
-			}
-		}
+        &:hover{
+          color: $light-brown;
+        }
+      }
+    }
 
-		.username{
-			float: right;
-			position: relative;
-			left: -20px;
-			top: -10px;
-		}
-	}
+    .username{
+      float: right;
+      position: relative;
+      left: -20px;
+      top: -10px;
+    }
+  }
 }
 
 footer{
-	border-top: 2px solid $dark-red;
-	margin-top: 50px;
-	height: 40px;
+  border-top: 2px solid $dark-red;
+  margin-top: 50px;
+  height: 40px;
 
-	#copyright{
-		padding-top: 10px;
-	}
+  #copyright{
+    padding-top: 10px;
+  }
 }
 
 
 #container{
-	position: relative;
-	width: 100%;
-	min-height: 100%;
+  position: relative;
+  width: 100%;
+  min-height: 100%;
 }
 
 #body{
-	clear: both;
-	padding-top: 50px;
-	margin: 0 auto;
-	width: 1060px;
+  clear: both;
+  padding-top: 50px;
+  margin: 0 auto;
+  width: 1060px;
 }
 
 td{
-	padding: 5px;
+  padding: 5px;
 }
 
 #flash{
-	margin: 0 auto;
-	width: 80%;
-	font:{
-		size: 1.3em;
-		weight: bold;
-	}
+  margin: 0 auto;
+  width: 80%;
+  font:{
+    size: 1.3em;
+    weight: bold;
+  }
 
-	.notice{
-		@include flash($dark-green,"notice.png");
-	}
+  .notice{
+    @include flash($dark-green,"notice.png");
+  }
 
-	.alert{
-		@include flash($dark-red,"alert.png");
-	}
+  .alert{
+    @include flash($dark-red,"alert.png");
+  }
 
 }
 
 #errors{
-	color: $dark-red;
-	border: 1px solid $dark-red;
-	border-top: 3px solid $dark-red;
-	margin:{
-		top: 20px;
-		bottom: 20px;
-	}
-	padding-left: 20px;
+  color: $dark-red;
+  border: 1px solid $dark-red;
+  border-top: 3px solid $dark-red;
+  margin:{
+    top: 20px;
+    bottom: 20px;
+  }
+  padding-left: 20px;
 
-	h3{
-		font:{
-			size: 1.4em;
-		};
+  h3{
+    font:{
+      size: 1.4em;
+    };
 
-		color: $dark-red;
-	}
+    color: $dark-red;
+  }
 
-	ul{
-		margin-left: 20px;
+  ul{
+    margin-left: 20px;
 
-		li{
-			list-style-type: disc;
-		}
-	}
+    li{
+      list-style-type: disc;
+    }
+  }
 }
 
 .standard-table{
-	@include standard-table(1);
+  @include standard-table(1);
 }
 
 .field_with_errors {
     display: inline-block;
 
     input{
-    	border: 3px solid $dark-red;
+      border: 3px solid $dark-red;
     }
 }
 

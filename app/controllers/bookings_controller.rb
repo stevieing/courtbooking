@@ -7,7 +7,7 @@ class BookingsController < ApplicationController
   end
 
   def new
-    @booking = Booking.new(permit_new!(:booking, params))
+    @bookings_form = BookingsForm.new(current_user, params)
     respond_to do |format|
       format.html
       format.js
@@ -15,18 +15,8 @@ class BookingsController < ApplicationController
   end
 
   def create
-    @booking = current_user.bookings.build(params[:booking])
-    respond_to do |format|
-      if @booking.save
-        BookingMailer.booking_confirmation(@booking).deliver
-        flash_keep 'Booking successfully created.'
-        format.html { redirect_to courts_path(@booking.date_from) }
-        format.js { js_redirect(courts_path(@booking.date_from))}
-      else
-        format.html { render :new }
-        format.js
-      end
-    end
+    @bookings_form = BookingsForm.new(current_user)
+    process_booking :new, :create
   end
 
   def show
@@ -34,7 +24,7 @@ class BookingsController < ApplicationController
   end
 
   def edit
-    @booking = current_resource
+    @bookings_form = BookingsForm.new(current_user, current_resource)
     respond_to do |format|
       format.html
       format.js
@@ -42,18 +32,8 @@ class BookingsController < ApplicationController
   end
 
   def update
-    @booking = current_resource
-    respond_to do |format|
-      if @booking.update_attributes(params[:booking])
-        BookingMailer.booking_confirmation(@booking).deliver
-        flash_keep 'Booking successfully updated.'
-        format.html { redirect_back_or_default(courts_path(@booking.date_from)) }
-        format.js { js_redirect_back_or_default(courts_path(@booking.date_from))}
-      else
-        format.html { render :edit }
-        format.js
-      end
-    end
+    @bookings_form = BookingsForm.new(current_user, current_resource)
+    process_booking :edit, :update
   end
 
   def destroy
@@ -73,13 +53,27 @@ class BookingsController < ApplicationController
        end
      end
 
-  protected
+protected
 
   def bookings
     @bookings ||= current_user.all_bookings
   end
 
-  private
+private
+
+  def process_booking(action, process)
+    respond_to do |format|
+      if @bookings_form.submit(params[:booking])
+        BookingMailer.booking_confirmation(@bookings_form).deliver
+        flash_keep "Booking successfully #{process.to_s}d."
+        format.html { redirect_back_or_default(courts_path(@bookings_form.date_from)) }
+        format.js { js_redirect_back_or_default(courts_path(@bookings_form.date_from))}
+      else
+        format.html { render action }
+        format.js
+      end
+    end
+  end
 
   def referrer_booking_path?
     Rails.application.routes.recognize_path(request.referrer)[:controller] == "bookings"

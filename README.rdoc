@@ -97,6 +97,15 @@ Not yet enabled.
 
 Not yet enabled.
 
+= Next Steps
+
+1. Create form objects for all models
+2. Create presenters for complex views
+3. Add SSL
+4. Refactor God objects - bookings_slots and slots
+All of the above are precursors for creating an Ember front end!
+2.
+
 
 
 

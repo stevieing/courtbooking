@@ -19,7 +19,6 @@ module Permissions
     end
 
     def allow(controllers, actions, &block)
-      #@allowed_actions ||= {}
       Array(controllers).each do |controller|
         Array(actions).each do |action|
           @allowed_actions[[controller.to_s, action.to_s]] = block || true
@@ -28,7 +27,6 @@ module Permissions
     end
 
     def allow_param(resources, attributes, nested_attributes = nil)
-      #@allowed_params ||= {}
       Array(resources).each do |resource|
         @allowed_params[resource] ||= []
         @allowed_params[resource] += add_param(attributes, nested_attributes)

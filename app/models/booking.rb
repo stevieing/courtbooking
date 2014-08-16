@@ -4,10 +4,6 @@ class Booking < ActiveRecord::Base
   belongs_to :court
   belongs_to :opponent, class_name: "User"
 
-  attr_writer :time_and_place
-
-  before_validation :save_time_and_place
-
   validates_presence_of :court_id, :user_id, :date_from, :time_from, :time_to
   attr_readonly :court_id, :date_from, :time_from, :time_to
 
@@ -42,19 +38,8 @@ class Booking < ActiveRecord::Base
   end
 
   def time_and_place
-    @time_and_place || [date_from.try(:to_s, :uk),time_from,time_to,court_id].join(',')
-  end
-
-  def time_and_place_text
-    unless self.time_and_place.nil?
-      [date_from.try(:to_s, :uk)," at",Time.parse(time_from).try(:to_s, :meridian)," to",Time.parse(time_to).try(:to_s,:meridian)].join
-    end
-  end
-
-  def save_time_and_place
-    if @time_and_place.present? && @time_and_place.split(',').length == 4
-      self.date_from, self.time_from, self.time_to, self.court_id = @time_and_place.split(',')
-    end
+    @time_and_place ||
+    "Court: #{court.try(:number)} on #{date_from.try(:to_s, :uk)} at#{Time.parse(time_from).try(:to_s, :meridian)} to#{Time.parse(time_to).try(:to_s,:meridian)}"
   end
 
   def link_text

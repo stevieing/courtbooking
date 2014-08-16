@@ -5,7 +5,7 @@
 @import "shared";
 
 #courts{
-	text-align: center;
+  text-align: center;
 
   #closure-message{
     color: $dark-green;
@@ -20,97 +20,97 @@
 
 #calendar{
 
-	float: right;
-	padding:{
-		left: 20px;
-		top: 40px;
-	}
-	color: black;
-	font-size: 0.9em;
+  float: right;
+  padding:{
+    left: 20px;
+    top: 40px;
+  }
+  color: black;
+  font-size: 0.9em;
 
-	table{
+  table{
 
-		background-color: $light-brown;
+    background-color: $light-brown;
 
-		caption{
-			margin-bottom: 10px;
-			color: $dark-green;
-			font:{
-				weight: bold;
-				size: 1.1em;
-			}
-		}
+    caption{
+      margin-bottom: 10px;
+      color: $dark-green;
+      font:{
+        weight: bold;
+        size: 1.1em;
+      }
+    }
 
-		tr{
-			.selected{
+    tr{
+      .selected{
 
-				background-color: $light-green;
-			}
+        background-color: $light-green;
+      }
 
-			td, th{
-				width: 25px;
-				height: 25px;
-				border: 1px solid black;
-			}
+      td, th{
+        width: 25px;
+        height: 25px;
+        border: 1px solid black;
+      }
 
-			a{
-				color: black;
-			}
-		}
-	}
+      a{
+        color: black;
+      }
+    }
+  }
 }
 
 #booking-slots{
-	table{
-		@include standard-caption;
+  table{
+    @include standard-caption;
 
-		tr{
-			td, th{
-				background-color: $mid-brown;
-				border: 1px dotted $dark-brown;
+    tr{
+      td, th{
+        background-color: $mid-brown;
+        border: 1px dotted $dark-brown;
 
-				&:first-child, &:last-child{
-					width: 40px;
-					vertical-align: top;
-				}
-			}
+        &:first-child, &:last-child{
+          width: 40px;
+          vertical-align: top;
+        }
+      }
 
-			td{
+      td{
 
-				height: 50px;
-				width: 25%;
+        height: 50px;
+        width: 25%;
 
-				&:not(:first-child):not(:last-child){
-					font-size: 0.8em;
+        &:not(:first-child):not(:last-child){
+          font-size: 0.8em;
 
-					&:hover{
-						border-collapse: separate;
-						@include highlight(0px,0px,6px,$dark-brown);
-					}
+          &:hover{
+            border-collapse: separate;
+            @include highlight(0px,0px,6px,$dark-brown);
+          }
 
-				}
+        }
 
-				a{
-					color: $mid-brown;
-					display: block;
-					height: 100%;
-				}
+        a{
+          color: $mid-brown;
+          display: block;
+          height: 100%;
+        }
 
-			}
+      }
 
-			.booking{
-				color: black;
-				font:{
-					size: 1em;
-				}
-				vertical-align: center;
-				text-align: center;
-				background-color: $light-green;
+      .booking{
+        color: black;
+        font:{
+          size: 1em;
+        }
+        vertical-align: center;
+        text-align: center;
+        background-color: $light-green;
 
-				a{
-					color: black;
-				}
-			}
+        a{
+          color: black;
+        }
+      }
 
       .event, .closure{
         background-color: $light-red;
@@ -118,28 +118,28 @@
       }
 
 
-			th{
-				padding-top: 10px;
-				padding-bottom: 10px;
-			}
-		}
+      th{
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+    }
 
-		.past{
-			td{
-				&:not(:first-child):not(:last-child){
-					background-color: $light-grey;
-				}
+    .past{
+      td{
+        &:not(:first-child):not(:last-child){
+          background-color: $light-grey;
+        }
 
-				a{
-					color: $light-grey;
-				}
-			}
+        a{
+          color: $light-grey;
+        }
+      }
 
-			.booking{
-				background-color: $light-grey;
-				color: black;
-			}
-		}
-	}
+      .booking{
+        background-color: $light-grey;
+        color: black;
+      }
+    }
+  }
 
 }

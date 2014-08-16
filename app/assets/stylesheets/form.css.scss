@@ -2,70 +2,70 @@
 
 fieldset{
 
-	legend{
-		display: none;
-	}
+  legend{
+    display: none;
+  }
 
-	ul{
-		margin: 5% auto 5% auto;
-		width: 80%;
+  ul{
+    margin: 5% auto 5% auto;
+    width: 80%;
 
-		li{
-			margin: 0 0 0 10px;
-		    padding: 10px 0 0 0;
-		}
-	}
+    li{
+      margin: 0 0 0 10px;
+        padding: 10px 0 0 0;
+    }
+  }
 
-	label{
-		float: left;
-		width: 120px;
-		margin-right: 10px;
-		text-align: right;
-	}
+  label{
+    float: left;
+    width: 120px;
+    margin-right: 10px;
+    text-align: right;
+  }
 }
 
 legend{
-	font:{
-		size: 1.5em;
-		weight: bold;
-	}
+  font:{
+    size: 1.5em;
+    weight: bold;
+  }
 }
 
 input[type="submit"]{
-	width: auto;
-	height: 35px;
-	background-color: $dark-red;
-	padding: 5px;
-	color: white;
-	border: none;
-	font:{
-		size: 1.2em;
-	}
+  width: auto;
+  height: 35px;
+  background-color: $dark-red;
+  padding: 5px;
+  color: white;
+  border: none;
+  font:{
+    size: 1.2em;
+  }
 
-	@include rounded-corners(5px);
-	@include gradient($dark-red, $dark-red-grad);
+  @include rounded-corners(5px);
+  @include gradient($dark-red, $dark-red-grad);
 }
 
 .jazzy-form{
-	fieldset{
-		@include jazzy-form;
-	}
+  fieldset{
+    @include jazzy-form;
+  }
 }
 
 #sign-in{
-	width: 50%;
-	margin: 0 auto;
+  width: 50%;
+  margin: 0 auto;
 
-	fieldset{
+  fieldset{
 
-		margin-bottom: 10px;
+    margin-bottom: 10px;
 
-		input[type="submit"]
-		{
-			position: relative;
-			left: 70%;
-		}
-	}
+    input[type="submit"]
+    {
+      position: relative;
+      left: 70%;
+    }
+  }
 }
 
 .center-60{
@@ -74,7 +74,7 @@ input[type="submit"]{
 }
 
 #ajax-booking{
-	font-size: 0.8em;
+  font-size: 0.8em;
 
 }
 

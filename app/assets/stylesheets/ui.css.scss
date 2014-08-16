@@ -1,17 +1,17 @@
 @import "shared";
 
 .ui-dialog-titlebar{
-	@include gradient( $dark-red, $dark-red-grad);
-	color: white;
+  @include gradient( $dark-red, $dark-red-grad);
+  color: white;
 }
 
 .ui-dialog-content{
-	fieldset{
-		@include jazzy-form;
-	}
+  fieldset{
+    @include jazzy-form;
+  }
 }
 
 .ui-button{
-	color: white;
-	background-color: black;
+  color: white;
+  background-color: black;
 }

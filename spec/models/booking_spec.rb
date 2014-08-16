@@ -165,13 +165,10 @@ describe Booking do
 
    describe "#time_and_place" do
 
-     subject {create(:booking, time_and_place: "17 September 2013,17:40,19:40,2")}
+     subject {create(:booking, court_id: courts.first.id, date_from: "17 September 2013", time_from: "17:40", time_to: "19:40")}
 
      it {should be_valid}
-     its(:court_id) {should eq(2)}
-     its(:time_from) {should eq("17:40")}
-     its(:time_to) {should eq("19:40")}
-     its(:time_and_place_text) {should eq("17 September 2013 at 5.40pm to 7.40pm")}
+     its(:time_and_place) {should eq("Court: #{courts.first.number} on 17 September 2013 at 5.40pm to 7.40pm")}
 
    end
 

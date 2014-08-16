@@ -26,7 +26,6 @@ class MemberPermissionsTest < ActiveSupport::TestCase
     add_permissions [:bookings_new], @user
     @permissions = Permissions.permission_for(@user)
     assert @permissions.allow?(:bookings, :new)
-    assert @permissions.allow_param?(:booking, :time_and_place)
     assert @permissions.allow_param?(:booking, :opponent_id)
     refute @permissions.allow_param?(:booking, :user_id)
     assert @permissions.allow_param?(:booking, :date_from)
