@@ -1,10 +1,10 @@
 <section id="edit-booking" class="center-60 jazzy-form">
   <h2><%= header %></h2>
-  <%= render "error_messages", target: @booking %>
+  <%= render "error_messages", target: @bookings_form %>
   <%= render "form_html", header: @header %>
-  <% if allow? :bookings, :destroy, @booking %>
+  <% if allow? :bookings, :destroy, @bookings_form %>
   <div>
-    <%= link_to "Delete Booking", booking_path(@booking), method: :delete, data: {confirm: "Are you sure?"}, class: 'big-link' %>
+    <%= link_to "Delete Booking", booking_path(@bookings_form), method: :delete, data: {confirm: "Are you sure?"}, class: 'big-link' %>
   </div>
 <% end %>
 </section>

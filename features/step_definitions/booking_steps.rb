@@ -45,7 +45,7 @@ When /^I follow a link to create a new booking$/ do
 end
 
 Then /^I should see valid booking details$/ do
-  page.should have_content valid_time_and_place_text(current_booking)
+  page.should have_content current_booking.time_and_place
 end
 
 When(/^I follow a link to edit the booking$/) do

@@ -17,8 +17,7 @@ describe BookingMailer do
     end
 
     it "renders the body" do
-      mail.body.encoded.should include("Court #{booking.court.number}")
-      mail.body.encoded.should include("#{booking.time_and_place_text}")
+      mail.body.encoded.should include("#{booking.time_and_place}")
     end
   end
 
@@ -33,8 +32,7 @@ describe BookingMailer do
     end
 
     it "renders the body" do
-      mail.body.encoded.should include("Court #{booking.court.number}")
-      mail.body.encoded.should include("#{booking.time_and_place_text}")
+      mail.body.encoded.should include("#{booking.time_and_place}")
     end
   end
 

@@ -1,123 +1,123 @@
 //mixins.css.scss
 
 @mixin gradient($top, $bottom){
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, $top), color-stop(1, $bottom));
-	background-image: -o-linear-gradient(bottom, $top, $bottom);
-	background-image: -moz-linear-gradient(bottom, $top, $bottom);
-	background-image: -webkit-linear-gradient(bottom, $top, $bottom);
-	background-image: -ms-linear-gradient(bottom, $top, $bottom);
-	background-image: linear-gradient(to bottom, $top,$bottom);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, $top), color-stop(1, $bottom));
+  background-image: -o-linear-gradient(bottom, $top, $bottom);
+  background-image: -moz-linear-gradient(bottom, $top, $bottom);
+  background-image: -webkit-linear-gradient(bottom, $top, $bottom);
+  background-image: -ms-linear-gradient(bottom, $top, $bottom);
+  background-image: linear-gradient(to bottom, $top,$bottom);
 }
 
 @mixin rounded-corners($width){
-	border-radius: $width;
-	-moz-border-radius: $width;
-	-webkit-border-radius: $width;
+  border-radius: $width;
+  -moz-border-radius: $width;
+  -webkit-border-radius: $width;
 }
 
 @mixin drop-shadow($width, $colour){
-	-moz-box-shadow: $width $width $width $colour;
-	-webkit-box-shadow: $width $width $width $colour;
-	-o-box-shadow: $width $width $width $colour;
-	box-shadow: $width $width $width $colour;
+  -moz-box-shadow: $width $width $width $colour;
+  -webkit-box-shadow: $width $width $width $colour;
+  -o-box-shadow: $width $width $width $colour;
+  box-shadow: $width $width $width $colour;
 
 }
 
 @mixin highlight($horiz, $vert, $blur, $colour){
-	-moz-box-shadow: inset $horiz $vert $blur $colour;
-	-webkit-box-shadow: inset $horiz $vert $blur $colour;
-	-o-box-shadow: inset $horiz $vert $blur $colour;
-	box-shadow: inset $horiz $vert $blur $colour;
+  -moz-box-shadow: inset $horiz $vert $blur $colour;
+  -webkit-box-shadow: inset $horiz $vert $blur $colour;
+  -o-box-shadow: inset $horiz $vert $blur $colour;
+  box-shadow: inset $horiz $vert $blur $colour;
 }
 
 @mixin flash($colour, $image){
-	border: 1px solid $colour;
-	border-top: 3px solid $colour;
-	color: $colour;
+  border: 1px solid $colour;
+  border-top: 3px solid $colour;
+  color: $colour;
 
-	height: 40px;
+  height: 40px;
 
-	p{
-		text-align: left;
-		margin-top: 5px;
-		padding-left: 40px;
-		width: auto;
-	}
+  p{
+    text-align: left;
+    margin-top: 5px;
+    padding-left: 40px;
+    width: auto;
+  }
 
-	@include drop_shadow(3px, $light_grey);
-	@include rounded_corners(2px);
+  @include drop_shadow(3px, $light_grey);
+  @include rounded_corners(2px);
 
-	background:{
-		image: image-url($image);
-		repeat: no-repeat;
-	};
+  background:{
+    image: image-url($image);
+    repeat: no-repeat;
+  };
 }
 
 @mixin jazzy-form{
-	border: 1px solid $dark-green;
-	background-color: $light-green;
-	@include rounded_corners(5px);
+  border: 1px solid $dark-green;
+  background-color: $light-green;
+  @include rounded_corners(5px);
 }
 
 @mixin admin-icon($image){
-	background:{
-		image: image-url($image);
-		repeat: no-repeat;
-		position: center 5%;
-	}
+  background:{
+    image: image-url($image);
+    repeat: no-repeat;
+    position: center 5%;
+  }
 }
 
 @mixin standard-caption{
-	caption{
-		font:{
-			size: 1.5em;
-			weight: bold;
-		}
+  caption{
+    font:{
+      size: 1.5em;
+      weight: bold;
+    }
 
-		text-align: left;
-		margin: 20px 0 20px 0;
-		color: $dark-green;
-	}
+    text-align: left;
+    margin: 20px 0 20px 0;
+    color: $dark-green;
+  }
 }
 
 @mixin standard-table($header_row){
-	width: 100%;
+  width: 100%;
 
-	@include standard-caption;
+  @include standard-caption;
 
-	th{
-		padding: 10px 0 10px 0;
-		color: $dark-green;
-	}
+  th{
+    padding: 10px 0 10px 0;
+    color: $dark-green;
+  }
 
-	tr{
-		&:not(:first-child):not(:nth-child(#{$header_row})){
-			background-color: $light-brown;
-			border-bottom: 1px dotted $dark-brown;
-		}
+  tr{
+    &:not(:first-child):not(:nth-child(#{$header_row})){
+      background-color: $light-brown;
+      border-bottom: 1px dotted $dark-brown;
+    }
 
-		&:nth-child(#{$header_row}){
-			background-color: $light-red;
-			border:{
-				top: 2px solid $dark-red;
-				bottom: 2px solid $dark-red;
-			}
-		}
-	}
+    &:nth-child(#{$header_row}){
+      background-color: $light-red;
+      border:{
+        top: 2px solid $dark-red;
+        bottom: 2px solid $dark-red;
+      }
+    }
+  }
 }
 
 @mixin admin-table{
-	th{
-		text-align: left;
-		padding-left: 5px;
-	}
+  th{
+    text-align: left;
+    padding-left: 5px;
+  }
 
-	tr{
-		&:first-child{
-			text-align: right;
-			font-size: 1.2em;
-			padding-bottom: 5px;
-		}
+  tr{
+    &:first-child{
+      text-align: right;
+      font-size: 1.2em;
+      padding-bottom: 5px;
+    }
 
-	}
+  }
 }

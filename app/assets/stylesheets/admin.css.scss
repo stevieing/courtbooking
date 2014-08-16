@@ -5,213 +5,213 @@
 @import "shared";
 
 .admin-table{
-	@include standard-table(2);
-	@include admin-table;
+  @include standard-table(2);
+  @include admin-table;
 }
 
 #admin{
-	width: 100%;
-	margin-top: 20px;
+  width: 100%;
+  margin-top: 20px;
 
-	ul{
-		margin-top: 20px;
-		text-align: center;
+  ul{
+    margin-top: 20px;
+    text-align: center;
 
-		h2{
-			padding:{
-				top: 120px;
-				bottom: 10px;
-			}
-			color: $dark-green;
-		}
+    h2{
+      padding:{
+        top: 120px;
+        bottom: 10px;
+      }
+      color: $dark-green;
+    }
 
-		p{
-			font-size: 1.1em;
-		}
+    p{
+      font-size: 1.1em;
+    }
 
-		@each $admin in settings, members, courts, events, emails, reports{
-			.#{$admin}{
-				@include admin-icon("#{$admin}.png");
-			}
-		}
+    @each $admin in settings, members, courts, events, emails, reports{
+      .#{$admin}{
+        @include admin-icon("#{$admin}.png");
+      }
+    }
 
-		li{
-			width: 32%;
-			height: 270px;
-			float: left;
-			margin:{
-				bottom: 10px;
-			}
-			padding:{
-				left: 5px;
-				right: 5px;
-			}
+    li{
+      width: 32%;
+      height: 270px;
+      float: left;
+      margin:{
+        bottom: 10px;
+      }
+      padding:{
+        left: 5px;
+        right: 5px;
+      }
 
-			background-color: $light-brown;
-		}
-	}
+      background-color: $light-brown;
+    }
+  }
 }
 
 #manage-settings{
 
-	fieldset{
-		border: none;
-	}
+  fieldset{
+    border: none;
+  }
 
-	label{
-		margin-top: 5px;
-		width: 60%;
-	}
+  label{
+    margin-top: 5px;
+    width: 60%;
+  }
 
-	input[type="text"]{
-		width: 50px;
-	}
+  input[type="text"]{
+    width: 50px;
+  }
 
-	input[type="submit"]
-	{
-		position: relative;
-		left: 5%;
-		width: 100px;
-	}
+  input[type="submit"]
+  {
+    position: relative;
+    left: 5%;
+    width: 100px;
+  }
 }
 
 .admin-form{
 
-	fieldset{
-		background-color: $light-brown;
-		border: 2px solid $dark-brown;
+  fieldset{
+    background-color: $light-brown;
+    border: 2px solid $dark-brown;
 
-		label{
-			padding-top: 2px;
-		}
+    label{
+      padding-top: 2px;
+    }
 
-		ul{
-			li{
-				margin: 0;
-			}
-		}
+    ul{
+      li{
+        margin: 0;
+      }
+    }
 
-		fieldset{
-			border: 2px dotted $dark-brown;
+    fieldset{
+      border: 2px dotted $dark-brown;
 
-			ul{
-				clear: both;
-				width: 100%;
-				margin-left: 20px;
+      ul{
+        clear: both;
+        width: 100%;
+        margin-left: 20px;
 
-				li{
-					float: left;
-					margin-right: 20px;
-				}
-			}
-		}
-	}
+        li{
+          float: left;
+          margin-right: 20px;
+        }
+      }
+    }
+  }
 
-	.add-fields{
-		margin-left: 60px;
-		text-decoration: underline;
-		font-size: 1.2em;
-	}
+  .add-fields{
+    margin-left: 60px;
+    text-decoration: underline;
+    font-size: 1.2em;
+  }
 
-	.submit{
-		width: 97%;
-	}
+  .submit{
+    width: 97%;
+  }
 
 }
 
 .manage-court{
 
-	ul ul li{
-		&:first-child{
-			select{
-				width: 120px;
-			}
-		}
-	}
+  ul ul li{
+    &:first-child{
+      select{
+        width: 120px;
+      }
+    }
+  }
 
-	fieldset{
-		label{
-			width: 100px;
-		}
-		fieldset{
-			label{
-				width: 50px;
-			}
-		}
-	}
+  fieldset{
+    label{
+      width: 100px;
+    }
+    fieldset{
+      label{
+        width: 50px;
+      }
+    }
+  }
 
-	input[type="text"]{
-		width: 120px;
-	}
+  input[type="text"]{
+    width: 120px;
+  }
 
-	input[type="submit"]{
-		position: relative;
-		left: 85%;
-	}
+  input[type="submit"]{
+    position: relative;
+    left: 85%;
+  }
 
 }
 
 .manage-user{
-	input[type="text"], input[type="email"], input[type="password"]{
-		min-width: 250px;
-	}
+  input[type="text"], input[type="email"], input[type="password"]{
+    min-width: 250px;
+  }
 
-	fieldset{
+  fieldset{
 
-		min-height: 250px;
+    min-height: 250px;
 
-		ul{
-			margin: 0;
-			float: left;
-			width: 50%;
-			padding: 10px;
+    ul{
+      margin: 0;
+      float: left;
+      width: 50%;
+      padding: 10px;
 
-		}
+    }
 
-		label{
-			width: 200px;
-		}
-	}
+    label{
+      width: 200px;
+    }
+  }
 
-	#permissions{
-		float: right;
-		width: 45%;
-	}
+  #permissions{
+    float: right;
+    width: 45%;
+  }
 
-	input[type="submit"]{
-		position: relative;
-		left: 87%;
-	}
+  input[type="submit"]{
+    position: relative;
+    left: 87%;
+  }
 
-	.add-fields{
-		margin-left: 0;
-	}
+  .add-fields{
+    margin-left: 0;
+  }
 }
 
 .manage-activity{
-	#courts{
-		width: 50%;
-		float: right;
-		margin-top: 15px;
+  #courts{
+    width: 50%;
+    float: right;
+    margin-top: 15px;
 
-		label{
-			width: 50px;
-		}
-	}
+    label{
+      width: 50px;
+    }
+  }
 
-	fieldset{
+  fieldset{
 
-		ul{
-			margin: 0;
-			float: left;
-			width: 45%;
-			padding: 10px;
+    ul{
+      margin: 0;
+      float: left;
+      width: 45%;
+      padding: 10px;
 
-		}
-	}
+    }
+  }
 
-	input[type="submit"]{
-		position: relative;
-		left: 85%;
-	}
+  input[type="submit"]{
+    position: relative;
+    left: 85%;
+  }
 }

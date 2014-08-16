@@ -1,23 +1,21 @@
 <%# an if statement in a view. Needs to be refactored. Presenters are calling! %>
-<%= form_for @booking, remote: remote  do |f| %>
+<%= form_for @bookings_form, remote: remote  do |f| %>
   <fieldset>
     <legend><%= header %></legend>
     <ul>
       <li>
         <%= f.label :username, "Players" %>
         <span>
-          <%if @booking.new_record? %>
+          <% unless @bookings_form.persisted? %>
             <%= current_user.full_name %>
           <% else %>
-            <%= @booking.players %>
+            <%= @bookings_form.players %>
           <% end %>
         </span>
       </li>
-      <li>
-        <%= f.label :time_and_place, "Court: #{@booking.court.number}" %>
-        <span><%= @booking.time_and_place_text %></span>
+       <li>
+        <%= @bookings_form.time_and_place %>
       </li>
-      <%= f.hidden_field :time_and_place, :value => @booking.time_and_place %>
       <%= f.hidden_field :court_id %>
       <%= f.hidden_field :date_from %>
       <%= f.hidden_field :time_from %>

@@ -17,10 +17,6 @@ module CourtHelpers
     within('#calendar', &block)
   end
 
-  def valid_time_and_place_text(booking)
-    "Court: " + courts.first.number.to_s + " " + booking.time_and_place_text
-  end
-
   def valid_closure_details(n=0)
     from = booking_slots.all[2].from
     to = booking_slots.all[booking_slots.count-2].from

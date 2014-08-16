@@ -1,6 +1,5 @@
 booking:
   whitelist:
-    - :time_and_place
     - :opponent_id
     - :court_id
     - :date_from

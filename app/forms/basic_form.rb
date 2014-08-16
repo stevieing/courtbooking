@@ -4,7 +4,31 @@
 # Version 2. Much better than the original but still needs some work
 # More flexible. Allows for a wider range of form objects.
 # Example usage:
+# class MyModelsForm
+#  include BasicForm
 #
+#  set_model :my_model, [:attr_a, :attr_b, :attr_c]
+#  validate verify_my_model
+#
+#  def initialize(object=nil)
+#    build do
+#      my_model.attr_a = "1"
+#    end
+#  end
+#
+#  def submit(params)
+#    self.virtual_attribute = params[:virtual_attribute]
+#    push_and_save(params)
+#  end
+#
+# private
+#  def save_objects
+#   run_transaction do
+#     booking.save
+#   end
+# end
+#
+
 module BasicForm
   extend ActiveSupport::Concern
   include ActiveModel::Model
@@ -28,7 +52,7 @@ module BasicForm
       end
 
       define_method :persisted? do
-        !send(model).id.nil?
+        send(model).id
       end
 
       instance_name = "@#{model.to_s}"
