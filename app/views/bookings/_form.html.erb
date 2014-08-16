@@ -6,21 +6,17 @@
       <li>
         <%= f.label :username, "Players" %>
         <span>
-          <% unless @bookings_form.persisted? %>
-            <%= current_user.full_name %>
-          <% else %>
-            <%= @bookings_form.players %>
-          <% end %>
+          <%= @bookings_form.players || current_user.full_name %>
         </span>
       </li>
-       <li>
+       <li class="time-and-place">
         <%= @bookings_form.time_and_place %>
       </li>
       <%= f.hidden_field :court_id %>
       <%= f.hidden_field :date_from %>
       <%= f.hidden_field :time_from %>
       <%= f.hidden_field :time_to %>
-      <% if allow? :users, :index %>
+      <% allow?(:users, :index) do %>
         <li>
           <%= f.label :opponent_name, "Opponent" %>
           <%= f.text_field :opponent_name, data: {autocomplete_source: users_path} %>

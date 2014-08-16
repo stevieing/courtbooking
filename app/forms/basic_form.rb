@@ -67,7 +67,7 @@ module BasicForm
       # build method.
       #
       define_method :build do |object=nil, &block|
-        if object.instance_of?(model_const)
+        if object.kind_of?(model_const)
           instance_variable_set(instance_name, object)
         else
           instance_variable_set(instance_name, model_const.new(object))

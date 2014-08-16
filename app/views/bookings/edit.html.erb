@@ -2,9 +2,5 @@
   <h2><%= header %></h2>
   <%= render "error_messages", target: @bookings_form %>
   <%= render "form_html", header: @header %>
-  <% if allow? :bookings, :destroy, @bookings_form %>
-  <div>
-    <%= link_to "Delete Booking", booking_path(@bookings_form), method: :delete, data: {confirm: "Are you sure?"}, class: 'big-link' %>
-  </div>
-<% end %>
+  <%= render "delete", booking: @bookings_form %>
 </section>

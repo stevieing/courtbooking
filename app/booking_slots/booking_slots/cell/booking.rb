@@ -37,7 +37,7 @@ module BookingSlots
       end
 
       def text_for
-        new_and_ahead? ? @booking.link_text : @booking.players
+        new_and_ahead? ? @booking.link_text : @booking.players || " "
       end
 
       def klass_for

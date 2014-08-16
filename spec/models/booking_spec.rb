@@ -132,8 +132,8 @@ describe Booking do
      let(:new_booking)  { build(:booking, user_id: nil)}
 
      it { expect(booking1.players).to eq(players[0].full_name)}
-     it { expect(booking2.players).to eq("#{players[0].full_name} V #{players[1].full_name}")}
-     it { expect(new_booking.players).to eq(" ")}
+     it { expect(booking2.players).to eq("#{players[0].full_name} v #{players[1].full_name}")}
+     it { expect(new_booking.players).to be_nil}
 
    end
 
