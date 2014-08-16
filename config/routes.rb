@@ -7,7 +7,7 @@ Courtbooking::Application.routes.draw do
     delete "sign_out", to: "devise/sessions#destroy"
   end
 
-  resources :bookings
+  resources :bookings, except: [:new], constraints: { :id => /[0-9\.]+/ }
   resources :users, only: [:index, :edit, :update]
 
   namespace :admin do
