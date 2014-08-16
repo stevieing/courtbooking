@@ -1,4 +1,3 @@
-<%# an if statement in a view. Needs to be refactored. Presenters are calling! %>
 <%= form_for @bookings_form, remote: remote  do |f| %>
   <fieldset>
     <legend><%= header %></legend>
@@ -9,7 +8,7 @@
           <%= @bookings_form.players || current_user.full_name %>
         </span>
       </li>
-       <li class="time-and-place">
+      <li class="time-and-place">
         <%= @bookings_form.time_and_place %>
       </li>
       <%= f.hidden_field :court_id %>
@@ -24,6 +23,5 @@
       <% end %>
     <%= f.submit "Submit booking", class: "submit-55-right" %>
     </ul>
-
   </fieldset>
 <% end %>
