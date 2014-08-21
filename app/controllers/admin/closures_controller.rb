@@ -6,12 +6,12 @@ class Admin::ClosuresController < ApplicationController
   end
 
   def new
-    @closures_form = ClosuresForm.new
+    @closure = ClosureForm.new
   end
 
   def create
-    @closures_form = ClosuresForm.new
-    if @closures_form.submit(params[:closure])
+    @closure = ClosureForm.new
+    if @closure.submit(params[:closure])
       redirect_to admin_closures_path, notice: "Closure successfully created."
     else
       render :new
@@ -19,12 +19,12 @@ class Admin::ClosuresController < ApplicationController
   end
 
   def edit
-    @closures_form = ClosuresForm.new(current_resource)
+    @closure = ClosureForm.new(current_resource)
   end
 
   def update
-    @closures_form = ClosuresForm.new(current_resource)
-    if @closures_form.submit(params[:closure])
+    @closure = ClosureForm.new(current_resource)
+    if @closure.submit(params[:closure])
       redirect_to admin_closures_path, notice: "Closure successfully updated."
     else
       render :edit

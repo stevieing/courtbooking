@@ -4,6 +4,13 @@
 # and a controller.
 # TODO: Find a better way.
 #
+#
+#
+# To load redis (development mode:
+#     launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
+# Or, if you don't want/need launchctl, you can just run:
+#     redis-server /usr/local/etc/redis.conf
+#
 
 module AppSetup
 

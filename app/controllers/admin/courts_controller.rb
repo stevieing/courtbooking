@@ -6,12 +6,12 @@ class Admin::CourtsController < ApplicationController
   end
 
   def new
-    @courts_form = CourtsForm.new
+    @court = CourtForm.new
   end
 
   def create
-    @courts_form = CourtsForm.new
-    if @courts_form.submit(params[:court])
+    @court = CourtForm.new
+    if @court.submit(params[:court])
       redirect_to admin_courts_path, notice: "Court successfully created."
     else
       render :new
@@ -19,12 +19,12 @@ class Admin::CourtsController < ApplicationController
   end
 
   def edit
-    @courts_form = CourtsForm.new(current_resource)
+    @court = CourtForm.new(current_resource)
   end
 
   def update
-    @courts_form = CourtsForm.new(current_resource)
-    if @courts_form.submit(params[:court])
+    @court = CourtForm.new(current_resource)
+    if @court.submit(params[:court])
       redirect_to admin_courts_path, notice: "Court successfully updated."
     else
       render :edit

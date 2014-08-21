@@ -1,15 +1,15 @@
-<%= form_for @bookings_form, remote: remote  do |f| %>
+<%= form_for @booking, remote: remote  do |f| %>
   <fieldset>
     <legend><%= header %></legend>
     <ul>
       <li>
         <%= f.label :username, "Players" %>
         <span>
-          <%= @bookings_form.players || current_user.full_name %>
+          <%= @booking.players || current_user.full_name %>
         </span>
       </li>
       <li class="time-and-place">
-        <%= @bookings_form.time_and_place %>
+        <%= @booking.time_and_place %>
       </li>
       <%= f.hidden_field :court_id %>
       <%= f.hidden_field :date_from %>
