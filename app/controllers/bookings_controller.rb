@@ -7,7 +7,7 @@ class BookingsController < ApplicationController
   end
 
   def new
-    @bookings_form = BookingsForm.new(current_user, params)
+    @booking = BookingForm.new(current_user, params)
     respond_to do |format|
       format.html
       format.js
@@ -15,7 +15,7 @@ class BookingsController < ApplicationController
   end
 
   def create
-    @bookings_form = BookingsForm.new(current_user)
+    @booking = BookingForm.new(current_user)
     process_booking :new, :create
   end
 
@@ -24,7 +24,7 @@ class BookingsController < ApplicationController
   end
 
   def edit
-    @bookings_form = BookingsForm.new(current_user, current_resource)
+    @booking = BookingForm.new(current_user, current_resource)
     respond_to do |format|
       format.html
       format.js
@@ -32,7 +32,7 @@ class BookingsController < ApplicationController
   end
 
   def update
-    @bookings_form = BookingsForm.new(current_user, current_resource)
+    @booking = BookingForm.new(current_user, current_resource)
     process_booking :edit, :update
   end
 
@@ -63,11 +63,11 @@ private
 
   def process_booking(action, process)
     respond_to do |format|
-      if @bookings_form.submit(params[:booking])
-        BookingMailer.booking_confirmation(@bookings_form).deliver
+      if @booking.submit(params[:booking])
+        BookingMailer.booking_confirmation(@booking).deliver
         flash_keep "Booking successfully #{process.to_s}d."
-        format.html { redirect_back_or_default(courts_path(@bookings_form.date_from)) }
-        format.js { js_redirect_back_or_default(courts_path(@bookings_form.date_from))}
+        format.html { redirect_back_or_default(courts_path(@booking.date_from)) }
+        format.js { js_redirect_back_or_default(courts_path(@booking.date_from))}
       else
         format.html { render action }
         format.js

@@ -22,7 +22,6 @@ class Booking < ActiveRecord::Base
 
   include Slots::ActiveRecordSlots
 
-  #There was some really wierd stuff going on with players being added.
   def players
     return unless user
     return user.full_name unless opponent
@@ -35,7 +34,7 @@ class Booking < ActiveRecord::Base
 
   def time_and_place
     @time_and_place ||
-    "Court: #{court.try(:number)} on #{date_from.try(:to_s, :uk)} at#{Time.parse(time_from).try(:to_s, :meridian)} to#{Time.parse(time_to).try(:to_s,:meridian)}"
+    "Court: #{court.try(:number)} on #{date_from.try(:to_s, :uk)} at #{Time.parse(time_from).try(:to_s, :meridian).lstrip} to #{Time.parse(time_to).try(:to_s,:meridian).lstrip}"
   end
 
   def link_text

@@ -1,4 +1,4 @@
-<%= form_for @closures_form, url: resource do |f| %>
+<%= form_for @closure, url: resource do |f| %>
   <fieldset>
     <legend><%= header %></legend>
     <ul>
@@ -27,7 +27,7 @@
         <%= f.label :allow_removal, "allow removal of overlapping bookings/closures/events", class: 'wide-label' %>
       </li>
     </ul>
-    <%= render "courts", f: f, object: @closures_form %>
+    <%= render "courts", f: f, object: @closure %>
     <ul class="submit"><li><%= f.submit "Submit closure" %></li></ul>
   </fieldset>
 <% end %>

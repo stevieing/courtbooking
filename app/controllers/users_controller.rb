@@ -7,12 +7,12 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @users_form = UsersForm.new(current_resource)
+    @user = UserForm.new(current_resource)
   end
 
   def update
-    @users_form = UsersForm.new(current_resource)
-    if @users_form.submit(params[:user])
+    @user = UserForm.new(current_resource)
+    if @user.submit(params[:user])
       render :edit, notice: "User successfully updated."
     else
       render :edit
