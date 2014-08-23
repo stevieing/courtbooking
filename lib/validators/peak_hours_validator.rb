@@ -4,7 +4,7 @@ class PeakHoursValidator < ActiveModel::Validator
 
   def validate(record)
     unless record.date_from.blank? || record.time_from.blank?
-      if record.court.peak_time?(record.date_from.wday, record.time_from)
+      if record.court.peak_time?(record.date_from.cwday-1, record.time_from)
         add_error user_records_for_day(record), record, Settings.max_peak_hours_bookings_daily, "day"
         add_error user_records_for_week(record), record, Settings.max_peak_hours_bookings_weekly, "week"
       end
@@ -34,7 +34,7 @@ class PeakHoursValidator < ActiveModel::Validator
 
   def find_peak_hours_records(records)
     records.select do |r|
-      Court.peak_time?(r.court_id, r.date_from.wday, r.time_from)
+      Court.peak_time?(r.court_id, r.date_from.cwday-1, r.time_from)
     end
   end
 
