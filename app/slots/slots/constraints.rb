@@ -20,7 +20,7 @@ module Slots
     end
 
     def valid?
-      @slot_first && slot_last && @slot_time
+      @slot_first && @slot_last && @slot_time
     end
 
   private
