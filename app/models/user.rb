@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   attr_accessor :login
 
   validates_presence_of :username, :full_name
+  validates_uniqueness_of :username
 
   scope :without_user, ->(user) { where.not(id: user.id).order(:full_name) }
   scope :by_term, ->(term) { where(User.arel_table[:full_name].matches("%#{term}%")) }
