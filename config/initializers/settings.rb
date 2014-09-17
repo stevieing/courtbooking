@@ -47,6 +47,5 @@ DependentLoader.start(:settings) do |on|
       AppSetup.load_constants!
 
     end
-  #end
 
 end

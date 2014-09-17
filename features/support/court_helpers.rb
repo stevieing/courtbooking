@@ -20,7 +20,7 @@ module CourtHelpers
   def valid_closure_details(n=0)
     from = booking_slots.all[2].from
     to = booking_slots.all[booking_slots.count-2].from
-    create_closure_details({description: "for maintenance", date_from: dates.current_date, date_to: dates.current_date+n, time_from: from, time_to: to})
+    create_closure_details({description: "for maintenance", date_from: current_date, date_to: current_date+n, time_from: from, time_to: to})
     closure_details
   end
 
@@ -37,7 +37,8 @@ module CourtHelpers
 
   def set_dates(date, time)
     stub_dates(date, time)
-    create_dates(build(:dates, attrs: attributes_for(:dates)[:attrs].merge(date_from: Date.today, current_date: Date.today)))
+    create_current_date(Date.today)
+    #create_dates(Calendar.new(date_from: Date.today, current_date: Date.today, no_of_days: 21))
   end
 end
 

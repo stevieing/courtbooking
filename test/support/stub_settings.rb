@@ -11,7 +11,7 @@ module StubSettings
     AppSettings.const.stubs(:slot_time).returns(40)
     AppSettings.const.stubs(:slot_first).returns(Time.parse(options[:slot_first]))
     AppSettings.const.stubs(:slot_last).returns(Time.parse(options[:slot_last]))
-    AppSettings.const.stubs(:slots).returns(CourtSlots.new(options))
+    AppSettings.const.stubs(:slots).returns(Slots::Base.new(options))
   end
 
   def create_settings_constant

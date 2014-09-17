@@ -19,10 +19,11 @@ module AppSetup
   def load_constants!
     AppSettings.load!
 
-    AppSettings.const.slots = CourtSlots.new(
+    AppSettings.const.slots = Slots::Base.new(
       slot_first: AppSettings.const.slot_first,
       slot_last: AppSettings.const.slot_last,
-      slot_time:  AppSettings.const.slot_time
+      slot_time:  AppSettings.const.slot_time,
+      courts: Court.all
     )
   end
 end

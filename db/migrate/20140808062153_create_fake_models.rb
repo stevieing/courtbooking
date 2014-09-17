@@ -9,6 +9,14 @@ class CreateFakeModels < ActiveRecord::Migration
 
           t.timestamps
         end
+
+      end
+
+      unless table_exists?(:slot_testers)
+        create_table :slot_testers do |t|
+          t.string :time_from
+          t.string :time_to
+        end
       end
     end
   end

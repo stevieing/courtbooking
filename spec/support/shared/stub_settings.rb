@@ -1,7 +1,7 @@
 module StubSettings
 
   def options
-    {slot_first: "06:20", slot_last: "22:20", slot_time: 40}
+    {slot_first: "06:20", slot_last: "22:20", slot_time: 40, courts: Court.all}
   end
 
   def stub_settings
@@ -12,7 +12,7 @@ module StubSettings
     AppSettings.const.stub(:slot_time).and_return(40)
     AppSettings.const.stub(:slot_first).and_return(Time.parse(options[:slot_first]))
     AppSettings.const.stub(:slot_last).and_return(Time.parse(options[:slot_last]))
-    AppSettings.const.stub(:slots).and_return(CourtSlots.new(options))
+    AppSettings.const.stub(:slots).and_return(Slots::Base.new(options))
   end
 
   def create_settings_constant

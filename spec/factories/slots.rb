@@ -2,6 +2,10 @@ def options
 	{slot_first: "06:00", slot_last: "17:00", slot_time: 30}
 end
 
+def courts
+  FactoryGirl.create_list(:court_with_opening_and_peak_times, 4)
+end
+
 FactoryGirl.define do
 	factory :slot, :class => Slots::Slot do
 		from "06:30"
@@ -15,15 +19,14 @@ FactoryGirl.define do
 		initialize_with { new(options) }
 	end
 
-	factory :court_slots, :class => CourtSlots do
-		initialize_with { new(options) }
+	factory :slots, :class => Slots::Base do
+		initialize_with { new(options.merge(courts: courts)) }
 	end
 
 	factory :grid, :class => Slots::Grid do
-		count 4
-		original { FactoryGirl.build(:court_slots) }
+		original { FactoryGirl.build(:slots) }
 
-		initialize_with { new(count, original) }
+		initialize_with { new(original, courts) }
 	end
 
 end

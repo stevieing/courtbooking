@@ -28,7 +28,7 @@ When /^I delete the booking$/ do
 end
 
 When /^the booking is in the past$/ do
-  stub_dates(dates.current_date+7)
+  stub_dates(current_date+7)
 end
 
 Given /^a booking has been created by another user$/ do
@@ -53,7 +53,7 @@ When(/^I follow a link to edit the booking$/) do
 end
 
 Given(/^I have created a number of bookings in the future$/) do
-  create_subsequent_bookings(current_user, dates.current_date, booking_slots.all, 4)
+  create_subsequent_bookings(current_user, current_date, booking_slots.all, 4)
 end
 
 Then(/^I should( not)? see a list of the bookings (I|they) have created$/) do |negate, who|
@@ -93,7 +93,7 @@ Then(/^I should not be able to select myself as an opponent$/) do
 end
 
 Given(/^another user has also created a booking$/) do
-  set_dates((dates.current_date+1).to_s(:uk), "19:00")
+  set_dates((Date.today+1).to_s(:uk), "19:00")
   create_current_booking(create_valid_booking(other_member))
 end
 

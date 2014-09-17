@@ -19,6 +19,7 @@ class ActiveSupport::TestCase
 
   include FactoryGirl::Syntax::Methods
   include ManageSettings
+  include Rails.application.routes.url_helpers
 
   Dir[Rails.root.join('test/support/**/*.rb')].each do |f|
     include f.split("/").last.gsub(".rb","").camelize.constantize
