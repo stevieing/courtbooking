@@ -6,6 +6,6 @@ class Closure < Activity
   scope :by_day,    lambda{|day| where(":day BETWEEN date_from AND date_to", {day: day})}
 
   def message
-    "Courts #{self.courts.pluck(:number).join(',')} closed from #{self.time_from} to #{self.time_to} for #{self.description}. "
+    "Courts #{self.courts.pluck(:number).join(',')} closed from #{self.time_from} to #{self.time_to} for #{self.description}."
   end
 end

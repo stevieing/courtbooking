@@ -1,6 +1,8 @@
-require "test_helper.rb"
+require "test_helper"
 
 class ConstraintsTest < ActiveSupport::TestCase
+
+  attr_reader :constraints
 
   def setup
     @constraints = Slots::Constraints.new(
@@ -8,24 +10,16 @@ class ConstraintsTest < ActiveSupport::TestCase
   end
 
   test "should be valid with valid attributes" do
-    assert @constraints.valid?
+    assert constraints.valid?
+  end
+
+  test "should convert time" do
+    assert_instance_of Time, constraints.slot_first
   end
 
   test "constraints should cover correct slots" do
-    refute @constraints.cover? "05:00"
-    assert @constraints.cover? "06:00"
-    assert @constraints.cover? "12:00"
-    assert @constraints.cover? "17:00"
-    refute @constraints.cover? "18:00"
-  end
-
-  test "constraints should cover the correct slots whatever the day" do
-    Time.stubs(:now).returns((Date.today-2.days).to_time)
-    refute @constraints.cover? "05:00"
-    assert @constraints.cover? "06:00"
-    assert @constraints.cover? "12:00"
-    assert @constraints.cover? "17:00"
-    refute @constraints.cover? "18:00"
+    refute constraints.cover? "05:00"
+    assert constraints.cover? "06:00"
   end
 
 end

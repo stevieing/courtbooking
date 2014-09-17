@@ -7,12 +7,4 @@ class Array
     self.collect{ |v| v.to_sym }
   end
 
-  def wrap(wrapper)
-    self.unshift(wrapper).push(wrapper)
-  end
-
-  def cap(capper)
-    self.unshift(capper)
-  end
-
 end

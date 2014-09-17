@@ -8,6 +8,8 @@ module Slots
   autoload :Helpers
   autoload :Grid
   autoload :Series
+  autoload :Cell
+  autoload :Row
 
   eager_autoload do
     autoload :Slot

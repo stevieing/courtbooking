@@ -14,11 +14,11 @@ class CourtsController < ApplicationController
   end
 
   def booking_slots
-    @booking_slots ||= BookingSlots::BookingsGrid.new(current_date, current_or_guest_user, Settings.slots)
+    @booking_slots ||= CourtsTable.new(current_date, current_or_guest_user, Settings.slots)
   end
 
   def calendar
-    @calendar ||= BookingSlots::Calendar.new(current_date: current_date, no_of_days: Settings.days_bookings_can_be_made_in_advance)
+    @calendar ||= Calendar.new(current_date: current_date, no_of_days: Settings.days_bookings_can_be_made_in_advance)
   end
 
   helper_method :current_date, :booking_slots, :calendar
