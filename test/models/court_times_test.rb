@@ -35,4 +35,11 @@ class CourtTimesTest < ActiveSupport::TestCase
     assert_equal 1, court.opening_times.by_day(0).count
   end
 
+  test "#peak_time? should define when court is during peak hours" do
+    court = create(:court_with_defined_opening_and_peak_times, peak_time_from: "17:00", peak_time_to: "19:00" )
+    assert court.peak_time?(1,"17:00")
+    refute court.peak_time?(2,"19:01")
+  end
+
+
 end

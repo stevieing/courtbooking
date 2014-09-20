@@ -151,7 +151,7 @@ module Slots
       Row.new do |row|
         row.add :header, Cell::Text.new(slot.from)
         courts.each do |court|
-          cs = CourtSlot.new(court.id, slot)
+          cs = CourtSlot.new(court, slot)
           row.add court.id, cs
           ids[cs.id] = cs
         end
