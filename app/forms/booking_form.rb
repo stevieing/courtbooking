@@ -7,6 +7,7 @@ class BookingForm
   delegate :user, :opponent, :user_id, :time_and_place, :players, to: :booking
 
   def initialize(current_user, booking_or_params = ActionController::Parameters.new)
+    @current_user = current_user
     @booking = if booking_or_params.instance_of?(Booking)
       booking_or_params
     else

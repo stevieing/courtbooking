@@ -52,7 +52,7 @@ module Permissions
     end
 
     def set_id(object)
-      object.is_a?(Booking) ? object.user_id : object.id
+      object.respond_to?(:user_id) ? object.user_id : object.id
     end
   end
 end

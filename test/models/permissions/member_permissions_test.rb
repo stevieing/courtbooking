@@ -39,6 +39,7 @@ class MemberPermissionsTest < ActiveSupport::TestCase
     add_permissions [:bookings_edit], @user
     @permissions = Permissions.permission_for(@user)
     assert @permissions.allow?(:bookings, :edit, build(:booking, user: @user))
+    assert @permissions.allow?(:bookings, :edit, BookingForm.new(@user, build(:booking, user: @user)))
     refute @permissions.allow?(:bookings, :edit, build(:booking, user: @other_user))
   end
 
