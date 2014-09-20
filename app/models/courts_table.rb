@@ -66,20 +66,29 @@ private
 
   def fill_empty_cells_with_new_bookings
     slots.grid.unfilled do |empty|
-      empty.fill(Slots::Cell::Booking.new(Booking.new do |booking|
+      empty.fill(Slots::Cell::Booking.new(new_booking do |booking|
         booking.date_from = date
         booking.time_from = empty.from
         booking.time_to = empty.to
-        booking.court_id = empty.court_id
+        booking.court = empty.court
       end, user))
     end
   end
 
   def add_class_to_rows_in_the_past
     grid.rows.select do |k,v|
-      date <= Date.today &&
-      k <= Time.now.to_s(:hrs_and_mins) unless k.is_a? Symbol
+      in_the_past? k
     end.each { |k, row| row.html_class = "past" }
+  end
+
+  def in_the_past?(time)
+    date <= Date.today && time <= Time.now.to_s(:hrs_and_mins) unless time.is_a? Symbol
+  end
+
+  def new_booking
+    @booking ||= Booking.new
+    yield @booking if block_given?
+    @booking
   end
 
 end

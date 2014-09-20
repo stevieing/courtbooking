@@ -117,10 +117,10 @@ describe Booking do
      let!(:booking4) {create(:booking, court: courts[2], date_from: "17 Sep 2013", time_from: "10:00") }
 
      it { expect(Booking.by_day(Date.parse("17 Sep 2013"))).to have(3).items}
-     it { expect(Booking.by_day(Date.parse("17 Sep 2013")).by_court(2)).to have(1).item}
+     it { expect(Booking.by_day(Date.parse("17 Sep 2013")).by_court(courts[1].id)).to have(1).item}
      it { expect(Booking.by_day(Date.parse("17 Sep 2013")).by_time("12:00")).to have(1).item}
      it { expect(Booking.all.ordered.to_a).to eq([booking3, booking1, booking2, booking4])}
-     it { expect(Booking.by_slot("19:00", 1)).to eq(booking1)}
+     it { expect(Booking.by_slot("19:00", courts.first.id)).to eq(booking1)}
 
    end
 

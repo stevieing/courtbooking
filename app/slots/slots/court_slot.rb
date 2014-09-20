@@ -19,7 +19,7 @@ module Slots
       @@id += 1
     end
 
-    attr_reader :court_id, :slot, :id, :cell
+    attr_reader :court_id, :slot, :id, :cell, :court
 
     delegate :from, :to, to: :slot
     delegate :text, :span, :link, :link?, :blank?, :html_class, to: :cell
@@ -27,8 +27,8 @@ module Slots
     #
     # When created a CourtSlot creates a unique id.
     #
-    def initialize(court_id, slot)
-      @court_id, @slot = court_id, slot
+    def initialize(court, slot)
+      @court, @slot = court, slot
       @id = CourtSlot.next_id
       @cell = Cell::NullCell.new
     end
@@ -50,6 +50,10 @@ module Slots
 
     def fill(cell)
       @cell = cell
+    end
+
+    def court_id
+      court.id
     end
 
   end

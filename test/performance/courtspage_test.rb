@@ -8,8 +8,8 @@ class CourtsPageTest < ActionDispatch::PerformanceTest
 
   def setup
     create_standard_settings
-    AppSetup.load_constants!
     create_list(:court_with_opening_and_peak_times, 4)
+    AppSetup.load_constants!
   end
 
   test "courtspage" do
@@ -18,6 +18,9 @@ class CourtsPageTest < ActionDispatch::PerformanceTest
 
   def teardown
     Setting.delete_all
+    Court.all.each do |court|
+      court.destroy
+    end
   end
 
 end
