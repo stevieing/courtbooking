@@ -23,19 +23,20 @@ class CourtTest < ActiveSupport::TestCase
     assert courts.last.number+1, Court.next_court_number
   end
 
-  test "#closures_for_all_courts should determine when all of the courts are closed on a particular day" do
-    courts = create_list(:court, 4)
-    closure = create(:closure, date_from: Date.today, date_to: Date.today+5, court_ids: Court.pluck(:id))
-    assert Court.closures_for_all_courts(Date.today).include?(closure)
-    assert Court.closures_for_all_courts(Date.today+3).include?(closure)
-    assert Court.closures_for_all_courts(Date.today+6).empty?
-  end
-
   test "#by_day should determine if a court is open on a particular day" do
     court = create(:court)
     assert Court.by_day(Date.today).empty?
     court = create(:court_with_defined_opening_and_peak_times)
     refute Court.by_day(Date.today).empty?
   end
+
+  test "#ordered should return courts ordered by number" do
+    court1 = create(:court, number: 8)
+    court2 = create(:court, number: 4)
+    court3 = create(:court, number: 6)
+    court4 = create(:court, number: 7)
+    assert_equal [court2, court3, court4, court1], Court.ordered.to_a
+  end
+
 
 end

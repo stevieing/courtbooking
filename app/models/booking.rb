@@ -5,7 +5,9 @@ class Booking < ActiveRecord::Base
   belongs_to :opponent, class_name: "User"
 
   validates_presence_of :court_id, :user_id, :date_from, :time_from, :time_to
-  attr_readonly :court_id, :date_from, :time_from, :time_to
+
+  #TODO: this doesn't work
+  attr_readonly :court_id, :court, :date_from, :time_from, :time_to
 
   validates_date :date_from, on_or_after: lambda {Date.today},
                       before: lambda {Date.today + Settings.days_bookings_can_be_made_in_advance}

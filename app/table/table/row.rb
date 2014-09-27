@@ -1,4 +1,16 @@
-module Slots
+module Table
+
+  #
+  # = Table::Row
+  #
+  #  A row can make up the table.
+  #  Made of a HTML class and cells.
+  #  The cells can be added in the constructor.
+  #  row = Row.new do |row|
+  #    row.add "1", Cell.new
+  #  end
+  #
+
   class Row
     include Enumerable
     include HashAttributes
@@ -15,10 +27,17 @@ module Slots
       cells.each(&block)
     end
 
+    #
+    # Find a cell based on its key
+    #
     def find(k)
       cells[k]
     end
 
+    #
+    # Add a cell with a key and a value.
+    # Can be chained.
+    #
     def add(k,v)
       cells[k] = v
       self

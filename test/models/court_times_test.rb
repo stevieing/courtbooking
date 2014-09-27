@@ -41,5 +41,19 @@ class CourtTimesTest < ActiveSupport::TestCase
     refute court.peak_time?(2,"19:01")
   end
 
+  test "time from should be in the format hh:mm" do
+    refute build(:court_time, time_from: "1045").valid?
+    refute build(:court_time, time_from: "invalid").valid?
+    refute build(:court_time, time_from: "25:45").valid?
+    refute build(:court_time, time_from: "10:63").valid?
+  end
+
+  test "time to should be in the format hh:mm" do
+    refute build(:court_time, time_to: "1045").valid?
+    refute build(:court_time, time_to: "invalid").valid?
+    refute build(:court_time, time_to: "25:45").valid?
+    refute build(:court_time, time_to: "10:63").valid?
+  end
+
 
 end

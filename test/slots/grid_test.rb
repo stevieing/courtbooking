@@ -15,7 +15,7 @@ class GridTest < ActiveSupport::TestCase
   end
 
   test "new grid should create a column for each court_id plus a header and footer" do
-    assert_equal 6, grid.rows["06:20"].cells.count
+    assert_equal 6, grid.find("06:20").count
   end
 
   test "new grid should create a CourtSlot for each court" do
@@ -29,21 +29,13 @@ class GridTest < ActiveSupport::TestCase
   end
 
   test "header and footer for each row should contain slot time" do
-    assert_equal "06:20", grid.rows["06:20"].cells[:header].text
-    assert_equal "06:20", grid.rows["06:20"].cells[:footer].text
+    assert_equal "06:20", grid.find("06:20",:header).text
+    assert_equal "06:20", grid.find("06:20",:footer).text
   end
 
   test "header and footer for rows should contain court number" do
-    assert_equal "Court #{courts.first.number}", grid.rows[:header].cells[courts.first.id].text
-    assert_equal "Court #{courts.last.number}", grid.rows[:footer].cells[courts.last.id].text
-  end
-
-  test "we should be able to find a court slot by its row and column keys" do
-    assert_equal grid.rows["06:20"].cells[courts.first.id], grid.find("06:20", courts.first.id)
-  end
-
-  test "if we try to find a cell which doesn't exist there shouldn't be an error" do
-    assert_nil grid.find("06:00", 1)
+    assert_equal "Court #{courts.first.number}", grid.find(:header,courts.first.id).text
+    assert_equal "Court #{courts.last.number}", grid.find(:footer,courts.last.id).text
   end
 
   test "dup should do a deep_dup" do
@@ -61,11 +53,11 @@ class GridTest < ActiveSupport::TestCase
   end
 
   test "#delete_rows! should delete specified rows from grid" do
-    @slot = Slots::Slot.new("07:40","09:00", @slots.constraints)
-    grid.delete_rows!(@slot)
-    assert_nil grid.rows["07:40"]
-    assert_nil grid.rows["08:20"]
-    refute_nil grid.rows["09:00"]
+    slot = Slots::Slot.new("07:40","09:00", @slots.constraints)
+    grid.delete_rows!(slot)
+    assert_nil grid.find("07:40")
+    assert_nil grid.find("08:20")
+    refute_nil grid.find("09:00")
   end
 
   test "unfilled should return array of slots which are empty" do

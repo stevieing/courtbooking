@@ -1,6 +1,6 @@
-module Slots
+module Table
   module Cell
-    class Closed < Slots::Cell::Text
+    class Closed < Table::Cell::Text
 
       def closed?
         true

@@ -86,17 +86,6 @@ describe AppSettings do
 		it { expect(AppSettings.table_name).to eq(table_name)}
 	end
 
-	describe "defaults" do
-		before(:each) do
-			AppSettings.setup do |config|
-				config.add_default :dodgy_setting, 1
-			end
-		end
-
-		it { expect(TestSettings.dodgy_setting).to eq(1)}
-
-	end
-
   describe 'const' do
 
     it { expect(AppSettings.const).to eq(TestSettings) }

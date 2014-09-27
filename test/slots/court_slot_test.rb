@@ -22,12 +22,12 @@ class CourtSlotTest < ActiveSupport::TestCase
   end
 
   test "new court slot should not be filled with a cell" do
-    assert_instance_of Slots::Cell::NullCell, court_slot.cell
+    assert_instance_of Table::Cell::NullCell, court_slot.cell
     assert court_slot.unfilled?
   end
 
   test "#fill should fill slot with a cell" do
-    cell = Slots::Cell::Blank.new
+    cell = Table::Cell::Blank.new
     court_slot.fill(cell)
     assert court_slot.filled?
     assert court_slot.cell.blank?

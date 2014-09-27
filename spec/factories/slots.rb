@@ -7,7 +7,7 @@ def courts
 end
 
 FactoryGirl.define do
-	factory :slot, :class => Slots::Slot do
+	factory :slot, class: Slots::Slot do
 		from "06:30"
 		to "07:00"
 		constraints { build(:constraints) }
@@ -15,18 +15,25 @@ FactoryGirl.define do
   	initialize_with { new(from, to, constraints) }
 	end
 
-	factory :constraints, :class => Slots::Constraints do
+	factory :constraints, class: Slots::Constraints do
 		initialize_with { new(options) }
 	end
 
-	factory :slots, :class => Slots::Base do
+	factory :slots, class: Slots::Base do
 		initialize_with { new(options.merge(courts: courts)) }
 	end
 
-	factory :grid, :class => Slots::Grid do
+	factory :grid, class: Slots::Grid do
 		original { FactoryGirl.build(:slots) }
 
 		initialize_with { new(original, courts) }
 	end
+
+  factory :court_slot, class: Slots::CourtSlot do
+    court { create(:court) }
+    slot { build(:slot) }
+
+    initialize_with { new(court, slot)}
+  end
 
 end

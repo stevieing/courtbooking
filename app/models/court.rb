@@ -14,21 +14,17 @@ class Court < ActiveRecord::Base
 
   scope :by_day, lambda{ |day| includes(:opening_times).where(court_times: { day: day.cwday-1}).order(number: :asc)}
 
-  class << self
+  def self.peak_time?(id, day, time)
+    court = find(id)
+    court.nil? ? false : court.peak_time?(day, time)
+  end
 
-    def peak_time?(id, day, time)
-      court = find(id)
-      court.nil? ? false : court.peak_time?(day, time)
-    end
+  def self.next_court_number
+    count == 0 ? 1 : maximum(:number)+1
+  end
 
-    def next_court_number
-      count == 0 ? 1 : maximum(:number)+1
-    end
-
-    def closures_for_all_courts(date)
-      closures = Closure.where(":date BETWEEN date_from AND date_to", {date: date})
-      closures.nil? ? nil : closures.select {|closure| closure.court_ids == Court.pluck(:id)}
-    end
+  def self.ordered
+    includes(:opening_times).order(number: :asc)
   end
 
 end

@@ -10,6 +10,7 @@ module Slots
   autoload :Series
   autoload :Cell
   autoload :Row
+  autoload :CourtSlot
 
   eager_autoload do
     autoload :Slot
