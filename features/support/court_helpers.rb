@@ -38,7 +38,6 @@ module CourtHelpers
   def set_dates(date, time)
     stub_dates(date, time)
     create_current_date(Date.today)
-    #create_dates(Calendar.new(date_from: Date.today, current_date: Date.today, no_of_days: 21))
   end
 end
 

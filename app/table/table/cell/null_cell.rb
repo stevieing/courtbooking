@@ -1,4 +1,4 @@
-module Slots
+module Table
   module Cell
     class NullCell
     end

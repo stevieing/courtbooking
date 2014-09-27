@@ -33,6 +33,7 @@ class MemberPermissionsTest < ActiveSupport::TestCase
     assert permissions.allow_param?(:booking, :time_to)
     assert permissions.allow_param?(:booking, :court_id)
     assert permissions.allow_param?(:booking, :opponent_name)
+    assert permissions.allow_param?(:booking, :court_slot_id)
   end
 
   test "with edit permissions should only be able to edit records they own" do

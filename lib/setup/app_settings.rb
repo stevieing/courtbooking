@@ -109,7 +109,6 @@ module AppSettings
   def create_constant(settings)
     Kernel.send(:remove_const, self.const_name) if Kernel.const_defined?(self.const_name)
     Kernel.const_set(self.const_name, settings.dup)
-    add_method_missing
   end
 
   def model
@@ -118,19 +117,6 @@ module AppSettings
 
   def records
     model.all.pluck(self.name_column, self.value_column).to_h.to_implicit!
-  end
-
-  #TODO: need to shore this up so that if constant has not been defined then an error is raised.
-  def add_method_missing
-    self.const_name.constantize.class_eval do
-      def method_missing(name, *args, &block)
-        if AppSettings.defaults.keys.include? name
-          AppSettings.defaults[name]
-        else
-          super
-        end
-      end
-    end
   end
 
 end

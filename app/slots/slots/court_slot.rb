@@ -30,18 +30,18 @@ module Slots
     def initialize(court, slot)
       @court, @slot = court, slot
       @id = CourtSlot.next_id
-      @cell = Cell::NullCell.new
+      @cell = Table::Cell::NullCell.new
     end
 
     #
     # We don't want to fill CourtSlots that have already been filled!
     #
     def filled?
-      !@cell.instance_of? Cell::NullCell
+      !@cell.instance_of? Table::Cell::NullCell
     end
 
     def unfilled?
-      @cell.instance_of? Cell::NullCell
+      @cell.instance_of? Table::Cell::NullCell
     end
 
     def inspect
@@ -54,6 +54,10 @@ module Slots
 
     def court_id
       court.id
+    end
+
+    def valid?
+      @id && @court && @slot
     end
 
   end

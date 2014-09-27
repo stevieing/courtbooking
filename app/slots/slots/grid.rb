@@ -65,25 +65,17 @@ module Slots
   class Grid
 
     include Enumerable
-    attr_reader :rows, :courts
+    attr_reader :table, :courts
+    delegate :rows, :find, :heading, to: :table
 
     def initialize(slots, courts)
       @slots, @courts = slots, courts
       @ids = {}
-      @rows = create_rows
+      @table = create_table
     end
 
     def each(&block)
       rows.each(&block)
-    end
-
-    #
-    # Allow us to find a slot by its row and column id.
-    # It will return nil if no row or column exists.
-    #
-    def find(row_id, column_id)
-      row = rows[row_id]
-      row.nil? ? nil : row.find(column_id)
     end
 
     #
@@ -121,7 +113,7 @@ module Slots
     # We therefore need to dup the hashes within the grid.
     #
     def initialize_copy(other)
-      @rows = other.rows.deep_dup
+      @table = other.table.dup
       super(other)
     end
 
@@ -130,42 +122,42 @@ module Slots
     end
 
     def valid?
-      @rows
+      @table
     end
 
   private
 
     attr_reader :slots, :ids
 
-    def create_rows # :nodoc:
-      {}.tap do |r|
-        r[:header] = add_header_row
+    def create_table # :nodoc:
+      Table::Base.new do |table|
+        table.add :header, add_header_row
         slots.each do |slot|
-          r[slot.from] = add_row slot
+          table.add slot.from, add_row(slot)
         end
-        r[:footer] = add_header_row
+        table.add :footer, add_header_row
       end
     end
 
     def add_row(slot) # :nodoc:
-      Row.new do |row|
-        row.add :header, Cell::Text.new(slot.from)
+      Table::Row.new do |row|
+        row.add :header, Table::Cell::Text.new(slot.from)
         courts.each do |court|
           cs = CourtSlot.new(court, slot)
           row.add court.id, cs
           ids[cs.id] = cs
         end
-        row.add :footer, Cell::Text.new(slot.from)
+        row.add :footer, Table::Cell::Text.new(slot.from)
       end
     end
 
     def add_header_row # :nodoc:
-      Row.new do |row|
-        row.add :header, Cell::Text.new
+      Table::Row.new do |row|
+        row.add :header, Table::Cell::Text.new
         courts.each do |court|
-          row.add court.id, Cell::Text.new("Court #{court.number.to_s}")
+          row.add court.id, Table::Cell::Text.new("Court #{court.number.to_s}")
         end
-        row.add :footer, Cell::Text.new
+        row.add :footer, Table::Cell::Text.new
       end
     end
   end
