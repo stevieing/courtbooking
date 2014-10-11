@@ -18,6 +18,19 @@ class CreateFakeModels < ActiveRecord::Migration
           t.string :time_to
         end
       end
+
+      unless table_exists?(:blog_posts)
+        create_table :blog_posts do |t|
+          t.string :title
+        end
+      end
+
+       unless table_exists?(:comments)
+        create_table :comments do |t|
+          t.integer :blog_post_id
+          t.string :text
+        end
+      end
     end
   end
 end

@@ -1,10 +1,3 @@
-def options
-	{slot_first: "06:00", slot_last: "17:00", slot_time: 30}
-end
-
-def courts
-  FactoryGirl.create_list(:court_with_opening_and_peak_times, 4)
-end
 
 FactoryGirl.define do
 	factory :slot, class: Slots::Slot do
@@ -16,14 +9,18 @@ FactoryGirl.define do
 	end
 
 	factory :constraints, class: Slots::Constraints do
+    options {{slot_first: "06:00", slot_last: "17:00", slot_time: 30}}
 		initialize_with { new(options) }
 	end
 
 	factory :slots, class: Slots::Base do
+    options {{slot_first: "06:00", slot_last: "17:00", slot_time: 30}}
+    courts { FactoryGirl.create_list(:court_with_opening_and_peak_times, 4) }
 		initialize_with { new(options.merge(courts: courts)) }
 	end
 
 	factory :grid, class: Slots::Grid do
+    courts { FactoryGirl.create_list(:court_with_opening_and_peak_times, 4) }
 		original { FactoryGirl.build(:slots) }
 
 		initialize_with { new(original, courts) }

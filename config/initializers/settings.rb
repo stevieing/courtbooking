@@ -1,3 +1,5 @@
+require 'slots/court_slot'
+
 DependentLoader.start(:settings) do |on|
 
     on.success do

@@ -47,10 +47,6 @@ class Booking < ActiveRecord::Base
     !in_the_past?
   end
 
-  def new_attributes
-    attributes.with_indifferent_access.extract!(:date_from, :time_from, :time_to, :court_id)
-  end
-
   def opponent_name
     opponent.try(:full_name)
   end
