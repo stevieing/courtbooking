@@ -139,11 +139,6 @@ class BookingTest < ActiveSupport::TestCase
     assert_equal "#{booking.court.number} - #{booking.date_from.to_s(:uk)} 19:00", booking.link_text
   end
 
-  test "#new_attributes should be returned for use in court_booking_path" do
-    booking = build(:booking)
-    assert_equal({"date_from" => booking.date_from, "time_from" => booking.time_from, "time_to" => booking.time_to, "court_id" => booking.court.id}, booking.new_attributes)
-  end
-
   test "#opponent_name should populate opponent" do
     user = create(:user)
     booking = build(:booking, opponent_name: user.full_name)

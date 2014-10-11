@@ -23,9 +23,6 @@ module AppSetup
       slot_first: AppSettings.const.slot_first,
       slot_last: AppSettings.const.slot_last,
       slot_time:  AppSettings.const.slot_time,
-      # slot_first: Time.parse("06:20"),
-      # slot_last: Time.parse("06:20"),
-      # slot_time:  40,
       courts: Court.ordered
     )
   end

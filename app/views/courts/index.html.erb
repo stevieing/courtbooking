@@ -1,8 +1,8 @@
-<div id="courts">
-  <% unless booking_slots.closure_message.empty? %>
-   <div id="closure-message"><%= booking_slots.closure_message %></div>
+<div class="courts">
+  <% unless tab.closure_message.empty? %>
+   <div id="closure-message"><%= tab.closure_message %></div>
   <% end %>
-  <%= render "table", id: "calendar", object: calendar, remote: false %>
-  <%= render "table", id: "booking-slots", object: booking_slots, remote: true %>
+  <%= render "table", object: calendar %>
+  <%= render "table", object: tab %>
   <section id="ajax-booking" title="Booking" style="display:hidden"></section>
 </div>
