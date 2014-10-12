@@ -133,6 +133,7 @@ class CellTest < ActiveSupport::TestCase
     assert_nil cell.text
     assert_equal 1, cell.span
     assert_equal "closure", cell.html_class
+    assert_nil cell.to_html
   end
 
   test "activity cell with event should have correct html class" do

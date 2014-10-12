@@ -64,7 +64,7 @@ module Slots
 
   class Grid
 
-    attr_reader :table, :courts
+    attr_reader :table, :courts, :ids
     delegate :rows, :find, :heading, to: :table
 
     def initialize(slots, courts)
@@ -102,7 +102,7 @@ module Slots
     # The grid will be used whenever the courts page is rendered.
     # This grid will need to be manipulated on each render
     # slots will be removed and others will be filled with Cells
-    # We therefore need to dup the hashes within the grid.
+    # We therefore need to ensure that the court slots are dupped properly.
     #
     def initialize_copy(other)
       @table = other.table.dup
@@ -118,8 +118,6 @@ module Slots
     end
 
   private
-
-    attr_reader :ids
 
     def create_table(slots) # :nodoc:
       Table::Base.new do |t|

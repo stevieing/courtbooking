@@ -31,6 +31,10 @@ module Table
         @blank
       end
 
+      def to_html(tag = :td)
+        blank? ? nil : super(tag)
+      end
+
     end
 
   end
