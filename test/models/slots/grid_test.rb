@@ -38,10 +38,21 @@ class GridTest < ActiveSupport::TestCase
     assert_equal "Court #{courts.last.number}", grid.find(:footer,courts.last.id).text
   end
 
-  test "dup should do a deep_dup" do
+  test "dup should do a proper dup" do
     other = grid.dup
     other.rows.delete("06:20")
     refute_nil grid.find("06:20", courts.first.id)
+    assert_equal other.ids.first.last.id, grid.ids.first.last.id
+    assert_equal other.ids.count, grid.ids.count
+  end
+
+  test "dup should not transfer bookings or activities" do
+    stub_settings
+    dupped_grid = grid.dup
+    activity = create(:event, date_from: Date.today+2, time_from: "07:00", time_to: "08:20", courts: [courts.first, courts.last])
+    grid.find("07:00",courts.first.id).fill(Table::Cell::Activity.new(activity, "07:00"))
+    assert_equal activity.description, grid.find("07:00",courts.first.id).cell.text
+    assert_instance_of Table::Cell::NullCell, dupped_grid.find("07:00",courts.first.id).cell
   end
 
   test "#find_by_id should return correct slot" do

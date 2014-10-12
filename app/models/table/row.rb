@@ -66,6 +66,13 @@ module Table
       @header
     end
 
+    def initialize_copy(other)
+      @cells = {}
+      other.cells.each do |k, cell|
+        @cells[k] = cell.dup
+      end
+      super(other)
+    end
 
   private
 

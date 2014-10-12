@@ -58,11 +58,13 @@ module Table
 
     #
     # Again the table may need to copied and modified.
-    # The deep dup is necessary as each row may also
-    # contain a Hash.
-    #
-    def initialize_copy(other)
-      @rows = other.rows.deep_dup
+    # If the row is a header it can be the same otherwise
+    # dup it
+   def initialize_copy(other)
+      @rows = {}
+      other.rows.each do |k, row|
+        @rows[k] = row.header? ? row : row.dup
+      end
       super(other)
     end
 

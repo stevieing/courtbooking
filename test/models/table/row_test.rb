@@ -50,4 +50,13 @@ class RowTest < ActiveSupport::TestCase
 
   end
 
+  test "#dup should dup properly" do
+    cell = Table::Cell::Text.new(text: "a")
+    row = Table::Row.new do |row|
+      row.add :a, cell
+    end
+    dupped_row = row.dup
+    refute_equal row.find(:a), dupped_row.find(:a)
+  end
+
 end

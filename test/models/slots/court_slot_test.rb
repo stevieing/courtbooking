@@ -36,7 +36,9 @@ class CourtSlotTest < ActiveSupport::TestCase
   test "#dup should create a new cell" do
     dupped_slot = court_slot.dup
     court_slot.fill(Table::Cell::Text.new)
+    assert_instance_of Table::Cell::Text, court_slot.cell
     assert_instance_of Table::Cell::NullCell, dupped_slot.cell
+    assert_equal court_slot.id, dupped_slot.id
   end
 
   test "#fill_with_booking should fill cell with a booking cell" do
