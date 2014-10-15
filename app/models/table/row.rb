@@ -36,7 +36,6 @@ module Table
 
     #
     # Add a cell with a key and a value.
-    # Can be chained.
     #
     def add(k,v)
       @cells[k] = v

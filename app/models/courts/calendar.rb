@@ -58,8 +58,7 @@ module Courts
     def new_row(group) #:nodoc
       Table::Row.new do |row|
         group.each do |date|
-          cell = Table::Cell::CalendarDate.new(date, current_date)
-          row.add cell.text, cell
+          row.add date, Table::Cell::CalendarDate.new(date, current_date)
         end
       end
     end

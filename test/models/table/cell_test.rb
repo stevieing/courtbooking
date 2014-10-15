@@ -21,6 +21,8 @@ class CellTest < ActiveSupport::TestCase
     assert_equal 1, cell.span
     refute cell.remote
     refute cell.header?
+    refute cell.empty?
+    assert_equal :testcell, cell.type
   end
 
   test "blank cell should be blank" do
@@ -29,12 +31,21 @@ class CellTest < ActiveSupport::TestCase
     assert_nil cell.to_html
   end
 
+  test "empty cell should be empty" do
+    cell = Table::Cell::Empty.new
+    assert_equal 0, cell.span
+    assert_equal "", cell.text
+    assert_equal "<td></td>", cell.to_html
+    assert cell.empty?
+  end
+
   test "text cell with no attributes should have the correct attributes" do
     cell = Table::Cell::Text.new
     refute cell.link?
     assert_equal 1, cell.span
     assert_equal " ", cell.text
     assert_nil cell.html_class
+    assert_equal :text, cell.type
     assert_equal "<td rowspan=\"#{cell.span}\"> </td>", cell.to_html
   end
 
@@ -53,6 +64,7 @@ class CellTest < ActiveSupport::TestCase
     cell = Table::Cell::Closed.new
     assert cell.closed?
     assert_equal "closed", cell.html_class
+    assert_equal :closed, cell.type
   end
 
   test "booking cell with new booking in the future should be a link to create a new booking" do
@@ -62,12 +74,13 @@ class CellTest < ActiveSupport::TestCase
     assert_equal booking.link_text, cell.text
     assert_equal court_booking_path(booking.date_from, court_slot.id), cell.link
     assert_equal "free", cell.html_class
+    assert_equal :booking, cell.type
     assert cell.remote
     assert_equal "<td class=\"#{cell.html_class}\" rowspan=\"#{cell.span}\"><a data-remote=\"true\" href=\"#{cell.link}\">#{cell.text}</a></td>", cell.to_html
   end
 
   test "booking cell with new booking in the past should not be a link to create a new booking" do
-    court_slot = build(:court_slot)
+    court_slot = build(:cell_slot)
     booking = build(:booking, date_from: Date.today+2)
     stub_dates(Date.today+3)
     cell = Table::Cell::Booking.new(booking: booking, user: member, court_slot: court_slot)
@@ -123,6 +136,7 @@ class CellTest < ActiveSupport::TestCase
     assert_equal closure.description, cell.text
     assert_equal closure.slot.between, cell.span
     assert_equal "closure", cell.html_class
+    assert_equal :activity, cell.type
     assert_equal "<td class=\"closure\" rowspan=\"#{cell.span}\">A Closure</td>", cell.to_html
   end
 
@@ -133,6 +147,7 @@ class CellTest < ActiveSupport::TestCase
     assert_nil cell.text
     assert_equal 1, cell.span
     assert_equal "closure", cell.html_class
+    assert_equal :activity, cell.type
     assert_nil cell.to_html
   end
 
@@ -148,6 +163,7 @@ class CellTest < ActiveSupport::TestCase
     assert_equal date.day_of_month, cell.text
     assert_equal courts_path(date.to_s), cell.link
     assert_nil cell.html_class
+    assert_equal :calendardate, cell.type
     assert_equal "<td rowspan=\"#{cell.span}\"><a href=\"#{cell.link}\">#{cell.text}</a></td>", cell.to_html
   end
 

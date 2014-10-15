@@ -44,6 +44,13 @@ module Table
       end
 
       #
+      # If a cell is empty it is ripe for filling
+      #
+      def empty?
+        false
+      end
+
+      #
       # some cells such as closures need to span several slots.
       # This will make use of the rowspan attribute.
       #
@@ -53,6 +60,10 @@ module Table
 
       def header?
         false
+      end
+
+      def type
+        self.class.to_s.split("::").last.downcase.to_sym
       end
 
       def inspect

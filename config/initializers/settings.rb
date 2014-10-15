@@ -1,4 +1,4 @@
-require 'slots/court_slot'
+#require 'slots/cell_slot'
 
 DependentLoader.start(:settings) do |on|
 

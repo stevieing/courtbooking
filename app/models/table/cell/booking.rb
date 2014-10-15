@@ -11,6 +11,8 @@ module Table
   #  * existing booking in the future for another user: Text is the players. No link class of booking.
   #  * existing booking in the past: Text is the players. No link. Class of booking.
   #
+  # options: court_slot, booking, date, user
+  #
 
   module Cell
     class Booking
@@ -74,6 +76,7 @@ module Table
           b.time_from = @court_slot.from
           b.time_to = @court_slot.to
           b.court = @court_slot.court
+          #b.court_id = @court_slot.court_id
         end
       end
 
