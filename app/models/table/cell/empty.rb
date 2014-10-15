@@ -1,6 +1,6 @@
 module Table
   module Cell
-    class NullCell
+    class Empty
 
       include Table::Cell::Base
 
@@ -13,7 +13,12 @@ module Table
       end
 
       def to_html(tag = :td)
+        ##hello
         content_tag tag, ""
+      end
+
+      def empty?
+        true
       end
     end
   end

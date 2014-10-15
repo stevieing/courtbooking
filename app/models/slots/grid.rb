@@ -1,4 +1,6 @@
+
 module Slots
+
 ##
 #
 # = Slots::Grid
@@ -64,11 +66,11 @@ module Slots
 
   class Grid
 
-    attr_reader :table, :courts, :ids
+    attr_reader :table, :courts
     delegate :rows, :find, :heading, to: :table
 
     def initialize(slots, courts)
-      @ids, @courts = {}, courts
+      @courts = courts
       @table = create_table(slots)
     end
 
@@ -79,7 +81,7 @@ module Slots
     # a new grid is created.
     #
     def find_by_id(id)
-      ids[id]
+      CourtSlot.find(id)
     end
 
     def delete_rows!(slot)
@@ -89,12 +91,44 @@ module Slots
     def unfilled
       table.without_headers do |row|
         row.each do |k, cell|
-          if cell.is_a? Slots::CourtSlot
+          if cell.is_a? CellSlot
             if cell.unfilled?
               yield(cell) if block_given?
             end
           end
         end
+      end
+    end
+
+    #
+    # This will close the slots
+    # i.e. add a Closed cell to the CellSlot
+    # If the series is empty then all of the slots
+    # will be closed for that court.
+    #
+    def close_court_slots!(day, series)
+      courts.each do |court|
+        opening_times = court.opening_times.by_day(day)
+        if opening_times.empty?
+          close_slots! series.all, court
+        else
+          opening_times.each do |opening_time|
+            close_slots! series.except(opening_time.slot.series), court
+          end
+        end
+      end
+    end
+
+    #
+    # This will add the bookings to the appropriate slots
+    # and then add new bookings to the rest of them which are unfilled.
+    #
+    def add_bookings!(bookings, user, date)
+      unfilled do |empty|
+        empty.fill_with_booking(
+          booking: bookings.select_by_slot(empty),
+          user: user, date: date
+        )
       end
     end
 
@@ -119,6 +153,12 @@ module Slots
 
   private
 
+    def close_slots!(slots, court)
+      slots.each do |slot|
+        find(slot, court.id).close
+      end
+    end
+
     def create_table(slots) # :nodoc:
       Table::Base.new do |t|
         t.add :header, add_header_row
@@ -133,9 +173,7 @@ module Slots
       Table::Row.new do |row|
         row.add :header, Table::Cell::Text.new(text: slot.from)
         @courts.each do |court|
-          cs = Slots::CourtSlot.new(court, slot)
-          ids[cs.id] = cs
-          row.add court.id, cs
+          row.add court.id, Slots::CellSlot.new(court, slot)
         end
         row.add :footer, Table::Cell::Text.new(text: slot.from)
       end

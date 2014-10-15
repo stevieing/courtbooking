@@ -21,29 +21,8 @@ class CourtSlotTest < ActiveSupport::TestCase
     assert_equal court_slot.id+1, Slots::CourtSlot.new(court, slot).id
   end
 
-  test "new court slot should not be filled with a cell" do
-    assert_instance_of Table::Cell::NullCell, court_slot.cell
-    assert court_slot.unfilled?
-  end
-
-  test "#fill should fill slot with a cell" do
-    cell = Table::Cell::Blank.new
-    court_slot.fill(cell)
-    assert court_slot.filled?
-    assert court_slot.cell.blank?
-  end
-
-  test "#dup should create a new cell" do
-    dupped_slot = court_slot.dup
-    court_slot.fill(Table::Cell::Text.new)
-    assert_instance_of Table::Cell::Text, court_slot.cell
-    assert_instance_of Table::Cell::NullCell, dupped_slot.cell
-    assert_equal court_slot.id, dupped_slot.id
-  end
-
-  test "#fill_with_booking should fill cell with a booking cell" do
-    court_slot.fill_with_booking(date: Date.today+2)
-    assert_instance_of Table::Cell::Booking, court_slot.cell
+  test "a newly added court slot should be findable by its id" do
+    assert_equal court_slot, Slots::CourtSlot.find(court_slot.id)
   end
 
 end

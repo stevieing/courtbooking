@@ -20,12 +20,6 @@ module Courts
   #  * Fill any leftover slots with a link to add a new booking.
   #  * add a class to any rows to indicate whether they are in the past.
   #
-  #  TODO: In development if any changes are made then we get a
-  #  A copy of Slots::CourtSlot has been removed from the module tree but is still active!
-  #  Adding a require to the settings initializer prevents this however the slots are all null.
-  #  Creating the slots in the controller fixes the whole thing.
-  #  There is obviously a problem with autoloading and complex constants.
-  #
 
   class Tab
 
@@ -41,13 +35,11 @@ module Courts
       @closures = Courts::Closures.new(slots.grid.courts.count, date)
 
       set_closures_for_all_courts
-      add_closed_slots
+      slots.close_court_slots! date.cwday-1
       add_activities @closures
       add_activities Event.by_day(date)
-      add_bookings
-      fill_empty_cells_with_new_bookings
+      slots.add_bookings! Booking.by_day(date), user, date
       add_class_to_rows_in_the_past
-
 
     end
 
@@ -71,35 +63,13 @@ module Courts
       end
     end
 
-    def add_closed_slots #:nodoc
-      slots.grid.courts.each do |court|
-        court.opening_times.by_day(date.cwday-1).each do |opening_time|
-          slots.constraints.series.except(opening_time.slot.series).each do |time|
-            find(time, court.id).fill(Table::Cell::Closed.new)
-          end
-        end
-      end
-    end
-
     def add_activities(activities) #:nodoc
       activities.each do |activity|
         activity.slot.series.popped.each do |time|
           activity.courts.each do |court|
-            find(time, court.id).fill(Table::Cell::Activity.new(activity, time))
+            find(time, court.id).fill_with_activity(activity, time)
           end
         end
-      end
-    end
-
-    def add_bookings #:nodoc
-      Booking.by_day(date).each do |booking|
-        find(booking.time_from, booking.court.id).fill_with_booking(booking: booking, user: user)
-      end
-    end
-
-    def fill_empty_cells_with_new_bookings #:nodoc
-      slots.grid.unfilled do |empty|
-        empty.fill_with_booking(user: user, date: date)
       end
     end
 

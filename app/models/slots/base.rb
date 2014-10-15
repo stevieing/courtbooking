@@ -15,12 +15,23 @@ module Slots
   #
   #
   #
+  #  TODO: In development if any changes are made then we get a
+  #  A copy of Slots::CellSlot has been removed from the module tree but is still active!
+  #  Adding a require to the settings initializer prevents this however we get an
+  #  ActiveRecord::AssociationMismatch with the courts.
+  #  This can be prevented by replacing b.court = @court_slot.court with b.court_id = @court_slot.court_id
+  #  in Table::Cell::Booking but I would prefer to find tha actual problem.
+  #  Creating the slots in the controller fixes the whole thing.
+  #  There is obviously a problem with autoloading and complex constants.
+  #  The next refactor will involve splitting the grid into dynamic and static sections so
+  #  we can see if that alleviates the problem.
+  #
   class Base
 
     include Enumerable
     attr_reader :slots, :grid, :constraints
     delegate :last, to: :slots
-    delegate :find_by_id, to: :grid
+    delegate :find_by_id, :add_bookings!, to: :grid
 
     def initialize(options = {})
       @constraints = Slots::Constraints.new(options)
@@ -49,6 +60,10 @@ module Slots
     def remove_slots!(slot)
       @constraints.series.remove!(slot.series.popped)
       @grid.delete_rows!(slot) if @grid
+    end
+
+    def close_court_slots!(day)
+      grid.close_court_slots! day, constraints.series
     end
 
     #

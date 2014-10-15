@@ -63,6 +63,13 @@ class Booking < ActiveRecord::Base
     find_by(time_from: time_from, court_id: court_id)
   end
 
+  def self.select_by_slot(slot)
+    select do |booking|
+      booking.time_from == slot.from &&
+      booking.court_id == slot.court_id
+    end.first
+  end
+
 private
 
   def destroyable?
