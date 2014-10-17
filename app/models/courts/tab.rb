@@ -23,21 +23,18 @@ module Courts
 
   class Tab
 
-    attr_reader :slots, :closure_message
+    attr_reader :slots, :activities
     delegate :grid, to: :slots
-    delegate :find, :rows, :heading, :table, to: :grid
+    delegate :closure_message, to: :activities
+    delegate :find, :rows, :heading, to: :grid
 
     def initialize(date, user, slots)
 
       @date, @user, @slots = date, user, slots
 
       slots.grid.table.heading = date.to_s(:uk)
-      @closures = Courts::Closures.new(slots.grid.courts.count, date)
-
-      set_closures_for_all_courts
       slots.close_court_slots! date.cwday-1
-      add_activities @closures
-      add_activities Event.by_day(date)
+      @activities = Courts::Activities.new(slots, date, slots.grid.courts).process!
       slots.add_bookings! Booking.by_day(date), user, date
       add_class_to_rows_in_the_past
 
@@ -53,25 +50,7 @@ module Courts
 
   private
 
-    attr_reader :date, :user, :closures
-
-    def set_closures_for_all_courts #:nodoc
-      @closure_message = ""
-      closures.for_all_courts.each do |closure|
-        slots.remove_slots! closure.slot
-        @closure_message << closure.message
-      end
-    end
-
-    def add_activities(activities) #:nodoc
-      activities.each do |activity|
-        activity.slot.series.popped.each do |time|
-          activity.courts.each do |court|
-            find(time, court.id).fill_with_activity(activity, time)
-          end
-        end
-      end
-    end
+    attr_reader :date, :user
 
     def add_class_to_rows_in_the_past #:nodoc
       rows.select do |k,v|

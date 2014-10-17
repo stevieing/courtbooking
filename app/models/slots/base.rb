@@ -31,7 +31,7 @@ module Slots
     include Enumerable
     attr_reader :slots, :grid, :constraints
     delegate :last, to: :slots
-    delegate :find_by_id, :add_bookings!, to: :grid
+    delegate :find_by_id, :add_bookings!, :add_activities!, to: :grid
 
     def initialize(options = {})
       @constraints = Slots::Constraints.new(options)

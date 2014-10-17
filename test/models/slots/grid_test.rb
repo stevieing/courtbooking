@@ -101,4 +101,13 @@ class GridTest < ActiveSupport::TestCase
     assert_equal "free", grid.find("07:00", court.id).cell.html_class
   end
 
+  test "add_activities! should add activities to correct slots" do
+    stub_settings
+    closure = create(:closure, date_from: Date.today+1, date_to: Date.today+4, time_from: "06:20", time_to: "07:00", courts: [courts.first])
+    event = create(:event, date_from: Date.today+1, time_from: "07:40", time_to: "08:20", courts: [court])
+    grid.add_activities!(Activity.all)
+    assert_equal :activity, grid.find("06:20", courts.first.id).cell.type
+    assert_equal :activity, grid.find("07:40", court.id).cell.type
+  end
+
 end

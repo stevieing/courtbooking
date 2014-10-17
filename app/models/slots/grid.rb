@@ -132,6 +132,16 @@ module Slots
       end
     end
 
+    def add_activities!(activities)
+      activities.each do |activity|
+        activity.slot.series.popped.each do |time|
+          activity.courts.each do |court|
+            find(time, court.id).fill_with_activity(activity, time)
+          end
+        end
+      end
+    end
+
     #
     # The grid will be used whenever the courts page is rendered.
     # This grid will need to be manipulated on each render
