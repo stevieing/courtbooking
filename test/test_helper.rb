@@ -1,5 +1,4 @@
 ENV["RAILS_ENV"] ||= "test"
-require File.expand_path('../../spec/support/shared/manage_settings',__FILE__)
 require File.expand_path('../../config/environment', __FILE__)
 require Rails.root.join('db','migrate','20140808062153_create_fake_models.rb')
 require 'rails/test_help'
@@ -18,7 +17,6 @@ class ActiveSupport::TestCase
   fixtures :all
 
   include FactoryGirl::Syntax::Methods
-  include ManageSettings
   include Rails.application.routes.url_helpers
 
   Dir[Rails.root.join('test/support/**/*.rb')].each do |f|

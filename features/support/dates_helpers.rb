@@ -1,4 +1,4 @@
-module StubDates
+module DatesHelpers
   def stub_dates(date, time = nil)
     date = set_date(date, time)
     allow(Date).to receive(:today).and_return(Date.parse(date))
@@ -10,3 +10,5 @@ module StubDates
     date.is_a?(Date) ? "#{date.to_s(:uk)} #{time.to_s}" : "#{date} #{time.to_s}"
   end
 end
+
+World(DatesHelpers)
