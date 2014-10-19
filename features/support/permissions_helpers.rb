@@ -43,3 +43,5 @@ module PermissionsHelpers
     AllowedAction.find_by(name: build(permission).name) || create(permission)
   end
 end
+
+World(PermissionsHelpers)

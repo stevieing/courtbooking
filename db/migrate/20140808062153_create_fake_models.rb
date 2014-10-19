@@ -25,10 +25,18 @@ class CreateFakeModels < ActiveRecord::Migration
         end
       end
 
-       unless table_exists?(:comments)
+      unless table_exists?(:comments)
         create_table :comments do |t|
           t.integer :blog_post_id
           t.string :text
+        end
+      end
+
+      unless table_exists?(:fake_settings)
+        create_table :fake_settings do |t|
+          t.string :name
+          t.string :value
+          t.string :description
         end
       end
     end

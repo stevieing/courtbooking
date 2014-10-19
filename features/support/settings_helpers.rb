@@ -1,7 +1,22 @@
-module StubSettings
+module SettingsHelpers
 
-  def options
-    {slot_first: "06:20", slot_last: "22:20", slot_time: 40, courts: Court.all}
+  def create_setting(name)
+    if Setting.find_by(:name => name).nil?
+      if FactoryGirl.factories.map(&:name).include? name
+        FactoryGirl.create(name)
+      end
+    end
+  end
+
+  def create_settings(*settings)
+    settings.each do |setting|
+      create_setting setting
+    end
+  end
+
+  def create_standard_settings
+    create_settings :days_bookings_can_be_made_in_advance, :max_peak_hours_bookings_weekly,
+    :max_peak_hours_bookings_daily, :slot_time, :slot_first, :slot_last
   end
 
   def stub_settings
@@ -20,4 +35,12 @@ module StubSettings
     Kernel.const_set(AppSettings.const_name, OpenStruct.new) unless Kernel.const_defined?(AppSettings.const_name)
   end
 
+private
+
+  def options
+    {slot_first: "06:20", slot_last: "22:20", slot_time: 40, courts: Court.all}
+  end
+
 end
+
+World(SettingsHelpers)
