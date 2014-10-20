@@ -51,7 +51,7 @@ The following options are a minimum requirement for SMTP to work:
 * from email address
 * SMTP domain
 
-The SMTMP domain is required for the default url options and the asset host in any emails that are sent out. See mailer for more details.
+The SMTP domain is required for the default url options and the asset host in any emails that are sent out. See mailer for more details.
 
 === Settings
 
@@ -72,6 +72,11 @@ When the settings are changed from the admin system a restart is required. This 
 
 === Permitted attributes
 
+These are the whitelisted attributes for the application.
+The full list is contained in config/permitted_attributes.yml
+Loaded into a constant on every app start.
+See lib/setup/permitted_attributes.rb for usage.
+
 
 == Functionality
 
@@ -81,11 +86,42 @@ When the settings are changed from the admin system a restart is required. This 
 
 === Admin
 
+==== Allowed Actions
+
+Thes are the actions that are allowed for different types of users for the application.
+Not available via user interface.
+Only accessible via admin/allowed_actions.
+Only an admin user can modify these settings.
+Each allowed action requires:
+* a useful name
+* a controller
+* at least one action. This can be a comma delimited set of actions e.g. new,create
+* if the action is user specific then the user id of any object will be checked to ensure the current
+  user has permissions. Again admin users can override this.
+* if the action is admin then it is related to an admin function and will not be checked for user specificity.
+
 ==== Settings
+
+This allows authorised users to change system wide settings as specified by Settings.
+caution: changing the start time, finish time and slot time will render all current bookings useless as they will no
+longer show in the courts page. These should only be changed at either system setup or major system change.
+It will be possible in the future to set these to come on at a future period in time and synchronise bookings.
+Changing any of these settings will force a system restart as an asynchronous process.
+Any system wide constants will be rebuilt.
 
 ==== Members
 
+Authorised users can add, edit or delete members. This includes adding permissions.
+Each user must have a unique username.
+The email address does not need to be unique.
+Password does not need to be entered every time only an entry in the password or password confirmation will trigger validation.
+
 ==== Courts
+
+The number is added sequentially based on the number of the highest court number.
+Authorised users can add, edit or delete courts.
+This includes adding opening times and peak hours.
+Updating any aspect of the courts
 
 ==== Events
 
@@ -98,14 +134,3 @@ Not yet enabled.
 Not yet enabled.
 
 = Next Steps
-
-1. Create form objects for all models
-2. Create presenters for complex views
-3. Add SSL
-4. Refactor God objects - bookings_slots and slots
-All of the above are precursors for creating an Ember front end!
-2.
-
-
-
-

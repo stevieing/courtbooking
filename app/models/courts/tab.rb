@@ -30,7 +30,9 @@ module Courts
 
     def initialize(date, user, slots)
 
-      @date, @user, @slots = date, user, slots
+      @date = date
+      @user = user
+      @slots = slots
 
       slots.grid.table.heading = date.to_s(:uk)
       slots.close_court_slots! date.cwday-1

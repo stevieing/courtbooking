@@ -2,7 +2,8 @@ module Permissions
   class BasePermission
 
     def initialize(user)
-      @allowed_actions, @allowed_params = {}, {}
+      @allowed_actions = {}
+      @allowed_params = {}
     end
 
     def allow?(controller, action, resource = nil)

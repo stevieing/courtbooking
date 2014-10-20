@@ -17,7 +17,9 @@ module Slots
     delegate :all, :cover?, to: :series
 
     def initialize(from, to, constraints = Slots::NullObject.new)
-      @from, @to, @constraints = from, to, constraints
+      @from = from
+      @to = to
+      @constraints = constraints
       save if valid?
     end
 
