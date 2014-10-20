@@ -18,7 +18,9 @@ module Courts
     attr_reader :closure_message
 
     def initialize(slots, date, courts)
-      @slots, @date, @courts = slots, date, courts
+      @slots = slots
+      @date = date
+      @courts = courts
       @for_all_courts, @closures = Closure.by_day(date).partition { |closure| closure.courts.count == no_of_courts }
       @events = Event.by_day(date)
     end

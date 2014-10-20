@@ -14,7 +14,8 @@ module Slots
     attr_reader :range
 
     def initialize(slot, constraints)
-      @slot, @constraints = slot, constraints
+      @slot = slot
+      @constraints = constraints
       @range = create_range
     end
 
