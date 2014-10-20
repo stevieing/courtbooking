@@ -7,9 +7,9 @@ class CourtsPageTest < ActionDispatch::PerformanceTest
   #                          output: 'tmp/performance', formats: [:flat] }
 
   def setup
-    create_standard_settings
-    AppSetup.load_constants!
+    stub_settings
     create_list(:court_with_opening_and_peak_times, 4)
+    AppSettings.const.stubs(:slots).returns(Slots::Base.new(options.merge(courts: Court.all)))
   end
 
   test "courtspage" do
@@ -17,7 +17,9 @@ class CourtsPageTest < ActionDispatch::PerformanceTest
   end
 
   def teardown
-    Setting.delete_all
+    Court.all.each do |court|
+      court.destroy
+    end
   end
 
 end

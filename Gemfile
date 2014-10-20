@@ -52,12 +52,9 @@ gem 'rvm-capistrano'
 # gem 'debugger'
 gem 'rails-perftest'
 
-
-
 gem 'faye'
 gem 'thin'
-#TODO: Remove this once branch has been merged.
-gem 'validates_timeliness', github: 'johncarney/validates_timeliness', branch: 'remove-deprecated-setup-method'
+gem 'jc-validates_timeliness'
 
 gem 'rspec-rails', :group => [:test, :development]
 

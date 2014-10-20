@@ -1,3 +1,0 @@
-class TablePresenter < BasePresenter
-
-end

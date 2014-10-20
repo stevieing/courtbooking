@@ -6,6 +6,7 @@ booking:
     - :time_from
     - :time_to
     - :opponent_name
+    - :court_slot_id
 
 setting:
   whitelist:

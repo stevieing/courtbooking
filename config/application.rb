@@ -65,8 +65,7 @@ module Courtbooking
     config.assets.version = '1.0'
 
     config.generators do |g|
-      g.test_framework :rspec, :fixture => true, :views => false
-      g.fixture_replacement :factory_girl, :dir => "spec/factories"
+      g.fixture_replacement :factory_girl, :dir => "test/factories"
     end
 
     config.action_mailer.default_url_options = {host: Rails.configuration.mailer['smtp']['domain']}

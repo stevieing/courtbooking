@@ -1,3 +1,5 @@
+#require 'slots/cell_slot'
+
 DependentLoader.start(:settings) do |on|
 
     on.success do
@@ -47,6 +49,5 @@ DependentLoader.start(:settings) do |on|
       AppSetup.load_constants!
 
     end
-  #end
 
 end

@@ -16,7 +16,11 @@
         <td><%= booking.date_from.to_s(:uk) %></td>
         <td><%= booking.time_from %></td>
         <td><%= booking.time_to %></td>
-        <td><%= booking.court.number %></td>
+        <% unless booking.court.nil? %>
+          <td><%= booking.court.number %></td>
+        <% else %>
+          <td>&nbsp;</td>
+        <% end %>
         <% if allow? :bookings, :edit, booking %>
           <td>
             <%= link_to "Edit", edit_booking_path(booking), remote: true %>
