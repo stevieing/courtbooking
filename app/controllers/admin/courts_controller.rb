@@ -12,6 +12,8 @@ class Admin::CourtsController < ApplicationController
   def create
     @court = CourtForm.new
     if @court.submit(params[:court])
+      AppSetup.load_constants!
+      PassengerWorker.perform_async
       redirect_to admin_courts_path, notice: "Court successfully created."
     else
       render :new
@@ -25,6 +27,8 @@ class Admin::CourtsController < ApplicationController
   def update
     @court = CourtForm.new(current_resource)
     if @court.submit(params[:court])
+      AppSetup.load_constants!
+      PassengerWorker.perform_async
       redirect_to admin_courts_path, notice: "Court successfully updated."
     else
       render :edit
@@ -34,6 +38,8 @@ class Admin::CourtsController < ApplicationController
   def destroy
     @court = current_resource
     notice = @court.destroy ? "Court successfully deleted" : "Unable to delete court"
+    AppSetup.load_constants!
+    PassengerWorker.perform_async
     redirect_to admin_courts_path, notice: notice
   end
 

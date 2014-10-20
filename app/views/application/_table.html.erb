@@ -1,23 +1,11 @@
 <%# TODO: This needs a presenter to improve the whole thing %>
-<%= content_tag :section, id: id do %>
+<%= content_tag :section, class: object.html_class do %>
   <%= content_tag :table do %>
     <%= content_tag(:caption, object.heading) %>
-    <% object.rows.each do |row| %>
-      <%= content_tag :tr, class: row.klass do %>
-        <% row.cells.each do |cell| %>
-          <% if row.heading? %>
-            <%= content_tag(:th, cell.text) %>
-          <% else %>
-            <% unless cell.blank? %>
-              <%= content_tag :td, class: cell.klass, rowspan: cell.span do %>
-                <% if cell.link? %>
-                  <%= link_to cell.text, cell.link, class: cell.klass, remote: remote  %>
-                <% else %>
-                  <%= cell.text %>
-                <% end %>
-              <% end %>
-            <% end %>
-          <% end %>
+    <% object.rows.each do |row_key, row| %>
+      <%= content_tag :tr, class: row.html_class do %>
+        <% row.each do |cell_key, cell| %>
+          <%= cell.to_html( cell.header? ? :th : :td) %>
         <% end %>
       <% end %>
     <% end %>

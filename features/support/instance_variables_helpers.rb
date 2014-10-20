@@ -27,7 +27,7 @@ module InstanceVariablesHelpers
       courts: lambda { Court.all },
       booking_slots: lambda{ Settings.slots.dup},
       slot_time: lambda { Settings.slot_time},
-      dates: lambda { build(:dates)},
+      current_date: lambda { Date.today},
       settings: lambda {Setting.all},
       setting: lambda {Setting.first},
       members: lambda {Member.all},

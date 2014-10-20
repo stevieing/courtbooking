@@ -3,16 +3,16 @@ Before('@other_member') do
 end
 
 When /^I view the courts for (\d+) days? from today$/ do |days|
-  set_dates((dates.current_date+days.to_i).to_s(:uk), "19:00")
-  click_link dates.current_date.day_of_month
+  set_dates(current_date+days.to_i, "19:00")
+  click_link current_date.day_of_month
 end
 
 Then /^I should see the correct date$/ do
-  page.should have_content(dates.current_date_to_s)
+  page.should have_content(current_date.to_s(:uk))
 end
 
 Then /^I should be redirected to the courts page for that day$/ do
-  current_path.should == courts_path(dates.current_date)
+  current_path.should == courts_path(current_date)
 end
 
 Given /^todays date is near the end of the month$/ do
@@ -20,7 +20,7 @@ Given /^todays date is near the end of the month$/ do
 end
 
 When /^there are two bookings one after the other for tomorrow$/ do
-  create_current_bookings(create_subsequent_bookings(current_user, dates.current_date, booking_slots.all))
+  create_current_bookings(create_subsequent_bookings(current_user, current_date, booking_slots.all))
 end
 
 When /^it is tomorrow after the first booking has started$/ do

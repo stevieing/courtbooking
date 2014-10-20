@@ -22,7 +22,7 @@ class Admin::SettingsController < ApplicationController
     end
   end
 
-  private
+private
 
   def current_resource
     @current_resource ||= Setting.find(params[:id]) if params[:id]
