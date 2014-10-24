@@ -1,26 +1,14 @@
 module Courts
 
   #
-  # = Courts::Tabe
+  # This will take a copy of the slots and turn it into something ready to be output to HTML.
+  # Arguments:
+  # * date: The date on which the courts need to be viewed.
+  # * user: This is necessary to ensure that the correct permissions are applied.
+  #   So that the user can add or edit a booking.
+  # * slots: Instance of Slots::Base. This must be dupped to ensure there is no
+  #   cross contamintaion.
   #
-  #  This will take a copy of the slots and turn it into something ready to be
-  #  output to HTML.
-  #  Arguments:
-  #  * date: The date on which the courts need to be viewed.
-  #  * user: This is necessary to ensure that the correct permissions are applied.
-  #    So that the user can add or edit a booking.
-  #  * slots: Instance of Slots::Base. This must be dupped to ensure there is no
-  #    cross contamintaion.
-  #
-  #  The initializer will:
-  #  * add a html safe heading which is the date the courts are viewed.
-  #  * remove any slots for which all of the courts are closed and add an appropriate
-  #    message
-  #  * Add any closures, events and bookings.
-  #  * Fill any leftover slots with a link to add a new booking.
-  #  * add a class to any rows to indicate whether they are in the past.
-  #
-
   class Tab
 
     attr_reader :slots, :activities
@@ -28,6 +16,14 @@ module Courts
     delegate :closure_message, to: :activities
     delegate :find, :rows, :heading, to: :grid
 
+    # The initializer will:
+    # * add a html safe heading which is the date the courts are viewed.
+    # * remove any slots for which all of the courts are closed and add an appropriate
+    #   message
+    # * Add any closures, events and bookings.
+    # * Fill any leftover slots with a link to add a new booking.
+    # * add a class to any rows to indicate whether they are in the past.
+    #
     def initialize(date, user, slots)
 
       @date = date

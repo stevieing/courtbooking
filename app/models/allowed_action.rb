@@ -1,3 +1,7 @@
+###
+#
+# An AllowedAction is used by the Permission class to determine whether a user can access
+# a particular controller action.
 class AllowedAction < ActiveRecord::Base
 
   validates_presence_of :name, :controller, :action
@@ -6,23 +10,29 @@ class AllowedAction < ActiveRecord::Base
   has_many :permissions, dependent: :destroy
 
   ##
-  # TODO: quick fix. The allowed action table is purely for admins.
-  # This behaviour should be moved out into a form object.
-  # This will be done off the back of the form objects for admin functions.
-  # The assumption is that only an admin developer will complete this
-  # with the knowledge of what it is being used for.
-  #
+  # The action attribute is a serializable Array.
+  # When the data is entered it needs to be input as a comma delimited String.
+  # This needs to be converted to an Array.
   attr_writer :action_text
+
   before_validation :save_action_text
 
+  ##
+  # Convert the action to a comma delimited string
   def action_text
     @action_text || action.try(:join, ",")
   end
 
+  ##
+  # If it is present split the action text by commas and convert it to an Array.
   def save_action_text
     self.action = @action_text.split(",") if @action_text.present?
   end
 
+  ##
+  # The sanitized controller is used to determine permissions.
+  # It may well be that the controller is a partial route e.g. admin/settings
+  # It needs to split the string by backslash, singularize it and convert it to a symbol.
   def sanitized_controller
     controller.to_s.split('/').last.singularize.to_sym
   end

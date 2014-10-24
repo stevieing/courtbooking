@@ -17,9 +17,9 @@ module Slots
 
     #
     # options:
-    #  * slot_first - the opening time (hh:mm)
-    #  * slot_last - the closing time (hh:mm)
-    #  * slot_time - the length of the slot (Integer)
+    # * +slot_first+ the opening time (hh:mm)
+    # * +slot_last+ the closing time (hh:mm)
+    # * +slot_time+ the length of the slot (Integer)
     #
     # slot_first and slot_last will be converted to times.
     # the slot time must fit in with the first and last slot

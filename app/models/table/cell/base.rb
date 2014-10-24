@@ -1,13 +1,13 @@
 module Table
-  #
-  # = Table::Cell::Base
-  #
-  # a shared set of attributes and methods necessary for each type of cell:
-  #  * text: the text that will be out output. This could be anything from a space to link text.
-  #  * link: This will usually be a link to a booking.
-  #  * htmL_class: This could be the type of cell to allow different colouring for a type of event.
-  #
+
   module Cell
+
+    #
+    # a shared set of attributes and methods necessary for each type of cell:
+    # * +text+: the text that will be out output. This could be anything from a space to link text.
+    # * +link+: This will usually be a link to a booking.
+    # * +htmL_class+: This could be the type of cell to allow different colouring for a type of event.
+    #
     module Base
 
       include ActionView::Helpers::TagHelper

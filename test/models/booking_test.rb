@@ -100,7 +100,6 @@ class BookingTest < ActiveSupport::TestCase
     assert_equal 3, Booking.by_day(Date.today+1).count
     assert_equal 2, Booking.by_court(courts[1].id).count
     assert_equal [booking3, booking1, booking2, booking4], Booking.ordered.to_a
-    assert_equal booking1, Booking.by_slot("19:00", courts.first.id)
   end
 
   test "#players should return the players who are playing the game" do

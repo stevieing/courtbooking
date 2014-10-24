@@ -1,7 +1,5 @@
 class UsersController < ApplicationController
 
-  include BasicForm
-
   def index
     render json: User.names_from_term_except_user(current_user, params[:term])
   end

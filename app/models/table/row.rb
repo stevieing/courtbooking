@@ -1,14 +1,13 @@
 module Table
 
   #
-  # = Table::Row
   #
   #  A row can make up the table.
   #  Made of a HTML class and cells.
   #  The cells can be added in the constructor.
-  #  row = Row.new do |row|
-  #    row.add "1", Cell.new
-  #  end
+  #   row = Row.new do |row|
+  #     row.add "1", Cell.new
+  #   end
   #
 
   class Row

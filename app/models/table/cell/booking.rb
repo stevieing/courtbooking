@@ -1,20 +1,19 @@
 module Table
 
-  #
-  # = Table::Cell::Booking
-  # There are various types of booking:
-  #  * new booking in the future: A link will be output and a class of free added.
-  #  * new booking in the past: Empty text with a class of free. A separate class is added at row level.
-  #  * existing booking in the future for the current user: Text is the players. A link is added as the user
-  #    is allowed to edit it. NB if the user is allowed to edit all bookings then the link is also added.
-  #    class of booking.
-  #  * existing booking in the future for another user: Text is the players. No link class of booking.
-  #  * existing booking in the past: Text is the players. No link. Class of booking.
-  #
-  # options: court_slot, booking, date, user
-  #
-
   module Cell
+
+    #
+    # There are various types of booking:
+    # * new booking in the future: A link will be output and a class of free added.
+    # * new booking in the past: empty text with a class of free. A separate class is added at row level.
+    # * existing booking in the future for the current user: Text is the players. A link is added as the user
+    #   is allowed to edit it. NB if the user is allowed to edit all bookings then the link is also added.
+    #   class of booking.
+    # * existing booking in the future for another user: text is the players. No link class of booking.
+    # * existing booking in the past: text is the players. No link. Class of booking.
+    #
+    # options: court_slot, booking, date, user
+    #
     class Booking
 
       include Table::Cell::Base
