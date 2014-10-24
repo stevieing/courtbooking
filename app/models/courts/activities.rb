@@ -1,22 +1,18 @@
 module Courts
 
+  ###
   #
-  # = Courts::Activities
-  #
-  # This class will:
-  # * retrieve the closures and split out closures which relate to all courts.
-  # * retrieve the events.
-  #
-  # The main method process! will:
-  # * add the closures for all of the courts and create a closure message.
-  # * add any left over closures
-  # * add any events
-  #
-
+  # A utility class to manage all of the activities for a particular day.
   class Activities
 
+    ##
+    # see Closure message
     attr_reader :closure_message
 
+    # The intializer will retrieve the following as specified by the date:
+    # * The closures which will be partition them into those closures which cover all of the courts and those
+    #   which don't
+    # * The events.
     def initialize(slots, date, courts)
       @slots = slots
       @date = date
@@ -25,6 +21,10 @@ module Courts
       @events = Event.by_day(date)
     end
 
+    ##
+    # * add the closures for all of the courts and create a closure message.
+    # * add any left over closures
+    # * add any events
     def process!
       @closure_message = set_closures_for_all_courts
       @slots.add_activities! @closures
@@ -38,7 +38,7 @@ module Courts
       @no_of_courts ||= @courts.count
     end
 
-    def set_closures_for_all_courts #:nodoc
+    def set_closures_for_all_courts
       "".tap do |message|
         @for_all_courts.each do |closure|
           @slots.remove_slots! closure.slot

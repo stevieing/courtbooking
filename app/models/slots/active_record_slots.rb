@@ -1,8 +1,7 @@
 module Slots
 
-  ##
+  ###
   #
-  # = Slots::ActiveRecordSlotd
   # Adds a slot to various ActiveRecord models
   # mainly bookings and activities.
   #

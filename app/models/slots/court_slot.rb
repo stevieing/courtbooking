@@ -1,13 +1,11 @@
 module Slots
 
   #
-  # = Slots::CourtSlot
-  #
-  #  a CourtSlot can be useful when create a Court page.
-  #  The unique id is useful to remove the need for lots of attributes.
-  #  For example rather than passing courts/:date/:time_from/:time_to/:court_id
-  #  we can pass courts/:date/:id
-  #  The court slot contains the slot.
+  # a CourtSlot can be useful when create a Court page.
+  # The unique id is useful to remove the need for lots of attributes.
+  # For example rather than passing courts/:date/:time_from/:time_to/:court_id
+  # we can pass courts/:date/:id
+  # The court slot contains the slot.
   #
 
   class CourtSlot

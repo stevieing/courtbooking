@@ -1,35 +1,33 @@
 ###
-# = BasicForm
-# adds a number of common methods and behaviours to form objects
-# Version 2. Much better than the original but still needs some work
-# More flexible. Allows for a wider range of form objects.
+# Adds a number of common methods and behaviours to form objects
+#
 # Example usage:
-# class MyModelsForm
-#  include BasicForm
+#  class MyModelsForm
+#   include BasicForm
 #
-#  set_model :my_model, [:attr_a, :attr_b, :attr_c]
-#  validate verify_my_model
+#   set_model :my_model, [:attr_a, :attr_b, :attr_c]
+#   validate verify_my_model
 #
-#  def initialize(object=nil)
+#   def initialize(object=nil)
 #    build do
 #      my_model.attr_a = "1"
 #    end
-#  end
+#   end
 #
-#  def submit(params)
+#   def submit(params)
 #    self.virtual_attribute = params[:virtual_attribute]
 #    push_and_save(params)
+#   end
+#
+#  private
+#   def save_objects
+#    run_transaction do
+#      booking.save
+#    end
 #  end
 #
-# private
-#  def save_objects
-#   run_transaction do
-#     booking.save
-#   end
-# end
-#
-
 module BasicForm
+
   extend ActiveSupport::Concern
   include ActiveModel::Model
 

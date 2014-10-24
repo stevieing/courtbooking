@@ -1,9 +1,7 @@
 
 module Slots
 
-##
-#
-# = Slots::Grid
+###
 #
 # this will create a grid with slots as rows and courts as columns which can be filled
 # with information which can be output to a view.
@@ -13,7 +11,7 @@ module Slots
 #  courts: [<#id: 2, number: 1>, <#id: 3, number: 2>, <#id: 4, number: 3>, <#id: 5, number: 4>]
 #  Slots::Grid.new(slots, courts)
 # will produce:
-# { header:
+#  { header:
 #   { header: <#Cell::Text text: ' '>,
 #     3: <#Cell::Text text: 'Court 1'>,
 #     4: <#Cell::Text text: 'Court 2'>,

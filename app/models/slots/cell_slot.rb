@@ -1,11 +1,9 @@
 module Slots
 
-  ##
-  #
-  # = Slots::CellSlot
+  ###
   #
   #  a CellSlot can be used to create a Court page.
-  #  The cell slot will create a new CourtSlot and a Null Cell
+  #  The cell slot will create a new CourtSlot and an Empty Cell
   #  This can be used to hold View information. Link, Class and Text.
   #
 

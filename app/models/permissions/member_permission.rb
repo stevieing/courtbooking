@@ -1,4 +1,9 @@
 module Permissions
+
+  ###
+  # permissions for a Member
+  # basic permissions will be added as per guest user.
+  # Any other permissions are done on a by user basis basis loaded from the database.
   class MemberPermission < BasePermission
     def initialize(user)
       super
@@ -8,6 +13,11 @@ module Permissions
       add_user_permissions
     end
 
+    ##
+    # will check whether the permissions allow all records for this action:
+    # * does the permissions object contain permissions for this controller?
+    # * does the permissions object contain permissions for this action?
+    # * s the permission not user specific?
     def allow_all?(controller, action)
       @permissions.select do |permission|
         permission.controller == controller &&
