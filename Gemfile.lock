@@ -149,6 +149,7 @@ GEM
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
     orm_adapter (0.5.0)
+    pg (0.17.1)
     pickle (0.4.11)
       cucumber (>= 0.8)
       rake
@@ -268,6 +269,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   mocha
+  pg
   pickle
   rails (= 4.1.6)
   rails-perftest

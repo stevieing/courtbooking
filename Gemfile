@@ -9,9 +9,9 @@ group :development, :test do
   gem 'sqlite3'
 end
 
-# group :staging, :production do
-#   gem 'pg'
-# end
+group :staging, :production do
+  gem 'pg'
+end
 
 gem 'sidekiq'
 gem 'capistrano-sidekiq'
