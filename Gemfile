@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.0'
+gem 'rails', '4.1.6'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -9,9 +9,9 @@ group :development, :test do
   gem 'sqlite3'
 end
 
-group :staging, :production do
-  gem 'pg'
-end
+# group :staging, :production do
+#   gem 'pg'
+# end
 
 gem 'sidekiq'
 gem 'capistrano-sidekiq'
