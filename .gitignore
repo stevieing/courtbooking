@@ -26,3 +26,7 @@
 
 #ignore docs
 /doc/app
+
+#ignore remote config
+/config/deploy/production
+/config/deploy/staging
