@@ -124,7 +124,8 @@ module Slots
     def add_bookings!(bookings, user, date)
       unfilled do |empty|
         empty.fill_with_booking(
-          booking: bookings.select_by_slot(empty),
+          #booking: bookings.select_by_slot(empty),
+          booking: select_by_slot(bookings, empty),
           user: user, date: date
         )
       end
@@ -165,6 +166,15 @@ module Slots
       slots.each do |slot|
         find(slot, court.id).close
       end
+    end
+
+    #TODO: this is in the wrong place but putting it in Booking
+    # invokes scoping which slows it down.
+    def select_by_slot(bookings, slot)
+      bookings.select do |booking|
+        booking.time_from == slot.from &&
+        booking.court_id == slot.court_id
+      end.first
     end
 
     def create_table(slots) # :nodoc:

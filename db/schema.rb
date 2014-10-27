@@ -83,6 +83,12 @@ ActiveRecord::Schema.define(version: 20140808062153) do
     t.datetime "updated_at"
   end
 
+  create_table "fake_settings", force: true do |t|
+    t.string "name"
+    t.string "value"
+    t.string "description"
+  end
+
   create_table "occurrences", force: true do |t|
     t.integer  "activity_id"
     t.integer  "court_id"
