@@ -6,10 +6,6 @@ class CourtsPageTest < ActionDispatch::PerformanceTest
   # self.profile_options = { runs: 5, metrics: [:wall_time, :memory],
   #                          output: 'tmp/performance', formats: [:flat] }
 
-  # This really needs to be the full whack to find out where the bottlenecks are
-  # It performs fine with no bookings or activities but once it is filled up it
-  # slows down by 2 or 3 times.
-
   attr_reader :courts, :slots
 
   def setup
@@ -18,6 +14,7 @@ class CourtsPageTest < ActionDispatch::PerformanceTest
     @slots = Slots::Base.new(slot_first: "06:20", slot_last: "22:20", slot_time: 40, courts: courts)
     create_list(:court_with_opening_and_peak_times, 4)
     add_bookings
+    add_activities
     AppSettings.const.stubs(:slots).returns(slots)
   end
 
@@ -31,6 +28,7 @@ class CourtsPageTest < ActionDispatch::PerformanceTest
     end
     User.delete_all
     Booking.delete_all
+    Activity.delete_all
   end
 
 private
@@ -45,6 +43,11 @@ private
         end
       end
     end
+  end
+
+  def add_activities
+    create(:closure, date_from: Date.today+1, date_to: Date.today+3, time_from: "06:20", time_to: "16:20", courts: courts)
+    create(:event, date_from: Date.today+1, time_from: "21:00", time_to: "22:20", courts: [courts.first, courts.last])
   end
 
 end

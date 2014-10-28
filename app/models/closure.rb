@@ -9,7 +9,7 @@ class Closure < Activity
 
   ##
   # Return the closures for a particular day. i.e. any closures which start or end inbetween the selected day.
-  scope :by_day,    lambda{|day| where(":day BETWEEN date_from AND date_to", {day: day})}
+  scope :by_day,    lambda{|day| includes(:courts).where(":day BETWEEN date_from AND date_to", {day: day})}
 
   ##
   # A text message where? when? and why?

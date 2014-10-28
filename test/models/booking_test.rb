@@ -145,16 +145,4 @@ class BookingTest < ActiveSupport::TestCase
     assert_equal user.full_name, booking.opponent_name
   end
 
-  test "#select_by_slot should return correct bookings" do
-    courts = create_list(:court, 2)
-    slot = build(:court_slot, court: courts.first)
-    other = build(:court_slot, court: courts.last)
-    booking = create(:booking, date_from: Date.today+1, time_from: slot.from, court: courts.first)
-    bookings = Booking.all
-    assert_equal booking, bookings.select_by_slot(slot)
-    assert_nil bookings.select_by_slot(other)
-
-  end
-
-
 end

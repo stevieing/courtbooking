@@ -1,6 +1,6 @@
 class BookingMailer < ActionMailer::Base
 
-  default from: DefaultFrom.email
+  default from: MailDefault.from
 
   after_action :mail_me
 

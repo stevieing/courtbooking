@@ -95,16 +95,6 @@ class Booking < ActiveRecord::Base
     order("date_from desc, time_from desc, court_id")
   end
 
-  ##
-  # Argument should be of type Slots::Slot
-  # select bookings from ActiveRecord::Relation which match the slot.
-  def self.select_by_slot(slot)
-    select do |booking|
-      booking.time_from == slot.from &&
-      booking.court_id == slot.court_id
-    end.first
-  end
-
 private
 
   ##

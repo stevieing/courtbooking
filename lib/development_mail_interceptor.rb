@@ -1,6 +1,6 @@
 class DevelopmentMailInterceptor
   def self.delivering_email(message)
     message.subject = "#{message.to} #{message.subject}"
-    message.to = DefaultFrom.email
+    message.to = MailDefault.intercept_to
   end
 end
