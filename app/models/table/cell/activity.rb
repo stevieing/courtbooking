@@ -1,18 +1,15 @@
 module Table
 
-  #
-  # = Table::Cell::Activity
-  #
-  #  The cell type used for closures and events.
-  #  An activity will normally span several cells.
-  #  If it is the first slot for the activity
-  #  i.e. activity time from.
-  #  then we need to output the type of activity.
-  #  plus the number of slots the activity spans.
-  #  If it is not the first slot then we need to fake
-  #  a blank cell.
-  #
   module Cell
+    ##
+    #  The cell type used for closures and events.
+    #  An activity will normally span several cells.
+    #  If it is the first slot for the activity
+    #  i.e. activity time from.
+    #  then we need to output the type of activity.
+    #  plus the number of slots the activity spans.
+    #  If it is not the first slot then we need to fake
+    #  a blank cell.
     class Activity
       include Table::Cell::Base
 

@@ -13,7 +13,6 @@ module Table
       end
 
       def to_html(tag = :td)
-        ##hello
         content_tag tag, ""
       end
 

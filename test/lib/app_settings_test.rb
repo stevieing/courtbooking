@@ -7,7 +7,7 @@ class AppSettingsTest < ActiveSupport::TestCase
   def setup
     AppSettings.setup do |config|
       config.const_name = "FakeSettings"
-      config.table_name = "FakeSetting"
+      config.model_name = "FakeSetting"
     end
     AppSettings.load!
   end
@@ -44,7 +44,7 @@ class AppSettingsTest < ActiveSupport::TestCase
   test "reset! should reset constant and table names" do
     AppSettings.reset!
     refute_equal "FakeSettings", AppSettings.const_name
-    refute_equal "FakeSetting", AppSettings.table_name
+    refute_equal "FakeSetting", AppSettings.model_name
   end
 
   test "const should return constant" do

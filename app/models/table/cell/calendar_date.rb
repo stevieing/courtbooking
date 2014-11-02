@@ -1,15 +1,13 @@
 module Table
-  #
-  # = Table::Cell::CalendarDate
-  #
-  #  Does what it says on the tin. Used for the Calendar.
-  #  outputs the day of the month as the text.
-  #  If the date passed is the same date as the courts page currently
-  #  being shown then no link is added and a class of selected.
-  #  Otherwise a link is added which will take the user to the courts page
-  #  for that date.
-  #
+
   module Cell
+    ##
+    #  Does what it says on the tin. Used for the Calendar.
+    #  outputs the day of the month as the text.
+    #  If the date passed is the same date as the courts page currently
+    #  being shown then no link is added and a class of selected.
+    #  Otherwise a link is added which will take the user to the courts page
+    #  for that date.
     class CalendarDate
 
       include Table::Cell::Base

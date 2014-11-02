@@ -1,8 +1,7 @@
 ##
-# = DeepStruct
-#   inherited from OpenStruct
-#   ensures that all nested hashes are also converted
-#   to a DeepStruct.
+# inherited from OpenStruct
+# ensures that all nested hashes are also converted
+# to a DeepStruct.
 #
 
 class DeepStruct < OpenStruct

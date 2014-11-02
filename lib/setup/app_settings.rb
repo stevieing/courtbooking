@@ -1,8 +1,9 @@
+###
+# adds a Kernel constant to manage application wide settings
 module AppSettings
 
   #= AppSettings module
-  #
-  # adds a Kernel constant to manage application wide settings
+
   #
   # == The variables
   #
@@ -13,30 +14,45 @@ module AppSettings
 
   extend self
 
+  ##
+  # Default setting for the constant name.
+  # It is not accessible.
   mattr_accessor :factory_const_name, instance_accessor: false
   self.factory_const_name = "Settings"
 
-  mattr_accessor :factory_table_name, instance_accessor: false
-  self.factory_table_name = "Setting"
+  ##
+  # Default setting for the model name.
+  # It is not accessible
+  mattr_accessor :factory_model_name, instance_accessor: false
+  self.factory_model_name = "Setting"
 
+  ##
+  # The name of the Kernel constant.
+  # Defaults to the factory constant name.
   mattr_accessor :const_name
   self.const_name = self.factory_const_name
 
-  mattr_accessor :table_name
-  self.table_name = self.factory_table_name
+  ##
+  # The name of the model which holds the data.
+  # Defaults to the factory table name.
+  mattr_accessor :model_name
+  self.model_name = self.factory_model_name
 
+  ##
+  # The attribute which holds the name of the constant
   mattr_accessor :name_column
   self.name_column = :name
 
+  ##
+  # The attribute which holds the value of the constant
   mattr_accessor :value_column
   self.value_column = :value
-
-  mattr_accessor :defaults, instance_writer: false
-  self.defaults = {}
 
   class Options < OpenStruct
   end
 
+  ##
+  # The constant.
   def const
     self.const_name.constantize
   end
@@ -44,50 +60,40 @@ module AppSettings
   #
   # add any module attributes. Usual trick
   #
-  # AppSettings.setup do |config|
-  #  config.const_name = "MyConstants"
-  # end
+  #  AppSettings.setup do |config|
+  #   config.const_name = "MyConstants"
+  #  end
   #
   def setup
     yield self
   end
 
-  #
+  ##
   # load any settings from the table and create or recreate the Kernel constant
-  #
   def load!
     create_constant load_settings
   end
 
-  #
+  ##
   # reset the constant and its friends to the default settings on initialize
   # useful in testing for flushing out any badness
-  #
   def reset!
     self.const_name = self.factory_const_name
-    self.table_name = self.factory_table_name
+    self.model_name = self.factory_model_name
   end
 
   #
-  # failsafe during test and development for application
-  # wide variables
-  #
-  # add_default :key, :value
-  # this will ensure that required variables are available
-  # across all environments if the setting is not in the db
-  #
-  #
-  def add_default(key, value)
-    self.defaults[key] = value
-  end
-
-  #
-  # include AppSettings::ModelTrigger
   #
   # Add in to the model which contains the settings
   # when a record is saved the constants will be reloaded
   # this could be injected during initialize however this would
-  # only work in production
+  # only work in production.
+  # Only works with an ActiveRecord model or one which
+  # implements a save method
+  # Example:
+  #  model MyModel
+  #   include AppSettings::ModelTrigger
+  #  end
   #
   module ModelTrigger
     def self.included(base)
@@ -112,7 +118,7 @@ module AppSettings
   end
 
   def model
-    self.table_name.constantize
+    self.model_name.constantize
   end
 
   def records

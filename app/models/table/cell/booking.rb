@@ -2,7 +2,7 @@ module Table
 
   module Cell
 
-    #
+    ###
     # There are various types of booking:
     # * new booking in the future: A link will be output and a class of free added.
     # * new booking in the past: empty text with a class of free. A separate class is added at row level.
@@ -13,12 +13,19 @@ module Table
     # * existing booking in the past: text is the players. No link. Class of booking.
     #
     # options: court_slot, booking, date, user
-    #
     class Booking
 
       include Table::Cell::Base
       include Rails.application.routes.url_helpers
 
+      ##
+      # The initializer will do several things:
+      # * Add the attributes from the options hash (minus the booking options).
+      # * Construct a booking attribute. If a booking object is passed it will be assigned
+      #   otherwise a new booking will be constructed from the options.
+      # * Construct the text from the booking. If it is a new booking it will use the link text
+      #   otherwise it will use the players attribute.
+      # * Construct a link unless the booking is in the past. If it is a new booking a link will
       def initialize(options = {})
         set_attributes(options.except(:booking))
         @booking = to_booking(options[:booking])
@@ -75,7 +82,6 @@ module Table
           b.time_from = @court_slot.from
           b.time_to = @court_slot.to
           b.court = @court_slot.court
-          #b.court_id = @court_slot.court_id
         end
       end
 

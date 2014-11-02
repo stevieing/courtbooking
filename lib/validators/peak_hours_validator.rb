@@ -1,7 +1,18 @@
+##
+# Check whether a record violates the maximum number of
+# peak hours records for a particular day or week.
+# Two constant values are needed:
+# * Maximum number of of peak hours bookings for a day
+# * Maximum number of peak hours bookings for a week
 class PeakHoursValidator < ActiveModel::Validator
 
   include ActionView::Helpers::TextHelper
 
+  ##
+  # * If the date_from time_from and court are blank then validation is not run
+  # * If the record occurs within a peak time then the validation is run.
+  # * If the record causes the number of peak hours records to exceed the maximum number for that day then an error is added.
+  # * If the record causes the number of peak hours records to exceed the maximum number for that week then an error is added.
   def validate(record)
     unless record.date_from.blank? || record.time_from.blank? || record.court.nil?
       if record.court.peak_time?(record.date_from.cwday-1, record.time_from)
@@ -11,7 +22,7 @@ class PeakHoursValidator < ActiveModel::Validator
     end
   end
 
-  private
+private
 
   def add_error(records, record, max_bookings, period)
     if find_peak_hours_records(records).length >= max_bookings

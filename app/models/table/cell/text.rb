@@ -1,20 +1,22 @@
 module Table
 
-  #
-  # = Table::Cell::Text
-  #
-  #  Used for the purposes of headers and footers which will always be just text.
-  #
-  #
+
   module Cell
+    ##
+    # Used for the purposes of headers and footers which will always be just text.
     class Text
       include Table::Cell::Base
       include HashAttributes
 
+      ##
+      # With no attribute passed text will be set to empty text and header
+      # will be set to false.
       def initialize(options = {})
         set_attributes(options)
       end
 
+      ##
+      # Rowspan will always be 1
       def span
         1
       end
