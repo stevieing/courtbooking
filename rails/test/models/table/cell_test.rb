@@ -176,4 +176,11 @@ class CellTest < ActiveSupport::TestCase
 
   end
 
+  test "Should be able to convert cell to json" do
+    court_slot = build(:court_slot)
+    booking = build(:booking, date_from: Date.today+2)
+    cell = Table::Cell::Booking.new(booking: booking, user: member, court_slot: court_slot)
+    assert_equal "{\"text\":\"#{cell.text}\",\"link\":\"#{cell.link}\",\"span\":#{cell.span},\"html_class\":\"#{cell.html_class}\"}", cell.to_json
+  end
+
 end

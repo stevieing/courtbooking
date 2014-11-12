@@ -64,6 +64,8 @@ module Slots
 
   class Grid
 
+    include ActiveModel::Serializers::JSON
+
     attr_reader :table, :courts
     delegate :rows, :find, :heading, to: :table
 
@@ -158,6 +160,10 @@ module Slots
 
     def valid?
       @table
+    end
+
+    def attributes
+      { table: @table}
     end
 
   private

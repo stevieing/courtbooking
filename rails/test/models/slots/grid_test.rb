@@ -110,4 +110,8 @@ class GridTest < ActiveSupport::TestCase
     assert_equal :activity, grid.find("07:40", court.id).cell.type
   end
 
+  test "should render json" do
+    assert_equal "{\"table\":#{grid.table.to_json}}", grid.to_json
+  end
+
 end

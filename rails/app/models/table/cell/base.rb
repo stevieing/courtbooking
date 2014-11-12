@@ -13,6 +13,10 @@ module Table
       include ActionView::Helpers::TagHelper
       include ActionView::Helpers::UrlHelper
 
+      def self.included(base)
+        base.send :include, ActiveModel::Serializers::JSON
+      end
+
       attr_accessor :text, :link, :html_class, :span, :output_buffer
 
       #
@@ -74,6 +78,10 @@ module Table
         content_tag tag, class: html_class, rowspan: span do
           link? ? link_to(text, link, remote: remote) : text
         end
+      end
+
+      def attributes
+        { text: @text, link: @link, span: @span, html_class: @html_class }
       end
 
     end

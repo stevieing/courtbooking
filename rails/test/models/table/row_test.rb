@@ -59,4 +59,16 @@ class RowTest < ActiveSupport::TestCase
     refute_equal row.find(:a), dupped_row.find(:a)
   end
 
+  test "Should be able to convert a row to json" do
+    row = Table::Row.new do |row|
+      row.html_class = "my_class"
+      row.add :header, Table::Cell::Text.new(header: true)
+      row.add :a, Table::Cell::Text.new(text: "a")
+      row.add :footer, Table::Cell::Text.new(header: true)
+    end
+
+    assert_equal "{\"cells\":#{row.cells.to_json},\"html_class\":\"my_class\"}", row.to_json
+
+  end
+
 end

@@ -19,6 +19,7 @@ module Table
 
     include Enumerable
     include HashAttributes
+    include ActiveModel::Serializers::JSON
 
     hash_attributes :rows, :heading
     attr_accessor :heading
@@ -82,6 +83,10 @@ module Table
 
     def inspect
       "<#{self.class}: @rows=#{@rows.each { |r| r.inspect}}, @heading=#{heading}>"
+    end
+
+    def attributes
+      {heading: @heading, rows: @rows}
     end
 
   private

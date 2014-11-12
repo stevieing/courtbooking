@@ -45,4 +45,9 @@ class BaseTest < ActiveSupport::TestCase
     assert_equal 7, slots.grid.rows.count
   end
 
+  test "should render json" do
+    @slots = Slots::Base.new(options.merge(courts: create_list(:court, 4)))
+    assert_equal "{\"slots\":#{slots.grid.to_json}}", slots.to_json
+  end
+
 end

@@ -11,9 +11,10 @@ module Courts
   #
   class Tab
 
-    attr_reader :slots, :activities
+    include ActiveModel::Serializers::JSON
+
+    attr_reader :slots, :activities, :closure_message
     delegate :grid, to: :slots
-    delegate :closure_message, to: :activities
     delegate :find, :rows, :heading, to: :grid
 
     # The initializer will:
@@ -36,6 +37,8 @@ module Courts
       slots.add_bookings! Booking.by_day(date), user, date
       add_class_to_rows_in_the_past
 
+      @closure_message = @activities.closure_message
+
     end
 
     def valid?
@@ -44,6 +47,13 @@ module Courts
 
     def html_class
       "tab"
+    end
+
+    def as_json options={}
+     {
+       closure_message: @closure_message,
+       courts: @slots
+     }
     end
 
   private

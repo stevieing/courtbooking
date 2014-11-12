@@ -13,6 +13,7 @@ module Table
   class Row
     include Enumerable
     include HashAttributes
+    include ActiveModel::Serializers::JSON
 
     hash_attributes :cells, :html_class, :header
     delegate :empty?, to: :cells
@@ -70,6 +71,10 @@ module Table
         @cells[k] = cell.dup
       end
       super(other)
+    end
+
+    def attributes
+      { cells: @cells, html_class: @html_class}
     end
 
   private

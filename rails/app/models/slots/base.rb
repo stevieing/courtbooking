@@ -28,6 +28,7 @@ module Slots
   #
   class Base
 
+    include ActiveModel::Serializers::JSON
     include Enumerable
     attr_reader :slots, :grid, :constraints
     delegate :last, to: :slots
@@ -81,6 +82,12 @@ module Slots
     end
 
     alias_method :all, :slots
+
+    def as_json options={}
+     {
+       slots: @grid
+     }
+    end
 
   private
 

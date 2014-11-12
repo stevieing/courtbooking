@@ -9,6 +9,8 @@ module Slots
 
   class CellSlot
 
+    include ActiveModel::Serializers::JSON
+
     attr_reader :cell, :slot
 
     delegate :from, :to, :id, :court_id, to: :slot
@@ -61,6 +63,10 @@ module Slots
       @slot = other.slot
       @cell = other.cell.dup
       super(other)
+    end
+
+    def attributes
+      { text: @text, link: @link, span: @span, html_class: @html_class }
     end
 
   end

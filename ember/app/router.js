@@ -6,6 +6,9 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('courts');
+  this.route('bookings');
+  this.route('sign-in');
 });
 
 export default Router;

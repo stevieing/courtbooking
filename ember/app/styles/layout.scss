@@ -24,3 +24,68 @@ a{
     text-decoration: underline;
   }
 }
+
+header, footer{
+  float: left;
+  min-width: 100%;
+}
+
+.wrap{
+  margin: 0 auto;
+  width: 1060px;
+}
+
+header{
+  margin-top: 10px;
+  color: white;
+  height: 50px;
+  background-color: $dark-red;
+
+  @include gradient($dark-red, $dark-red-grad);
+
+  .logo {
+    padding-left: 3px;
+    background-color: white;
+    width: 140px;
+    float: left;
+  }
+
+  font:{
+    size: 1.1em;
+  }
+}
+
+nav{
+
+  ul{
+    width: 80%;
+    position: relative;
+    left: 50px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+
+    li{
+      float:left;
+      padding-right: 30px;
+    }
+
+    a{
+      color: white;
+
+      &:hover{
+        color: $light-brown;
+      }
+    }
+  }
+
+}
+
+footer{
+  border-top: 2px solid $dark-red;
+  margin-top: 50px;
+  height: 40px;
+
+  .copyright{
+    padding-top: 10px;
+  }
+}

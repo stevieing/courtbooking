@@ -93,4 +93,9 @@ class TabTest < ActiveSupport::TestCase
     assert_nil tab.rows["09:00"].html_class
   end
 
+   test "should be able to convert to json" do
+    tab = Courts::Tab.new(date, member, slots)
+    assert_equal "{\"closure_message\":\"#{tab.closure_message}\",\"courts\":#{tab.slots.to_json}}", tab.to_json
+  end
+
 end

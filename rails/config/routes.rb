@@ -28,4 +28,10 @@ Courtbooking::Application.routes.draw do
   #get 'bookings/new/:date_from/:time_from/:time_to/:court_id' => "bookings#new", as: :court_booking
   get 'bookings/new/:date_from/:court_slot_id' => "bookings#new", as: :court_booking
 
+  namespace :api do
+
+    get '/courts(/:date)'=> "courts#index", as: :courts
+
+  end
+
 end

@@ -62,4 +62,15 @@ class BaseTest < ActiveSupport::TestCase
 
   end
 
+  test "should be able to convert a table to json" do
+    table = Table::Base.new do |table|
+      table.heading = "heading"
+      table.add :header, Table::Row.new(header: true)
+      table.add :a, Table::Row.new
+      table.add :footer, Table::Row.new(header: true)
+    end
+
+    assert_equal "{\"heading\":\"heading\",\"rows\":#{table.rows.to_json}}", table.to_json
+  end
+
 end
