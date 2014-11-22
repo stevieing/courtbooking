@@ -1,15 +1,9 @@
 class Api::CourtsController < ApplicationController
 
-  skip_before_filter :authenticate_user!, :authorise, only: [:index]
+  skip_before_filter :authenticate_user!, only: [:show]
 
-  def index
-    render json: Courts::Tab.new(current_date, Guest.new, Settings.slots.dup)
-  end
-
-private
-
-  def current_date
-    @date ||= (params[:date] ? Date.parse(params[:date]) : Date.today)
+  def show
+    render json: Courts::Tab.new(current_date, current_user, Settings.slots.dup)
   end
 
 end

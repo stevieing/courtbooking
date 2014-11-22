@@ -160,6 +160,16 @@ module Permissions
           name: "Courts",
           controller: "courts",
           action: [:index]
+        },
+        calendars: {
+          name: "Calendars",
+          controller: "api/calendars",
+          action: [:show]
+        },
+        api_courts: {
+          name: "Courts",
+          controller: "api/courts",
+          action: [:show]
         }
       }
     end

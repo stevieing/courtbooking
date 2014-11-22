@@ -10,6 +10,8 @@ module Slots
 
   class CourtSlot
 
+    include ActiveModel::Serializers::JSON
+
     @@id = 0
     @@slots = {}
 
@@ -50,6 +52,17 @@ module Slots
 
     def valid?
       court && slot
+    end
+
+    def as_json(options = {})
+      {
+        court_slot: {
+          id: id,
+          from: from,
+          to: to,
+          court_id: court_id
+        }
+      }
     end
 
   end

@@ -25,4 +25,8 @@ class CourtSlotTest < ActiveSupport::TestCase
     assert_equal court_slot, Slots::CourtSlot.find(court_slot.id)
   end
 
+  test "it should return a json response" do
+    assert_equal "{\"court_slot\":{\"id\":#{court_slot.id},\"from\":\"#{court_slot.from}\",\"to\":\"#{court_slot.to}\",\"court_id\":#{court_slot.court_id}}}", court_slot.to_json
+  end
+
 end

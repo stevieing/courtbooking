@@ -1,12 +1,10 @@
 import startApp from '../helpers/start-app';
-import loadSlots from '../fixtures/slots';
 
-var App, slots;
+var App;
 
 module('Integration - Home Page', {
   setup: function(){
     App = startApp();
-    slots = loadSlots();
   },
   teardown: function(){
     Ember.run(App, 'destroy');
@@ -42,8 +40,4 @@ test("Should navigate to the sign in page", function(){
       equal(find('h2').text(),'Sign In');
     });
   });
-});
-
-test("Should load JSON", function(){
-  equal(slots.heading, "07 November 2014");
 });

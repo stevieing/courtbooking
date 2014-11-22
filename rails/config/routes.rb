@@ -25,12 +25,12 @@ Courtbooking::Application.routes.draw do
   # TODO: This needs to be tested probably with constraints. Otherwise if bookings changes this could cause a
   # an error which will be difficult to find.
   #
-  #get 'bookings/new/:date_from/:time_from/:time_to/:court_id' => "bookings#new", as: :court_booking
   get 'bookings/new/:date_from/:court_slot_id' => "bookings#new", as: :court_booking
 
   namespace :api do
 
-    get '/courts(/:date)'=> "courts#index", as: :courts
+    resources :calendars, only: [:show], param: :date
+    resources :courts, only: [:show], param: :date
 
   end
 

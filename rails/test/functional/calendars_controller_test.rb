@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Api::CourtsControllerTest < ActionController::TestCase
+class Api::CalendarsControllerTest < ActionController::TestCase
 
   def setup
     stub_settings
@@ -8,11 +8,11 @@ class Api::CourtsControllerTest < ActionController::TestCase
     @controller.stubs(:current_user).returns(build(:guest))
   end
 
-  test "/courts/:date should return json response" do
+  test "/calendar/:date should return json response" do
     get :show, { date: Date.today }
     assert_response :success
     assert_match "application/json", response.header['Content-Type']
-    assert_match "#{Date.today.to_s(:uk)}", response.body
+    assert_match "#{Date.today}", response.body
   end
 
 end

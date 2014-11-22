@@ -9,6 +9,8 @@ module Courts
   #
   class Calendar
 
+    include ActiveModel::Serializers::JSON
+
     include HashAttributes
     hash_attributes :date_from, :current_date, :no_of_days, :split
     attr_reader :table, :dates
@@ -29,6 +31,12 @@ module Courts
 
     def html_class
       "calendar"
+    end
+
+    def as_json options={}
+     {
+       table: @table
+     }
     end
 
   private
