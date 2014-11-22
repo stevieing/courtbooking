@@ -34,18 +34,6 @@ ActiveRecord::Schema.define(version: 20140808062153) do
     t.boolean  "admin",         default: false
   end
 
-  create_table "basic_models", force: true do |t|
-    t.string   "attr_a"
-    t.string   "attr_b"
-    t.integer  "attr_c"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "blog_posts", force: true do |t|
-    t.string "title"
-  end
-
   create_table "bookings", force: true do |t|
     t.integer  "user_id"
     t.integer  "court_id"
@@ -59,11 +47,6 @@ ActiveRecord::Schema.define(version: 20140808062153) do
   end
 
   add_index "bookings", ["user_id"], name: "index_bookings_on_user_id"
-
-  create_table "comments", force: true do |t|
-    t.integer "blog_post_id"
-    t.string  "text"
-  end
 
   create_table "court_times", force: true do |t|
     t.integer  "court_id"
@@ -81,12 +64,6 @@ ActiveRecord::Schema.define(version: 20140808062153) do
     t.integer  "number"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "fake_settings", force: true do |t|
-    t.string "name"
-    t.string "value"
-    t.string "description"
   end
 
   create_table "occurrences", force: true do |t|
@@ -115,11 +92,6 @@ ActiveRecord::Schema.define(version: 20140808062153) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "type"
-  end
-
-  create_table "slot_testers", force: true do |t|
-    t.string "time_from"
-    t.string "time_to"
   end
 
   create_table "users", force: true do |t|

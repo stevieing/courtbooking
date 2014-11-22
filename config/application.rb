@@ -20,6 +20,9 @@ module Courtbooking
 
     config.mailer = YAML.load_file("#{Rails.root}/config/mailer.yml")[Rails.env]
 
+    config.force_ssl = true
+
+
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
