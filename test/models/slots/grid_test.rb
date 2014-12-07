@@ -50,16 +50,16 @@ class GridTest < ActiveSupport::TestCase
     stub_settings
     dupped_grid = grid.dup
     activity = create(:event, date_from: Date.today+2, time_from: "07:00", time_to: "08:20", courts: [courts.first, courts.last])
-    grid.find("07:00",courts.first.id).fill(Table::Cell::Activity.new(activity, "07:00"))
-    assert_equal activity.description, grid.find("07:00",courts.first.id).cell.text
-    assert_equal :empty, dupped_grid.find("07:00",courts.first.id).cell.type
+    grid.fill("07:00",courts.first.id,Table::Cell::Activity.new(activity, "07:00"))
+    assert_equal activity.description, grid.find("07:00",courts.first.id).text
+    assert_equal :empty, dupped_grid.find("07:00",courts.first.id).type
   end
 
   test "#find_by_id should return correct slot" do
-    first_slot = grid.find("06:20", courts.first.id)
-    last_slot = grid.find("09:00", courts.last.id)
-    assert_equal Slots::CourtSlot.find(first_slot.id), grid.find_by_id(first_slot.id)
-    assert_equal Slots::CourtSlot.find(last_slot.id), grid.find_by_id(last_slot.id)
+    first_slot = grid.find("06:20", courts.first.id).slot
+    last_slot = grid.find("09:00", courts.last.id).slot
+    assert_equal first_slot, grid.find_by_id(first_slot.id)
+    assert_equal last_slot, grid.find_by_id(last_slot.id)
     assert_nil grid.find_by_id(9999)
   end
 
@@ -69,14 +69,6 @@ class GridTest < ActiveSupport::TestCase
     assert_nil grid.find("07:40")
     assert_nil grid.find("08:20")
     refute_nil grid.find("09:00")
-  end
-
-  test "unfilled should return array of slots which are empty" do
-    grid.unfilled do |empty|
-      empty.fill String.new
-    end
-    assert_instance_of String, grid.find("06:20", courts.first.id).cell
-    assert_instance_of String, grid.find("09:00", courts.last.id).cell
   end
 
   test "close_court_slots should close the correct slots" do
@@ -96,9 +88,9 @@ class GridTest < ActiveSupport::TestCase
     booking3 = build(:booking, date_from: Date.today+1, time_from: "07:00", time_to: "09:00", court: court)
     bookings = Booking.all
     grid.add_bookings!(bookings, member, Date.today+1)
-    assert_equal "booking", grid.find("06:20", court.id).cell.html_class
-    assert_equal "booking", grid.find("08:20", court.id).cell.html_class
-    assert_equal "free", grid.find("07:00", court.id).cell.html_class
+    assert_equal "booking", grid.find("06:20", court.id).html_class
+    assert_equal "booking", grid.find("08:20", court.id).html_class
+    assert_equal "free", grid.find("07:00", court.id).html_class
   end
 
   test "add_activities! should add activities to correct slots" do
@@ -106,8 +98,8 @@ class GridTest < ActiveSupport::TestCase
     closure = create(:closure, date_from: Date.today+1, date_to: Date.today+4, time_from: "06:20", time_to: "07:00", courts: [courts.first])
     event = create(:event, date_from: Date.today+1, time_from: "07:40", time_to: "08:20", courts: [court])
     grid.add_activities!(Activity.all)
-    assert_equal :activity, grid.find("06:20", courts.first.id).cell.type
-    assert_equal :activity, grid.find("07:40", court.id).cell.type
+    assert_equal :activity, grid.find("06:20", courts.first.id).type
+    assert_equal :activity, grid.find("07:40", court.id).type
   end
 
 end

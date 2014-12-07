@@ -12,7 +12,7 @@ module Slots
 
     include HashAttributes
 
-    hash_attributes :slot_first, :slot_last, :slot_time
+    hash_attributes slot_first: "00:00", slot_last: "23:59", slot_time: 40
     attr_reader :series, :slot
 
     #

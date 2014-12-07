@@ -18,6 +18,9 @@ module Slots
       define_method :slot do
        @slot ||= create_slot
       end
+      define_method :slot= do |slot|
+        @slot = slot
+      end
      end
     end
 

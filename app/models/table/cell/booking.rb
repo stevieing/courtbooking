@@ -26,9 +26,8 @@ module Table
       # * Construct the text from the booking. If it is a new booking it will use the link text
       #   otherwise it will use the players attribute.
       # * Construct a link unless the booking is in the past. If it is a new booking a link will
-      def initialize(options = {})
-        set_attributes(options.except(:booking))
-        @booking = to_booking(options[:booking])
+      def initialize(booking)
+        @booking = booking
         @text = text_for
         @link = link_for
         @html_class = class_for
@@ -46,7 +45,7 @@ module Table
 
       def link_for
         return unless in_the_future?
-        return court_booking_path(@booking.date_from, @court_slot.id) if new_record?
+        return court_booking_path(@booking.date_from, @booking.slot.id) if new_record?
         return edit_booking_path(@booking) if editable?
       end
 
@@ -67,22 +66,7 @@ module Table
       end
 
       def editable?
-        @user.allow?(:bookings, :edit, @booking)
-      end
-
-      def set_attributes(options)
-        options.each do |key, option|
-          instance_variable_set("@#{key}", option)
-        end
-      end
-
-      def to_booking(booking)
-        booking || ::Booking.new do |b|
-          b.date_from = @date
-          b.time_from = @court_slot.from
-          b.time_to = @court_slot.to
-          b.court = @court_slot.court
-        end
+        @booking.user.allow?(:bookings, :edit, @booking)
       end
 
     end

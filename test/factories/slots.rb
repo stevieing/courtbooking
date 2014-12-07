@@ -26,13 +26,6 @@ FactoryGirl.define do
 		initialize_with { new(original, courts) }
 	end
 
-  factory :cell_slot, class: Slots::CellSlot do
-    court { create(:court) }
-    slot { build(:slot) }
-
-    initialize_with { new(court, slot)}
-  end
-
    factory :court_slot, class: Slots::CourtSlot do
     court { create(:court) }
     slot { build(:slot) }

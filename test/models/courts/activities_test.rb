@@ -25,10 +25,10 @@ class ActivitiesTest < ActiveSupport::TestCase
     closure2 = create(:closure, date_from: Date.today+1, date_to: Date.today+3, time_from: "08:20", courts: [courts.last])
     activities = Courts::Activities.new(slots, Date.today+1, courts)
     activities.process!
-    assert_equal :activity, slots.grid.find("06:20", courts.first.id).cell.type
-    assert_equal closure1.description, slots.grid.find("06:20", courts.first.id).cell.text
-    assert_equal :activity, slots.grid.find("08:20", courts.last.id).cell.type
-    assert_equal closure2.description, slots.grid.find("08:20", courts.last.id).cell.text
+    assert_equal :activity, slots.grid.find("06:20", courts.first.id).type
+    assert_equal closure1.description, slots.grid.find("06:20", courts.first.id).text
+    assert_equal :activity, slots.grid.find("08:20", courts.last.id).type
+    assert_equal closure2.description, slots.grid.find("08:20", courts.last.id).text
   end
 
    test "events should be added to slots" do
@@ -36,10 +36,10 @@ class ActivitiesTest < ActiveSupport::TestCase
     event2 = create(:event, date_from: Date.today+1, time_from: "08:20", courts: [courts.last])
     activities = Courts::Activities.new(slots, Date.today+1, courts)
     activities.process!
-    assert_equal :activity, slots.grid.find("06:20", courts.first.id).cell.type
-    assert_equal event1.description, slots.grid.find("06:20", courts.first.id).cell.text
-    assert_equal :activity, slots.grid.find("08:20", courts.last.id).cell.type
-    assert_equal event1.description, slots.grid.find("08:20", courts.last.id).cell.text
+    assert_equal :activity, slots.grid.find("06:20", courts.first.id).type
+    assert_equal event1.description, slots.grid.find("06:20", courts.first.id).text
+    assert_equal :activity, slots.grid.find("08:20", courts.last.id).type
+    assert_equal event1.description, slots.grid.find("08:20", courts.last.id).text
   end
 
 

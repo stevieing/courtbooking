@@ -2,15 +2,15 @@ require "test_helper"
 
 class BookingFormTest < ActiveSupport::TestCase
 
-  attr_reader :user, :court, :cell_slot, :booking_form
+  attr_reader :user, :court, :court_slot, :booking_form
 
   def setup
     stub_dates("16 September 2013", "09:00")
     stub_settings
     @user = create(:member)
     @court = create(:court_with_opening_and_peak_times)
-    @cell_slot = build(:cell_slot, court: @court, slot: Slots::Slot.new("10:20", "11:00"))
-    Settings.slots.stubs(:find_by_id).returns(@cell_slot)
+    @court_slot = build(:court_slot, court: @court, slot: Slots::Slot.new("10:20", "11:00"))
+    Settings.slots.stubs(:find_by_id).returns(@court_slot)
     @booking_form = BookingForm.new(@user)
   end
 
@@ -27,12 +27,12 @@ class BookingFormTest < ActiveSupport::TestCase
   end
 
   test "new booking should be created when attributes are passed" do
-    attributes = ActionController::Parameters.new(court_slot_id: cell_slot.id.to_s, date_from: Date.today+1)
+    attributes = ActionController::Parameters.new(court_slot_id: court_slot.id.to_s, date_from: Date.today+1)
     booking_form = BookingForm.new(user, attributes)
     assert_equal attributes[:date_from], booking_form.date_from
-    assert_equal cell_slot.court_id, booking_form.court_id
-    assert_equal cell_slot.from, booking_form.time_from
-    assert_equal cell_slot.to, booking_form.time_to
+    assert_equal court_slot.court_id, booking_form.court_id
+    assert_equal court_slot.from, booking_form.time_from
+    assert_equal court_slot.to, booking_form.time_to
   end
 
   test "booking should be added when booking is passed" do

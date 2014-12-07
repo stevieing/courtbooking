@@ -59,4 +59,16 @@ class RowTest < ActiveSupport::TestCase
     refute_equal row.find(:a), dupped_row.find(:a)
   end
 
+  test "#build_header should build a header row from the appropriate objects" do
+    Header = Struct.new(:id, :heading)
+    headers = [Header.new(1,"a"), Header.new(2,"b"), Header.new(3,"c"), Header.new(4, "d")]
+    row = Table::Row.build_header(headers)
+    assert_instance_of Table::Row, row
+    assert_equal 4, row.count
+    assert row.header?
+    assert_equal "a", row.find(1).text
+    assert row.find(1).header?
+    assert_equal "d", row.find(4).text
+  end
+
 end

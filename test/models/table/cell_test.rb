@@ -39,6 +39,12 @@ class CellTest < ActiveSupport::TestCase
     assert cell.empty?
   end
 
+  test "empty cell should be able to contain court slot" do
+    court_slot = Slots::CourtSlot.new(build(:slot), create(:court))
+    cell = Table::Cell::Empty.new(court_slot)
+    assert_equal court_slot, cell.slot
+  end
+
   test "text cell with no attributes should have the correct attributes" do
     cell = Table::Cell::Text.new
     refute cell.link?
@@ -69,8 +75,8 @@ class CellTest < ActiveSupport::TestCase
 
   test "booking cell with new booking in the future should be a link to create a new booking" do
     court_slot = build(:court_slot)
-    booking = build(:booking, date_from: Date.today+2)
-    cell = Table::Cell::Booking.new(booking: booking, user: member, court_slot: court_slot)
+    booking = build(:booking, date_from: Date.today+2, user: member, slot: court_slot)
+    cell = Table::Cell::Booking.new(booking)
     assert_equal booking.link_text, cell.text
     assert_equal court_booking_path(booking.date_from, court_slot.id), cell.link
     assert_equal "free", cell.html_class
@@ -80,10 +86,10 @@ class CellTest < ActiveSupport::TestCase
   end
 
   test "booking cell with new booking in the past should not be a link to create a new booking" do
-    court_slot = build(:cell_slot)
-    booking = build(:booking, date_from: Date.today+2)
+    court_slot = build(:court_slot)
+    booking = build(:booking, date_from: Date.today+2, user: member, slot: court_slot)
     stub_dates(Date.today+3)
-    cell = Table::Cell::Booking.new(booking: booking, user: member, court_slot: court_slot)
+    cell = Table::Cell::Booking.new(booking)
     assert_equal booking.players, cell.text
     refute cell.link?
     assert_equal "free", cell.html_class
@@ -91,9 +97,9 @@ class CellTest < ActiveSupport::TestCase
   end
 
   test "booking cell with existing booking in the past should not be editable" do
-    booking = create(:booking, date_from: Date.today+2)
+    booking = create(:booking, date_from: Date.today+2, user: member)
     stub_dates(Date.today+3)
-    cell = Table::Cell::Booking.new(booking: booking, user: member)
+    cell = Table::Cell::Booking.new(booking)
     assert_equal booking.players, cell.text
     refute cell.link?
     assert_equal "booking", cell.html_class
@@ -101,8 +107,8 @@ class CellTest < ActiveSupport::TestCase
   end
 
   test "booking cell with existing booking in the future should not be editable without correct permissions" do
-    booking = create(:booking, date_from: Date.today+2)
-    cell = Table::Cell::Booking.new(booking: booking, user: member)
+    booking = create(:booking, date_from: Date.today+2, user: member)
+    cell = Table::Cell::Booking.new(booking)
     assert_equal booking.players, cell.text
     refute cell.link?
     assert_equal "booking", cell.html_class
@@ -110,24 +116,13 @@ class CellTest < ActiveSupport::TestCase
   end
 
    test "booking cell with existing booking in the future should be editable with correct permissions" do
-    booking = create(:booking, date_from: Date.today+2)
+    booking = create(:booking, date_from: Date.today+2, user: member)
     @member.stubs(:allow?).with(:bookings, :edit, booking).returns(true)
-    cell = Table::Cell::Booking.new(booking: booking, user: member)
+    cell = Table::Cell::Booking.new(booking)
     assert_equal booking.players, cell.text
     assert_equal edit_booking_path(booking), cell.link
     assert_equal "booking", cell.html_class
     assert_equal "<td class=\"#{cell.html_class}\" rowspan=\"#{cell.span}\"><a data-remote=\"true\" href=\"#{cell.link}\">#{cell.text}</a></td>", cell.to_html
-  end
-
-  test "booking cell with no booking should create a new booking" do
-    court = create(:court)
-    court_slot = build(:court_slot, court: court)
-    booking = build(:booking, date_from: Date.today+2, court: court, time_from: court_slot.from, time_to: court_slot.to)
-    cell = Table::Cell::Booking.new(user: member, date: Date.today+2, court_slot: court_slot)
-    assert_equal booking.link_text, cell.text
-    assert_equal court_booking_path(booking.date_from, court_slot.id), cell.link
-    assert_equal "free", cell.html_class
-    assert cell.remote
   end
 
   test "activity cell with closure should have correct attributes" do

@@ -19,6 +19,13 @@ class Court < ActiveRecord::Base
   # Return the court information for the current day including the opening times
   scope :by_day, lambda{ |day| includes(:opening_times).where(court_times: { day: day.cwday-1}).order(number: :asc)}
 
+  # Example:
+  #  court = Court.new(number: 10)
+  #  court.heading => "Court 10"
+  def heading
+    "Court #{number}"
+  end
+
   ##
   # Check whether there are any peak times for a particular court on a specified day and time.
   def self.peak_time?(id, day, time)

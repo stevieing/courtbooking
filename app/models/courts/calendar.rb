@@ -9,8 +9,26 @@ module Courts
   #
   class Calendar
 
+    class Header
+
+      attr_reader :id
+      alias_attribute :heading, :id
+
+      def self.build(date, split)
+        [].tap do |header|
+          (date..date+(split-1)).each do |d|
+            header << new(d.strftime('%a'))
+          end
+        end
+      end
+
+      def initialize(day)
+        @id = day
+      end
+    end
+
     include HashAttributes
-    hash_attributes :date_from, :current_date, :no_of_days, :split
+    hash_attributes date_from: Date.today, current_date: Date.today, no_of_days: 1, split: 7
     attr_reader :table, :dates
     delegate :heading, :find, :rows, to: :table
 
@@ -33,26 +51,17 @@ module Courts
 
   private
 
-    def default_attributes #:nodoc
-      { date_from: Date.today, split: 7}
-    end
-
     def create_table #:nodoc
       Table::Base.new do |t|
         t.heading = date_from.calendar_header(date_from+no_of_days)
-        t.add :header, header_row
         dates.in_groups_of(split, false).each_with_index do |group, index|
           t.add index.to_s, new_row(group)
         end
-      end
+      end.top(header_row)
     end
 
     def header_row #:nodoc
-      Table::Row.new(header: true) do |row|
-        date_from.days_of_week(split-1).each do |day|
-          row.add day, Table::Cell::Text.new(text: day, header: true)
-        end
-      end
+      Table::Row.build_header(Header.build(date_from, split))
     end
 
     def new_row(group) #:nodoc

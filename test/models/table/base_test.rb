@@ -13,7 +13,7 @@ class BaseTest < ActiveSupport::TestCase
   end
 
   test "we should be able to add some rows" do
-    assert_equal 2, Table::Base.new(rows: {a: Table::Row.new, b: Table::Row.new}).rows.count
+    assert_equal 2, Table::Base.new(cells: {a: Table::Row.new, b: Table::Row.new}).rows.count
   end
 
   test "#add should add a new row" do
@@ -57,9 +57,45 @@ class BaseTest < ActiveSupport::TestCase
     end
 
     i = 0
-    table.without_headers { |row| i += 1 }
+    table.without_headers { |key, row| i += 1 }
     assert_equal 1, i
 
+  end
+
+  test "#unfilled should list all cells that are empty" do
+    table = Table::Base.new do |table|
+      table.add :a, Table::Row.new(cells: { a: Table::Cell::Empty.new, b: Table::Cell::Empty.new})
+      table.add :b, Table::Row.new(cells: { a: Table::Cell::Text.new, b: Table::Cell::Empty.new})
+    end
+
+     i = 0
+    table.unfilled { |cell| i += 1 }
+    assert_equal 3, i
+  end
+
+  test "#fill should fill the correct cell" do
+     table = Table::Base.new do |table|
+      table.add :a, Table::Row.new(cells: { a: Table::Cell::Empty.new, b: Table::Cell::Empty.new})
+      table.add :b, Table::Row.new(cells: { a: Table::Cell::Text.new, b: Table::Cell::Empty.new})
+    end
+
+    table.fill(:a, :a, Table::Cell::Text.new)
+    refute table.find(:a, :a).empty?
+    assert table.find(:a, :b).empty?
+  end
+
+  test "#delete_rows! should remove rows from table with specified keys" do
+      table = Table::Base.new do |table|
+      table.add :a, Table::Row.new
+      table.add :b, Table::Row.new
+      table.add :c, Table::Row.new
+      table.add :d, Table::Row.new
+    end
+
+    assert_equal 4, table.rows.count
+    table.delete_rows!(:a, :b)
+    assert_equal 2, table.rows.count
+    assert_nil table.find(:a)
   end
 
 end

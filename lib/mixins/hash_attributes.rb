@@ -4,36 +4,49 @@
 # attributes will be passed in which order
 module HashAttributes
 
-  extend ActiveSupport::Concern
   include Slots::Helpers
 
-  included do
+  def self.included(base)
+    base.extend ClassMethods
   end
 
   module ClassMethods
 
     ##
-    # A method which will create a list of available attributes
-    # and assign a reader.
-    def hash_attributes(*attributes)
-      attr_reader *attributes
+    # A method which will create a list of default attributes
+    # and assign an accessor.
+    # Need to be deep dupped in case any of the attributes are objects
+    # e.g. hashes or arrays. This will ensure these attributes are not
+    # shared between objects
+    # Example:
+    #  class MyClass
+    #   include HashAttributes
+    #
+    #   hash_attributes attr_a: "a", attr_b: "b", attr_c: "c"
+    #
+    #  end
+    #
+    # Will produce:
+    #  attr_accessor :attr_a, :attr_b, :attr_c
+    #
+    #  def default_attributes
+    #   { attr_a: "a", attr_b: "b", attr_c: "c" }
+    #  end
+    #
+    def hash_attributes(attributes)
+      define_method :default_attributes do
+        attributes.deep_dup
+      end
+
+      attr_accessor *attributes.keys
     end
+
   end
 
   ##
   # Defaults to an empty hash.
   # Needs to be overriden to create defaults.
-  # These will be merged with any passed attributes in
-  # the set_attributes method so you can always have a full
-  # suite of attributes
-  # Example:
-  #  def default_attributes
-  #   { attr_a: "a", attr_b: "b", attr_c: "c"}
-  #  end
-  #
-  #  my_model = MyModel.new(attr_c: "d")
-  #  my_model.attr_a => "a"
-  #  my_model.attr_c => "d"
+  # Prevents any complex error procedures.
   def default_attributes
     {}
   end
@@ -45,13 +58,22 @@ module HashAttributes
   # Example:
   #
   #  class MyModel
+  #   include HashAttributes
+  #
+  #   hash_attributes attr_a: "a", attr_b: "b", attr_c: "c"
+  #
   #   def initialize(options = {})
   #     set_attributes(options)
   #   end
   #  end
   #
-  #  my_model = MyModel.new(attr_c: "123")
-  #  my_model.inspect => "<#MyModel: @attr_a=a, @attr_b=b, @attr_c=123>"
+  #  my_model = MyModel.new(attr_c: "123", attr_d: "d")
+  #  my_model.inspect => "<#MyModel: @attr_a=a, @attr_b=b, @attr_c=123, @attr_d=d>"
+  #
+  # Things to note:
+  #  *any extra attributes passed in the initializer will be silent.
+  #   They will be there but will be useless as they have no accessor or usage.
+  #
   def set_attributes(attributes)
     default_attributes.merge(attributes).each do |k,v|
       instance_variable_set "@#{k.to_s}", v

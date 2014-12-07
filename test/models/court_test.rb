@@ -38,5 +38,10 @@ class CourtTest < ActiveSupport::TestCase
     assert_equal [court2, court3, court4, court1], Court.ordered.to_a
   end
 
+  test "#heading should return correct text" do
+    court = create(:court)
+    assert_equal "Court #{court.number}", court.heading
+  end
+
 
 end

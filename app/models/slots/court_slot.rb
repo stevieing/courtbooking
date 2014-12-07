@@ -10,19 +10,13 @@ module Slots
 
   class CourtSlot
 
+    include ActiveModel::Serializers::JSON
+    include Comparable
+
     @@id = 0
-    @@slots = {}
 
     def self.next_id
       @@id += 1
-    end
-
-    #
-    # Add the newly created court slot to a hash
-    # to allow for future retrieval.
-    #
-    def self.add(slot)
-      @@slots[slot.id] = slot
     end
 
     #
@@ -41,7 +35,6 @@ module Slots
     def initialize(court, slot)
       @court, @slot = court, slot
       @id = CourtSlot.next_id
-      CourtSlot.add(self)
     end
 
     def court_id
@@ -51,6 +44,26 @@ module Slots
     def valid?
       court && slot
     end
+
+    def inspect
+      "<#{self.class}: @id=#{id}, @from=#{from}, @to=#{to}, @court_id=#{court_id}>"
+    end
+
+    def <=>(other)
+      from <=> other.from && to <=> other.to && court_id <=> other.court_id
+    end
+
+    def as_json(options = {})
+      {
+        court_slot: {
+          id: id,
+          from: from,
+          to: to,
+          court_id: court_id
+        }
+      }
+    end
+
 
   end
 

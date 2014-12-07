@@ -3,7 +3,10 @@ Before('@other_member') do
 end
 
 When /^I view the courts for (\d+) days? from today$/ do |days|
+  save_and_open_page
+  p current_date
   set_dates(current_date+days.to_i, "19:00")
+  p current_date
   click_link current_date.day_of_month
 end
 

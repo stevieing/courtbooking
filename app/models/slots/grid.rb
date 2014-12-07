@@ -1,4 +1,3 @@
-
 module Slots
 
 ###
@@ -65,11 +64,12 @@ module Slots
   class Grid
 
     attr_reader :table, :courts
-    delegate :rows, :find, :heading, to: :table
+    delegate :rows, :find, :heading, :fill, to: :table
 
     def initialize(slots, courts)
       @courts = courts
-      @table = create_table(slots)
+      @court_slots = CourtSlots.new(courts, slots)
+      @table = create_table
     end
 
     #
@@ -79,23 +79,11 @@ module Slots
     # a new grid is created.
     #
     def find_by_id(id)
-      CourtSlot.find(id)
+      @court_slots.find_by_id(id)
     end
 
     def delete_rows!(slot)
-      rows.delete_all(*slot.series.popped)
-    end
-
-    def unfilled
-      table.without_headers do |row|
-        row.each do |k, cell|
-          if cell.is_a? CellSlot
-            if cell.unfilled?
-              yield(cell) if block_given?
-            end
-          end
-        end
-      end
+      table.delete_rows!(*slot.series.popped)
     end
 
     #
@@ -122,12 +110,8 @@ module Slots
     # and then add new bookings to the rest of them which are unfilled.
     #
     def add_bookings!(bookings, user, date)
-      unfilled do |empty|
-        empty.fill_with_booking(
-          #booking: bookings.select_by_slot(empty),
-          booking: select_by_slot(bookings, empty),
-          user: user, date: date
-        )
+      table.unfilled do |empty|
+        fill(empty.slot.from, empty.slot.court_id, select_booking(bookings, user, date, empty.slot))
       end
     end
 
@@ -135,7 +119,7 @@ module Slots
       activities.each do |activity|
         activity.slot.series.popped.each do |time|
           activity.courts.each do |court|
-            find(time, court.id).fill_with_activity(activity, time)
+            fill(time, court.id, Table::Cell::Activity.new(activity,time))
           end
         end
       end
@@ -164,47 +148,29 @@ module Slots
 
     def close_slots!(slots, court)
       slots.each do |slot|
-        find(slot, court.id).close
+        fill(slot, court.id, Table::Cell::Closed.new)
       end
     end
 
-    #TODO: this is in the wrong place but putting it in Booking
-    # invokes scoping which slows it down.
-    def select_by_slot(bookings, slot)
-      bookings.select do |booking|
-        booking.time_from == slot.from &&
-        booking.court_id == slot.court_id
-      end.first
+    def select_booking(bookings, user, date, slot)
+      Table::Cell::Booking.new(
+      bookings.select_first_or_initialize(time_from: slot.from, court: slot.court) do |booking|
+        booking.date_from = date
+        booking.user = user
+        booking.slot = slot
+      end)
     end
 
-    def create_table(slots) # :nodoc:
-      Table::Base.new do |t|
-        t.add :header, add_header_row
-        slots.each do |slot|
-          t.add slot.from, add_row(slot)
+    def create_table
+      @court_slots.to_empty.tap do |t|
+        t.rows.each do |r, row|
+          row.top_and_tail(Table::Cell::Text.new(text: r))
         end
-        t.add :footer, add_header_row
-      end
-    end
-
-    def add_row(slot) # :nodoc:
-      Table::Row.new do |row|
-        row.add :header, Table::Cell::Text.new(text: slot.from)
-        @courts.each do |court|
-          row.add court.id, Slots::CellSlot.new(court, slot)
-        end
-        row.add :footer, Table::Cell::Text.new(text: slot.from)
-      end
+      end.top_and_tail(add_header_row)
     end
 
     def add_header_row # :nodoc:
-      Table::Row.new(header: true) do |row|
-        row.add :header, Table::Cell::Text.new(header: true)
-        @courts.each do |court|
-          row.add court.id, Table::Cell::Text.new(text: "Court #{court.number.to_s}", header: true)
-        end
-        row.add :footer, Table::Cell::Text.new(header: true)
-      end
+      Table::Row.build_header(@courts).top_and_tail(Table::Cell::Text.new(header: true))
     end
 
   end

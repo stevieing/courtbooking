@@ -21,4 +21,11 @@ class ActiveRecordSlotsTest < ActiveSupport::TestCase
     event = build(:event)
     assert event.slot.valid?
   end
+
+  test "should be able to add a slot to a booking" do
+    slot = build(:slot)
+    booking = build(:booking)
+    booking.slot = slot
+    assert slot, booking.slot
+  end
 end

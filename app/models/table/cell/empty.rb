@@ -4,6 +4,12 @@ module Table
 
       include Table::Cell::Base
 
+      attr_reader :slot
+
+      def initialize(slot = nil)
+        @slot = slot
+      end
+
       def text
         ""
       end
