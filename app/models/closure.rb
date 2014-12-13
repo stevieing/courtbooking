@@ -20,4 +20,15 @@ class Closure < Activity
   def message
     "Courts #{self.courts.pluck(:number).join(',')} closed from #{self.time_from} to #{self.time_to} for #{self.description}."
   end
+
+  ##
+  # This will produce two arrays.
+  # It will return all closures for a particular day.
+  #  1. Closures which occur on all courts.
+  #  2. Closures which do not occur on all courts.
+  def self.partition_by_court_count(day)
+    count = Court.count
+    by_day(day).partition { |closure| closure.courts.count == count }
+  end
+
 end

@@ -7,4 +7,6 @@ class Array
     self.collect{ |v| v.to_sym }
   end
 
+  include CombinationMethods
+
 end

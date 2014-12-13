@@ -12,14 +12,19 @@ module Slots
   #
   class Slot
     include Comparable
+    include HashAttributes
 
-    attr_reader :from, :to, :series
+    hash_attributes from: nil, to: nil, object: nil, constraints: Slots::NullConstraints.new
+
+    attr_reader :series, :type
     delegate :all, :cover?, to: :series
 
-    def initialize(from, to, constraints = Slots::NullObject.new)
-      @from = from
-      @to = to
-      @constraints = constraints
+    def self.combine_series(slots)
+      Series.combine(slots.collect { |slot| slot.series }) || Slots::NullSeries.new
+    end
+
+    def initialize(options = {})
+      set_attributes(options)
       save if valid?
     end
 
@@ -30,7 +35,7 @@ module Slots
     #  * a from and to value
     #
     def valid?
-      @from && ( @to || ( @constraints.valid? && @constraints.cover?(@from)))
+      @object || (@from && ( @to || ( @constraints.valid? && @constraints.cover?(@from))))
     end
 
     #
@@ -60,6 +65,30 @@ module Slots
       "<#{self.class}: @from=#{@from}, @to=#{@to} @series=#{@series.inspect}>"
     end
 
+    def type
+      @type ||= if @object
+        @object.class.to_s.downcase.to_sym
+      else
+        :basic
+      end
+    end
+
+    def activity?
+      type == :closure || type == :event
+    end
+
+    def covers_last?
+      constraints.covers_last? self
+    end
+
+    #
+    # If the slot is an activity and it is not the last slot of the day then it will need to be adjusted
+    # downwards by the slot time.
+    # Otherwise just return to.
+    def adjusted_to
+      activity? && !covers_last? ? @to.time_step_back(@constraints.slot_time) : @to
+    end
+
   private
 
     #
@@ -68,7 +97,11 @@ module Slots
     # A series is created which is useful for comparing slots.
     #
     def save
-      @to = set_to if @to.nil?
+      if @object
+        @from, @to = @object.time_from, @object.time_to
+      else
+        @to = set_to if @to.nil?
+      end
       @series = Slots::Series.new(self, @constraints)
     end
 

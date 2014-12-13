@@ -99,4 +99,14 @@ class ActivityTest < ActiveSupport::TestCase
     assert_equal 3, Event.without(events.first).count
   end
 
+  test "closures for all courts or some of courts should return correct number of closures" do
+    courts = create_list(:court, 4)
+    closure1 = create(:closure, date_from: Date.today+1, date_to: Date.today+3, time_from: "09:00", time_to: "12:00", courts: courts)
+    closure1 = create(:closure, date_from: Date.today+2, date_to: Date.today+5, time_from: "13:00", time_to: "17:00", courts: courts)
+    closure3 = create(:closure, date_from: Date.today+1, date_to: Date.today+2, time_from: "18:00", time_to: "20:00", courts: [courts.first])
+    assert_equal 2, Closure.partition_by_court_count(Date.today+2).first.count
+    assert_equal 1, Closure.partition_by_court_count(Date.today+2).last.count
+
+  end
+
 end

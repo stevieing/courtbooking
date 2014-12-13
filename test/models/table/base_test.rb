@@ -98,4 +98,33 @@ class BaseTest < ActiveSupport::TestCase
     assert_nil table.find(:a)
   end
 
+  test "#close_cells! should close the cells in the corresponding rows and columns" do
+     table = Table::Base.new do |table|
+      table.add :a, Table::Row.new(cells: { a: Table::Cell::Empty.new, b: Table::Cell::Empty.new})
+      table.add :b, Table::Row.new(cells: { a: Table::Cell::Empty.new, b: Table::Cell::Empty.new})
+      table.add :c, Table::Row.new(cells: { a: Table::Cell::Empty.new, b: Table::Cell::Empty.new})
+    end
+
+    table.close_cells!([:a, :c], :a)
+    assert table.find(:a, :a).closed?
+    refute table.find(:a, :b).closed?
+    refute table.find(:b, :a).closed?
+    assert table.find(:c, :a).closed?
+  end
+
+  test "#set_row_class should change html_class for each specified row" do
+    table = Table::Base.new do |table|
+      table.add :a, Table::Row.new
+      table.add :b, Table::Row.new
+      table.add :c, Table::Row.new
+      table.add :d, Table::Row.new
+    end
+
+    table.set_row_class([:a, :c], "classy")
+    assert_equal "classy", table.find(:a).html_class
+    assert_nil table.find(:b).html_class
+    assert_equal "classy", table.find(:c).html_class
+    assert_nil table.find(:d).html_class
+  end
+
 end

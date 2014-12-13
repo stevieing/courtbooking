@@ -10,13 +10,16 @@ module Slots
   class Series
     include Enumerable
     include Slots::Helpers
+    include Comparable
 
     attr_reader :range
 
+    def self.combine(serieses)
+      serieses.reduce(:<<)
+    end
+
     def initialize(slot, constraints)
-      @slot = slot
-      @constraints = constraints
-      @range = create_range
+      @range = create_range(slot, constraints)
     end
 
     def each(&block)
@@ -61,14 +64,29 @@ module Slots
       @range.take(@range.size-1)
     end
 
+    def <<(other)
+      @range.concat(other.range).uniq!
+      self
+    end
+
+    def initialize_copy(other)
+      @range = other.range.dup
+    end
+
+    def <=>(other)
+      @range <=> other.range
+    end
+
+    def past(date)
+      return range if date < Date.today
+      return [] if date > Date.today
+      range.reject { |time| time > Time.now.to_s(:hrs_and_mins)}
+    end
+
   private
 
-    def create_range # :nodoc:
-      if @constraints.valid?
-        to_range(@slot.from, @slot.to, @constraints.slot_time)
-      else
-        @slot.to_a
-      end
+    def create_range(slot, constraints) # :nodoc:
+      to_range(slot.from, slot.adjusted_to, constraints.slot_time) || slot.to_a
     end
   end
 end

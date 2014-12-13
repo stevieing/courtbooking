@@ -34,8 +34,10 @@ module Slots
     #
 
     def create_slot
-     constraints = self.respond_to?(:type) ? Settings.slots.constraints : Slots::NullObject.new
-     Slots::Slot.new(self.time_from, self.time_to, constraints)
+      options = {object: self}
+      options.merge!(constraints: Settings.slots.constraints) if self.respond_to?(:type)
+      Slots::Slot.new(options)
     end
+
   end
 end

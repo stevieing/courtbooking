@@ -17,7 +17,7 @@ module Courts
       @slots = slots
       @date = date
       @courts = courts
-      @for_all_courts, @closures = Closure.by_day(date).partition { |closure| closure.courts.count == no_of_courts }
+      @for_all_courts, @closures = Closure.partition_by_court_count(date)
       @events = Event.by_day(date)
     end
 
@@ -26,25 +26,14 @@ module Courts
     # * add any left over closures
     # * add any events
     def process!
-      @closure_message = set_closures_for_all_courts
+      @slots.remove_slots! Slots::Slot.combine_series(@for_all_courts.slots).all
       @slots.add_activities! @closures
       @slots.add_activities! @events
       self
     end
 
-  private
-
-    def no_of_courts
-      @no_of_courts ||= @courts.count
-    end
-
-    def set_closures_for_all_courts
-      "".tap do |message|
-        @for_all_courts.each do |closure|
-          @slots.remove_slots! closure.slot
-          message << closure.message
-        end
-      end
+    def closure_message
+      @closure_message ||= @for_all_courts.combine(:message)
     end
 
   end

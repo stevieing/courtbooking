@@ -9,7 +9,7 @@ class BookingFormTest < ActiveSupport::TestCase
     stub_settings
     @user = create(:member)
     @court = create(:court_with_opening_and_peak_times)
-    @court_slot = build(:court_slot, court: @court, slot: Slots::Slot.new("10:20", "11:00"))
+    @court_slot = build(:court_slot, court: @court, slot: Slots::Slot.new(from: "10:20", to: "11:00"))
     Settings.slots.stubs(:find_by_id).returns(@court_slot)
     @booking_form = BookingForm.new(@user)
   end

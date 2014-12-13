@@ -53,5 +53,13 @@ module Table
       @cells.delete_all(*rows)
     end
 
+    def close_cells!(rows, cell)
+      rows.each { |row| fill(row, cell, Cell::Closed.new)}
+    end
+
+    def set_row_class(rows, klass)
+      rows.each { |row| find(row).html_class = klass }
+    end
+
   end
 end

@@ -11,9 +11,11 @@ module Slots
   class Constraints
 
     include HashAttributes
+    include Enumerable
 
     hash_attributes slot_first: "00:00", slot_last: "23:59", slot_time: 40
-    attr_reader :series, :slot
+    attr_reader :series, :slot, :slots
+    delegate :last, to: :slots
 
     #
     # options:
@@ -28,6 +30,12 @@ module Slots
       set_attributes_with_time(options)
       save if valid?
     end
+
+    def each(&block)
+      @slots.each(&block)
+    end
+
+    alias_attribute :all, :slots
 
     #
     # checks whether passed time is within the series
@@ -52,11 +60,20 @@ module Slots
       super(other)
     end
 
+    def covers_last?(slot)
+      slot.to >= slot_last
+    end
+
   private
 
     def save # :nodoc:
-      @slot = Slots::Slot.new(slot_first, slot_last)
+      @slot = Slots::Slot.new(from: slot_first, to: slot_last)
       @series = Slots::Series.new(@slot, self)
+      @slots = create_slots
+    end
+
+    def create_slots #:nodoc
+      @series.collect { |slot| Slots::Slot.new(from: slot, constraints: self) }
     end
 
   end

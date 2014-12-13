@@ -32,7 +32,7 @@ class BaseTest < ActiveSupport::TestCase
 
   test "#remove_slots should remove series from constraints and rows from grid" do
     slots = Slots::Base.new(options.merge(courts: create_list(:court, 4)))
-    slots.remove_slots!(Slots::Slot.new("08:20","09:40", @slots.constraints))
+    slots.remove_slots!(Slots::Slot.new(from: "08:20", to: "09:40", constraints: @slots.constraints).series.all)
     assert_equal 3, slots.constraints.series.count
     assert_equal 5, slots.grid.rows.count
   end
@@ -40,7 +40,7 @@ class BaseTest < ActiveSupport::TestCase
   test "dup should create new copy of constraints and deep copy of grid" do
     slots = Slots::Base.new(options.merge(courts: create_list(:court, 4)))
     new_slots = slots.dup
-    new_slots.remove_slots!(Slots::Slot.new("08:20","09:40", @slots.constraints))
+    new_slots.remove_slots!(Slots::Slot.new(from: "08:20", to: "09:40", constraints: @slots.constraints).series.all)
     assert_equal 5, slots.constraints.series.count
     assert_equal 7, slots.grid.rows.count
   end

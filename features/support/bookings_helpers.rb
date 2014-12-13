@@ -3,7 +3,6 @@ module BookingsHelpers
   def valid_booking_attributes
     FactoryGirl.attributes_for(:booking).merge(
       court: courts.first, date_from: current_date,
-      #time_from: booking_slots.valid_slot.from, time_to: booking_slots.valid_slot.to)
       time_from: valid_slot.from, time_to: valid_slot.to)
 
   end
@@ -58,7 +57,7 @@ module BookingsHelpers
   # Again a temporary fix. I don't want to leave this method in a model which is part of the future.
   #
   def valid_slot
-    Slots::Slot.new(booking_slots.constraints.series.find{ |slot| slot.in_the_future?}, nil, booking_slots.constraints)
+    Slots::Slot.new(from: booking_slots.constraints.series.find{ |slot| slot.in_the_future?}, constraints: booking_slots.constraints)
   end
 
 end

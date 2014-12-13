@@ -31,4 +31,8 @@ class String
     (Time.zone.parse(self) + step.minutes).to_s(:hrs_and_mins)
   end
 
+   def time_step_back(step)
+    (Time.zone.parse(self) - step.minutes).to_s(:hrs_and_mins)
+  end
+
 end

@@ -25,17 +25,16 @@ module Slots
 
     include Enumerable
     attr_reader :slots, :grid, :constraints
-    delegate :last, to: :slots
+    delegate :last, to: :constraints
     delegate :find_by_id, :add_bookings!, :add_activities!, to: :grid
 
     def initialize(options = {})
       @constraints = Slots::Constraints.new(options)
-      @slots = create_slots
-      @grid = Slots::Grid.new(@slots, options[:courts]) if options[:courts]
+      @grid = Slots::Grid.new(constraints, options[:courts]) if options[:courts]
     end
 
     def each(&block)
-      @slots.each(&block)
+      @constraints.each(&block)
     end
 
     def inspect
@@ -43,7 +42,7 @@ module Slots
     end
 
     def valid?
-      @constraints.valid? && @slots.any?
+      @constraints.valid?
     end
 
     #
@@ -51,12 +50,11 @@ module Slots
     # This method will remove the offending rows and remove any slots from the overarching series
     # which is used for constructing events and closures
     def remove_slots!(slot)
-      @constraints.series.remove!(slot.series.popped)
-      @grid.delete_rows!(slot) if @grid
+      @grid.remove_slots!(slot) if @grid
     end
 
     def close_court_slots!(day)
-      grid.close_court_slots! day, constraints.series
+      grid.close_court_slots! day
     end
 
     #
@@ -71,13 +69,10 @@ module Slots
       super(other)
     end
 
-    alias_method :all, :slots
-
-  private
-
-    def create_slots #:nodoc
-      @constraints.series.collect { |slot| Slots::Slot.new(slot, nil, @constraints) }
+    def all
+      @constraints.slots
     end
+
   end
 
 end

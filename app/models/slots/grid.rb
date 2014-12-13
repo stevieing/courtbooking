@@ -63,12 +63,13 @@ module Slots
 
   class Grid
 
-    attr_reader :table, :courts
-    delegate :rows, :find, :heading, :fill, to: :table
+    attr_reader :table, :courts, :series
+    delegate :rows, :find, :heading, :fill, :unfilled, to: :table
 
-    def initialize(slots, courts)
+    def initialize(constraints, courts)
       @courts = courts
-      @court_slots = CourtSlots.new(courts, slots)
+      @series = constraints.series
+      @court_slots = CourtSlots.new(courts, constraints.slots)
       @table = create_table
     end
 
@@ -82,8 +83,9 @@ module Slots
       @court_slots.find_by_id(id)
     end
 
-    def delete_rows!(slot)
-      table.delete_rows!(*slot.series.popped)
+    def remove_slots!(slots)
+      series.remove!(slots)
+      table.delete_rows!(*slots)
     end
 
     #
@@ -92,16 +94,11 @@ module Slots
     # If the series is empty then all of the slots
     # will be closed for that court.
     #
-    def close_court_slots!(day, series)
+    def close_court_slots!(day)
       courts.each do |court|
         opening_times = court.opening_times.by_day(day)
-        if opening_times.empty?
-          close_slots! series.all, court
-        else
-          opening_times.each do |opening_time|
-            close_slots! series.except(opening_time.slot.series), court
-          end
-        end
+        slots = series.except(Slot.combine_series(opening_times.slots))
+        table.close_cells! slots, court.id
       end
     end
 
@@ -117,7 +114,7 @@ module Slots
 
     def add_activities!(activities)
       activities.each do |activity|
-        activity.slot.series.popped.each do |time|
+        activity.slot.series.all.each do |time|
           activity.courts.each do |court|
             fill(time, court.id, Table::Cell::Activity.new(activity,time))
           end
@@ -132,6 +129,7 @@ module Slots
     # We therefore need to ensure that the court slots are dupped properly.
     #
     def initialize_copy(other)
+      @series = other.series.dup
       @table = other.table.dup
       super(other)
     end
@@ -144,13 +142,11 @@ module Slots
       @table
     end
 
-  private
-
-    def close_slots!(slots, court)
-      slots.each do |slot|
-        fill(slot, court.id, Table::Cell::Closed.new)
-      end
+    def add_class_to_rows_in_past(date)
+      table.set_row_class(series.past(date), "past")
     end
+
+  private
 
     def select_booking(bookings, user, date, slot)
       Table::Cell::Booking.new(

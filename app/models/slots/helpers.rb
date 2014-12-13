@@ -21,7 +21,7 @@ module Slots
     #
     #
     def to_range(from, to, step)
-      to_time(from).to(to_time(to), step.minutes).collect { |t| t.to_s(:hrs_and_mins)}
+      to_time(from).to(to_time(to), step.minutes).collect { |t| t.to_s(:hrs_and_mins)} if step > 0
     end
   end
 end

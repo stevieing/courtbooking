@@ -5,7 +5,7 @@ class CourtSlotTest < ActiveSupport::TestCase
   attr_reader :slot, :court_slot, :court
 
   def setup
-    @slot = Slots::Slot.new("06:30","07:00")
+    @slot = Slots::Slot.new(from: "06:30",to: "07:00")
     @court = create(:court)
     @court_slot = Slots::CourtSlot.new(court, slot)
   end

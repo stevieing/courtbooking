@@ -36,4 +36,19 @@ class ActiveRecordRelationTest < ActiveSupport::TestCase
     end
   end
 
+  test "#slots should return slots for objects" do
+    stub_settings
+    opening_time_1 = create(:opening_time)
+    opening_time_2 = create(:opening_time)
+    opening_times = OpeningTime.all
+    slots = opening_times.slots
+    assert_equal opening_time_1.slot, slots.first
+    assert_equal opening_time_2.slot, slots.last
+  end
+
+  test "#combine should combine all instances of an attribute" do
+    assert_equal "aaabc", relations.combine(:attr_a)
+    assert_equal 15, relations.combine(:attr_c)
+  end
+
 end

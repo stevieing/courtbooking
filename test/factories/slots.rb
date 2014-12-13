@@ -5,7 +5,7 @@ FactoryGirl.define do
 		to "07:00"
 		constraints { build(:constraints) }
 
-  	initialize_with { new(from, to, constraints) }
+  	initialize_with { new(from: from, to: to, constraints: constraints) }
 	end
 
 	factory :constraints, class: Slots::Constraints do
@@ -21,9 +21,9 @@ FactoryGirl.define do
 
 	factory :grid, class: Slots::Grid do
     courts { FactoryGirl.create_list(:court_with_opening_and_peak_times, 4) }
-		original { FactoryGirl.build(:slots) }
+    constraints { build(:constraints)}
 
-		initialize_with { new(original, courts) }
+		initialize_with { new(constraints, courts) }
 	end
 
    factory :court_slot, class: Slots::CourtSlot do
