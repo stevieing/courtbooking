@@ -28,7 +28,7 @@ module SettingsHelpers
     AppSettings.const.stub(:slot_time).and_return(options[:slot_time])
     AppSettings.const.stub(:slot_first).and_return(Time.parse(options[:slot_first]))
     AppSettings.const.stub(:slot_last).and_return(Time.parse(options[:slot_last]))
-    AppSettings.const.stub(:slots).and_return(Slots::Base.new(options))
+    AppSettings.const.stub(:slots).and_return(Slots::Grid.new(options))
   end
 
   def create_settings_constant

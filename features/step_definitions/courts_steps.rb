@@ -3,10 +3,7 @@ Before('@other_member') do
 end
 
 When /^I view the courts for (\d+) days? from today$/ do |days|
-  save_and_open_page
-  p current_date
   set_dates(current_date+days.to_i, "19:00")
-  p current_date
   click_link current_date.day_of_month
 end
 
@@ -23,7 +20,7 @@ Given /^todays date is near the end of the month$/ do
 end
 
 When /^there are two bookings one after the other for tomorrow$/ do
-  create_current_bookings(create_subsequent_bookings(current_user, current_date, booking_slots.all))
+  create_current_bookings(create_subsequent_bookings(current_user, current_date, booking_slots.constraints.all))
 end
 
 When /^it is tomorrow after the first booking has started$/ do

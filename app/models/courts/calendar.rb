@@ -1,12 +1,10 @@
 module Courts
 
   #
-  # = Courts::Calendar
   #
   #  This builds a calendar for the courts page.
   #  It allows the user to move to the courts page for
   #  another day.
-  #
   class Calendar
 
     class Header
@@ -51,7 +49,7 @@ module Courts
 
   private
 
-    def create_table #:nodoc
+    def create_table
       Table::Base.new do |t|
         t.heading = date_from.calendar_header(date_from+no_of_days)
         dates.in_groups_of(split, false).each_with_index do |group, index|
@@ -60,14 +58,14 @@ module Courts
       end.top(header_row)
     end
 
-    def header_row #:nodoc
+    def header_row
       Table::Row.build_header(Header.build(date_from, split))
     end
 
-    def new_row(group) #:nodoc
+    def new_row(group)
       Table::Row.new do |row|
         group.each do |date|
-          row.add date, Table::Cell::CalendarDate.new(date, current_date)
+          row.add date, Table::Cell::Date.new(date, current_date)
         end
       end
     end

@@ -9,6 +9,7 @@ module Table
 
     extend ActiveSupport::Concern
     include Enumerable
+    include ActiveModel::Serializers::JSON
 
     included do
       include HashAttributes
@@ -27,8 +28,7 @@ module Table
       #   add_attributes attr_a: "a"
       #  end
       #
-      # beaker = Beaker.new => <#Beaker: @cells: {}, @attr_a: "a">
-      #
+      #  beaker = Beaker.new => <#Beaker: @cells: {}, @attr_a: "a">
       def add_attributes(attributes = {})
         hash_attributes attributes.merge(cells: {})
       end
@@ -71,6 +71,14 @@ module Table
       @cells[k]
     end
 
+    def first
+      @cells.values.first
+    end
+
+    def last
+      @cells.values.last
+    end
+
     ##
     # Create a new Hash for the cells and dup each cell
     # and add it to the Hash.
@@ -103,19 +111,30 @@ module Table
     #  end
     #
     #  beaker.top_and_tail("b") => <#Beaker: @cells = { header: "b", a: "a", footer: "b"}>
-    #
     def top_and_tail(cell)
       top(cell).tail(cell)
     end
 
+    ##
+    # Add a cell to the start of the row with key header.
+    # Returns self to allow chaining.
     def top(cell)
       @cells = {header: cell}.merge(cells)
       self
     end
 
+    ##
+    # Add a cell to the end of the row with key footer.
+    # Returns self to allow chaining.
     def tail(cell)
       @cells = cells.merge(footer: cell)
       self
+    end
+
+    def as_json(options = {})
+      {
+        cells: cells.values
+      }
     end
 
   end

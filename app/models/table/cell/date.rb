@@ -8,7 +8,7 @@ module Table
     #  being shown then no link is added and a class of selected.
     #  Otherwise a link is added which will take the user to the courts page
     #  for that date.
-    class CalendarDate
+    class Date
 
       include Table::Cell::Base
       include Rails.application.routes.url_helpers

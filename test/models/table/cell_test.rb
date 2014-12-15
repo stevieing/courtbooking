@@ -90,10 +90,10 @@ class CellTest < ActiveSupport::TestCase
     booking = build(:booking, date_from: Date.today+2, user: member, slot: court_slot)
     stub_dates(Date.today+3)
     cell = Table::Cell::Booking.new(booking)
-    assert_equal booking.players, cell.text
+    assert_equal " ", cell.text
     refute cell.link?
     assert_equal "free", cell.html_class
-    assert_equal "<td class=\"#{cell.html_class}\" rowspan=\"#{cell.span}\">#{booking.players}</td>", cell.to_html
+    assert_equal "<td class=\"#{cell.html_class}\" rowspan=\"#{cell.span}\"> </td>", cell.to_html
   end
 
   test "booking cell with existing booking in the past should not be editable" do
@@ -152,23 +152,32 @@ class CellTest < ActiveSupport::TestCase
     assert_equal "event", cell.html_class
   end
 
-  test "calendar date cell should have correct attributes" do
+  test "date cell should have correct attributes" do
     date = Date.today
-    cell = Table::Cell::CalendarDate.new(date, date+1)
+    cell = Table::Cell::Date.new(date, date+1)
     assert_equal date.day_of_month, cell.text
     assert_equal courts_path(date.to_s), cell.link
     assert_nil cell.html_class
-    assert_equal :calendardate, cell.type
+    assert_equal :date, cell.type
     assert_equal "<td rowspan=\"#{cell.span}\"><a href=\"#{cell.link}\">#{cell.text}</a></td>", cell.to_html
   end
 
-  test "calendar date cell where date is current date should not be a link and should have current html class" do
+  test "date cell where date is current date should not be a link and should have current html class" do
     date = Date.today
-    cell = Table::Cell::CalendarDate.new(date, date)
+    cell = Table::Cell::Date.new(date, date)
     refute cell.link?
     assert_equal "selected", cell.html_class
     assert_equal "<td class=\"#{cell.html_class}\" rowspan=\"#{cell.span}\">#{cell.text}</td>", cell.to_html
+  end
 
+  test "#to_json should return the correct attributes" do
+    cell = TestCell.new
+    cell.text = "some text"
+    cell.link = "a/link"
+    cell.html_class = "classy"
+    cell.span = 10
+
+    assert_equal "{\"text\":\"some text\",\"link\":\"a/link\",\"html_class\":\"classy\",\"span\":10,\"type\":\"testcell\"}", cell.to_json
   end
 
 end

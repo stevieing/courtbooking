@@ -8,9 +8,8 @@ class GridProcessor < ActiveSupport::TestCase
     stub_settings
     @options = {slot_first: "06:20", slot_last: "09:00", slot_time: 40}
     @courts = create_list(:court_with_defined_opening_and_peak_times, 4, opening_time_from: "06:20", opening_time_to: "08:20")
-    @constraints = Slots::Constraints.new(slot_first: "06:20", slot_last: "09:00", slot_time: 40)
-    Settings.slots.stubs(:constraints).returns(constraints)
-    @grid = Slots::Grid.new(constraints, courts)
+    @grid = Slots::Grid.new(options.merge(courts: courts))
+    Settings.slots.stubs(:constraints).returns(grid.constraints)
   end
 
   test "closures for all courts should remove correct rows and create message" do
@@ -80,6 +79,12 @@ class GridProcessor < ActiveSupport::TestCase
     grid_processor.run!
     assert_nil grid.find("09:00").html_class
     assert_equal "past", grid.find("07:40").html_class
+  end
+
+  test "heading should be added to table" do
+    @grid_processor = Courts::GridProcessor.new(Date.today, build(:guest), grid)
+    grid_processor.run!
+    assert_equal Date.today.to_s(:uk), grid.table.heading
   end
 
 end

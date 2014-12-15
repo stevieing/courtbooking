@@ -26,9 +26,9 @@ class CalendarTest < ActiveSupport::TestCase
     assert_equal 7, calendar.find("0").count
     assert_equal 7, calendar.find("1").count
     assert_equal 6, calendar.find("2").count
-    assert_equal :calendardate, calendar.find("0",date).type
-    assert_equal :calendardate, calendar.find("2",date+19).type
-    assert_equal :calendardate, calendar.find("1",current_date).type
+    assert_equal :date, calendar.find("0",date).type
+    assert_equal :date, calendar.find("2",date+19).type
+    assert_equal :date, calendar.find("1",current_date).type
   end
 
 end

@@ -18,8 +18,8 @@ module CourtHelpers
   end
 
   def valid_closure_details(n=0)
-    from = booking_slots.all[2].from
-    to = booking_slots.all[booking_slots.count-2].from
+    from = booking_slots.constraints.all[2].from
+    to = booking_slots.constraints.all[booking_slots.constraints.count-2].from
     create_closure_details({description: "for maintenance", date_from: current_date, date_to: current_date+n, time_from: from, time_to: to})
     closure_details
   end

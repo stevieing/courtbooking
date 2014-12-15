@@ -1,13 +1,13 @@
 
 FactoryGirl.define do
 
-  factory :tab, class: Courts::Tab do
+  factory :courts_grid, class: Courts::Grid do
 
     date { Date.today+1 }
     user { create(:member) }
-    slots { build(:slots)}
+    grid { build(:grid)}
 
-    initialize_with { new(date, user, slots)}
+    initialize_with { new(date, user, grid)}
   end
 
   factory :calendar, class: Courts::Calendar do

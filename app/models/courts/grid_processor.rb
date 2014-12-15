@@ -14,12 +14,14 @@ module Courts
 
     def run!
       @closure_message ||= @closures_all.combine(:message)
+      grid.add_heading @date.to_s(:uk)
       grid.close_court_slots! @date.cwday-1
       grid.remove_slots! Slots::Slot.combine_series(@closures_all.slots).all
       add_activities! @closures
       add_activities! @events
       add_bookings! @bookings, @user, @date
       grid.add_class_to_rows_in_past @date
+      @table = grid.table
       self
     end
 

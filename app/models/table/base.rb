@@ -31,6 +31,8 @@ module Table
       row.find(c)
     end
 
+    ##
+    # For each cell that is empty run the block.
     def unfilled
       without_headers do |k, row|
         row.without_headers do |c, cell|
@@ -41,6 +43,8 @@ module Table
       end
     end
 
+    ##
+    # Find the row r. Fill cell c with cell.
     def fill(r,c,cell)
       find(r).fill(c,cell)
     end
@@ -49,17 +53,32 @@ module Table
       "<#{self.class}: @rows=#{rows.each { |r| r.inspect}}, @heading=#{heading}>"
     end
 
+    ##
+    # Delete the rows with the specified keys.
     def delete_rows!(*rows)
       @cells.delete_all(*rows)
     end
 
+    ##
+    # Close all of the specified cells i.e.
+    # Set the cell to an instance of Cell::Closed
     def close_cells!(rows, cell)
       rows.each { |row| fill(row, cell, Cell::Closed.new)}
     end
 
+    ##
+    # Set the html class for each of the specified rows.
     def set_row_class(rows, klass)
       rows.each { |row| find(row).html_class = klass }
     end
+
+    def as_json(options = {})
+      {
+        heading: heading,
+        rows: rows.values
+      }
+    end
+
 
   end
 end

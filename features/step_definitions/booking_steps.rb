@@ -53,7 +53,7 @@ When(/^I follow a link to edit the booking$/) do
 end
 
 Given(/^I have created a number of bookings in the future$/) do
-  create_subsequent_bookings(current_user, current_date, booking_slots.all, 4)
+  create_subsequent_bookings(current_user, current_date, booking_slots.constraints.all, 4)
 end
 
 Then(/^I should( not)? see a list of the bookings (I|they) have created$/) do |negate, who|

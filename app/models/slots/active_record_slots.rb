@@ -4,7 +4,6 @@ module Slots
   #
   # Adds a slot to various ActiveRecord models
   # mainly bookings and activities.
-  #
   module ActiveRecordSlots
 
     extend ActiveSupport::Concern
@@ -31,8 +30,6 @@ module Slots
     # to remove.
     # For this purpose we need to build a series for which we need the slot time
     # hence why the activity slot needs constraints added.
-    #
-
     def create_slot
       options = {object: self}
       options.merge!(constraints: Settings.slots.constraints) if self.respond_to?(:type)

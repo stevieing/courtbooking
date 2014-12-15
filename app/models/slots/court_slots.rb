@@ -33,22 +33,33 @@ module Slots
       @table = create_table(courts, slots)
     end
 
+    ##
+    # A valid instance if any court slots have been created.
     def valid?
       court_slots.any?
     end
 
+    ##
+    # Return an array of all of the current slots.
     def all
       court_slots
     end
 
+    ##
+    # each CourtSlot.
     def each(&block)
       court_slots.each(&block)
     end
 
+    ##
+    # Find a court slot by its id.
     def find_by_id(id)
       court_slots[id]
     end
 
+    ##
+    # This will take a copy of the table
+    # and convert each cell to an empty cell.
     def to_empty
       table.dup.tap do |t|
         t.rows.each do |r, row|

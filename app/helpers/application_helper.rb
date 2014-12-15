@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def list_of_slots
-    Settings.slots.all.collect {|slot| slot.from}
+    Settings.slots.series.all
   end
 
 end

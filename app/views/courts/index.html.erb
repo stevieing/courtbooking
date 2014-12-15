@@ -1,8 +1,8 @@
 <div class="courts">
-  <% unless tab.closure_message.empty? %>
-   <div id="closure-message"><%= tab.closure_message %></div>
+  <% unless grid.closure_message.empty? %>
+   <div id="closure-message"><%= grid.closure_message %></div>
   <% end %>
   <%= render "table", object: calendar %>
-  <%= render "table", object: tab %>
+  <%= render "table", object: grid %>
   <section id="ajax-booking" title="Booking" style="display:hidden"></section>
 </div>

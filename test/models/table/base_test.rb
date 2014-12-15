@@ -127,4 +127,13 @@ class BaseTest < ActiveSupport::TestCase
     assert_nil table.find(:d).html_class
   end
 
+  test "#to_json should set root to table, include heading and list all cells" do
+    table = Table::Base.new do |table|
+      table.heading = "heading"
+      table.add :a, Table::Row.new
+      table.add :b, Table::Row.new
+    end
+    assert_equal "{\"heading\":\"heading\",\"rows\":[#{table.find(:a).to_json},#{table.find(:b).to_json}]}" , table.to_json
+  end
+
 end

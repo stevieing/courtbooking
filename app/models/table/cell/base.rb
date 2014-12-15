@@ -12,6 +12,10 @@ module Table
       include ActionView::Helpers::TagHelper
       include ActionView::Helpers::UrlHelper
 
+      def self.included(base)
+        base.include(ActiveModel::Serializers::JSON)
+      end
+
       ##
       # This will be the text that is output in the view
       # If the cell is a link it will be the link text
@@ -98,6 +102,16 @@ module Table
         content_tag tag, class: html_class, rowspan: span do
           link? ? link_to(text, link, remote: remote) : text
         end
+      end
+
+      def attributes
+        {
+          text: text,
+          link: link,
+          html_class: html_class,
+          span: span,
+          type: type
+        }
       end
 
     end

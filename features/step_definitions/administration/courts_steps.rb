@@ -20,13 +20,13 @@ end
 
 When(/^I add (\d+) valid (.*) times?$/) do |n, type|
    within("##{type}times") do
-    add_court_time n, type, booking_slots.first.from, booking_slots.last.from
+    add_court_time n, type, booking_slots.constraints.first.from, booking_slots.constraints.last.from
   end
 end
 
 When(/^I add (\d+) invalid (.*) time$/) do |n, type|
   within("##{type}times") do
-    add_court_time n, type, booking_slots.last.from, booking_slots.first.from
+    add_court_time n, type, booking_slots.constraints.last.from, booking_slots.constraints.first.from
   end
 end
 

@@ -8,6 +8,8 @@ module Table
       include Table::Cell::Base
       include HashAttributes
 
+      hash_attributes text: " ", header: false
+
       ##
       # With no attribute passed text will be set to empty text and header
       # will be set to false.
@@ -23,12 +25,6 @@ module Table
 
       def header?
         @header
-      end
-
-    private
-
-      def default_attributes
-        {text: " ", header: false}
       end
 
     end

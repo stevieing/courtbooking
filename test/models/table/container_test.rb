@@ -37,7 +37,7 @@ class ContainerTest < ActiveSupport::TestCase
     assert_equal 1, i
   end
 
-  test "#top_and_tail should add two extra cells either side of current cells" do
+  test "#top_and_tail should add two extra cells either side of current cells with appropriate keys" do
     beaker = Beaker.new do |b|
       b.add :a, Table::Cell::Text.new(text: "a")
     end
@@ -46,11 +46,11 @@ class ContainerTest < ActiveSupport::TestCase
 
     beaker.top_and_tail(Table::Cell::Text.new(text: "heading"))
     assert_equal 3, beaker.count
-    assert_equal "heading", beaker.cells.values.first.text
-    assert_equal "heading", beaker.cells.values.last.text
+    assert_equal "heading", beaker.find(:header).text
+    assert_equal "heading", beaker.find(:footer).text
   end
 
-  test "#top should add cells to the start of the current cells" do
+  test "#top should add cells to the start of the current cells with an appropriate key" do
     beaker = Beaker.new do |b|
       b.add :a, Table::Cell::Text.new(text: "a")
     end
@@ -58,11 +58,12 @@ class ContainerTest < ActiveSupport::TestCase
     assert_equal 1, beaker.count
     beaker.top(Table::Cell::Text.new(text: "heading"))
     assert_equal 2, beaker.count
-    assert_equal "heading", beaker.cells.values.first.text
+    assert_equal "heading", beaker.find(:header).text
+    assert_equal "heading", beaker.first.text
 
   end
 
-   test "#tail should add cells to the start of the current cells" do
+  test "#tail should add cells to the start of the current cells with an appropriate key" do
     beaker = Beaker.new do |b|
       b.add :a, Table::Cell::Text.new(text: "a")
     end
@@ -70,8 +71,13 @@ class ContainerTest < ActiveSupport::TestCase
     assert_equal 1, beaker.count
     beaker.tail(Table::Cell::Text.new(text: "footing"))
     assert_equal 2, beaker.count
-    assert_equal "footing", beaker.cells.values.last.text
+    assert_equal "footing", beaker.find(:footer).text
+    assert_equal "footing", beaker.last.text
 
+  end
+
+  test "#to_json should return array of cells" do
+    assert_equal "{\"cells\":[#{beaker.find(:header).to_json},#{beaker.find(:a).to_json},#{beaker.find(:footer).to_json}]}", beaker.to_json
   end
 
 end

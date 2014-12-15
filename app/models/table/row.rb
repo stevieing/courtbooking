@@ -15,6 +15,15 @@ module Table
 
     add_attributes html_class: nil, header: false
 
+    #
+    # This will construct a header row from an array of objects.
+    # The objects must implement the key and heading methods.
+    # The key will represent the hash key and the heading will represent
+    # the text.
+    # For example:
+    #  Header = Struct.new(:id, :heading)
+    #  headers = [Header.new(1,"a"), Header.new(2,"b"), Header.new(3,"c"), Header.new(4, "d")]
+    #  row = Table::Row.build_header(headers)
     def self.build_header(objects)
       Row.new(header: true) do |row|
         objects.each do |object|

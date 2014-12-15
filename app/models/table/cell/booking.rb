@@ -40,7 +40,9 @@ module Table
     private
 
       def text_for
-        new_and_ahead? ? @booking.link_text : @booking.players || " "
+        return @booking.link_text if new_and_ahead?
+        return @booking.players unless new_record?
+        " "
       end
 
       def link_for
