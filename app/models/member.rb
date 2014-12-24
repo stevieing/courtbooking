@@ -11,7 +11,6 @@ class Member < User
   # If a Member has access to edit all bookings then all bookings will be returned.
   # otherwise only the bookings they have created will be returned.
   # These bookings will be eager loaded and ordered and will include users and courts.
-  #
   def all_bookings
     if allow?(:bookings, :edit)
       Booking.includes(:user, :court).ordered.load

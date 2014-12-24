@@ -1,7 +1,6 @@
 module Slots
 
-  ###
-  #
+  ##
   # Adds a slot to various ActiveRecord models
   # mainly bookings and activities.
   module ActiveRecordSlots
@@ -9,7 +8,7 @@ module Slots
     extend ActiveSupport::Concern
 
     included do
-     add_slots_method
+      add_slots_method
     end
 
     module ClassMethods

@@ -11,6 +11,7 @@ module Table
 
       include ActionView::Helpers::TagHelper
       include ActionView::Helpers::UrlHelper
+      include Slots::Helpers
 
       def self.included(base)
         base.include(ActiveModel::Serializers::JSON)
@@ -84,7 +85,7 @@ module Table
       #  cell = Table::Cell::Booking
       #  cell.type => :booking
       def type
-        self.class.to_s.split("::").last.downcase.to_sym
+        self.class_to_sym
       end
 
       ##

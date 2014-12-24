@@ -37,19 +37,6 @@ class RowTest < ActiveSupport::TestCase
     assert cells[:a], row.find(:a)
   end
 
-   test "#without_heading should not include cells with headers or footers" do
-     row = Table::Row.new do |row|
-      row.add :header, Table::Cell::Text.new(header: true)
-      row.add :a, Table::Cell::Text.new(text: "a")
-      row.add :footer, Table::Cell::Text.new(header: true)
-    end
-
-    i = 0
-    row.without_headers { |cell| i += 1 }
-    assert_equal 1, i
-
-  end
-
   test "#dup should dup properly" do
     cell = Table::Cell::Text.new(text: "a")
     row = Table::Row.new do |row|
@@ -69,6 +56,17 @@ class RowTest < ActiveSupport::TestCase
     assert_equal "a", row.find(1).text
     assert row.find(1).header?
     assert_equal "d", row.find(4).text
+  end
+
+  test "#empty_cells should return array of empty cells" do
+    row = Table::Row.new do |row|
+      row.add :a, Table::Cell::Empty.new
+      row.add :b, Table::Cell::Text.new(text: "b")
+      row.add :c, Table::Cell::Empty.new
+    end
+
+    assert_instance_of Array, row.empty_cells
+    assert_equal 2, row.empty_cells.length
   end
 
 end

@@ -10,6 +10,7 @@ module Slots
   class Slot
     include Comparable
     include HashAttributes
+    include Slots::Helpers
 
     hash_attributes from: nil, to: nil, object: nil, constraints: Slots::NullConstraints.new
 
@@ -61,6 +62,11 @@ module Slots
       ( @series.nil? ? to_a.compact.count : @series.count ) - 1
     end
 
+    ##
+    # Example:
+    #  slot = Slot.new(from: "07:00", to: "09:00", constraints: <#slot_time: 30>)
+    #  slot.inspect =>
+    #  <# Slots::Slot @from: "07:00", @to: "09:00", series: @series.inspect >
     def inspect
       "<#{self.class}: @from=#{@from}, @to=#{@to} @series=#{@series.inspect}>"
     end
@@ -70,7 +76,7 @@ module Slots
     # will determine the type, otherwise it will be :basic
     def type
       @type ||= if @object
-        @object.class.to_s.downcase.to_sym
+        @object.class_to_sym
       else
         :basic
       end

@@ -15,7 +15,7 @@ module Table
 
     add_attributes html_class: nil, header: false
 
-    #
+    ##
     # This will construct a header row from an array of objects.
     # The objects must implement the key and heading methods.
     # The key will represent the hash key and the heading will represent
@@ -40,6 +40,12 @@ module Table
     # Is the row a header row.
     def header?
       @header
+    end
+
+    ##
+    # Return an array of empty cells.
+    def empty_cells
+      cells.values.select {|cell| cell.empty? }
     end
 
   end

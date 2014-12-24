@@ -1,7 +1,7 @@
 class BookingForm
   include BasicForm
 
-  set_model :booking, PERMITTED_ATTRIBUTES.booking.whitelist
+  set_model Booking, PERMITTED_ATTRIBUTES.booking.whitelist
   validate :verify_booking
 
   delegate :user, :opponent, :user_id, :time_and_place, :players, to: :booking

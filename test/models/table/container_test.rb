@@ -31,12 +31,6 @@ class ContainerTest < ActiveSupport::TestCase
     refute_equal "b", dupped.find(:a).text
   end
 
-  test "#without_heading should not include cells with headers or footers" do
-    i = 0
-    beaker.without_headers { |key, cell| i += 1 }
-    assert_equal 1, i
-  end
-
   test "#top_and_tail should add two extra cells either side of current cells with appropriate keys" do
     beaker = Beaker.new do |b|
       b.add :a, Table::Cell::Text.new(text: "a")

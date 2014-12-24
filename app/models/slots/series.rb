@@ -36,6 +36,11 @@ module Slots
 
     alias_method :all, :range
 
+    ##
+    # Example:
+    #  series = Series.new(<#Slot: @from: "07:00", @to: "09:00" ...>, <#Constraints: @slot_time: 30 ...>)
+    #  series.inspect =>
+    #  <#Slot::Series: @range=["07:00","07:30","08:00","08:30","09:00"] >
     def inspect
       "<#{self.class}: @range=[#{@range.join(",")}]>"
     end

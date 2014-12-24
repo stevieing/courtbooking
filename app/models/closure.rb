@@ -1,7 +1,6 @@
 ##
 # A Closure belongs to a court.
 # The Court(s) will not be available for a set number of days at a particular time.
-#
 class Closure < Activity
 
   validates_presence_of :date_to

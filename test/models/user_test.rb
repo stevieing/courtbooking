@@ -69,8 +69,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "guest user should respond to all_bookings with an empty relation" do
-    assert_instance_of Booking::ActiveRecord_Relation, Guest.new.all_bookings
-    assert_empty Guest.new.all_bookings
+    assert_instance_of Booking::ActiveRecord_Relation, build(:guest).all_bookings
+    assert_empty build(:guest).all_bookings
   end
 
   test "an admin user should have the correct type" do

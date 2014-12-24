@@ -1,7 +1,7 @@
 class CourtForm
   include BasicForm
 
-  set_model :court, PERMITTED_ATTRIBUTES.court.whitelist
+  set_model Court, PERMITTED_ATTRIBUTES.court.whitelist
 
   ASSOCIATIONS = [:opening_times, :peak_times]
 

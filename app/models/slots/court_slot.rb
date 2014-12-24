@@ -22,7 +22,7 @@ module Slots
       @@id += 1
     end
 
-    #
+    ##
     # Find a court slot based on its id
     def self.find(id)
       @@slots[id]
@@ -31,7 +31,7 @@ module Slots
     attr_reader :id, :slot, :court
     delegate :from, :to, to: :slot
 
-    #
+    ##
     # When created a CourtSlot creates a unique id.
     def initialize(court, slot)
       @court, @slot = court, slot
@@ -50,6 +50,11 @@ module Slots
       court && slot
     end
 
+    ##
+    # Example:
+    #  court_slot = CourtSlot.new(<#Court: @id=1 ...>, <#Slot: @from: "07:00", @to: "09:00" ...>)
+    #  court_slot.inspect =>
+    #  <#Slots::CourtSlot: @id=2, @from="07:00", @to="09:00", @court_id=1>
     def inspect
       "<#{self.class}: @id=#{id}, @from=#{from}, @to=#{to}, @court_id=#{court_id}>"
     end

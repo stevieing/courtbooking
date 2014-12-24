@@ -5,7 +5,7 @@ class BasicFormTest < ActiveSupport::TestCase
 
   class BasicModelForm
     include BasicForm
-    set_model :basic_model, [:attr_a, :attr_b, :attr_c]
+    set_model BasicModel, [:attr_a, :attr_b, :attr_c]
     validate :verify_basic_model
     def initialize(object=nil)
       build(object) do

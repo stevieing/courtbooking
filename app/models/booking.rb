@@ -51,7 +51,7 @@ class Booking < ActiveRecord::Base
   end
 
   ##
-  # Exampe:
+  # Example:
   #
   # Court 1 on 25 September 2014 at 12:30 to 13:30
   # If any part of the object is missing will return blank.
@@ -93,6 +93,14 @@ class Booking < ActiveRecord::Base
   # Order by date descending, time_from descending and court id.
   def self.ordered
     order("date_from desc, time_from desc, court_id")
+  end
+
+  def date_to
+    self.date_from
+  end
+
+  def court_ids
+    [self.court_id]
   end
 
 private

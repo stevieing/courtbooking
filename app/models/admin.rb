@@ -6,7 +6,6 @@ class Admin < User
 
   ##
   # returns all of the current bookings ordered and eager loaded.
-  #
   def all_bookings
     Booking.includes(:user, :court).ordered.load
   end

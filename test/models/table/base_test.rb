@@ -49,28 +49,30 @@ class BaseTest < ActiveSupport::TestCase
 
   end
 
-  test "#without_heading should not include rows with headers or footers" do
-     table = Table::Base.new do |table|
-      table.add :header, Table::Row.new(header: true)
-      table.add :a, Table::Row.new
-      table.add :footer, Table::Row.new(header: true)
-    end
+  # test "#without_heading should not include rows with headers or footers" do
+  #    table = Table::Base.new do |table|
+  #     table.add :header, Table::Row.new(header: true)
+  #     table.add :a, Table::Row.new
+  #     table.add :footer, Table::Row.new(header: true)
+  #   end
 
-    i = 0
-    table.without_headers { |key, row| i += 1 }
-    assert_equal 1, i
+  #   i = 0
+  #   table.without_headers { |key, row| i += 1 }
+  #   assert_equal 1, i
 
-  end
+  # end
 
   test "#unfilled should list all cells that are empty" do
     table = Table::Base.new do |table|
-      table.add :a, Table::Row.new(cells: { a: Table::Cell::Empty.new, b: Table::Cell::Empty.new})
-      table.add :b, Table::Row.new(cells: { a: Table::Cell::Text.new, b: Table::Cell::Empty.new})
+      table.add :a, Table::Row.new(cells: { a: Table::Cell::Text.new, b: Table::Cell::Empty.new})
+      table.add :b, Table::Row.new(cells: { a: Table::Cell::Text.new, b: Table::Cell::Text.new})
+      table.add :c, Table::Row.new(cells: { a: Table::Cell::Empty.new, b: Table::Cell::Empty.new})
     end
 
-     i = 0
-    table.unfilled { |cell| i += 1 }
-    assert_equal 3, i
+    assert_instance_of Array, table.unfilled
+    assert_equal 3, table.unfilled.length
+    assert table.unfilled.first.empty?
+
   end
 
   test "#fill should fill the correct cell" do
@@ -99,7 +101,7 @@ class BaseTest < ActiveSupport::TestCase
   end
 
   test "#close_cells! should close the cells in the corresponding rows and columns" do
-     table = Table::Base.new do |table|
+    table = Table::Base.new do |table|
       table.add :a, Table::Row.new(cells: { a: Table::Cell::Empty.new, b: Table::Cell::Empty.new})
       table.add :b, Table::Row.new(cells: { a: Table::Cell::Empty.new, b: Table::Cell::Empty.new})
       table.add :c, Table::Row.new(cells: { a: Table::Cell::Empty.new, b: Table::Cell::Empty.new})

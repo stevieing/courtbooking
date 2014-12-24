@@ -8,10 +8,6 @@ class CourtsController < ApplicationController
 
   protected
 
-  def current_date
-    @date ||= (params[:date] ? Date.parse(params[:date]) : Date.today)
-  end
-
   def grid
     @grid ||= Courts::Grid.new(current_date, current_or_guest_user, Settings.slots.dup)
   end

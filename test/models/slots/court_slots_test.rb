@@ -33,9 +33,7 @@ class CourtSlotsTest < ActiveSupport::TestCase
   test "#to_empty should return a dupped table filled with empty cells" do
     empty_table = court_slots.to_empty
     refute_equal court_slots.table, empty_table
-    i = 0
-    empty_table.unfilled { |cell| i += 1 }
-    assert_equal constraints.count*courts.count, i
+    empty_table.unfilled.all? { |cell| cell.empty? }
     assert_equal court_slots.all.values.first, empty_table.find(constraints.first.from, courts.first.id).slot
     assert_equal court_slots.all.values.last, empty_table.find(constraints.last.from, courts.last.id).slot
   end

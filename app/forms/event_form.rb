@@ -2,7 +2,7 @@ class EventForm
   include BasicForm
   include OverlappingRecordsManager
 
-  set_model :event, PERMITTED_ATTRIBUTES.event.whitelist
+  set_model Event, PERMITTED_ATTRIBUTES.event.whitelist
   overlapping_object :event
 
   validate :verify_event
@@ -26,7 +26,4 @@ private
     check_for_errors event
   end
 
-  def to_boolean(value)
-    ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
-  end
 end

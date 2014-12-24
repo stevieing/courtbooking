@@ -109,4 +109,15 @@ class ActivityTest < ActiveSupport::TestCase
 
   end
 
+  test "events should have a date_to which is the the date_from" do
+    event = create(:event)
+    assert_equal event.date_from, event.date_to
+
+    event = build(:event)
+    assert_equal event.date_from, event.date_to
+
+    event = build(:event, date_to: nil)
+    assert_equal event.date_from, event.date_to
+  end
+
 end

@@ -82,7 +82,6 @@ module Permissions
     #
     #  allow_param [:class1], [:attribute1, :attribute2] = @allowed_params[:class1] => [:attribute1, :attribute2]
     #  allow_param [:class1], [:association1], [:attribute1, :attribute2] = @allowed_params[:class1] => [{:association1 => [:attribute1, :attribute2]}]
-
     def allow_param(resources, attributes, nested_attributes = nil)
       Array(resources).each do |resource|
         @allowed_params[resource] ||= []
@@ -94,7 +93,6 @@ module Permissions
     # Will check whether the passed resource and attribute is allowed
     # If allow all params is set it will always be allowed.
     # Otherwise will be checked against the list of allowed params
-    #
     def allow_param?(resource, attribute)
       if @allow_all_params
         true
@@ -160,6 +158,16 @@ module Permissions
           name: "Courts",
           controller: "courts",
           action: [:index]
+        },
+        calendars: {
+          name: "Calendars",
+          controller: "api/calendars",
+          action: [:show]
+        },
+        courts_api: {
+          name: "Courts",
+          controller: "api/courts",
+          action: [:show]
         }
       }
     end

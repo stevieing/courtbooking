@@ -91,17 +91,6 @@ module Table
     end
 
     ##
-    # Loop through each cell and run the block
-    # if it is not a header
-    def without_headers
-      @cells.each do |key, cell|
-        unless cell.header?
-          yield(key, cell) if block_given?
-        end
-      end
-    end
-
-    ##
     # Add the cell to the start and the end of cells
     # with key header and footer
     # Example:

@@ -1,5 +1,11 @@
 require "test_helper"
 
+class ParentClass
+  class ChildClass
+  end
+end
+
+
 class HelpersTest < ActiveSupport::TestCase
 
   include Slots::Helpers
@@ -17,6 +23,17 @@ class HelpersTest < ActiveSupport::TestCase
 
   test "#to_range should convert slots to a range" do
     assert_equal ["06:00","06:30","07:00","07:30","08:00"], to_range("06:00","08:00",30)
+  end
+
+  test "new class methods should return class name without namspace or as a symbol" do
+
+    my_class = ParentClass.new
+
+    assert_equal :parent_class, my_class.class_to_sym
+
+    my_class = ParentClass::ChildClass.new
+    assert_instance_of ParentClass::ChildClass, my_class
+    assert_equal :child_class, my_class.class_to_sym
   end
 
 end

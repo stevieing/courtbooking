@@ -6,16 +6,16 @@ class OverlappingRecords
 
     def initialize(object)
       @date_from    = object.date_from
-      @date_to      = object.is_a?(Closure) ? object.date_to : object.date_from
+      @date_to      = object.date_to
       @time_from    = object.time_from
       @time_to      = object.time_to
-      @court_ids    = object.respond_to?(:court_ids) ? object.court_ids : Array(object.court_id)
+      @court_ids    = object.court_ids
     end
 
     def valid?
       @date_from.is_a?(Date) && @date_to.is_a?(Date) &&
       @time_from.present? && @time_to.present? &&
-      @court_ids.present?
+      @court_ids.any?
     end
 
     def time_hash

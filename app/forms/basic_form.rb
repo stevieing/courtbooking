@@ -1,4 +1,4 @@
-###
+##
 # Adds a number of common methods and behaviours to form objects
 #
 # Example usage:
@@ -25,7 +25,6 @@
 #      booking.save
 #    end
 #  end
-#
 module BasicForm
 
   extend ActiveSupport::Concern
@@ -36,52 +35,50 @@ module BasicForm
 
   module ClassMethods
 
-    #
+    ##
     # All of the attributes will be delegated to the model to allow for saving and validation
     # The ActiveModel model_name will be set
-
     def set_model(model, attributes)
+      model_sym = model.to_s.class_to_sym
+
       const_set(:WHITELIST, attributes.dup.extract_hash_keys.push(:id))
-      attr_reader model
-      delegate *const_get(:WHITELIST), to: model
+      attr_reader model_sym
+      delegate *const_get(:WHITELIST), to: model_sym
 
       define_singleton_method :model_name do
-        ActiveModel::Name.new(self, nil, model.to_s.classify)
+        ActiveModel::Name.new(self, nil, model.to_s)
       end
+
+      instance_name = "@#{model_sym.to_s}"
 
       define_method :persisted? do
-        send(model).id
+        instance_variable_get(instance_name).id
       end
 
-      instance_name = "@#{model.to_s}"
-      model_const = model.to_s.classify.constantize
-
       ##
-      # # an initialize method will be added which
+      # an initialize method will be added which
       # * if nothing is passed a new object is created
       # * if an object is passed it wiil be assigned to the instance.
       # if an initializer is added when this module is included.
       # even super would not call this so you need to call the
       # build method.
-      #
       define_method :build do |object=nil, &block|
-        if object.kind_of?(model_const)
+        if object.kind_of?(model)
           instance_variable_set(instance_name, object)
         else
-          instance_variable_set(instance_name, model_const.new(object))
+          instance_variable_set(instance_name, model.new(object))
           block.call unless block.nil?
         end
       end
 
       alias_method :initialize, :build
 
-
+      ##
       # A submit method will be created which will assign all attributes to the object
       # and save them if they are valid.
-      #
       define_method :submit do |params, &block|
         block.call unless block.nil?
-        send(model).attributes = params.slice(*self.class.const_get(:WHITELIST))
+        instance_variable_get(instance_name).attributes = params.slice(*self.class.const_get(:WHITELIST))
         save
       end
 
@@ -103,10 +100,9 @@ module BasicForm
 
 private
 
-   ##
+  ##
   # Check model for errors. Add each error to the errors object which can
   # be used in the form.
-  #
   def check_for_errors(object)
     unless object.valid?
       object.errors.each do |key, value|
@@ -119,9 +115,8 @@ private
     valid? ? save_objects : false
   end
 
-  #
+  ##
   # must be implemented
-  #
   def save_objects
   end
 
@@ -129,7 +124,6 @@ private
   # save each object wrapped within a transaction.
   # which will rollback if any save is invalid.
   # returns true or false based on the success of the transaction.
-  #
   def run_transaction(&block)
      begin
       ActiveRecord::Base.transaction do

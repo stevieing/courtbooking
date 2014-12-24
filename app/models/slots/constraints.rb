@@ -53,6 +53,11 @@ module Slots
       slot.to >= slot_last
     end
 
+    ##
+    # Example:
+    #  constraints = Constraints.new(slot_first: "07:00", slot_last: "09:00", slot_time: 30)
+    #  constraints.inspect =>
+    #  <#Slots::Constraints: @slot_first="07:00", @slot_last="09:00", @slot_time=30, @series=@series.inspect>
     def inspect
       "<#{self.class}: @slot_first=#{@slot_first}, @slot_last=#{@slot_last}, @slot_time=#{@slot_time}, @series=#{series.inspect}>"
     end

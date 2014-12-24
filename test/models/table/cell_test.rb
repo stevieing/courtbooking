@@ -22,7 +22,7 @@ class CellTest < ActiveSupport::TestCase
     refute cell.remote
     refute cell.header?
     refute cell.empty?
-    assert_equal :testcell, cell.type
+    assert_equal :test_cell, cell.type
   end
 
   test "blank cell should be blank" do
@@ -177,7 +177,7 @@ class CellTest < ActiveSupport::TestCase
     cell.html_class = "classy"
     cell.span = 10
 
-    assert_equal "{\"text\":\"some text\",\"link\":\"a/link\",\"html_class\":\"classy\",\"span\":10,\"type\":\"testcell\"}", cell.to_json
+    assert_equal "{\"text\":\"some text\",\"link\":\"a/link\",\"html_class\":\"classy\",\"span\":10,\"type\":\"test_cell\"}", cell.to_json
   end
 
 end

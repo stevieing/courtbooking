@@ -27,7 +27,7 @@ class OverlappingRecordsTest < ActiveSupport::TestCase
   end
 
   test "overlapping records should not be valid without a valid court id" do
-    refute OverlappingRecords.new(build(:booking, court_id: "" )).valid?
+    refute OverlappingRecords.new(build(:booking, court_id: nil )).valid?
   end
 
   test "overlapping records should be valid with all attributes" do

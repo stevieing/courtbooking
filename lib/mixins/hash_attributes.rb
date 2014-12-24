@@ -71,8 +71,8 @@ module HashAttributes
   #  my_model.inspect => "<#MyModel: @attr_a=a, @attr_b=b, @attr_c=123, @attr_d=d>"
   #
   # Things to note:
-  #  *any extra attributes passed in the initializer will be silent.
-  #   They will be there but will be useless as they have no accessor or usage.
+  # * any extra attributes passed in the initializer will be silent.
+  # * They will be there but will be useless as they have no accessor or usage.
   #
   def set_attributes(attributes)
     default_attributes.merge(attributes).each do |k,v|

@@ -12,6 +12,12 @@ class OverlappingRecordsManagerTest < ActiveSupport::TestCase
       @allow_removal = true
       super
     end
+
+    alias_attribute :date_to, :date_from
+
+    def court_ids
+      [@court_id]
+    end
   end
 
   attr_reader :booking, :closure, :event

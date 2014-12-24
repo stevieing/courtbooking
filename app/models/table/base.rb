@@ -1,12 +1,11 @@
 module Table
-  ###
+  ##
   # This is a general utility class allowing a table to be constructed for use in creating HTML tables.
   #
   # The rows and cells are type agnostic although each row is better as a Row class.If anything else
   # is used it will need to implement a find method.
   #
   # The table is constructed as a hash which improves performance as well as making things easier to find.
-  #
   #
   # Example:
   #  table = Table.new do |table|
@@ -32,15 +31,9 @@ module Table
     end
 
     ##
-    # For each cell that is empty run the block.
+    # Return an array of empty cells.
     def unfilled
-      without_headers do |k, row|
-        row.without_headers do |c, cell|
-          if cell.empty?
-            yield cell if block_given?
-          end
-        end
-      end
+      rows.values.collect { |row| row.empty_cells }.flatten
     end
 
     ##
@@ -72,6 +65,9 @@ module Table
       rows.each { |row| find(row).html_class = klass }
     end
 
+    ##
+    # Example:
+    #
     def as_json(options = {})
       {
         heading: heading,

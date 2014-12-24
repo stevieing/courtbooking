@@ -6,7 +6,6 @@ module Permissions
   class AdminPermission < BasePermission
 
     ##
-    #
     # Add permissions to allow access to all actions and parameters.
     def initialize(user)
       super

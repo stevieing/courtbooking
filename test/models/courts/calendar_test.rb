@@ -31,4 +31,8 @@ class CalendarTest < ActiveSupport::TestCase
     assert_equal :date, calendar.find("1",current_date).type
   end
 
+  test "#to_json should return table" do
+    assert_equal "{\"calendar\":{\"table\":#{calendar.table.to_json}}}", calendar.to_json
+  end
+
 end

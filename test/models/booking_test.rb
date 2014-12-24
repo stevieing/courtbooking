@@ -145,4 +145,14 @@ class BookingTest < ActiveSupport::TestCase
     assert_equal user.full_name, booking.opponent_name
   end
 
+  test "date_to should equal date_from" do
+    booking = build(:booking)
+    assert_equal booking.date_from, booking.date_to
+  end
+
+  test "court_ids should return an array of the court id" do
+    booking = build(:booking)
+    assert_equal [booking.court_id], booking.court_ids
+  end
+
 end

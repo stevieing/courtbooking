@@ -11,7 +11,7 @@ class CourtsPageTest < ActionDispatch::PerformanceTest
   def setup
     stub_settings
     @courts = create_list(:court_with_defined_opening_and_peak_times, 4, opening_time_from: "06:20", opening_time_to: "22:20")
-    @slots = Slots::Base.new(slot_first: "06:20", slot_last: "22:20", slot_time: 40, courts: courts)
+    @slots = Slots::Grid.new(slot_first: "06:20", slot_last: "22:20", slot_time: 40, courts: courts)
     create_list(:court_with_opening_and_peak_times, 4)
     add_bookings
     add_activities

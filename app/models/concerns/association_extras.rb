@@ -1,7 +1,6 @@
 module AssociationExtras
 
-    # = AssociationExtras module
-    #
+    ##
     # adds some free methods to an ActiveRecord model to for use with associations
     # form objects
     #
@@ -27,7 +26,6 @@ module AssociationExtras
     #
     # * accepts a hash of keys in the same form as the build method
     # * deletes current association and builds as new
-
     def association_extras(*associations)
 
       _associations = associations.dup

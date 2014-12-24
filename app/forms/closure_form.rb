@@ -2,7 +2,7 @@ class ClosureForm
   include BasicForm
   include OverlappingRecordsManager
 
-  set_model :closure, PERMITTED_ATTRIBUTES.closure.whitelist
+  set_model Closure, PERMITTED_ATTRIBUTES.closure.whitelist
   overlapping_object :closure
 
   validate :verify_closure

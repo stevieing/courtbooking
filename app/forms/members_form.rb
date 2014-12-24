@@ -2,7 +2,7 @@ class MembersForm
 
   include BasicForm
 
-  set_model :member, PERMITTED_ATTRIBUTES.member.whitelist
+  set_model Member, PERMITTED_ATTRIBUTES.member.whitelist
 
   validate :verify_member
 

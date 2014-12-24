@@ -23,5 +23,23 @@ module Slots
     def to_range(from, to, step)
       to_time(from).to(to_time(to), step.minutes).collect { |t| t.to_s(:hrs_and_mins)} if step > 0
     end
+
+    String.class_eval do
+      def class_to_sym
+        self.demodulize.underscore.to_sym
+      end
+    end
+
+    Object.class_eval do
+
+      ##
+      # This method will return the class name as a lower case symbol.
+      # If the class is namespaced it will just return the class name.
+      def class_to_sym
+        self.class.to_s.class_to_sym
+      end
+
+    end
+
   end
 end

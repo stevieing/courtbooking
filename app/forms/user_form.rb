@@ -2,7 +2,7 @@ class UserForm
 
   include BasicForm
 
-  set_model :user, PERMITTED_ATTRIBUTES.user.whitelist
+  set_model User, PERMITTED_ATTRIBUTES.user.whitelist
 
   validate :verify_user
 
