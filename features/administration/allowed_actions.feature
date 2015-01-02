@@ -9,7 +9,7 @@ Feature: Allowed actions
     And I am signed in as an administrator
 
   Scenario: Manage allowed actions
-    Given I go to the admin courts page
+    Given I go to the admin allowed_actions page
     Then I should see a list of all of the allowed actions
 
   Scenario: Add a new allowed action sucessfully

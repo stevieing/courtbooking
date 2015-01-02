@@ -91,10 +91,16 @@ class SeriesTest < ActiveSupport::TestCase
     assert_equal ["06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "10:00", "10:30", "11:00"], combined.all
   end
 
-  test "#== should return true if the ranges of two series are the same" do
+  test "two series with the same attributes should be equal" do
     series1 = Slots::Series.new(slot, Slots::NullConstraints.new)
     series2 = Slots::Series.new(slot, Slots::NullConstraints.new)
     assert series1 == series2
+  end
+
+  test "two series with different attributes should not be equal" do
+    series1 = Slots::Series.new(slot, Slots::NullConstraints.new)
+    series2 = Slots::Series.new(Slots::Slot.new(from: "06:00", to: "07:30"), Slots::NullConstraints.new)
+    refute series1 == series2
   end
 
   test "#past should return items in series which precede the current time" do
@@ -102,6 +108,12 @@ class SeriesTest < ActiveSupport::TestCase
     assert_empty series.past(Date.today+1)
     Time.stubs(:now).returns(Time.parse("07:00"))
     assert_equal ["06:00","06:30","07:00"], series.past(Date.today)
+  end
+
+  test "#between should be adjusted depending on whether series covers last slot" do
+    assert_equal series.count, series.between
+    other = Slots::Series.new(Slots::Slot.new(from: "06:00", to: "07:30"), constraints)
+    assert_equal 3, other.between
   end
 
 end

@@ -1,4 +1,5 @@
 Before('@allowedactions') do
+  create_list(:allowed_action, 4)
   setup_record_checker :allowed_actions, :id
 end
 

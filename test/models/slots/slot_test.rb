@@ -50,7 +50,7 @@ class SlotTest < ActiveSupport::TestCase
   test "slot with from, to and constraints should create a series" do
     slot = Slots::Slot.new(from: "08:00", to: "12:00", constraints: constraints)
     assert slot.valid?
-    assert 8, slot.between
+    assert_equal 9, slot.between
     assert ["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00"], slot.all
   end
 
@@ -79,12 +79,18 @@ class SlotTest < ActiveSupport::TestCase
     assert slot.activity?
   end
 
-  test "#covers_last? should check if the slot is the last one of the day" do
-    slot = Slots::Slot.new(from: "12:00", to: "12:30", constraints: constraints)
-    assert slot.covers_last?
+  test "a slot created from an activity that covers the last slot of the day should have a full series" do
     closure = build(:closure, time_from: "07:00", time_to: "12:00")
     slot = Slots::Slot.new(object: closure, constraints: constraints)
-    assert slot.covers_last?
+    assert_equal "12:00", slot.series.all.last
+    assert_equal 11, slot.between
+  end
+
+   test "a slot created from an activity that does not cover the last slot of the day should not have a full series" do
+    closure = build(:closure, time_from: "07:00", time_to: "11:30")
+    slot = Slots::Slot.new(object: closure, constraints: constraints)
+    assert_equal "11:00", slot.series.all.last
+    assert_equal 8, slot.between
   end
 
   test "#adjusted_to will return the correct time for the last time in the series" do

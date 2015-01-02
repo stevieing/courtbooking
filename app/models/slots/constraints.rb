@@ -50,6 +50,7 @@ module Slots
     # checks whether the time passed is greater than the
     # last slot in the series.
     def covers_last?(slot)
+      #slot.to >= slot_last.to_s(:hrs_and_mins)
       slot.to >= slot_last
     end
 

@@ -15,7 +15,7 @@ module Slots
     hash_attributes from: nil, to: nil, object: nil, constraints: Slots::NullConstraints.new
 
     attr_reader :series, :type
-    delegate :all, :cover?, to: :series
+    delegate :all, :cover?, :between, to: :series
 
     ##
     # This method will take an array of slots and combine each series
@@ -54,14 +54,6 @@ module Slots
       [@from, @to]
     end
 
-    #
-    # The number of slots between the first and the last slot in the range.
-    # If there is a series it counts the number of slots between them
-    # otherwise uses to_a
-    def between
-      ( @series.nil? ? to_a.compact.count : @series.count ) - 1
-    end
-
     ##
     # Example:
     #  slot = Slot.new(from: "07:00", to: "09:00", constraints: <#slot_time: 30>)
@@ -88,19 +80,12 @@ module Slots
       type == :closure || type == :event
     end
 
-    ##
-    # Delegated to constraints.
-    # Checks whether this is the last slot in the constraints series.
-    def covers_last?
-      constraints.covers_last? self
-    end
-
     #
     # If the slot is an activity and it is not the last slot of the day then it will need to be adjusted
     # downwards by the slot time.
     # Otherwise just return to.
     def adjusted_to
-      activity? && !covers_last? ? @to.time_step_back(@constraints.slot_time) : @to
+      activity? && !constraints.covers_last?(self) ? @to.time_step_back(@constraints.slot_time) : @to
     end
 
   private

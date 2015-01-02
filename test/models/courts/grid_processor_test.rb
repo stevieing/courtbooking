@@ -6,8 +6,10 @@ class GridProcessor < ActiveSupport::TestCase
 
   def setup
     stub_settings
-    @options = {slot_first: "06:20", slot_last: "09:00", slot_time: 40}
-    @courts = create_list(:court_with_defined_opening_and_peak_times, 4, opening_time_from: "06:20", opening_time_to: "08:20")
+    options = {slot_first: "06:20", slot_last: "09:00", slot_time: 40}
+    create_list(:court_with_defined_opening_and_peak_times, 3, opening_time_from: "06:20", opening_time_to: "09:00")
+    create(:court_with_defined_opening_and_peak_times, opening_time_from: "06:20", opening_time_to: "08:20")
+    @courts = Court.all
     @grid = Slots::Grid.new(options.merge(courts: courts))
     Settings.slots.stubs(:constraints).returns(grid.constraints)
   end
@@ -33,12 +35,13 @@ class GridProcessor < ActiveSupport::TestCase
   end
 
    test "events should be added to grid" do
-    event1 = create(:event, date_from: Date.today+1, time_from: "06:20", time_to: "08:20", courts: [courts.first])
+    event1 = create(:event, date_from: Date.today+1, time_from: "06:20", time_to: "09:00", courts: [courts.first])
     event2 = create(:event, date_from: Date.today+1, time_from: "08:20", time_to: "09:00",courts: [courts.last])
     @grid_processor = Courts::GridProcessor.new(Date.today+1, build(:guest), grid)
     grid_processor.run!
     assert_equal :activity, grid.find("06:20", courts.first.id).type
     assert_equal event1.description, grid.find("06:20", courts.first.id).text
+    assert grid.find("09:00", courts.first.id).blank?
     assert_equal :activity, grid.find("08:20", courts.last.id).type
     assert_equal event1.description, grid.find("08:20", courts.last.id).text
   end
@@ -70,7 +73,6 @@ class GridProcessor < ActiveSupport::TestCase
     @grid_processor = Courts::GridProcessor.new(Date.today+1, build(:guest), grid)
     grid_processor.run!
     assert grid.find("09:00", courts.last.id).closed?
-    assert grid.find("09:00", courts.first.id).closed?
   end
 
   test "class should be added to rows that are in the past" do
@@ -85,6 +87,10 @@ class GridProcessor < ActiveSupport::TestCase
     @grid_processor = Courts::GridProcessor.new(Date.today, build(:guest), grid)
     grid_processor.run!
     assert_equal Date.today.to_s(:uk), grid.table.heading
+  end
+
+  test "if an event is at the end of the day it should cover last slot" do
+
   end
 
 end

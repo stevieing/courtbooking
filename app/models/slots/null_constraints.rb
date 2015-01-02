@@ -19,5 +19,9 @@ module Slots
     def slot_time
       0
     end
+
+    def covers_last?(slot)
+      false
+    end
   end
 end
