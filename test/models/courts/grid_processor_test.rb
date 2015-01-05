@@ -54,7 +54,7 @@ class GridProcessor < ActiveSupport::TestCase
     grid_processor.run!
     assert_equal :booking, grid.find("06:20", courts.first.id).type
     assert_equal booking1.players, grid.find("06:20", courts.first.id).text
-    assert_equal :booking, grid.find("08:20", courts.last.id).type
+    assert_equal :booking, grid.find("07:40", courts.last.id).type
   end
 
   test "all empty cells should be filled with new bookings" do
@@ -72,14 +72,15 @@ class GridProcessor < ActiveSupport::TestCase
   test "if the court is closed slot should be closed" do
     @grid_processor = Courts::GridProcessor.new(Date.today+1, build(:guest), grid)
     grid_processor.run!
-    assert grid.find("09:00", courts.last.id).closed?
+    assert grid.find("08:20", courts.last.id).closed?
+
   end
 
   test "class should be added to rows that are in the past" do
-    Time.stubs(:now).returns(Time.parse("08:00"))
+    Time.stubs(:now).returns(Time.parse("08:00", Date.today))
     @grid_processor = Courts::GridProcessor.new(Date.today, build(:guest), grid)
     grid_processor.run!
-    assert_nil grid.find("09:00").html_class
+    assert_nil grid.find("08:20").html_class
     assert_equal "past", grid.find("07:40").html_class
   end
 
@@ -89,8 +90,5 @@ class GridProcessor < ActiveSupport::TestCase
     assert_equal Date.today.to_s(:uk), grid.table.heading
   end
 
-  test "if an event is at the end of the day it should cover last slot" do
-
-  end
 
 end

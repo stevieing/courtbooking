@@ -20,8 +20,8 @@ class SeriesTest < ActiveSupport::TestCase
 
   test "without constraints series should be equal to two slots" do
     series = Slots::Series.new(slot, Slots::NullConstraints.new)
-    assert_equal ["06:00", "08:00"], series.all
-    assert_equal ["06:00", "08:00"], series.to_a
+    assert_equal ["06:00"], series.all
+    assert_equal ["06:00"], series.to_a
   end
 
   test "#include? should be true when slot is within series" do
@@ -99,7 +99,7 @@ class SeriesTest < ActiveSupport::TestCase
 
   test "two series with different attributes should not be equal" do
     series1 = Slots::Series.new(slot, Slots::NullConstraints.new)
-    series2 = Slots::Series.new(Slots::Slot.new(from: "06:00", to: "07:30"), Slots::NullConstraints.new)
+    series2 = Slots::Series.new(Slots::Slot.new(from: "06:30", to: "07:30"), Slots::NullConstraints.new)
     refute series1 == series2
   end
 
@@ -110,10 +110,5 @@ class SeriesTest < ActiveSupport::TestCase
     assert_equal ["06:00","06:30","07:00"], series.past(Date.today)
   end
 
-  test "#between should be adjusted depending on whether series covers last slot" do
-    assert_equal series.count, series.between
-    other = Slots::Series.new(Slots::Slot.new(from: "06:00", to: "07:30"), constraints)
-    assert_equal 3, other.between
-  end
 
 end

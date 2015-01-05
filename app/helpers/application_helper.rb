@@ -19,4 +19,12 @@ module ApplicationHelper
     Settings.slots.series.all
   end
 
+  def slots_except_last
+    Settings.slots.except_last
+  end
+
+  def slots_except_first
+    Settings.slots.except_first
+  end
+
 end

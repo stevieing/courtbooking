@@ -26,7 +26,7 @@ class CourtsGridTest < ActiveSupport::TestCase
   test "new courts grid should populate cells" do
     courts_grid = Courts::Grid.new(Date.today+1, build(:guest), @grid.dup)
     assert_equal :booking, courts_grid.table.find("06:20", courts.first.id).type
-    assert_equal :closed, courts_grid.table.find("09:00", courts.last.id).type
+    assert_equal :closed, courts_grid.table.find("08:20", courts.last.id).type
   end
 
   test "new courts grid should have correct html class" do

@@ -10,7 +10,7 @@ class SlotTest < ActiveSupport::TestCase
   end
 
   test "#to_a for basic slot should equal from and to" do
-    assert_equal ["06:30","07:00"], slot.to_a
+    assert_equal ["06:30"], slot.to_a
   end
 
   test "#between for basic slot should be 1" do
@@ -38,7 +38,7 @@ class SlotTest < ActiveSupport::TestCase
   test "slot with constraints and no to should fill to and create basic slot" do
     slot = Slots::Slot.new(from: "08:00", constraints: constraints)
     assert 1, slot.between
-    assert_equal ["08:00","08:30"], slot.all
+    assert_equal "08:30", slot.to
   end
 
   test "slot with constraints and no to should only be valid if from is within series" do
@@ -50,7 +50,7 @@ class SlotTest < ActiveSupport::TestCase
   test "slot with from, to and constraints should create a series" do
     slot = Slots::Slot.new(from: "08:00", to: "12:00", constraints: constraints)
     assert slot.valid?
-    assert_equal 9, slot.between
+    assert_equal 8, slot.between
     assert ["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00"], slot.all
   end
 
@@ -82,15 +82,15 @@ class SlotTest < ActiveSupport::TestCase
   test "a slot created from an activity that covers the last slot of the day should have a full series" do
     closure = build(:closure, time_from: "07:00", time_to: "12:00")
     slot = Slots::Slot.new(object: closure, constraints: constraints)
-    assert_equal "12:00", slot.series.all.last
-    assert_equal 11, slot.between
+    assert_equal "11:30", slot.series.all.last
+    assert_equal 10, slot.between
   end
 
    test "a slot created from an activity that does not cover the last slot of the day should not have a full series" do
     closure = build(:closure, time_from: "07:00", time_to: "11:30")
     slot = Slots::Slot.new(object: closure, constraints: constraints)
     assert_equal "11:00", slot.series.all.last
-    assert_equal 8, slot.between
+    assert_equal 9, slot.between
   end
 
   test "#adjusted_to will return the correct time for the last time in the series" do
@@ -98,9 +98,6 @@ class SlotTest < ActiveSupport::TestCase
     closure = build(:closure, time_from: "07:00", time_to: "11:00")
     slot = Slots::Slot.new(object: closure, constraints: constraints)
     assert_equal "10:30", slot.adjusted_to
-    closure = build(:closure, time_from: "07:00", time_to: "12:00")
-    slot = Slots::Slot.new(object: closure, constraints: constraints)
-    assert_equal "12:00", slot.adjusted_to
   end
 
 end

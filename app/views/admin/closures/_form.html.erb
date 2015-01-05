@@ -16,11 +16,11 @@
       </li>
       <li>
         <%= f.label :time_from, "Time from" %>
-        <%= f.select :time_from, list_of_slots %>
+        <%= f.select :time_from, slots_except_last %>
       </li>
       <li>
         <%= f.label :time_to, "Time to" %>
-        <%= f.select :time_to, list_of_slots %>
+        <%= f.select :time_to, slots_except_first %>
       </li>
       <li>
         <%= f.check_box :allow_removal %>

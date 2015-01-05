@@ -51,7 +51,7 @@ module Slots
     #
     # Used to create the range if there is only a from and a to.
     def to_a
-      [@from, @to]
+      [@from]
     end
 
     ##
@@ -80,12 +80,11 @@ module Slots
       type == :closure || type == :event
     end
 
-    #
-    # If the slot is an activity and it is not the last slot of the day then it will need to be adjusted
-    # downwards by the slot time.
-    # Otherwise just return to.
+    ##
+    # Example:
+    #  from: "06:00", slot_time: 40, adjusted_to = "05:20"
     def adjusted_to
-      activity? && !constraints.covers_last?(self) ? @to.time_step_back(@constraints.slot_time) : @to
+      @to.time_step_back(@constraints.slot_time)
     end
 
   private

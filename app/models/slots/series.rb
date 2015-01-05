@@ -26,7 +26,7 @@ module Slots
     # using the from and to of the slot.
     def initialize(slot, constraints)
       @range = create_range(slot, constraints)
-      @adjustment = set_adjustment(slot, constraints)
+      #@adjustment = set_adjustment(slot, constraints)
     end
 
     ##
@@ -109,19 +109,14 @@ module Slots
     end
 
     def between
-      range.count - adjustment
+      range.count
     end
 
   private
-
-    attr_reader :adjustment
 
     def create_range(slot, constraints)
       to_range(slot.from, slot.adjusted_to, constraints.slot_time) || slot.to_a
     end
 
-    def set_adjustment(slot, constraints)
-      constraints.covers_last?(slot) ? 0 : 1
-    end
   end
 end

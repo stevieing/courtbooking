@@ -26,7 +26,7 @@ end
 
 When(/^I add (\d+) invalid (.*) time$/) do |n, type|
   within("##{type}times") do
-    add_court_time n, type, booking_slots.constraints.last.from, booking_slots.constraints.first.from
+    add_court_time n, type, booking_slots.constraints.last.from, booking_slots.constraints.first.to
   end
 end
 

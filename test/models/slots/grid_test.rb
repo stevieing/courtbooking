@@ -15,7 +15,7 @@ class SlotsGridTest < ActiveSupport::TestCase
   end
 
   test "new grid should create a row for each slot plus a header and footer" do
-    assert_equal 7, grid.table.count
+    assert_equal 6, grid.table.count
   end
 
   test "new grid should create a column for each court_id plus a header and footer" do
@@ -58,7 +58,7 @@ class SlotsGridTest < ActiveSupport::TestCase
 
   test "#find_by_id should return correct slot" do
     first_slot = grid.find("06:20", courts.first.id).slot
-    last_slot = grid.find("09:00", courts.last.id).slot
+    last_slot = grid.find("08:20", courts.last.id).slot
     assert_equal first_slot, grid.find_by_id(first_slot.id)
     assert_equal last_slot, grid.find_by_id(last_slot.id)
     assert_nil grid.find_by_id(9999)
@@ -75,28 +75,28 @@ class SlotsGridTest < ActiveSupport::TestCase
   test "#close_court_slots should close the correct slots" do
     grid.close_court_slots!(Date.today.cwday-1)
     assert grid.find("06:20", courts.first.id).closed?
-    assert grid.find("09:00", courts.first.id).closed?
+    assert grid.find("08:20", courts.first.id).closed?
     refute grid.find("06:20", court.id).closed?
-    assert grid.find("09:00", court.id).closed?
+    assert grid.find("08:20", court.id).closed?
   end
 
   test "#add_class_to_rows_in_past should add html class past to all rows when date is before today" do
     grid.add_class_to_rows_in_past(Date.today-1)
     assert_equal "past", grid.find("06:20").html_class
-    assert_equal "past", grid.find("09:00").html_class
+    assert_equal "past", grid.find("08:20").html_class
   end
 
   test "#add_class_to_rows_in_past should add no class to all rows when date is after today" do
     grid.add_class_to_rows_in_past(Date.today+1)
     assert_nil grid.find("06:20").html_class
-    assert_nil grid.find("09:00").html_class
+    assert_nil grid.find("08:20").html_class
   end
 
   test "#add_class_to_rows_in_past should add class to correct rows when date is today" do
     Time.stubs(:now).returns(Time.parse("07:40"))
     grid.add_class_to_rows_in_past(Date.today)
     assert_equal "past", grid.find("06:20").html_class
-    assert_nil grid.find("09:00").html_class
+    assert_nil grid.find("08:20").html_class
   end
 
   test "#add_heading should add heading to table" do
@@ -104,11 +104,12 @@ class SlotsGridTest < ActiveSupport::TestCase
     assert_equal "heading", grid.table.heading
   end
 
-  def teardown
-    Kernel.send(:remove_const, "Settings")
-    Court.delete_all
-    @grid = nil
-    OpeningTime.delete_all
+  test "#except_last should return all the time froms for slots" do
+    assert_equal grid.constraints.slots_from, grid.except_last
+  end
+
+   test "#except_first should return all the time tos for slots" do
+    assert_equal grid.constraints.slots_to, grid.except_first
   end
 
 

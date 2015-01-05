@@ -1,5 +1,5 @@
 module Slots
-  #
+  ##
   # = Slots::Constraints
   #
   # These are the constraints used by the slots.
@@ -16,10 +16,11 @@ module Slots
     include Enumerable
 
     hash_attributes slot_first: "00:00", slot_last: "23:59", slot_time: 40
-    attr_reader :series, :slot, :slots
+    attr_reader :slot, :slots
     delegate :last, to: :slots
+    delegate :series, to: :slot
 
-    #
+    ##
     # options:
     # * +slot_first+ the opening time (hh:mm)
     # * +slot_last+ the closing time (hh:mm)
@@ -40,18 +41,25 @@ module Slots
 
     alias_attribute :all, :slots
 
-    #
+    ##
     # checks whether passed time is within the series
     def cover?(time)
-      @series.cover? time
+      series.cover? time
     end
 
     ##
     # checks whether the time passed is greater than the
     # last slot in the series.
     def covers_last?(slot)
-      #slot.to >= slot_last.to_s(:hrs_and_mins)
       slot.to >= slot_last
+    end
+
+    def slots_from
+      slots.collect { |slot| slot.from }
+    end
+
+    def slots_to
+      slots.collect { |slot| slot.to }
     end
 
     ##
@@ -63,7 +71,7 @@ module Slots
       "<#{self.class}: @slot_first=#{@slot_first}, @slot_last=#{@slot_last}, @slot_time=#{@slot_time}, @series=#{series.inspect}>"
     end
 
-    #
+    ##
     # constraints are only valid if all three options are present.
     def valid?
       @slot_first && @slot_last && @slot_time
@@ -80,13 +88,12 @@ module Slots
   private
 
     def save
-      @slot = Slots::Slot.new(from: slot_first, to: slot_last)
-      @series = Slots::Series.new(@slot, self)
+      @slot = Slots::Slot.new(from: slot_first.to_s(:hrs_and_mins), to: slot_last.to_s(:hrs_and_mins), constraints: self)
       @slots = create_slots
     end
 
     def create_slots
-      @series.collect { |slot| Slots::Slot.new(from: slot, constraints: self) }
+      @slot.series.collect { |slot| Slots::Slot.new(from: slot, constraints: self) }
     end
 
   end

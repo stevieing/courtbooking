@@ -135,6 +135,14 @@ module Slots
       table.heading = heading
     end
 
+    def except_last
+      @except_last ||= constraints.slots_from
+    end
+
+    def except_first
+      @except_first ||= constraints.slots_to
+    end
+
   private
 
     def create_table
