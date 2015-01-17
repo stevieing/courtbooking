@@ -23,8 +23,4 @@ module ApplicationHelper
     Settings.slots.except_first
   end
 
-  def a_method
-    false
-  end
-
 end
