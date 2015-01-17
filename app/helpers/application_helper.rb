@@ -15,16 +15,16 @@ module ApplicationHelper
     link_to(name, '#', class: "add-fields", data: {id: id, association: assoc, fields: fields.gsub("\n", "")})
   end
 
-  def list_of_slots
-    Settings.slots.series.all
-  end
-
   def slots_except_last
     Settings.slots.except_last
   end
 
   def slots_except_first
     Settings.slots.except_first
+  end
+
+  def a_method
+    false
   end
 
 end
