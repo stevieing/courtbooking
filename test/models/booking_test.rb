@@ -21,7 +21,7 @@ class BookingTest < ActiveSupport::TestCase
   end
 
   test "booking should not be valid without date_from" do
-    refute build(:booking, date_from: Date.today+1, date_from: nil).valid?
+    refute build(:booking, date_from: nil).valid?
   end
 
   test "booking should not be valid without time_from" do

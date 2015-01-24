@@ -47,7 +47,7 @@ module AdministrationHelpers
 
   def has_valid_court_times(court_number, object)
     court = Court.find_by :number => court_number
-    court.send(object).should_not be_empty
+    expect(court.send(object)).to_not be_empty
   end
 
   def valid_user_details
@@ -77,7 +77,7 @@ module AdministrationHelpers
   end
 
   def user_should_have_standard_permissions(email_address)
-    User.find_by(:email => email_address).permissions.count.should == AllowedAction.all.count
+    expect(User.find_by(:email => email_address).permissions.count).to eq(AllowedAction.all.count)
   end
 
   def add_valid_activity_details(activity)
@@ -114,7 +114,7 @@ module AdministrationHelpers
   def add_valid_allowed_action(allowed_action)
     fill_in "Name", with: allowed_action.name
     fill_in "Controller", with: allowed_action.controller
-    fill_in "Action", with: allowed_action.action
+    fill_in "Action", with: allowed_action.action.join(",")
     check "User specific"
     check "Admin"
   end

@@ -106,7 +106,7 @@ class SeriesTest < ActiveSupport::TestCase
   test "#past should return items in series which precede the current time" do
     assert_equal series.all, series.past(Date.today-1)
     assert_empty series.past(Date.today+1)
-    Time.stubs(:now).returns(Time.parse("07:00"))
+    Time.stubs(:now).returns(Time.parse("07:00", Date.today.to_time))
     assert_equal ["06:00","06:30","07:00"], series.past(Date.today)
   end
 

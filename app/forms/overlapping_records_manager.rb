@@ -28,7 +28,7 @@ module OverlappingRecordsManager
   def remove_overlapping
     if valid?
       overlapping_records.records.each do |record|
-        BookingMailer.booking_cancellation(record).deliver if record.is_a?(Booking)
+        BookingMailer.booking_cancellation(record).deliver_now if record.is_a?(Booking)
         record.class.destroy(record.id)
       end
     end

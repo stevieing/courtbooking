@@ -6,12 +6,6 @@ FactoryGirl.define do
     controller "my_controller"
     action ["action1", "action2"]
 
-    factory :allowed_action_string do
-      name "My action"
-      controller "my_controller"
-      action "action1, action2"
-    end
-
     factory :bookings_index do
       name "View all bookings"
       controller "bookings"

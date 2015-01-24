@@ -21,14 +21,15 @@ module SettingsHelpers
 
   def stub_settings
     create_settings_constant
-    AppSettings.stub(:load!)
-    AppSettings.const.stub(:days_bookings_can_be_made_in_advance).and_return(21)
-    AppSettings.const.stub(:max_peak_hours_bookings_weekly).and_return(3)
-    AppSettings.const.stub(:max_peak_hours_bookings_daily).and_return(1)
-    AppSettings.const.stub(:slot_time).and_return(options[:slot_time])
-    AppSettings.const.stub(:slot_first).and_return(Time.parse(options[:slot_first]))
-    AppSettings.const.stub(:slot_last).and_return(Time.parse(options[:slot_last]))
-    AppSettings.const.stub(:slots).and_return(Slots::Grid.new(options))
+    allow(AppSettings).to receive(:load!)
+    allow(AppSettings.const).to receive(:days_bookings_can_be_made_in_advance).and_return(21)
+    allow(AppSettings.const).to receive(:max_peak_hours_bookings_weekly).and_return(3)
+    allow(AppSettings.const).to receive(:max_peak_hours_bookings_daily).and_return(1)
+    allow(AppSettings.const).to receive(:slot_time).and_return(options[:slot_time])
+    allow(AppSettings.const).to receive(:slot_first).and_return(options[:slot_first])
+    allow(AppSettings.const).to receive(:slot_last).and_return(options[:slot_last])
+    allow(AppSettings.const).to receive(:slots).and_return(Slots::Grid.new(options))
+
   end
 
   def create_settings_constant

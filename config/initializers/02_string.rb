@@ -1,7 +1,4 @@
 class String
-  def to_time
-    Time.parse(self)
-  end
 
   def to_type
     case self

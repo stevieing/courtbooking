@@ -23,7 +23,7 @@ class OverlappingRecordsManagerTest < ActiveSupport::TestCase
   attr_reader :booking, :closure, :event
 
   def setup
-    stub_dates("26 March 2104", "19:00")
+    stub_dates("26 March 2014", "19:00")
     stub_settings
     @booking = create(:booking, date_from: Date.today+1)
     @closure = create(:closure)
