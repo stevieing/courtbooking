@@ -23,7 +23,7 @@ When /^I fill in "(.*?)" with "(.*?)"$/ do |field, value|
 end
 
 Then /^I should be on (.+)$/ do |page_name|
-  current_path.should == path_to(page_name)
+  expect(current_path).to eq(path_to(page_name))
 end
 
 Then /^I should be redirected to the (.*) page$/ do |page_name|

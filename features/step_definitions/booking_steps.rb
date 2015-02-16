@@ -36,7 +36,7 @@ Given /^a booking has been created by another user$/ do
 end
 
 Then /^I should not be able to delete the booking$/ do
-  page.should_not have_link("Delete Booking")
+  expect(page).to_not have_link("Delete Booking")
 end
 
 When /^I follow a link to create a new booking$/ do
@@ -45,7 +45,7 @@ When /^I follow a link to create a new booking$/ do
 end
 
 Then /^I should see valid booking details$/ do
-  page.should have_content current_booking.time_and_place
+  expect(page).to have_content(current_booking.time_and_place)
 end
 
 When(/^I follow a link to edit the booking$/) do

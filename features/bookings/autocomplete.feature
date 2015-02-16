@@ -25,6 +25,7 @@ Feature: Members should be able to select an opponent when they make a booking
       | Mary Berry      |
       | Marianne Douche |
     And I follow "Mark Francis"
+    And I wait for 2 seconds
     Then the field "Opponent" should have the value "Mark Francis"
 
   # TODO: there is a potential failure if the tests are run late at night (hmm!).
