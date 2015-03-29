@@ -57,7 +57,7 @@ module AdministrationHelpers
 
   def has_multiple_court_times(court_number, number, object)
     court = Court.find_by :number => court_number
-    court.send(object).count.should ==  number.to_i
+    expect(court.send(object).count).to eq(number.to_i)
   end
 
   def remove_court_time(n, type)

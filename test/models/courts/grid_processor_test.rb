@@ -77,7 +77,7 @@ class GridProcessor < ActiveSupport::TestCase
   end
 
   test "class should be added to rows that are in the past" do
-    Time.stubs(:now).returns(Time.parse("08:00", Date.today.to_time))
+    Time.stubs(:now).returns(Time.zone.parse("08:00", Date.today.to_time))
     @grid_processor = Courts::GridProcessor.new(Date.today, build(:guest), grid)
     grid_processor.run!
     assert_nil grid.find("08:20").html_class
