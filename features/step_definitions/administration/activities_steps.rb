@@ -31,7 +31,7 @@ When(/^I remove a court$/) do
 end
 
 Then(/^the (closure|event) should have (\d+) less court$/) do |activity, n|
-  current_activity.courts.count.should == current_count - n.to_i
+  expect(current_activity.courts.count).to eq(current_count - n.to_i)
 end
 
 When(/^I remove all of the courts$/) do

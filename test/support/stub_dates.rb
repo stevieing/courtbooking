@@ -3,7 +3,7 @@ module StubDates
     date = set_date(date, time)
     Date.stubs(:today).returns(Date.parse(date))
     DateTime.stubs(:now).returns(DateTime.parse(date))
-    Time.stubs(:now).returns(Time.parse(date))
+    Time.stubs(:now).returns(Time.parse(time, Date.parse(date).to_time)) unless time.nil?
   end
 
   def set_date(date, time)

@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :court do
     sequence(:number, 1) {|n| n}
-    
+
     factory :court_with_opening_and_peak_times do
       after(:create) do |court|
         (0..6).each do |day|
@@ -14,7 +14,7 @@ FactoryGirl.define do
     end
 
     factory :court_with_defined_opening_and_peak_times do
-      ignore do
+      transient do
         opening_time_from "06:20"
         opening_time_to "22:20"
         peak_time_from "17:40"

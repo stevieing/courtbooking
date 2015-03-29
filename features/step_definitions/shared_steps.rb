@@ -11,7 +11,7 @@ When /^I go to (.+)$/ do |page_name|
 end
 
 Then /^I should see "(.*?)"$/ do |arg1|
-  page.should have_content arg1
+  expect(page).to have_content(arg1)
 end
 
 Then /^I should( not)? see a link to "(.*?)"$/ do |negate, arg1|
@@ -23,7 +23,7 @@ When /^I fill in "(.*?)" with "(.*?)"$/ do |field, value|
 end
 
 Then /^I should be on (.+)$/ do |page_name|
-  current_path.should == path_to(page_name)
+  expect(current_path).to eq(path_to(page_name))
 end
 
 Then /^I should be redirected to the (.*) page$/ do |page_name|
@@ -39,7 +39,7 @@ When /^I submit the (.*)$/ do |model|
 end
 
 Then(/^I should see a message with the text (.*)$/) do |message|
-  page.should have_content message
+  expect(page).to have_content(message)
 end
 
 When(/^I click on the "(.*?)" link$/) do |link|

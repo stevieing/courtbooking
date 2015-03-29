@@ -60,3 +60,7 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 
 include FactoryGirl::Syntax::Methods
 
+Capybara.register_driver :selenium do |app|
+  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end
+

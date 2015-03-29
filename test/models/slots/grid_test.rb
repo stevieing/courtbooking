@@ -93,7 +93,7 @@ class SlotsGridTest < ActiveSupport::TestCase
   end
 
   test "#add_class_to_rows_in_past should add class to correct rows when date is today" do
-    Time.stubs(:now).returns(Time.parse("07:40"))
+    Time.stubs(:now).returns(Time.parse("07:40", Date.today.to_time))
     grid.add_class_to_rows_in_past(Date.today)
     assert_equal "past", grid.find("06:20").html_class
     assert_nil grid.find("08:20").html_class

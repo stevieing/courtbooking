@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.6'
+gem 'rails', '4.2.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -34,6 +34,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'devise'
 gem 'roadie'
+gem 'roadie-rails'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -67,7 +68,7 @@ group :test do
   gem 'email_spec'
   gem 'ruby-prof'
   gem 'selenium-webdriver'
-  gem 'with_model'
+  gem 'chromedriver-helper'
   gem 'mocha'
 end
 

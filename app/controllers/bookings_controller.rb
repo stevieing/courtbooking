@@ -39,7 +39,7 @@ class BookingsController < ApplicationController
   def destroy
       @booking = current_resource
        if @booking.destroy
-         BookingMailer.booking_cancellation(@booking).deliver
+         BookingMailer.booking_cancellation(@booking).deliver_now
          notice = "Booking successfully deleted"
        else
          notice = "Unable to delete booking"
@@ -64,7 +64,7 @@ private
   def process_booking(action, process)
     respond_to do |format|
       if @booking.submit(params[:booking])
-        BookingMailer.booking_confirmation(@booking).deliver
+        BookingMailer.booking_confirmation(@booking).deliver_now
         flash_keep "Booking successfully #{process.to_s}d."
         format.html { redirect_back_or_default(courts_path(@booking.date_from)) }
         format.js { js_redirect_back_or_default(courts_path(@booking.date_from))}

@@ -4,7 +4,7 @@ Before('@allowedactions') do
 end
 
 When(/^I fill in valid allowed action details$/) do
-  add_valid_allowed_action build(:allowed_action_string)
+  add_valid_allowed_action build(:allowed_action)
 end
 
 Then(/^I should see a list of all of the allowed actions$/) do
