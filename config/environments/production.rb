@@ -73,4 +73,6 @@ Courtbooking::Application.configure do
   config.action_mailer.delivery_method = :sendmail
   config.action_mailer.sendmail_settings = Rails.configuration.mailer['sendmail'].try(:to_options)
 
+  config.log_level = :info
+
 end
