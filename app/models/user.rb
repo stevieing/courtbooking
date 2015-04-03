@@ -42,10 +42,12 @@ class User < ActiveRecord::Base
 
   ##
   # Allows users to sign in using their username.
-  def self.find_first_by_auth_conditions(warden_conditions)
+  # Previously used find_first_by_auth_conditions. This is not good as this causes recoverable
+  # to send password reset instructions to first admin user which is always me!
+  def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup.to_h
     if login = conditions.delete(:login)
-      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { value: login.downcase }]).first
+      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
     else
       where(conditions).first
     end

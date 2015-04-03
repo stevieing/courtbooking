@@ -55,7 +55,7 @@ Feature: authentication
     When I click on the "Forgotten your password?" link
     And I complete the email address
     And I press the Send me reset password instructions button
-    Then I should receive an email
+    Then an email should be sent to me
 
   Scenario: Change password
     Given PENDING

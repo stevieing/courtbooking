@@ -26,3 +26,7 @@ end
 Then(/^there should be a link to edit the booking in the email body$/) do
   current_email.default_part_body.to_s.should have_link("Edit booking")
 end
+
+Then(/^an email should be sent to me$/) do
+  unread_emails_for(current_user.email).size.should == 1
+end
