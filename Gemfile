@@ -47,7 +47,7 @@ gem 'roadie-rails'
 
 # Deploy with Capistrano
 gem 'capistrano'
-gem 'rvm-capistrano'
+gem 'rvm-capistrano', require: false
 
 # To use debugger
 # gem 'debugger'
