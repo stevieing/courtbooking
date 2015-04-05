@@ -25,4 +25,12 @@ class BookingMailerTest < ActionMailer::TestCase
     assert_match "#{booking.time_and_place}", mail.body.encoded
   end
 
+  test "A booking reminder should send a reminder message" do
+    mail = BookingMailer.booking_reminder(booking)
+    assert_equal "Booking Reminder - Stamford Squash Club", mail.subject
+    assert_equal [booking.user.email, booking.opponent.email], mail.to
+    assert_equal ["bookings@stamfordsquashclub.org.uk"], mail.from
+    assert_match "#{booking.time_and_place}", mail.body.encoded
+  end
+
 end

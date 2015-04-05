@@ -19,6 +19,11 @@ class BookingMailer < ActionMailer::Base
     mail to: set_emails, subject: I18n.t('booking_mailer.booking_cancellation.subject')
   end
 
+  def booking_reminder(booking)
+    @booking = booking
+    mail to: set_emails, subject: I18n.t('booking_mailer.booking_reminder.subject')
+  end
+
   private
 
   def set_emails

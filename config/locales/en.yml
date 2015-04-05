@@ -8,3 +8,5 @@ en:
           subject: Booking Confirmation - Stamford Squash Club
       booking_cancellation:
           subject: Booking Cancelled - Stamford Squash Club
+      booking_reminder:
+          subject: Booking Reminder - Stamford Squash Club

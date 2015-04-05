@@ -32,6 +32,10 @@ class Booking < ActiveRecord::Base
   # Return a list of bookings for a specified time in the format hh:mm.
   scope :by_time,   lambda{|time| where(time_from: time)}
 
+  ##
+  # Return a list of bookings for today
+  scope :today,    lambda{ where(date_from: Date.today) }
+
   include Slots::ActiveRecordSlots
 
   ##

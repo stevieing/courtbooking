@@ -155,4 +155,13 @@ class BookingTest < ActiveSupport::TestCase
     assert_equal [booking.court_id], booking.court_ids
   end
 
+  test "#today should return a list of bookings for today" do
+    courts = create_list(:court_with_opening_and_peak_times, 4)
+    create(:booking, court: courts.first, date_from: Date.today, time_from: "11:00", time_to: "11:30")
+    create(:booking, court: courts[1], date_from: Date.today, time_from: "11:00", time_to: "11:30")
+    create(:booking, court: courts[2], date_from: Date.today, time_from: "11:00", time_to: "11:30")
+    create(:booking, court: courts.last, date_from: Date.today+1, time_from: "11:00", time_to: "11:30")
+    assert_equal 3, Booking.today.count
+  end
+
 end

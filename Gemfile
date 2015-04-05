@@ -80,3 +80,6 @@ group :cucumber do
   gem 'cucumber-rails'
   gem 'capybara'
 end
+
+# Schedule regular jobs
+gem 'whenever', require: false

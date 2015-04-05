@@ -68,6 +68,8 @@ module Courtbooking
     config.assets.version = '1.0'
 
     config.generators do |g|
+      g.orm :active_record
+      g.test_framework :test_unit
       g.fixture_replacement :factory_girl, :dir => "test/factories"
     end
 
@@ -75,6 +77,8 @@ module Courtbooking
     config.action_mailer.asset_host = Rails.configuration.mailer['smtp']['domain']
 
     config.logger = ActiveSupport::Logger.new(config.paths["log"].first, 3, 5242880)
+
+    config.active_job.queue_adapter = :sidekiq
 
 
   end
