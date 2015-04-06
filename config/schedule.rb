@@ -19,6 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every :day, :at => '06:00am' do
-  runner "ReminderEmailsJob.preform_now"
+every :day, :at => '11:00am' do
+  runner "ReminderEmailsJob.perform_now"
 end
