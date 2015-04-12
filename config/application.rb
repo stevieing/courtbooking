@@ -20,7 +20,7 @@ module Courtbooking
 
     config.mailer = YAML.load_file("#{Rails.root}/config/mailer.yml")[Rails.env]
 
-    #config.force_ssl = true
+    config.force_ssl = true
 
 
     # Only load the plugins named here, in the order given (default is alphabetical).
