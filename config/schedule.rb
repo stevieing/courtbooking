@@ -19,6 +19,8 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every :day, :at => '11:00am' do
+job_type :runner, "cd :path && bundle exec rails runner -e :environment ':task' :output"
+
+every :day, :at => '17:00pm' do
   runner "ReminderEmailsJob.perform_now"
 end

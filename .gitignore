@@ -31,3 +31,9 @@
 #ignore remote config
 /config/deploy/production
 /config/deploy/staging
+
+#ignore rvm settings to ensure whenever uses correct gemsets
+.ruby-gemset
+.ruby-version
+
+
