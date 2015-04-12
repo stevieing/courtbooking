@@ -74,7 +74,9 @@ module Courtbooking
     end
 
     config.action_mailer.default_url_options = {host: Rails.configuration.mailer['smtp']['domain']}
-    config.action_mailer.asset_host = Rails.configuration.mailer['smtp']['domain']
+    config.action_mailer.asset_host = Proc.new { |source, request|
+      (request ? request.protocol : 'http://') + Rails.configuration.mailer['smtp']['domain']
+    }
 
     config.logger = ActiveSupport::Logger.new(config.paths["log"].first, 3, 5242880)
 
